@@ -120,6 +120,59 @@
       <section id="easeofuse">
       <h2>II. Ease of Use</h2>
 
+        <h3>Maintaining the Integrity of the Specifications</h3>
+          <p id="maintainingintegrity">
+          The index.html file is used to format your interactive paper and style the text. All margins,
+          column widths, line spaces, and text fonts are prescribed; please do not
+          alter them. You may note peculiarities. For example, the limited width of the article. This measurement
+          and others are deliberate, using specifications that anticipate your paper
+          as one part of the entire computational intelligence magazine and its online pendant on IEEE Xplore,
+          and not as an independent document. Please do not revise any of the current designations.
+        </p>
+
+        <h3>Prepare Your Paper Before Styling</h3>
+        <p id="Prepare">
+          Before you begin to format your paper, first write and save the content as a
+          separate text file. Complete all content and organizational editing before
+          formatting. Please note subsections <a href="#Abbreviations">Abbrevations and Acronyms</a> to
+          <a href="#SCM">Some Common Mistakes</a> below for more information on
+          proofreading, spelling and grammar.
+        </p>
+
+        <p>
+          Keep your text and graphic files separate until after the text has been
+          formatted and styled. Do not number text heads, this will be done during the
+          transfer to IEEEXplore for you.
+        </p>
+
+
+      <h3>Abbreviations and Acronyms</h3>
+      <p id="Abbreviations">
+        Define abbreviations and acronyms the first time they are used in the text,
+        even after they have been defined in the abstract. Abbreviations such as
+        IEEE, SI, MKS, CGS, ac, dc, and rms do not have to be defined. Do not use
+        abbreviations in the title or heads unless they are unavoidable.
+      </p>
+
+      <h3>Units</h3>
+      <ul id="Units">
+        <li> Use either SI (MKS) or CGS as primary units. (SI units are encouraged.) English units may be used as secondary units (in parentheses). An exception would be the use of English units as identifiers in trade, such as "3.5-inch disk drive".</li>
+        <li> Avoid combining SI and CGS units, such as current in amperes and magnetic field in oersteds. This often leads to confusion because equations do not balance dimensionally. If you must use mixed units, clearly state the units for each quantity that you use in an equation.</li>
+        <li class="inline-math"> Do not mix complete spellings and abbreviations of units: $$Wb/m^2$$ or "webers per square meter", not $$webers/m^2$$. Spell out units when they appear in text: ". . . a few henries", not ". . . a few H".</li>
+        <li> Use a zero before decimal points: "0.25", not ".25". </li>
+        <li class="inline-math"> Use $$cm^3$$, not $$cc$$.</li>
+      </ul>
+
+      <h3>Equations</h3>
+      <p id="Equations" class="inline-math">
+        The interactive article does not require to number equations, however they can be
+        linked using the tag &lta href="#id"&gt &lt/a&gt and a corresponding id of the element to be linked.
+        To make your equations more compact, you may use the solidus (~/~), the exp function, or
+        appropriate exponents. Italicize Roman symbols for quantities and variables,
+        but not Greek symbols. Use a long dash rather than a hyphen for a minus
+        sign. Punctuate equations with commas or periods when they are part of a
+        sentence, as in: $$a+b=\gamma$$.
+      </p>
 
       <p class="inline-math tex2jax_ignore">
         Be sure that the symbols in your equation have been defined before or immediately following
@@ -167,6 +220,33 @@
         <div class="caption"><b>Figure 1:</b> Example of a figure caption.</div>
       </div>
 
+      <p class="inline-math">
+        <b>Figure Labels:</b> Use words rather than symbols or abbreviations
+        when writing Figure axis labels to avoid confusing the reader. As an example, write the quantity
+        "Magnetization", or "Magnetization, $$M$$", not just "$$M$$". If including
+        units in the label, present them within parentheses. Do not label axes only
+        with units. In the example, write "Magnetization ($$A/m$$)" or "Magnetization
+        $$\{A[m(1)]\}$$", not just "$$A/m$$". Do not label axes with a ratio of
+        quantities and units. For example, write "Temperature ($$K$$)", not
+        "Temperature/$$K$$".
+      </p>
+
+      <h3>Interactive Figures and Code</h3>
+      <p id="InteractiveCode">
+        Note, that in contrast to classical papers,
+        the web article can include animations, videos, sounds, etc..
+        Due to technical constraints, it will not be possible to embed iframes!
+      </p>
+
+      <p>
+        Finally, you can freely use javascript libraries as long as they can
+        be included self-contained in the files you submit. Meaning, scripts cannot be
+        imported using an url. This should ensure a consistent presentation of the
+        article. Interactive components can be embedded as figure. and should be formatted as such.
+        Libraries such as d3.js [<a href="#ref_1">1</a>] and three.js[<a href="#ref_2">2</a>]
+        may be helpful in producing interactive
+        visualizations, but do not let your own creativity be limited by these recommendations.
+      </p>
 
       <div class="framed">
         <div class="inside">
@@ -196,6 +276,19 @@
 
       <h2 id="commonmistakes">Some Common Mistakes</h2>
 
+      <ul id="SCM">
+        <li>The word "data" is plural, not singular.</li>
+        <li class="inline-math">The subscript for the permeability of vacuum $$\mu_{0}$$, and other common scientific constants, is zero with subscript formatting, not a lowercase letter "o".</li>
+        <li>In American English, commas, semicolons, periods, question and exclamation marks are located within quotation marks only when a complete thought or name is cited, such as a title or full quotation. When quotation marks are used, instead of a bold or italic typeface, to highlight a word or phrase, punctuation should appear outside of the quotation marks. A parenthetical phrase or statement at the end of a sentence is punctuated outside of the closing parenthesis (like this). (A parenthetical sentence is punctuated within the parentheses.)</li>
+        <li>A graph within a graph is an "inset", not an "insert". The word alternatively is preferred to the word "alternately" (unless you really mean something that alternates).</li>
+        <li>Do not use the word "essentially" to mean "approximately" or "effectively".</li>
+        <li>In your paper title, if the words "that uses" can accurately replace the word "using", capitalize the "u"; if not, keep using lower-cased.</li>
+        <li>Be aware of the different meanings of the homophones "affect" and "effect", "complement" and "compliment", "discreet" and "discrete", "principal" and "principle".</li>
+        <li>Do not confuse "imply" and "infer".</li>
+        <li>The prefix "non" is not a word; it should be joined to the word it modifies, usually without a hyphen.</li>
+        <li>There is no period after the "et" in the Latin abbreviation "et al.".</li>
+        <li>The abbreviation "i.e." means "that is", and the abbreviation "e.g." means "for example".</li>
+      </ul>
       <p>
         An excellent style manual for science writers is [<a href="#ref_3">3</a>].
       </p>
@@ -212,7 +305,29 @@
 
       <h2 id="hints">Hints and General Advice</h2>
       <h3>Identify the Headings</h3>
+      <p id="Headings">
+        Headings, or heads, are organizational devices that guide the reader through
+        your paper. There are two types: component heads and text heads.
+      </p>
 
+      <p>
+        Component heads identify the different components of your paper and are not
+        topically subordinate to each other. Examples include Acknowledgments and
+        References and, for these, the correct style has been implemented and
+        this template and is defined by the IEEE. Do not make any adjustments. Use
+        "figure caption" for your Figure captions, and "table head" for your
+        table title. Run-in heads, such as "Abstract", will require you to apply a
+        style (in this case, italic) in addition to the styles provided to differentiate the head from the text.
+      </p>
+
+      <p>
+        Text heads organize the topics on a relational, hierarchical basis. For
+        example, the paper title is the primary text head because all subsequent
+        material relates and elaborates on this one topic. If there are two or more
+        sub-topics, the next level head (uppercase Roman numerals) should be used
+        and, conversely, if there are not at least two sub-topics, then no subheads
+        should be introduced.
+      </p>
 
       <h3>HTML-Specific Advice</h3>
 
@@ -231,6 +346,48 @@
         <li> &lt div class="formula-wrapper"&gt  : Allows for adding content into styled and responsive table </li>
         <li> &lt section class="references"&gt  : Reference list </li>
       </ul>
+
+      <p>
+        Similar to LaTeX, using the same id multiple times may result
+        in unintended behavior when linking to said id.
+      </p>
+
+
+      <h3>Acknowledgment</h3>
+      <p id="Acknowledgment" class="inline-math">
+        The preferred spelling of the word "acknowledgment" in America is without
+        an "e" after the "g". Avoid the stilted expression "one of us (R. B.
+        G.) thanks $$\ldots$$". Instead, try "R. B. G. thanks $$\ldots$$". Put sponsor
+        acknowledgments in the acknowledgement section in the appendix.
+      </p>
+
+      <h3 id="References">References</h3>
+      <p class="inline-math">
+        Please number citations consecutively within brackets [<a href="#ref_4">4</a>]. The
+        sentence punctuation follows the bracket [<a href="#ref_4">4</a>]. Refer simply to the reference
+        number, as in [<a href="#ref_4">4</a>]---do not use "Ref. [<a href="#ref_4">4</a>]"
+        or "reference [<a href="#ref_4">4</a>]" except at
+        the beginning of a sentence: "Reference [<a href="#ref_4">4</a>] was the first $$\ldots$$"
+      </p>
+
+      <p>
+        Unless there are six authors or more give all authors' names; do not use
+        "et al.". Papers that have not been published, even if they have been
+        submitted for publication, should be cited as "unpublished" [<a href="#ref_5">5</a>]. Papers
+        that have been accepted for publication should be cited as "in press" [<a href="#ref_6">6</a>].
+        Capitalize only the first word in a paper title, except for proper nouns and element symbols.
+      </p>
+
+      <p>
+        For papers published in translation journals, please give the English
+        citation first, followed by the original foreign-language citation [<a href="#ref_7">7</a>].
+      </p>
+
+      <p style="color: red">
+        The IEEE interactive article template contains guidance text for composing and formatting of interactive articles.
+        Please ensure that all template text is removed from your article prior to submission.
+        Failure to remove the template text from your paper may result in your paper not being published.
+      </p>
 
       <section class="references">
         <h2>References</h2>
