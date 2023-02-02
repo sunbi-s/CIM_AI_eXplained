@@ -5,33 +5,16 @@ const c = canvas.getContext('2d');
 c.width = canvas.width;
 c.height = canvas.height;
 
-const boardShape = [5, 5];
-const nodeSize = c.width / (boardShape[0] * 2);
-const edgeSize = nodeSize / 2;
+const boardShape = [10, 10];
+const nodeSize = c.width / boardShape[0];
 const agentSize = nodeSize / 3;
 
-
-function draw_path(context, startNode, endNode) {
-    context.fillStyle = 'yellow'
-    context.beginPath();
-
-    let start_x = (startNode.position[0] + 1 / 2) * nodeSize;
-    let start_y = (startNode.position[1] + 1 / 2) * nodeSize;
-    let end_x = (endNode.position[0] + 1 / 2) * nodeSize;
-    let end_y = (endNode.position[1] + 1 / 2) * nodeSize;
-
-    context.moveTo(start_x + edgeSize / 2, start_y + edgeSize / 2);
-    context.lineTo(start_x - edgeSize / 2, start_y + edgeSize / 2);
-    context.lineTo(end_x - edgeSize / 2, end_y - edgeSize / 2);
-    context.lineTo(end_x + edgeSize / 2, end_y - edgeSize / 2);
-    context.fill();
-}
+const actions = [[0, 1], [1, 0], [0, -1], [-1, 0]]
 
 
 class Node{
-    constructor(position, edge, reward, done) {
+    constructor(position, reward, done) {
         this.position = position;
-        this.edge = edge;
         this.reward = reward;
         this.done = done;
     }
@@ -39,6 +22,9 @@ class Node{
     draw(context) {
         context.beginPath();
         context.fillStyle = 'blue'
+        if (this.done) {
+            context.fillStyle = 'yellow';
+        }
         context.fillRect(this.position[0] * nodeSize, this.position[1] * nodeSize, nodeSize, nodeSize);
     }
 }
@@ -46,28 +32,30 @@ class Node{
 
 class Environment{
     constructor(config){
+        this.board = []
         this.nodes = []
         this._make_board(config);
     }
 
     _make_board(config) {
         for (let i=0; i<config.nodes.length; ++i) {
-            let _position, _edge, _reward, _done;
-            [_position, _edge, _reward, _done] = config.nodes[i];
-            this.nodes.push(new Node(_position, _edge, _reward, _done));
+            let [_position, _reward, _done] = config.nodes[i];
+            this.nodes.push(new Node(_position, _reward, _done));
         }
+
+        for (let y=0; y<boardShape[0]; ++y) {
+            this.board.push([]);
+            for (let x=0; x<boardShape[0]; ++x) {
+                this.board[y].push(null);
+            }
+        }
+        config.nodes.forEach(node => {
+            let [_position, _reward, _done] = node;
+            this.board[_position[0]][_position[1]] = new Node(_position, _reward, _done);
+        });
     }
 
     draw(context) {
-        // draw path
-        this.nodes.forEach(node => {
-            node.edge.forEach(e => {
-                let targetNodeIdx = e[0];
-                let targetNode = this.nodes[targetNodeIdx];
-                draw_path(context, node, targetNode);
-            });
-
-        });
         // draw node
         this.nodes.forEach(node => {
             node.draw(context);
@@ -77,36 +65,33 @@ class Environment{
 
 
 class Agent{
-    constructor(currentNode, policy) {
-        this.currentNode = currentNode;
+    constructor(position, policy) {
+        this.position = position;
         this.policy = policy;
-    }
-
-    action(i_action) {
-        this.policy.action(i_action);
     }
 
     draw(context) {
         context.fillStyle = 'red'
         context.beginPath();
-        context.arc((this.currentNode.position[0] + 1 / 2) * nodeSize, (this.currentNode.position[1] + 1 / 2) * nodeSize, agentSize, 0, 2 * Math.PI)
+        context.arc((this.position[0] + 1 / 2) * nodeSize, (this.position[1] + 1 / 2) * nodeSize, agentSize, 0, 2 * Math.PI)
         context.fill();
     }
 }
 
 
 class Game{
-    constructor(seed, policy) {
+    constructor(context, seed, policy) {
+        this.context = context;
         this.episode_rewards = [];
-        this.step = 0;
+        this.current_step = 0;
 
         this._config_make(seed, policy);
     }
 
     _config_make(seed, policy) {
-        this.config = configs[seed];
-        this.environment = new Environment(this.config);
-        this.agent = new Agent(this.environment.nodes[this.config.agentStartIdx], policy);
+
+        this.environment = new Environment(config[seed]);
+        this.agent = new Agent(config[seed].agentStartPosition, policy);
         this.values = [];
         
         for (let i=0; i<this.environment.nodes.length; ++i) {
@@ -114,29 +99,64 @@ class Game{
         }
     }
 
-    add_reward(reward) {
-        this.episode_rewards.push(reward);
+    calculate_reward() {
+        let place = this.environment.board[this.agent.position[0]][this.agent.position[1]];
+        if (place) {
+            this.episode_rewards.push(place.reward);
+        }
+        else{
+            this.episode_rewards.push(0);
+        }
     }
 
-    move_agent(y, x) {
-        this.agent.move(y, x);
+    step(discrete_action) {
+        let done = false;
+
+        // move agent
+        this.agent.position[0] += actions[discrete_action][0]
+        this.agent.position[1] += actions[discrete_action][1]
+        this.agent.position[0] = Math.min(Math.max(0, this.agent.position[0]), 9)
+        this.agent.position[1] = Math.min(Math.max(0, this.agent.position[1]), 9)
+        let state = this.agent.position;
+
+        // accumulate earned reward
+        this.calculate_reward();
+        let reward = this.episode_rewards[this.episode_rewards.length-1];
+
+        // increase step count
+        this.current_step += 1;
+
+        // render
+        this.render();
+
+        // check terminal
+        let place = this.environment.board[this.agent.position[0]][this.agent.position[1]];
+        if (place && place.done) {
+            done = true;
+        }
+
+        return [state, reward, done]
     }
     
-    draw(context) {
+    render() {
         // fill background black for debugging
-        context.beginPath();
-        context.fillStyle = 'black'
-        context.fillRect(0, 0, context.width, context.height);
+        this.context.beginPath();
+        this.context.fillStyle = 'black'
+        this.context.fillRect(0, 0, this.context.width, this.context.height);
 
-        this.environment.draw(context);
-        this.agent.draw(context);
-    }
-
-    update(context) {
-        this.draw(context);
+        // draw
+        this.environment.draw(this.context);
+        this.agent.draw(this.context);
     }
 }
 
 
-let game = new Game(0, null)
-game.update(c)
+let game = new Game(c, 0, null)
+
+for (let i=0; i<1000; ++i) {
+    let action = Math.floor(Math.random() * actions.length);
+    setTimeout(() => {
+        let [state, reward, done] = game.step(action);
+        console.log("step", game.current_step, "state", state, "reward", reward, "done", done);
+    }, 100 * i);
+}
