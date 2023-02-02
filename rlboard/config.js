@@ -1,13 +1,13 @@
 export default [
     {
         "nodes": [
-            [[5, 1],  false],
-            [[3, 1],  false],
-            [[3, 4],  false],
-            [[1, 5],  false],
-            [[1, 7],  false],
-            [[3, 7],  false],
-            [[6, 7],  true],
+            [[5, 1], 0, false],
+            [[3, 1], 0, false],
+            [[3, 4], 0, false],
+            [[1, 5], 0, false],
+            [[1, 7], 0, false],
+            [[3, 7], 0, false],
+            [[6, 7], 0, true],
         ],
         "graph": [
             [1],

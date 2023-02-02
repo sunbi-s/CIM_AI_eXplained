@@ -1,4 +1,4 @@
-import config from "./config.js";
+import configs from "./config.js";
 
 const canvas = document.querySelector('#canvas_1');
 const c = canvas.getContext('2d');
@@ -104,9 +104,11 @@ class Game{
     }
 
     _config_make(seed, policy) {
-        this.environment = new Environment(config[seed]);
-        this.agent = new Agent(this.environment.nodes[config[seed].agentStartIdx], policy);
+        this.config = configs[seed];
+        this.environment = new Environment(this.config);
+        this.agent = new Agent(this.environment.nodes[this.config.agentStartIdx], policy);
         this.values = [];
+        
         for (let i=0; i<this.environment.nodes.length; ++i) {
             this.values.push(0);
         }
