@@ -1,6 +1,15 @@
-const nodeSize = 30;
-const edgeSize = 15;
-const agentSize = 10;
+import config from "./config.js";
+
+const canvas = document.querySelector('#canvas_1');
+const c = canvas.getContext('2d');
+c.width = canvas.width;
+c.height = canvas.height;
+
+const boardShape = [5, 5];
+const nodeSize = c.width / (boardShape[0] * 2);
+const edgeSize = nodeSize / 2;
+const agentSize = nodeSize * 1 / 3;
+
 
 class Node{
     constructor(position, edge, reward, done) {
@@ -14,20 +23,6 @@ class Node{
         // draw node
         context.fillStyle = 'blue'
         context.fillRect(this.position[0] * nodeSize, this.position[1] * nodeSize, nodeSize, nodeSize);
-
-        // draw path
-        this.edge.forEach(e => {
-            console.log("draw path", e);
-            context.fillStyle = 'green'
-
-            let is_horizontal = 0;
-            if (is_horizontal) {
-                context.fillRect((this.position[0] - 1) * nodeSize, this.position[1] * nodeSize + (nodeSize - edgeSize) / 2, nodeSize, edgeSize);
-            }
-            else {
-                context.fillRect(this.position[0] * nodeSize + (nodeSize - edgeSize) / 2, (this.position[1] - 1) * nodeSize, edgeSize, nodeSize);
-            }
-        });
     }
 }
 
@@ -46,9 +41,32 @@ class Environment{
         }
     }
 
-    draw(canvas) {
+    draw(context) {
         this.nodes.forEach(node => {
-            node.draw(canvas);
+            node.draw(context);
+            
+            // draw path
+            node.edge.forEach(e => {
+                
+                
+                let targetNodeIdx = e[0];
+                let targetNode = this.nodes[targetNodeIdx];
+                
+                console.log(targetNode.position[0], node.position[0]);
+                
+                let is_horizontal = 0;
+                if (targetNode.position[0] > node.position[0]) {
+                    is_horizontal = 1;
+                }
+                
+                context.fillStyle = 'green'
+                if (is_horizontal) {
+                    context.fillRect((node.position[0] - 1) * nodeSize, node.position[1] * nodeSize + (nodeSize - edgeSize) / 2, nodeSize, edgeSize);
+                }
+                else {
+                    context.fillRect(node.position[0] * nodeSize + (nodeSize - edgeSize) / 2, (node.position[1] - 1) * nodeSize, edgeSize, nodeSize);
+                }
+            });
         });
     }
 }
@@ -81,21 +99,8 @@ class Game{
     }
 
     _config_make(seed, policy) {
-        // configs = ? //json으로 부르기
-        // config = configs[seed];
-        let config = {
-            'nodes': [
-                [[0, 0], [[0, 0.1]], 0, false],
-                [[2, 2], [[2, 0.1]], 0, false],
-                [[4, 4], [[3, 0.3]], 0, false],
-                [[4, 2], [[4, 0.4]], 0, false],
-                [[2, 4], [[5, 0.7]], 0, false],
-                [[6, 4], [[6, 0.2]], 0, false],
-                [[6, 2], [[7, 0.1]], 0, false]
-            ],
-        };
-        this.environment = new Environment(config);
-        this.agent = new Agent(this.environment.nodes[Math.floor(Math.random() * this.environment.nodes.length)], policy);
+        this.environment = new Environment(config[seed]);
+        this.agent = new Agent(this.environment.nodes[config[seed].agentStartIdx], policy);
         this.values = [];
         for (let i=0; i<this.environment.nodes.length; ++i) {
             this.values.push(0);
@@ -125,12 +130,6 @@ class Game{
     }
 }
 
-
-const canvas = document.querySelector('canvas');
-const c = canvas.getContext('2d');
-
-c.width = canvas.width;
-c.height = canvas.height;
 
 let game = new Game(0, null)
 game.update(c)
