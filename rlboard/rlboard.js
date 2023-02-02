@@ -9,7 +9,6 @@ const boardShape = [10, 10];
 const nodeSize = c.width / (boardShape[0] * 2);
 const edgeSize = nodeSize / 2;
 const agentSize = nodeSize * 1 / 3;
-const seed = 0
 
 
 class Node{
@@ -20,7 +19,7 @@ class Node{
     }
 
     draw(context) {
-        // draw node
+        context.beginPath();
         context.fillStyle = 'blue'
         context.fillRect(this.position[0] * nodeSize, this.position[1] * nodeSize, nodeSize, nodeSize);
     }
@@ -43,31 +42,18 @@ class Environment{
     }
 
     draw(context) {
+        // draw path
         this.nodes.forEach(node => {
-            node.draw(context);
-            
-            // draw path
             node.edge.forEach(e => {
-                
-                
                 let targetNodeIdx = e[0];
                 let targetNode = this.nodes[targetNodeIdx];
-                
-                console.log(targetNode.position[0], node.position[0]);
-                
-                let is_horizontal = 0;
-                if (targetNode.position[0] > node.position[0]) {
-                    is_horizontal = 1;
-                }
-                
-                context.fillStyle = 'green'
-                if (is_horizontal) {
-                    context.fillRect((node.position[0] - 1) * nodeSize, node.position[1] * nodeSize + (nodeSize - edgeSize) / 2, nodeSize, edgeSize);
-                }
-                else {
-                    context.fillRect(node.position[0] * nodeSize + (nodeSize - edgeSize) / 2, (node.position[1] - 1) * nodeSize, edgeSize, nodeSize);
-                }
+                draw_path(context, node, targetNode);
             });
+
+        });
+        // draw node
+        this.nodes.forEach(node => {
+            node.draw(context);
         });
     }
 }
@@ -85,6 +71,7 @@ class Agent{
 
     draw(context) {
         context.fillStyle = 'red'
+        context.beginPath();
         context.arc((this.currentNode.position[0] + 1 / 2) * nodeSize, (this.currentNode.position[1] + 1 / 2) * nodeSize, agentSize, 0, 2 * Math.PI)
         context.fill();
     }
