@@ -5,16 +5,16 @@ const c = canvas.getContext('2d');
 c.width = canvas.width;
 c.height = canvas.height;
 
-const boardShape = [5, 5];
+const boardShape = [10, 10];
 const nodeSize = c.width / (boardShape[0] * 2);
 const edgeSize = nodeSize / 2;
 const agentSize = nodeSize * 1 / 3;
+const seed = 0
 
 
 class Node{
-    constructor(position, edge, reward, done) {
+    constructor(position, reward, done) {
         this.position = position;
-        this.edge = edge;
         this.reward = reward;
         this.done = done;
     }
@@ -35,9 +35,10 @@ class Environment{
 
     _make_board(config) {
         for (let i=0; i<config.nodes.length; ++i) {
-            let _position, _edge, _reward, _done;
-            [_position, _edge, _reward, _done] = config.nodes[i];
-            this.nodes.push(new Node(_position, _edge, _reward, _done));
+            let _position, _reward, _done;
+            [_position, _reward, _done] = config.nodes[i];
+            this.nodes.push(new Node(_position, _reward, _done));
+            this.graph = config.graph;
         }
     }
 
