@@ -1,3 +1,4 @@
+import { RandomAgent } from "./Agents.js";
 import configs from "./config.js";
 
 const canvas = document.querySelector('#canvas_1');
@@ -29,11 +30,27 @@ class Node{
     }
 }
 
+class player{
+    constructor(position) {
+        this.position = position;
+    }
+
+    draw(context) {
+        context.fillStyle = 'red'
+        context.beginPath();
+        context.arc((this.position[0] + 1 / 2) * nodeSize, (this.position[1] + 1 / 2) * nodeSize, agentSize, 0, 2 * Math.PI)
+        context.fill();
+    }
+}
+
+
 
 class Environment{
     constructor(config){
         this.board = []
         this.nodes = []
+        this.config = config
+        this.player = new player(config.agentStartPosition)
         this._make_board(config);
     }
 
@@ -55,87 +72,70 @@ class Environment{
         });
     }
 
+    
+    reset() {
+        this.player.position[0] = this.config.agentStartPosition[0]
+        this.player.position[1] = this.config.agentStartPosition[1]
+        return this.player.position;
+    }
+
+    step(action) {
+
+        // move agent
+        console.log(action)
+        this.player.position[0] += actions[action][0]
+        this.player.position[1] += actions[action][1]
+   
+        //out position check
+        this.player.position[0] = Math.min(Math.max(0, this.player.position[0]), 9)
+        this.player.position[1] = Math.min(Math.max(0, this.player.position[1]), 9)
+        let next_state = this.player.position;
+
+        //reward
+        let reward;
+        let place = this.board[this.player.position[0]][this.player.position[1]];
+        if (place) {
+            reward = place.reward;
+        }
+        else{
+            reward = 0;
+        }
+        
+        // check terminal
+        let done;
+        if (place && place.done) {
+            done = true;
+        }
+        
+        return [next_state, reward, done]
+    }
+
     draw(context) {
         // draw node
         this.nodes.forEach(node => {
             node.draw(context);
         });
+        this.player.draw(context)
     }
 }
 
-
-class Agent{
-    constructor(position, policy) {
-        this.position = position;
-        this.policy = policy;
-    }
-
-    draw(context) {
-        context.fillStyle = 'red'
-        context.beginPath();
-        context.arc((this.position[0] + 1 / 2) * nodeSize, (this.position[1] + 1 / 2) * nodeSize, agentSize, 0, 2 * Math.PI)
-        context.fill();
-    }
-}
 
 
 class Game{
-    constructor(context, seed, policy) {
+    constructor(context, seed) {
         this.context = context;
         this.episode_rewards = [];
         this.current_step = 0;
 
-        this._config_make(seed, policy);
+        this._config_make(seed);
     }
 
-    _config_make(seed, policy) {
+    _config_make(seed) {
 
-        this.environment = new Environment(config[seed]);
-        this.agent = new Agent(config[seed].agentStartPosition, policy);
-        this.values = [];
-        
-        for (let i=0; i<this.environment.nodes.length; ++i) {
-            this.values.push(0);
-        }
-    }
+        this.config = configs[seed]
 
-    calculate_reward() {
-        let place = this.environment.board[this.agent.position[0]][this.agent.position[1]];
-        if (place) {
-            this.episode_rewards.push(place.reward);
-        }
-        else{
-            this.episode_rewards.push(0);
-        }
-    }
-
-    step(discrete_action) {
-        let done = false;
-
-        // move agent
-        this.agent.position[0] += actions[discrete_action][0]
-        this.agent.position[1] += actions[discrete_action][1]
-        this.agent.position[0] = Math.min(Math.max(0, this.agent.position[0]), 9)
-        this.agent.position[1] = Math.min(Math.max(0, this.agent.position[1]), 9)
-        let state = this.agent.position;
-
-        // accumulate earned reward
-        this.calculate_reward();
-        let reward = this.episode_rewards[this.episode_rewards.length-1];
-
-        // increase step count
-        this.current_step += 1;
-
-        // render
-        this.render();
-
-        // check terminal
-        let place = this.environment.board[this.agent.position[0]][this.agent.position[1]];
-        if (place && place.done) {
-            done = true;
-        }
-
-        return [state, reward, done]
+        this.environment = new Environment(this.config);
+        this.agent = new RandomAgent(actions)
     }
     
     render() {
@@ -146,17 +146,49 @@ class Game{
 
         // draw
         this.environment.draw(this.context);
-        this.agent.draw(this.context);
     }
 }
 
 
 let game = new Game(c, 0, null)
 
+
+//Random 
 for (let i=0; i<1000; ++i) {
-    let action = Math.floor(Math.random() * actions.length);
-    setTimeout(() => {
-        let [state, reward, done] = game.step(action);
-        console.log("step", game.current_step, "state", state, "reward", reward, "done", done);
-    }, 100 * i);
-}
+    let state = game.environment.reset()
+    let action = game.agent.get_action(state)
+
+        // 나중에 while true변경
+        setInterval(() => {
+        for (let i=0; i<1000; ++i){
+            
+            //render
+            game.render()
+            
+            //step
+            let [next_state, reward, done] = game.environment.step(action)
+            // game.agent.save_sample(next_state, reward, done)
+            console.log("action",[actions[action][0],actions[action][1]] , "state", state, "reward", reward, "done", done);
+            action = game.agent.get_action(next_state)
+
+            //episoid done
+            // if (done){
+            //     agent.update()
+            //     agent.samples.clear()
+            //     break;
+            //     }
+        };
+
+        }, 500);
+      
+           
+    
+    } 
+
+    // let action = Math.floor(Math.random() * actions.length);
+    
+    
+    // setTimeout(() => {
+    //     let [state, reward, done] = game.step(action);
+    //     
+    // }, 100 * i);
