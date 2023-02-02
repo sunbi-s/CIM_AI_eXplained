@@ -108,7 +108,6 @@ class Game{
     }
 
     step(discrete_action) {
-        let reward = 0;
         let done = false;
 
         // move agent
@@ -120,6 +119,7 @@ class Game{
 
         // accumulate earned reward
         this.calculate_reward();
+        let reward = this.episode_rewards[this.episode_rewards.length-1];
 
         // increase step count
         this.current_step += 1;
