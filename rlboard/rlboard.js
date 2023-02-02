@@ -5,15 +5,33 @@ const c = canvas.getContext('2d');
 c.width = canvas.width;
 c.height = canvas.height;
 
-const boardShape = [10, 10];
+const boardShape = [5, 5];
 const nodeSize = c.width / (boardShape[0] * 2);
 const edgeSize = nodeSize / 2;
-const agentSize = nodeSize * 1 / 3;
+const agentSize = nodeSize / 3;
+
+
+function draw_path(context, startNode, endNode) {
+    context.fillStyle = 'yellow'
+    context.beginPath();
+
+    let start_x = (startNode.position[0] + 1 / 2) * nodeSize;
+    let start_y = (startNode.position[1] + 1 / 2) * nodeSize;
+    let end_x = (endNode.position[0] + 1 / 2) * nodeSize;
+    let end_y = (endNode.position[1] + 1 / 2) * nodeSize;
+
+    context.moveTo(start_x + edgeSize / 2, start_y + edgeSize / 2);
+    context.lineTo(start_x - edgeSize / 2, start_y + edgeSize / 2);
+    context.lineTo(end_x - edgeSize / 2, end_y - edgeSize / 2);
+    context.lineTo(end_x + edgeSize / 2, end_y - edgeSize / 2);
+    context.fill();
+}
 
 
 class Node{
-    constructor(position, reward, done) {
+    constructor(position, edge, reward, done) {
         this.position = position;
+        this.edge = edge;
         this.reward = reward;
         this.done = done;
     }
@@ -34,10 +52,9 @@ class Environment{
 
     _make_board(config) {
         for (let i=0; i<config.nodes.length; ++i) {
-            let _position, _reward, _done;
-            [_position, _reward, _done] = config.nodes[i];
-            this.nodes.push(new Node(_position, _reward, _done));
-            this.graph = config.graph;
+            let _position, _edge, _reward, _done;
+            [_position, _edge, _reward, _done] = config.nodes[i];
+            this.nodes.push(new Node(_position, _edge, _reward, _done));
         }
     }
 
