@@ -1,4 +1,4 @@
-import { RandomAgent } from "./Agents.js";
+import { RandomAgent, MCAgent } from "./Agents.js";
 import configs from "./config.js";
 
 const canvas = document.querySelector('#canvas_1');
@@ -32,7 +32,7 @@ class Node{
 
 class player{
     constructor(position) {
-        this.position = position;
+        this.position = [position[0], position[1]];
     }
 
     draw(context) {
@@ -42,8 +42,6 @@ class player{
         context.fill();
     }
 }
-
-
 
 class Environment{
     constructor(config){
@@ -72,17 +70,15 @@ class Environment{
         });
     }
 
-    
     reset() {
-        this.player.position[0] = this.config.agentStartPosition[0]
-        this.player.position[1] = this.config.agentStartPosition[1]
+        this.player.position[0] = this.config.agentStartPosition[0];
+        this.player.position[1] = this.config.agentStartPosition[1];
         return this.player.position;
     }
 
     step(action) {
 
         // move agent
-        console.log(action)
         this.player.position[0] += actions[action][0]
         this.player.position[1] += actions[action][1]
    
@@ -102,7 +98,7 @@ class Environment{
         }
         
         // check terminal
-        let done;
+        let done = false;
         if (place && place.done) {
             done = true;
         }
@@ -115,27 +111,17 @@ class Environment{
         this.nodes.forEach(node => {
             node.draw(context);
         });
+        // draw player
         this.player.draw(context)
     }
 }
 
-
-
 class Game{
     constructor(context, seed) {
         this.context = context;
+        this.environment = new Environment(configs[seed]);
         this.episode_rewards = [];
         this.current_step = 0;
-
-        this._config_make(seed);
-    }
-
-    _config_make(seed) {
-
-        this.config = configs[seed]
-
-        this.environment = new Environment(this.config);
-        this.agent = new RandomAgent(actions)
     }
     
     render() {
@@ -147,48 +133,103 @@ class Game{
         // draw
         this.environment.draw(this.context);
     }
+
+    async run(max_episode_num, agent) {
+        
+        console.log(agent.name)
+        
+        function sleep(msec) {
+            return new Promise(resolve => setTimeout(resolve, msec));
+        }
+
+        switch(agent.name) {
+            case "RandomAgent":
+
+        
+                for (let episode = 1; episode < max_episode_num; ++episode) {
+                    //Random
+                    let state = this.environment.reset();
+                    let action, reward, done;
+                    //render
+                    this.render()
+        
+                    for (let step = 1; step < 1000; ++step) {
+                        //step
+                        action = agent.get_action(state);
+                        [state, reward, done] = this.environment.step(action);
+                        console.log("action", actions[action], "state", state, "reward", reward, "done", done);
+        
+                        //episode done
+                        if (done) {
+                            console.log("[episode", episode, "] done in", step, "steps");
+                            this.render()
+                            break;
+                        }
+        
+                        //render
+                        this.render()
+        
+                        //delay
+                        await sleep(100);
+                    }
+                }
+            
+            case "MCAgent":
+        
+                for (let episode = 1; episode < max_episode_num; ++episode) {
+                    
+                    let next_state, action, reward, done;
+                    
+                    let state = this.environment.reset();
+                    action = agent.get_action(state);
+                 
+                    //render
+                    this.render()
+                    
+                    //step
+                    for (let step = 1; step < 1000; ++step) {
+            
+                        // console.log(action) ???? 여기에 콘솔 찍으면 step 에서 오류남
+                        [next_state, reward, done] = this.environment.step(action);
+                        
+                        //save sample
+                        agent.save_sample(next_state, reward, done)
+                        
+                        console.log("action", actions[action],"next_state",next_state, "reward", reward,"step", step, "done", done);
+                        
+                        // get action
+                        action = agent.get_action(next_state)
+
+                        //episode done
+                        if (done) {
+                            agent.update()
+                            agent.samples_clear()
+                            console.log("[episode", episode, "] done in", step, "steps");
+                            this.render()
+                            break;
+                        }
+        
+                        //render
+                        this.render()
+        
+                        //delay
+                        await sleep(100);
+                    }
+                }
+
+        }
+
+   
+    }
 }
 
+let game = new Game(c, 0)
+// let agent = new RandomAgent(actions);
+let agent = new MCAgent(actions);
+game.run(1000, agent);
 
-let game = new Game(c, 0, null)
 
 
-//Random 
-for (let i=0; i<1000; ++i) {
-    let state = game.environment.reset()
-    let action = game.agent.get_action(state)
 
-        // 나중에 while true변경
-        setInterval(() => {
-        for (let i=0; i<1000; ++i){
-            
-            //render
-            game.render()
-            
-            //step
-            let [next_state, reward, done] = game.environment.step(action)
-            // game.agent.save_sample(next_state, reward, done)
-            console.log("action",[actions[action][0],actions[action][1]] , "state", state, "reward", reward, "done", done);
-            action = game.agent.get_action(next_state)
 
-            //episoid done
-            // if (done){
-            //     agent.update()
-            //     agent.samples.clear()
-            //     break;
-            //     }
-        };
-
-        }, 500);
-      
-           
-    
-    } 
-
-    // let action = Math.floor(Math.random() * actions.length);
-    
-    
-    // setTimeout(() => {
-    //     let [state, reward, done] = game.step(action);
-    //     
-    // }, 100 * i);
+// 나중에 while true변경
