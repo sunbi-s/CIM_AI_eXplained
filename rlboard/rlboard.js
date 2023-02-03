@@ -22,11 +22,12 @@ class Node{
 
     draw(context) {
         context.beginPath();
-        context.fillStyle = 'blue'
-        if (this.done) {
-            context.fillStyle = 'yellow';
-        }
+        context.fillStyle = 'yellow'
         context.fillRect(this.position[0] * nodeSize, this.position[1] * nodeSize, nodeSize, nodeSize);
+
+        context.fillStyle = 'black';
+        context.font = "15px serif";
+        context.fillText(this.reward, (this.position[0] + 1 / 4) * nodeSize, (this.position[1] + 2 / 3) * nodeSize);
     }
 }
 
