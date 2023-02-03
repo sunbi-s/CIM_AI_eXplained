@@ -43,8 +43,6 @@ class player{
     }
 }
 
-
-
 class Environment{
     constructor(config){
         this.board = []
@@ -72,7 +70,6 @@ class Environment{
         });
     }
 
-    
     reset() {
         this.player.position[0] = this.config.agentStartPosition[0]
         this.player.position[1] = this.config.agentStartPosition[1]
@@ -82,7 +79,6 @@ class Environment{
     step(action) {
 
         // move agent
-        console.log(action)
         this.player.position[0] += actions[action][0]
         this.player.position[1] += actions[action][1]
    
@@ -102,7 +98,7 @@ class Environment{
         }
         
         // check terminal
-        let done;
+        let done = false;
         if (place && place.done) {
             done = true;
         }
@@ -119,23 +115,12 @@ class Environment{
     }
 }
 
-
-
 class Game{
     constructor(context, seed) {
         this.context = context;
+        this.environment = new Environment(configs[seed]);
         this.episode_rewards = [];
         this.current_step = 0;
-
-        this._config_make(seed);
-    }
-
-    _config_make(seed) {
-
-        this.config = configs[seed]
-
-        this.environment = new Environment(this.config);
-        this.agent = new RandomAgent(actions)
     }
     
     render() {
@@ -147,48 +132,52 @@ class Game{
         // draw
         this.environment.draw(this.context);
     }
+
+    async run(max_episode_num, agent) {
+        function sleep(msec) {
+            return new Promise(resolve => setTimeout(resolve, msec));
+        }
+
+        //Random
+        let state = game.environment.reset();
+        let action, reward, done;
+        //render
+        game.render()
+
+        for (let step = 1; step < max_episode_num; ++step) {
+            //step
+            action = agent.get_action(state);
+            [state, reward, done] = game.environment.step(action)
+            // game.agent.save_sample(next_state, reward, done)
+            console.log("action", actions[action], "state", state, "reward", reward, "done", done);
+
+            //episode done
+            if (done) {
+                // game.agent.update()
+                // game.agent.samples.clear()
+                console.log("done in", step, "steps");
+                game.render()
+                break;
+            }
+
+            //render
+            game.render()
+
+            //delay
+            await sleep(100);
+        }
+    }
 }
 
 
-let game = new Game(c, 0, null)
+let game = new Game(c, 0)
+let agent = new RandomAgent(actions);
+game.run(1000, agent);
 
 
-//Random 
-for (let i=0; i<1000; ++i) {
-    let state = game.environment.reset()
-    let action = game.agent.get_action(state)
 
-        // 나중에 while true변경
-        setInterval(() => {
-        for (let i=0; i<1000; ++i){
-            
-            //render
-            game.render()
-            
-            //step
-            let [next_state, reward, done] = game.environment.step(action)
-            // game.agent.save_sample(next_state, reward, done)
-            console.log("action",[actions[action][0],actions[action][1]] , "state", state, "reward", reward, "done", done);
-            action = game.agent.get_action(next_state)
 
-            //episoid done
-            // if (done){
-            //     agent.update()
-            //     agent.samples.clear()
-            //     break;
-            //     }
-        };
 
-        }, 500);
-      
-           
-    
-    } 
 
-    // let action = Math.floor(Math.random() * actions.length);
-    
-    
-    // setTimeout(() => {
-    //     let [state, reward, done] = game.step(action);
-    //     
-    // }, 100 * i);
+// 나중에 while true변경
+
