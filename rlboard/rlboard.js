@@ -32,7 +32,7 @@ class Node{
 
 class player{
     constructor(position) {
-        this.position = position;
+        this.position = [position[0], position[1]];
     }
 
     draw(context) {
@@ -71,8 +71,8 @@ class Environment{
     }
 
     reset() {
-        this.player.position[0] = this.config.agentStartPosition[0]
-        this.player.position[1] = this.config.agentStartPosition[1]
+        this.player.position[0] = this.config.agentStartPosition[0];
+        this.player.position[1] = this.config.agentStartPosition[1];
         return this.player.position;
     }
 
@@ -111,6 +111,7 @@ class Environment{
         this.nodes.forEach(node => {
             node.draw(context);
         });
+        // draw player
         this.player.draw(context)
     }
 }
@@ -138,33 +139,35 @@ class Game{
             return new Promise(resolve => setTimeout(resolve, msec));
         }
 
-        //Random
-        let state = game.environment.reset();
-        let action, reward, done;
-        //render
-        game.render()
-
-        for (let step = 1; step < max_episode_num; ++step) {
-            //step
-            action = agent.get_action(state);
-            [state, reward, done] = game.environment.step(action)
-            // game.agent.save_sample(next_state, reward, done)
-            console.log("action", actions[action], "state", state, "reward", reward, "done", done);
-
-            //episode done
-            if (done) {
-                // game.agent.update()
-                // game.agent.samples.clear()
-                console.log("done in", step, "steps");
-                game.render()
-                break;
-            }
-
+        for (let episode = 1; episode < max_episode_num; ++episode) {
+            //Random
+            let state = game.environment.reset();
+            let action, reward, done;
             //render
             game.render()
 
-            //delay
-            await sleep(100);
+            for (let step = 1; step < 1000; ++step) {
+                //step
+                action = agent.get_action(state);
+                [state, reward, done] = game.environment.step(action);
+                // game.agent.save_sample(next_state, reward, done)
+                // console.log("action", actions[action], "state", state, "reward", reward, "done", done);
+
+                //episode done
+                if (done) {
+                    // game.agent.update()
+                    // game.agent.samples.clear()
+                    console.log("[episode", episode, "] done in", step, "steps");
+                    game.render()
+                    break;
+                }
+
+                //render
+                game.render()
+
+                //delay
+                await sleep(100);
+            }
         }
     }
 }
