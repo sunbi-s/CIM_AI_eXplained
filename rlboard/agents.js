@@ -25,27 +25,25 @@ export class MCAgent{
     }
     // Add a sample to memory
     save_sample(state, reward, done){
-        // console.log(state)
-        this.samples.push([state, reward, done])
-        // console.log(this.samples, this.samples.length)
+        let new_state = [state[0], state[1]];
+        this.samples.push([new_state, reward, done])
     }
 
     // Update the Q-value of all states visited by the agent in all episodes
     update(){
-        let G_t = 0;
+        let sample, state, reward, V_t;
         let visit_state = [];
-        let reverse_samples = [...this.samples].reverse() // 원본도 유지
-        
-        // console.log(this.samples)
-        for (let i=0; i<this.samples.length; ++i) {
-            let sample = this.samples[i];
-            let state = sample[0].toString();
-            // console.log(sample[0])
+        let G_t = 0;
+
+        for (let i=this.samples.length-1; i>=0; --i) {
+            sample = this.samples[i];
+            state = sample[0].toString();
+            reward = sample[1];
             if (!visit_state.includes(state)) {
                 visit_state.push(state);
-                G_t = sample[1] + this.discount_factor * G_t;
-                let value = this.value_table[state] || 0 ; //default value
-                this.value_table[state] = (value + this.learning_rate * (G_t - value));
+                G_t = reward + this.discount_factor * G_t;
+                V_t = this.value_table[state] || 0 ; //default value
+                this.value_table[state] = V_t + this.learning_rate * (G_t - V_t);
             }
         }
     }

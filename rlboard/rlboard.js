@@ -145,7 +145,7 @@ class Game{
 
         switch(agent.name) {
             case "RandomAgent":
-                for (let episode = 1; episode < max_episode_num; ++episode) {
+                for (let episode = 1; episode <= max_episode_num; ++episode) {
                     //Random
                     let state = this.environment.reset();
                     let action, reward, done;
@@ -174,7 +174,7 @@ class Game{
                 }
                 break;
             case "MCAgent":
-                for (let episode = 1; episode < max_episode_num; ++episode) {
+                for (let episode = 1; episode <= max_episode_num; ++episode) {
                     let next_state, action, reward, done;
                     let state = this.environment.reset();
                     action = agent.get_action(state);
