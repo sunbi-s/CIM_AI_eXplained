@@ -13,22 +13,21 @@ export class RandomAgent{
 
 export class MCAgent{
     constructor(actions) {
-        this.name = "MCAgent"
-        this.width = 10
-        this.height = 10
-        this.actions = actions
-        this.learning_rate = 0.01
-        this.discount_factor = 0.9
-        this.epsilon = 0.1
-        this.samples = []
-        this.value_table = {}
-
+        this.name = "MCAgent";
+        this.width = 10;
+        this.height = 10;
+        this.actions = actions;
+        this.learning_rate = 0.01;
+        this.discount_factor = 0.9;
+        this.epsilon = 0.1;
+        this.samples = [];
+        this.value_table = {};
     }
     // Add a sample to memory
     save_sample(state, reward, done){
-        console.log(state)
+        // console.log(state)
         this.samples.push([state, reward, done])
-        console.log(this.samples, this.samples.length)
+        // console.log(this.samples, this.samples.length)
     }
 
     // Update the Q-value of all states visited by the agent in all episodes
@@ -37,17 +36,18 @@ export class MCAgent{
         let visit_state = [];
         let reverse_samples = [...this.samples].reverse() // 원본도 유지
         
-        console.log(this.samples)
-        // this.samples.forEach(function(sample){
-        //     // let state = sample[0].toString();
-        //     console.log(sample[0])
-        //     // if (!visit_state.includes(state)) {
-        //     //     visit_state.push(state);
-        //     //     G_t = sample[1] + this.discount_factor * G_t;
-        //     //     let value = this.value_table[state] || 0 ; //default value
-        //     //     this.value_table[state] = (value + this.learning_rate * (G_t - value));
-        //     // }
-        // })
+        // console.log(this.samples)
+        for (let i=0; i<this.samples.length; ++i) {
+            let sample = this.samples[i];
+            let state = sample[0].toString();
+            // console.log(sample[0])
+            if (!visit_state.includes(state)) {
+                visit_state.push(state);
+                G_t = sample[1] + this.discount_factor * G_t;
+                let value = this.value_table[state] || 0 ; //default value
+                this.value_table[state] = (value + this.learning_rate * (G_t - value));
+            }
+        }
     }
 
     samples_clear(){

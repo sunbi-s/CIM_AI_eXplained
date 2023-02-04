@@ -131,7 +131,7 @@ class Game{
         this.context.fillStyle = 'black'
         this.context.fillRect(0, 0, this.context.width, this.context.height);
 
-        // draw
+        // draw environment
         this.environment.draw(this.context);
     }
 
@@ -145,8 +145,6 @@ class Game{
 
         switch(agent.name) {
             case "RandomAgent":
-
-        
                 for (let episode = 1; episode < max_episode_num; ++episode) {
                     //Random
                     let state = this.environment.reset();
@@ -174,29 +172,46 @@ class Game{
                         await sleep(100);
                     }
                 }
-            
+                break;
             case "MCAgent":
-        
                 for (let episode = 1; episode < max_episode_num; ++episode) {
-                    
                     let next_state, action, reward, done;
-                    
                     let state = this.environment.reset();
                     action = agent.get_action(state);
                  
                     //render
                     this.render()
+                    // draw value table
+                    c2.beginPath();
+                    c2.fillStyle = 'black'
+                    c2.fillRect(0, 0, c2.width, c2.height);
+
+                    c2.fillStyle = 'black';
+                    for (let x=0; x<boardShape[0]; ++x) {
+                        for (let y=0; y<boardShape[1]; ++y) {
+                            let key = [x, y].toString();
+                            let value = agent.value_table[key] || 0;
+
+                            c2.beginPath();
+                            c2.fillStyle = 'white'
+                            c2.fillRect(x * nodeSize + 1, y * nodeSize + 1, nodeSize - 2, nodeSize - 2);
+
+                            c2.fillStyle = 'black';
+                            c2.font = "15px serif";
+                            c2.fillText(value, (x + 1 / 4) * nodeSize, (y + 2 / 3) * nodeSize);
+                        }
+                    }
                     
                     //step
                     for (let step = 1; step < 1000; ++step) {
             
-                        // console.log(action) ???? 여기에 콘솔 찍으면 step 에서 오류남
+                        // console.log(action); // ???? 여기에 콘솔 찍으면 step 에서 오류남
                         [next_state, reward, done] = this.environment.step(action);
                         
                         //save sample
                         agent.save_sample(next_state, reward, done)
                         
-                        console.log("action", actions[action],"next_state",next_state, "reward", reward,"step", step, "done", done);
+                        // console.log("action", actions[action],"next_state",next_state, "reward", reward,"step", step, "done", done);
                         
                         // get action
                         action = agent.get_action(next_state)
@@ -217,20 +232,19 @@ class Game{
                         await sleep(100);
                     }
                 }
-
+                break;
         }
-
-   
     }
 }
+
+
+const canvas2 = document.querySelector('#canvas_2');
+const c2 = canvas2.getContext('2d');
+c2.width = canvas2.width;
+c2.height = canvas2.height;
+
 
 let game = new Game(c, 0)
 // let agent = new RandomAgent(actions);
 let agent = new MCAgent(actions);
 game.run(1000, agent);
-
-
-
-
-
-// 나중에 while true변경
