@@ -2,7 +2,7 @@ export default [
     {
         "nodes": [
             // [position, reward, final]
-            [[5, 1], -100, false],
+            [[5, 1], -100, true],
             [[3, 1], -100, true],
             [[3, 4], -100, true],
             [[1, 5], -100, true],
