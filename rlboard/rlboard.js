@@ -10,7 +10,7 @@ const boardShape = [10, 10];
 const nodeSize = c.width / boardShape[0];
 const agentSize = nodeSize / 3;
 
-const actions = [[0, 1], [1, 0], [0, -1], [-1, 0]]
+const actions = [[0, -1], [0, 1], [-1, 0], [1, 0]]
 
 
 class Node{
