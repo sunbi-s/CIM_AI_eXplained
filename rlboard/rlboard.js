@@ -3,12 +3,11 @@ import { ControlAgent, RandomAgent, MCAgent} from "./agents.js";
 
 const boardShape = [10, 10];
 const nodeScale = 1 / boardShape[0]; //  400/10 40 -> 10
-const agentScale = nodeScale / 3; //  40/3
 
 
 function sleep(msec) {
-            return new Promise(resolve => setTimeout(resolve, msec));
-        }
+    return new Promise(resolve => setTimeout(resolve, msec));
+}
 
 class Node{
     constructor(position, reward, done) {
@@ -24,20 +23,26 @@ class Node{
 
         context.fillStyle = 'black';
         context.font = "15px serif";
-        context.fillText(this.reward, (this.position[0] + 1 / 4) * nodeScale * context.width, (this.position[1] + 2 / 3) * nodeScale * context.width);
+        context.fillText(this.reward, (this.position[0]) * nodeScale * context.width, (this.position[1] + 2 / 3) * nodeScale * context.width);
     }
 }
 
 class player{
-    constructor(position) {
+    constructor(position, path) {
         this.position = [position[0], position[1]];
+        this.imagePath = path;
     }
 
     draw(context) {
-        context.fillStyle = 'red'
-        context.beginPath();
-        context.arc((this.position[0] + 1 / 2) * nodeScale * context.width, (this.position[1] + 1 / 2) * nodeScale * context.width, agentScale * context.width, 0, 2 * Math.PI)
-        context.fill();
+        let img = new Image();
+        img.src = this.imagePath;
+        img.onload = () => {
+            let startX = this.position[0] * nodeScale * context.width;
+            let startY = this.position[1] * nodeScale * context.width;
+            let width = nodeScale * context.width;
+            let height = nodeScale * context.width;
+            context.drawImage(img, startX, startY, width, height);
+        };
     }
 }
 
@@ -45,28 +50,33 @@ class Environment{
     constructor(config) {
         this.board = [];
         this.nodes = [];
-        this.player = new player(config.agentStartPosition);
         this.actions = [[0, -1], [0, 1], [-1, 0], [1, 0]];
         this.config = config;
         this._make_board();
     }
 
     _make_board() {
+        // make nodes
         for (let i=0; i<this.config.nodes.length; ++i) {
             let [_position, _reward, _done] = this.config.nodes[i];
             this.nodes.push(new Node(_position, _reward, _done));
         }
 
+        // make board
         for (let y=0; y<boardShape[0]; ++y) {
             this.board.push([]);
             for (let x=0; x<boardShape[0]; ++x) {
                 this.board[y].push(null);
             }
         }
+        // push node into board
         this.config.nodes.forEach(node => {
             let [_position, _reward, _done] = node;
             this.board[_position[0]][_position[1]] = new Node(_position, _reward, _done);
         });
+
+        // make player
+        this.player = new player(this.config.agentStartPosition, this.config.agentImagePath);
     }
 
     reset() {
@@ -106,12 +116,19 @@ class Environment{
     }
 
     draw(context) {
-        // draw node
-        this.nodes.forEach(node => {
-            node.draw(context);
-        });
-        // draw player
-        this.player.draw(context)
+        // draw background
+        let img = new Image();
+        img.src = this.config.backgroundImagePath;
+        img.onload = () => {
+            context.drawImage(img, 0, 0, context.width, context.height);
+
+            // draw node
+            this.nodes.forEach(node => {
+                node.draw(context);
+            });
+            // draw player
+            this.player.draw(context)
+        };
     }
 }
 
@@ -142,11 +159,6 @@ export class Game{
     }
     
     render() {
-        // fill background black for debugging
-        this.context.beginPath();
-        this.context.fillStyle = 'black'
-        this.context.fillRect(0, 0, this.context.width, this.context.height);
-
         // draw environment
         this.environment.draw(this.context);
 

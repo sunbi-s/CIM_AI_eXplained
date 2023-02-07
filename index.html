@@ -178,37 +178,47 @@
 <!--          <div id="rlboard-letsplay" style="width: 320px; margin: auto auto 10px;"></div>-->
 
           <div id="play_1">
-            <center>
+            <h3>X. Here is control agent. Let's play</h3>
+
+            <div style="text-align: center;">
               <canvas class="canvas_1" width="400px" height="400px"></canvas>
               <canvas class="canvas_2" width="400px" height="400px"></canvas>
-            </center>
-            <button class="btn_action_0">Up</button>
-            <br>
-            <button class="btn_action_2">Left</button>
-            <button class="btn_action_1">Down</button>
-            <button class="btn_action_3">Right</button>
+              <br>
 
-            <button class="btn_reset">Reset</button>
+              <div style="display: inline-block">
+                <button class="btn_action_0" style="display: block; margin: auto">⮝</button>
+                <button class="btn_action_2">⮜</button>
+                <button class="btn_action_1">⮟</button>
+                <button class="btn_action_3">⮞</button>
+              </div>
+              <button class="btn_reset">Reset</button>
+            </div>
             <script type="module" src="rlboard/play_controllable.js"></script>
           </div>
           <br><br><br><br><br><br>
 
           <div id="play_2">
-            <center>
+            <h3>X. Here is random agent. Let's play</h3>
+            <div style="text-align: center;">
               <canvas class="canvas_1" width="400px" height="400px"></canvas>
               <canvas class="canvas_2" width="400px" height="400px"></canvas>
-            </center>
-            <button id="btn_0_random">RD</button>
+              <br>
+
+              <button id="btn_0_random">RD</button>
+            </div>
             <script type="module" src="rlboard/play_random.js"></script>
           </div>
           <br><br><br><br><br><br>
 
           <div id="play_3">
-            <center>
+            <h3>X. Here is mc agent. Let's play</h3>
+            <div style="text-align: center;">
               <canvas class="canvas_1" width="400px" height="400px"></canvas>
               <canvas class="canvas_2" width="400px" height="400px"></canvas>
-            </center>
-            <button id="btn_0_mcagent">MC</button>
+              <br>
+
+              <button id="btn_0_mcagent">MC</button>
+            </div>
             <script type="module" src="rlboard/play_mcagent.js"></script>
           </div>
 
