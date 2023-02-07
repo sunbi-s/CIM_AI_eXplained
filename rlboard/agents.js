@@ -1,22 +1,44 @@
+export class ControlAgent{
+    constructor(env) {
+        this.n_action = env.actions.length;
+    }
+
+    save_sample(state, reward, done) {
+        // pass
+    }
+
+    update() {
+        // update
+    }
+
+    get_action(state) {
+        return Math.floor(Math.random( )*this.n_action);
+    }
+}
+
 export class RandomAgent{
-    constructor(actions){
-        this.name = "RandomAgent"
-        this.actions = actions
-        this.n_action = actions.length
+    constructor(env) {
+        this.n_action = env.actions.length;
     }
 
-    get_action(state){
-        return Math.floor(Math.random( )*this.n_action)
+    save_sample(state, reward, done) {
+        // pass
     }
 
+    update() {
+        // update
+    }
+
+    get_action(state) {
+        return Math.floor(Math.random( )*this.n_action);
+    }
 }
 
 export class MCAgent{
-    constructor(actions) {
-        this.name = "MCAgent";
+    constructor(env) {
         this.width = 10;
         this.height = 10;
-        this.actions = actions;
+        this.actions = env.actions;
         this.learning_rate = 0.01;
         this.discount_factor = 0.9;
         this.epsilon = 0.3;
@@ -24,7 +46,7 @@ export class MCAgent{
         this.value_table = {};
     }
     // Add a sample to memory
-    save_sample(state, reward, done){
+    save_sample(state, reward, done) {
         let new_state = [state[0], state[1]];
         this.samples.push([new_state, reward, done])
     }
@@ -46,10 +68,9 @@ export class MCAgent{
                 this.value_table[state] = V_t + this.learning_rate * (G_t - V_t);
             }
         }
-    }
 
-    samples_clear(){
-        this.samples = []
+        // samples clear
+        this.samples = [];
     }
     
     // Return an action based on Q-value
@@ -61,15 +82,21 @@ export class MCAgent{
             return action;
         } else {
             // Action based on Q-value
+<<<<<<< HEAD
             let next_state = this.possible_next_state(state);
             // console.log(next_state)
             let action = this.arg_max(next_state);
             // console.log(action)
+=======
+            let next_state = this._possible_next_state(state);
+            let action = this._arg_max(next_state);
+>>>>>>> 82d1d54980ceb51a04bba58d20c872321c4b0504
             return action;
         }
     }
+
     // Calculate arg_max if there are multiple candidates and return one randomly
-    arg_max(next_state) {
+    _arg_max(next_state) {
         let max_index_list = [];
         let max_value = next_state[0];
         for (let i = 0; i < next_state.length; i++) {
@@ -85,7 +112,7 @@ export class MCAgent{
         return max_index_list[Math.floor(Math.random() * max_index_list.length)];
     }
 
-    possible_next_state(state) {
+    _possible_next_state(state) {
         let col = state[0];
         let row = state[1];
         
