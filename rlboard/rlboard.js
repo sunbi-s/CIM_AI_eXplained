@@ -1,4 +1,4 @@
-import { RandomAgent, MCAgent } from "./Agents.js";
+import { RandomAgent, MCAgent, SARSAgent } from "./Agents.js";
 import configs from "./config.js";
 
 const canvas = document.querySelector('#canvas_1');
@@ -233,6 +233,49 @@ class Game{
                     }
                 }
                 break;
+            case "SARSAgent":
+                for (let episode = 1; episode <= max_episode_num; ++episode) {
+                    let next_state, action, reward, done, next_action;
+                    let state = this.environment.reset();
+                    action = agent.get_action(state.toString());
+                 
+                    //render
+                    this.render()
+                    // draw q-value table? 어떤식으로?
+                    
+                    //step
+                    for (let step = 1; step < 1000; ++step) {
+            
+                        // console.log(action); // ???? 여기에 콘솔 찍으면 step 에서 오류남
+                        [next_state, reward, done] = this.environment.step(action);
+                        
+                        
+                        // get action
+                        next_action = agent.get_action(next_state.toString())
+
+                        console.log(state.toString(), action, reward, next_state.toString(), next_action)
+                        
+                        agent.learn(state.toString(), action, reward, next_state.toString(), next_action)
+
+                        // 다시 대입
+                        state = next_state
+                        action = next_action
+
+                        //episode done
+                        if (done) {
+                            break;
+                        }
+        
+                        //render
+                        this.render()
+        
+                        //delay
+                        await sleep(100);
+                    }
+                }
+
+
+            
         }
     }
 }
@@ -246,5 +289,6 @@ c2.height = canvas2.height;
 
 let game = new Game(c, 0)
 // let agent = new RandomAgent(actions);
-let agent = new MCAgent(actions);
+// let agent = new MCAgent(actions);
+let agent = new SARSAgent(actions)
 game.run(1000, agent);

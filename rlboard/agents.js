@@ -62,9 +62,9 @@ export class MCAgent{
         } else {
             // Action based on Q-value
             let next_state = this.possible_next_state(state);
-            console.log(next_state)
+            // console.log(next_state)
             let action = this.arg_max(next_state);
-            console.log(action)
+            // console.log(action)
             return action;
         }
     }
@@ -115,6 +115,78 @@ export class MCAgent{
     }
 }
 
+export class SARSAgent {
+    constructor(actions) {
+      this.name = "SARSAgent";
+      this.actions = actions;
+      this.learning_rate = 0.01;
+      this.discount_factor = 0.9;
+      this.epsilon = 0.1;
+      this.q_table = new Map();
+    }
+  
+    // Update the Q-table based on a sample of the form (state, action, reward, next_state, next_action)
+    learn(state, action, reward, next_state, next_action) {
+      let currentQ = this.getQValue(state, action);
+      let nextStateQ = this.getQValue(next_state, next_action);
+      let newQ = currentQ + this.learning_rate * (reward + this.discount_factor * nextStateQ - currentQ);
+      this.setQValue(state, action, newQ);
+    }
+  
+    // Return an action based on the epsilon-greedy policy
+    get_action(state) {
+      if (Math.random() < this.epsilon) {
+        // Return a random action
+        return Math.floor(Math.random() * this.actions.length);
+      } else {
+        // Return the action with the highest expected reward
+        // console.log(this.q_table.size, state, this.getState(state))
+        return this.argMax(this.getState(state));
+      }
+    }
+  
+    // Return the action with the highest expected reward
+    argMax(stateAction) {
+      let maxIndexList = [];
+      let maxValue = stateAction[0];
+      for (let i = 0; i < stateAction.length; i++) {
+        if (stateAction[i] > maxValue) {
+          maxIndexList = [];
+          maxValue = stateAction[i];
+          maxIndexList.push(i);
+        } else if (stateAction[i] === maxValue) {
+          maxIndexList.push(i);
+        }
+      }
+    //   console.log("argmax", Math.floor(Math.random() * maxIndexList.length))
+      return Math.floor(Math.random() * maxIndexList.length);
+    }
+  
+    getQValue(state, action) {
+      if (!this.q_table.has(state)) {
+        this.q_table.set(state, Array(this.actions.length).fill(0));
+      }
+    //   console.log(action)
+    //   console.log(this.q_table.get(state),action)
+      return this.q_table.get(state)[action];
+    }
+
+    getState(state) {
+        if (!this.q_table.has(state)) {
+          this.q_table.set(state, Array(this.actions.length).fill(0));
+        }
+        return this.q_table.get(state);
+      }
+  
+    setQValue(state, action, value) {
+      if (!this.q_table.has(state)) {
+        this.q_table.set(state, Array(this.actions.length).fill(0));
+      }
+      let stateAction = this.q_table.get(state);
+      stateAction[action] = value;
+      this.q_table.set(state, stateAction);
+    }
+  }
 
 
 
