@@ -1,5 +1,5 @@
 import configs from "./config.js";
-import { ControlAgent, RandomAgent, MCAgent} from "./agents.js";
+import { ControlAgent, RandomAgent, MCAgent, SARSAgent} from "./agents.js";
 
 const boardShape = [10, 10];
 const nodeScale = 1 / boardShape[0]; //  400/10 40 -> 10
@@ -185,7 +185,6 @@ export class Game{
             }
         }
     }
-
     async run(max_episode_num) {
         for (let episode = 1; episode <= max_episode_num; ++episode) {
             let next_state, action, reward, done;
@@ -224,8 +223,6 @@ export class Game{
             }
         }
     }
-   
-
         //   SARSAgent"
 
      async run_td(max_episode_num) {
@@ -272,16 +269,3 @@ export class Game{
             
         }
 }
-
-
-const canvas2 = document.querySelector('#canvas_2');
-const c2 = canvas2.getContext('2d');
-c2.width = canvas2.width;
-c2.height = canvas2.height;
-
-
-let game = new Game(c, 0)
-// let agent = new RandomAgent(actions);
-// let agent = new MCAgent(actions);
-let agent = new SARSAgent(actions)
-game.run(1000, agent);
