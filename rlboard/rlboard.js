@@ -1,5 +1,5 @@
 import configs from "./config.js";
-import { ControlAgent, RandomAgent, MCAgent, SARSAgent} from "./agents.js";
+import { ControlAgent, RandomAgent, MCAgent, SARSAgent } from "./agents.js";
 
 const boardShape = [10, 10];
 const nodeScale = 1 / boardShape[0]; //  400/10 40 -> 10
@@ -149,6 +149,9 @@ export class Game{
             case "mc":
                 this.agent = new MCAgent(this.environment);
                 break;
+            case "td":
+                this.agent = new SARSAgent(this.environment);
+                break;
             default:
                 throw "There is no policy named" + policyName;
         }
@@ -223,49 +226,45 @@ export class Game{
             }
         }
     }
-        //   SARSAgent"
 
-     async run_td(max_episode_num) {
-                for (let episode = 1; episode <= max_episode_num; ++episode) {
-                    let next_state, action, reward, done, next_action;
-                    let state = this.environment.reset();
-                    action = agent.get_action(state.toString());
-                 
-                    //render
-                    this.render()
-                    // draw q-value table? 어떤식으로?
-                    
-                    //step
-                    for (let step = 1; step < 1000; ++step) {
-            
-                        // console.log(action); // ???? 여기에 콘솔 찍으면 step 에서 오류남
-                        [next_state, reward, done] = this.environment.step(action);
-                        
-                        
-                        // get action
-                        next_action = agent.get_action(next_state.toString())
+    //   SARSAgent
+    async run_td(max_episode_num) {
+        for (let episode = 1; episode <= max_episode_num; ++episode) {
+            let next_state, action, reward, done, next_action;
+            let state = this.environment.reset();
+            action = this.agent.get_action(state.toString());
 
-                        console.log(state.toString(), action, reward, next_state.toString(), next_action)
-                        agent.learn(state.toString(), action, reward, next_state.toString(), next_action)
+            //render
+            this.render()
+            // draw q-value table? 어떤식으로?
 
-                        // 다시 대입
-                        state = next_state
-                        action = next_action
+            //step
+            for (let step = 1; step < 1000; ++step) {
 
-                        //episode done
-                        if (done) {
-                            break;
-                        }
-        
-                        //render
-                        this.render()
-        
-                        //delay
-                        await sleep(100);
-                    }
+                // console.log(action); // ???? 여기에 콘솔 찍으면 step 에서 오류남
+                [next_state, reward, done] = this.environment.step(action);
+
+                // get action
+                next_action = this.agent.get_action(next_state.toString())
+
+                console.log(state.toString(), action, reward, next_state.toString(), next_action)
+                this.agent.learn(state.toString(), action, reward, next_state.toString(), next_action)
+
+                // 다시 대입
+                state = next_state
+                action = next_action
+
+                //episode done
+                if (done) {
+                    break;
                 }
 
+                //render
+                this.render()
 
-            
+                //delay
+                await sleep(100);
+            }
         }
+    }
 }

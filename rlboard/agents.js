@@ -136,9 +136,8 @@ export class MCAgent{
 }
 
 export class SARSAgent {
-    constructor(actions) {
-      this.name = "SARSAgent";
-      this.actions = actions;
+    constructor(env) {
+      this.actions = env.actions;
       this.learning_rate = 0.01;
       this.discount_factor = 0.9;
       this.epsilon = 0.1;
@@ -200,11 +199,13 @@ export class SARSAgent {
   
     setQValue(state, action, value) {
       if (!this.q_table.has(state)) {
-        this.q_table.set(state, Array(this.actions.length).fill(0));
+          let new_state = [state[0], state[1]];
+          this.q_table.set(new_state, Array(this.actions.length).fill(0));
       }
       let stateAction = this.q_table.get(state);
       stateAction[action] = value;
-      this.q_table.set(state, stateAction);
+      let new_state = [state[0], state[1]];
+      this.q_table.set(new_state, stateAction);
     }
   }
 

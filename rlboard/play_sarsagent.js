@@ -11,12 +11,12 @@ c.height = canvas_1.height;
 c2.width = canvas_2.width;
 c2.height = canvas_2.height;
 
-let policyName = "mc";
+let policyName = "td";
 let game = new Game(c, c2, 0, policyName);
 
-frame.querySelector('#btn_0_mcagent').addEventListener("click", function() {
+frame.querySelector('#btn_0_sarsagent').addEventListener("click", function() {
     this.disabled = true;
-    game.run(10).then(() => {
+    game.run_td(10).then(() => {
         this.disabled = false;
     });
 });
