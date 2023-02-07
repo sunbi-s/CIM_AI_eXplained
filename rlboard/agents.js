@@ -82,15 +82,8 @@ export class MCAgent{
             return action;
         } else {
             // Action based on Q-value
-<<<<<<< HEAD
-            let next_state = this.possible_next_state(state);
-            // console.log(next_state)
-            let action = this.arg_max(next_state);
-            // console.log(action)
-=======
             let next_state = this._possible_next_state(state);
             let action = this._arg_max(next_state);
->>>>>>> 82d1d54980ceb51a04bba58d20c872321c4b0504
             return action;
         }
     }
