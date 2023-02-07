@@ -2,21 +2,15 @@ export default [
     {
         "backgroundImagePath": "../img/rlboard/background.png",
         "nodes": [
-            [[1, 2], -100, false],
-            [[2, 2], -100, false],
-            [[2, 3], -100, false],
-            [[3, 3], -100, false],
-            [[3, 4], -100, false],
-            [[3, 5], -100, false],
-
-
-            [[5, 1], -100, true],  // [position, reward, final]
-            [[3, 1], -100, true],
-            [[3, 4], -100, true],
-            [[1, 5], -100, true],
-            [[1, 7], -100, true],
-            [[3, 7], -100, true],
-            [[6, 7], 10000, true],
+            [[5, 1], -1000, true],  // [position, reward, final]
+            [[3, 0], -1000, true],
+            [[4, 1], -1000, true],
+            [[4, 2], -1000, true],
+            [[3, 4], -1000, true],
+            [[3, 5], -1000, true],
+            [[2, 5], 1000, true],
+            [[1, 5], 10000, true],
+            [[0, 5], 1000, true],
         ],
         "agentStartPosition": [0, 0],  // [x, y]
         "agentImagePath": "../img/rlboard/player.png"

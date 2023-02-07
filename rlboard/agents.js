@@ -41,7 +41,7 @@ export class MCAgent{
         this.actions = env.actions;
         this.learning_rate = 0.01;
         this.discount_factor = 0.9;
-        this.epsilon = 0.3;
+        this.epsilon = 0.1;
         this.samples = [];
         this.value_table = {};
     }
@@ -137,9 +137,9 @@ export class MCAgent{
 export class QLearningAgent {
     constructor(env) {
         this.actions = env.actions;
-        this.learningRate = 0.01;
+        this.learningRate = 0.1;
         this.discountFactor = 0.9;
-        this.epsilon = 1;
+        this.epsilon = 0.2;
         this.q_table = new Map();
     }
 
@@ -162,13 +162,14 @@ export class QLearningAgent {
         let maxIndexList = [];
         let maxValue = stateAction[0];
         for (let i = 0; i < stateAction.length; i++) {
-        if (stateAction[i] > maxValue) {
-            maxIndexList = [];
-            maxValue = stateAction[i];
-            maxIndexList.push(i);
-        } else if (stateAction[i] === maxValue) {
-            maxIndexList.push(i);
-        }
+            if (stateAction[i] > maxValue) {
+                maxIndexList = [];
+                maxValue = stateAction[i];
+                maxIndexList.push(i);
+            } 
+            else if (stateAction[i] == maxValue) {
+                maxIndexList.push(i);
+            }
         }
         return maxIndexList[Math.floor(Math.random() * maxIndexList.length)];
     }
@@ -191,7 +192,7 @@ export class QLearningAgent {
 
     _getMaxQValue(state) {
         if (!this.q_table.has(state)) {
-        return 0;
+            this.q_table.set(state, Array(this.actions.length).fill(0));
         }
         return Math.max(...this.q_table.get(state));
     }
@@ -218,7 +219,6 @@ export class SARSAgent {
       let nextStateQ = this._getQValue(next_state, next_action);
       let newQ = currentQ + this.learning_rate * (reward + this.discount_factor * nextStateQ - currentQ);
       this._setQValue(state, action, newQ);
-      console.log("state",state,"action",action,"reward",reward,"next_state",next_state,"next_action",next_action,"newQ",newQ,"this.q_table.get(state)",this.q_table.get(state))
     }
   
     // Return an action based on the epsilon-greedy policy
@@ -245,9 +245,8 @@ export class SARSAgent {
           maxIndexList.push(i);
         }
       }
-    //   console.log("argmax", Math.floor(Math.random() * maxIndexList.length))
       return Math.floor(Math.random() * maxIndexList.length);
-    }
+    } 
   
     _getQValue(state, action) {
       if (!this.q_table.has(state)) {

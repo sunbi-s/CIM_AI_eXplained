@@ -237,19 +237,16 @@ export class Game{
             for (let step = 1; step < 1000; ++step) {
 
                 // get action
-                // action = this.agent.get_action(next_state)
-                action =2
-                console.log(this.environment.step(action))
-                console.log(action, typeof(action))
-
+                action = this.agent.get_action(state.toString());
+         
                 //step
                 [next_state, reward, done] = this.environment.step(action);
-                this.agent.learn(state.toString(), action, reward, next_state.toString())
+                // console.log(state, next_state);
+                this.agent.learn(state.toString(), action, reward, next_state.toString());
 
                 // 다시 대입
-                state = next_state
+                state = [next_state[0],next_state[1]];
 
-                console.log("state",state)
                 //episode done
                 if (done) {
                     break;
