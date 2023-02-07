@@ -134,22 +134,91 @@ export class MCAgent{
         return next_state;
     }
 }
+export class QLearningAgent {
+    constructor(env) {
+        this.actions = env.actions;
+        this.learningRate = 0.01;
+        this.discountFactor = 0.9;
+        this.epsilon = 1;
+        this.q_table = new Map();
+    }
+
+    learn(state, action, reward, nextState) {
+        let q1 = this._getQValue(state, action);
+        let q2 = reward + this.discountFactor * this._getMaxQValue(nextState);
+        this._setQValue(state, action, q1 + this.learningRate * (q2 - q1));
+    }
+
+    get_action(state) {
+        if (Math.random() < this.epsilon) {
+        return Math.floor(Math.random() * this.actions.length);
+        } 
+        else {
+        return this._arg_max(this._getState(state));
+        }
+    }
+
+    _arg_max(stateAction) {
+        let maxIndexList = [];
+        let maxValue = stateAction[0];
+        for (let i = 0; i < stateAction.length; i++) {
+        if (stateAction[i] > maxValue) {
+            maxIndexList = [];
+            maxValue = stateAction[i];
+            maxIndexList.push(i);
+        } else if (stateAction[i] === maxValue) {
+            maxIndexList.push(i);
+        }
+        }
+        return maxIndexList[Math.floor(Math.random() * maxIndexList.length)];
+    }
+
+    _getQValue(state, action) {
+        if (!this.q_table.has(state)) {
+        this.q_table.set(state, Array(this.actions.length).fill(0));
+        }
+        return this.q_table.get(state)[action];
+    }
+
+    _setQValue(state, action, value) {
+        if (!this.q_table.has(state)) {
+        this.q_table.set(state, Array(this.actions.length).fill(0));
+        }
+        let stateAction = this.q_table.get(state);
+        stateAction[action] = value;
+        this.q_table.set(state, stateAction);
+    }
+
+    _getMaxQValue(state) {
+        if (!this.q_table.has(state)) {
+        return 0;
+        }
+        return Math.max(...this.q_table.get(state));
+    }
+    _getState(state) {
+        if (!this.q_table.has(state)) {
+          this.q_table.set(state, Array(this.actions.length).fill(0));
+        }
+        return this.q_table.get(state);
+    }
+}
 
 export class SARSAgent {
     constructor(env) {
       this.actions = env.actions;
-      this.learning_rate = 0.01;
+      this.learning_rate = 0.1;
       this.discount_factor = 0.9;
-      this.epsilon = 0.1;
+      this.epsilon = 0.3;
       this.q_table = new Map();
     }
   
     // Update the Q-table based on a sample of the form (state, action, reward, next_state, next_action)
     learn(state, action, reward, next_state, next_action) {
-      let currentQ = this.getQValue(state, action);
-      let nextStateQ = this.getQValue(next_state, next_action);
+      let currentQ = this._getQValue(state, action);
+      let nextStateQ = this._getQValue(next_state, next_action);
       let newQ = currentQ + this.learning_rate * (reward + this.discount_factor * nextStateQ - currentQ);
-      this.setQValue(state, action, newQ);
+      this._setQValue(state, action, newQ);
+      console.log("state",state,"action",action,"reward",reward,"next_state",next_state,"next_action",next_action,"newQ",newQ,"this.q_table.get(state)",this.q_table.get(state))
     }
   
     // Return an action based on the epsilon-greedy policy
@@ -159,13 +228,12 @@ export class SARSAgent {
         return Math.floor(Math.random() * this.actions.length);
       } else {
         // Return the action with the highest expected reward
-        // console.log(this.q_table.size, state, this.getState(state))
-        return this.argMax(this.getState(state));
+        return this._argMax(this._getState(state));
       }
     }
   
     // Return the action with the highest expected reward
-    argMax(stateAction) {
+    _argMax(stateAction) {
       let maxIndexList = [];
       let maxValue = stateAction[0];
       for (let i = 0; i < stateAction.length; i++) {
@@ -181,31 +249,27 @@ export class SARSAgent {
       return Math.floor(Math.random() * maxIndexList.length);
     }
   
-    getQValue(state, action) {
+    _getQValue(state, action) {
       if (!this.q_table.has(state)) {
         this.q_table.set(state, Array(this.actions.length).fill(0));
       }
-    //   console.log(action)
-    //   console.log(this.q_table.get(state),action)
       return this.q_table.get(state)[action];
     }
 
-    getState(state) {
+    _getState(state) {
         if (!this.q_table.has(state)) {
           this.q_table.set(state, Array(this.actions.length).fill(0));
         }
         return this.q_table.get(state);
       }
   
-    setQValue(state, action, value) {
+    _setQValue(state, action, value) {
       if (!this.q_table.has(state)) {
-          let new_state = [state[0], state[1]];
-          this.q_table.set(new_state, Array(this.actions.length).fill(0));
+          this.q_table.set(state, Array(this.actions.length).fill(0));
       }
       let stateAction = this.q_table.get(state);
       stateAction[action] = value;
-      let new_state = [state[0], state[1]];
-      this.q_table.set(new_state, stateAction);
+      this.q_table.set(state, stateAction);
     }
   }
 

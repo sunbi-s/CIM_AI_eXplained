@@ -1,5 +1,5 @@
 import configs from "./config.js";
-import { ControlAgent, RandomAgent, MCAgent, SARSAgent } from "./agents.js";
+import { ControlAgent, RandomAgent, MCAgent, SARSAgent, QLearningAgent } from "./agents.js";
 
 const boardShape = [10, 10];
 const nodeScale = 1 / boardShape[0]; //  400/10 40 -> 10
@@ -86,11 +86,9 @@ class Environment{
     }
 
     step(action) {
-
         // move agent
         this.player.position[0] += this.actions[action][0]
         this.player.position[1] += this.actions[action][1]
-   
         //out position check
         this.player.position[0] = Math.min(Math.max(0, this.player.position[0]), 9)
         this.player.position[1] = Math.min(Math.max(0, this.player.position[1]), 9)
@@ -105,7 +103,7 @@ class Environment{
         else{
             reward = 0;
         }
-        
+
         // check terminal
         let done = false;
         if (place && place.done) {
@@ -150,7 +148,7 @@ export class Game{
                 this.agent = new MCAgent(this.environment);
                 break;
             case "td":
-                this.agent = new SARSAgent(this.environment);
+                this.agent = new QLearningAgent(this.environment);
                 break;
             default:
                 throw "There is no policy named" + policyName;
@@ -203,7 +201,7 @@ export class Game{
                 this.render();
 
                 [next_state, reward, done] = this.environment.step(action);
-
+                console.log(next_state, reward, done)
                 //save sample
                 this.agent.save_sample(next_state, reward, done)
 
@@ -226,14 +224,11 @@ export class Game{
             }
         }
     }
-
-    //   SARSAgent
+    //  Q_learingAgent
     async run_td(max_episode_num) {
         for (let episode = 1; episode <= max_episode_num; ++episode) {
-            let next_state, action, reward, done, next_action;
-            let state = this.environment.reset();
-            action = this.agent.get_action(state.toString());
-
+            let next_state, action, reward, done;
+            let state = this.environment.reset()
             //render
             this.render()
             // draw q-value table? 어떤식으로?
@@ -241,19 +236,20 @@ export class Game{
             //step
             for (let step = 1; step < 1000; ++step) {
 
-                // console.log(action); // ???? 여기에 콘솔 찍으면 step 에서 오류남
-                [next_state, reward, done] = this.environment.step(action);
-
                 // get action
-                next_action = this.agent.get_action(next_state.toString())
+                // action = this.agent.get_action(next_state)
+                action =2
+                console.log(this.environment.step(action))
+                console.log(action, typeof(action))
 
-                console.log(state.toString(), action, reward, next_state.toString(), next_action)
-                this.agent.learn(state.toString(), action, reward, next_state.toString(), next_action)
+                //step
+                [next_state, reward, done] = this.environment.step(action);
+                this.agent.learn(state.toString(), action, reward, next_state.toString())
 
                 // 다시 대입
                 state = next_state
-                action = next_action
 
+                console.log("state",state)
                 //episode done
                 if (done) {
                     break;
@@ -267,4 +263,46 @@ export class Game{
             }
         }
     }
+
+
+    //   SARSAgent
+    // async run_td(max_episode_num) {
+    //     for (let episode = 1; episode <= max_episode_num; ++episode) {
+    //         let next_state, action, reward, done, next_action;
+    //         let state = this.environment.reset();
+    //         action = this.agent.get_action(state.toString());
+
+    //         //render
+    //         this.render()
+    //         // draw q-value table? 어떤식으로?
+
+    //         //step
+    //         for (let step = 1; step < 1000; ++step) {
+
+    //             // console.log(action); // ???? 여기에 콘솔 찍으면 step 에서 오류남
+    //             [next_state, reward, done] = this.environment.step(action);
+
+    //             // get action
+    //             next_action = this.agent.get_action(next_state.toString())
+
+    //             // console.log(state.toString(),"action", action,"reward", reward, next_state.toString(), next_action)
+    //             this.agent.learn(state.toString(), action, reward, next_state.toString(), next_action)
+
+    //             // 다시 대입
+    //             state = next_state
+    //             action = next_action
+
+    //             //episode done
+    //             if (done) {
+    //                 break;
+    //             }
+
+    //             //render
+    //             this.render()
+
+    //             //delay
+    //             await sleep(100);
+    //         }
+    //     }
+    // }
 }

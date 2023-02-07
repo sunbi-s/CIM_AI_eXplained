@@ -14,7 +14,7 @@ c2.height = canvas_2.height;
 let policyName = "td";
 let game = new Game(c, c2, 0, policyName);
 
-frame.querySelector('#btn_0_sarsagent').addEventListener("click", function() {
+frame.querySelector('#btn_0_q_learing').addEventListener("click", function() {
     this.disabled = true;
     game.run_td(100).then(() => {
         this.disabled = false;
