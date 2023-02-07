@@ -188,7 +188,6 @@ export class QLearningAgent {
         if (!this.qTable[state]) {
             this.qTable[state] = Array(this.actions.length).fill(0);
         }
-        console.log(this.qTable)
         return this.qTable[state][action];
     }
 

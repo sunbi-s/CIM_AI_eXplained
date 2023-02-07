@@ -1,6 +1,6 @@
 import { Game } from "./rlboard.js";
 
-const frame = document.querySelector('#play_4')
+const frame = document.querySelector('#play_5')
 const canvas_1 = frame.querySelector('.canvas_1');
 const canvas_2 = frame.querySelector('.canvas_2');
 const c = canvas_1.getContext('2d');
@@ -11,12 +11,12 @@ c.height = canvas_1.height;
 c2.width = canvas_2.width;
 c2.height = canvas_2.height;
 
-let policyName = "td";
+let policyName = "q";
 let game = new Game(c, c2, 0, policyName);
 
 frame.querySelector('#btn_0_q_learing').addEventListener("click", function() {
     this.disabled = true;
-    game.run_td(100).then(() => {
+    game.run_td(10).then(() => {
         this.disabled = false;
     });
 });

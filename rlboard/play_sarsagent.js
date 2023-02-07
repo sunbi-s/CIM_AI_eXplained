@@ -16,7 +16,7 @@ let game = new Game(c, c2, 0, policyName);
 
 frame.querySelector('#btn_0_sarsagent').addEventListener("click", function() {
     this.disabled = true;
-    game.run_td(100).then(() => {
+    game.run_td(10).then(() => {
         this.disabled = false;
     });
 });

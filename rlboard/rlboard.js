@@ -148,6 +148,9 @@ export class Game{
                 this.agent = new MCAgent(this.environment);
                 break;
             case "td":
+                this.agent = new SARSAgent(this.environment);
+                break;
+            case "q":
                 this.agent = new QLearningAgent(this.environment);
                 break;
             default:
@@ -186,6 +189,7 @@ export class Game{
             }
         }
     }
+
     async run(max_episode_num) {
         for (let episode = 1; episode <= max_episode_num; ++episode) {
             let next_state, action, reward, done;
@@ -200,20 +204,23 @@ export class Game{
                 // render
                 this.render();
 
+                // get action
+                action = this.agent.getAction(state);
+
+                // step
                 [next_state, reward, done] = this.environment.step(action);
-                console.log(next_state, reward, done)
-                //save sample
+
+                // save sample
                 this.agent.saveSample(next_state, reward, done)
 
-                // get action
-                action = this.agent.getAction(next_state)
-
-                //episode done
+                // episode done
                 if (done) {
                     this.agent.update()
-                    console.log("[episode", episode, "] done in", step, "steps");
+                    console.log(this.agent.constructor.name, ": [episode", episode, "] done in", step, "steps");
                     this.render()
                     break;
+                } else {
+                    state = [next_state[0],next_state[1]];
                 }
 
                 //render
@@ -228,35 +235,36 @@ export class Game{
     async run_td(max_episode_num) {
         for (let episode = 1; episode <= max_episode_num; ++episode) {
             let next_state, action, reward, done;
-            let state = this.environment.reset()
+            let state = this.environment.reset();
+
             //render
-            this.render()
-            // draw q-value table? 어떤식으로?
+            this.render();
 
             //step
             for (let step = 1; step < 1000; ++step) {
-
                 // get action
                 action = this.agent.getAction(state.toString());
          
-                //step
+                // step
                 [next_state, reward, done] = this.environment.step(action);
-                // console.log(state, next_state);
+
                 this.agent.learn(state.toString(), action, reward, next_state.toString());
 
-                // 다시 대입
-                state = [next_state[0],next_state[1]];
-
-                //episode done
+                // episode done
                 if (done) {
+                    console.log(this.agent.constructor.name, ": [episode", episode, "] done in", step, "steps");
+                    this.render()
                     break;
+                }
+                else {
+                    state = [next_state[0],next_state[1]];
                 }
 
                 //render
                 this.render()
 
                 //delay
-                await sleep(100);
+                await sleep(10);
             }
         }
 
