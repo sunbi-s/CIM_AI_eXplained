@@ -259,6 +259,46 @@ export class Game{
                 await sleep(100);
             }
         }
+
+    
+    
+    }
+
+    async run_test(max_episode_num) {
+        for (let episode = 1; episode <= max_episode_num; ++episode) {
+            let next_state, action, reward, done;
+            let state = this.environment.reset()
+            //render
+            this.render()
+            // draw q-value table? 어떤식으로?
+
+            //step
+            for (let step = 1; step < 1000; ++step) {
+
+                // get action
+                action = this.agent.get_optimal_action(state.toString());
+         
+                //step
+                [next_state, reward, done] = this.environment.step(action);
+
+                // 다시 대입
+                state = [next_state[0],next_state[1]];
+
+                //episode done
+                if (done) {
+                    break;
+                }
+
+                //render
+                this.render()
+
+                //delay
+                await sleep(100);
+            }
+        }
+
+    
+    
     }
 
 
