@@ -88,6 +88,12 @@ export class MCAgent{
         }
     }
 
+    get_optimal_action(state) {
+        let next_state = this._possible_next_state(state);
+        let action = this._arg_max(next_state);
+        return action;
+    }
+
     // Calculate arg_max if there are multiple candidates and return one randomly
     _arg_max(next_state) {
         let max_index_list = [];
@@ -156,6 +162,10 @@ export class QLearningAgent {
         else {
         return this._arg_max(this._getState(state));
         }
+    }
+
+    get_optimal_action(state) {
+        return this._arg_max(this._getState(state));
     }
 
     _arg_max(stateAction) {
