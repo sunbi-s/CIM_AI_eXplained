@@ -35,6 +35,7 @@ btnTest.addEventListener("click", function() {
 
 btnReset.addEventListener("click", function() {
     game.environment.reset();
+    game.render();
     // TODO: implementation
     // 에이전트 리셋
 });
