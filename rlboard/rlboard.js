@@ -1,5 +1,5 @@
 import configs from "./config.js";
-import { ControlAgent, RandomAgent, MCAgent, SARSAgent, QLearningAgent } from "./agents.js";
+import { ControlAgent, RandomAgent, MCAgent, QLearningAgent } from "./agents.js";
 
 const boardShape = [10, 10];
 const nodeScale = 1 / boardShape[0]; //  400/10 40 -> 10
@@ -148,9 +148,6 @@ export class Game{
                 this.agent = new MCAgent(this.environment);
                 break;
             case "td":
-                this.agent = new SARSAgent(this.environment);
-                break;
-            case "q":
                 this.agent = new QLearningAgent(this.environment);
                 break;
             default:
@@ -231,7 +228,7 @@ export class Game{
             }
         }
     }
-    //  Q_learingAgent
+
     async run_td(max_episode_num) {
         for (let episode = 1; episode <= max_episode_num; ++episode) {
             let next_state, action, reward, done;

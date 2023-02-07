@@ -14,9 +14,11 @@ c2.height = canvas_2.height;
 let policyName = "random";
 let game = new Game(c, c2, 0, policyName);
 
-frame.querySelector('#btn_0_random').addEventListener("click", function() {
-    this.disabled = true;
+let btnTest = frame.querySelector('.btn_test');
+
+btnTest.addEventListener("click", function() {
+    btnTest.disabled = true;
     game.run(10).then(() => {
-        this.disabled = false;
+        btnTest.disabled = false;
     });
 });

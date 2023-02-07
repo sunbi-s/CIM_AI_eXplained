@@ -140,6 +140,7 @@ export class MCAgent{
         return next_state;
     }
 }
+
 export class QLearningAgent {
     constructor(env) {
         this.actions = env.actions;
@@ -213,75 +214,3 @@ export class QLearningAgent {
         return this.qTable[state];
     }
 }
-
-export class SARSAgent {
-    constructor(env) {
-      this.actions = env.actions;
-      this.learning_rate = 0.1;
-      this.discount_factor = 0.9;
-      this.epsilon = 0.3;
-      this.qTable = new Map();
-    }
-  
-    // Update the Q-table based on a sample of the form (state, action, reward, next_state, next_action)
-    learn(state, action, reward, next_state, next_action) {
-      let currentQ = this._getQValue(state, action);
-      let nextStateQ = this._getQValue(next_state, next_action);
-      let newQ = currentQ + this.learning_rate * (reward + this.discount_factor * nextStateQ - currentQ);
-      this._setQValue(state, action, newQ);
-    }
-  
-    // Return an action based on the epsilon-greedy policy
-    getAction(state) {
-      if (Math.random() < this.epsilon) {
-        // Return a random action
-        return Math.floor(Math.random() * this.actions.length);
-      } else {
-        // Return the action with the highest expected reward
-        return this._argMax(this._getState(state));
-      }
-    }
-  
-    // Return the action with the highest expected reward
-    _argMax(stateAction) {
-      let maxIndexList = [];
-      let maxValue = stateAction[0];
-      for (let i = 0; i < stateAction.length; i++) {
-        if (stateAction[i] > maxValue) {
-          maxIndexList = [];
-          maxValue = stateAction[i];
-          maxIndexList.push(i);
-        } else if (stateAction[i] === maxValue) {
-          maxIndexList.push(i);
-        }
-      }
-      return Math.floor(Math.random() * maxIndexList.length);
-    } 
-  
-    _getQValue(state, action) {
-      if (!this.qTable.has(state)) {
-        this.qTable.set(state, Array(this.actions.length).fill(0));
-      }
-      return this.qTable.get(state)[action];
-    }
-
-    _getState(state) {
-        if (!this.qTable.has(state)) {
-          this.qTable.set(state, Array(this.actions.length).fill(0));
-        }
-        return this.qTable.get(state);
-      }
-  
-    _setQValue(state, action, value) {
-      if (!this.qTable.has(state)) {
-          this.qTable.set(state, Array(this.actions.length).fill(0));
-      }
-      let stateAction = this.qTable.get(state);
-      stateAction[action] = value;
-      this.qTable.set(state, stateAction);
-    }
-  }
-
-
-
-
