@@ -219,48 +219,16 @@ export class Game{
                 //render
                 this.render()
 
-                            c2.beginPath();
-                            c2.fillStyle = 'white'
-                            c2.fillRect(x * nodeSize + 1, y * nodeSize + 1, nodeSize - 2, nodeSize - 2);
+                //delay
+                await sleep(10);
+            }
+        }
+    }
+   
 
-                            c2.fillStyle = 'black';
-                            c2.font = "15px serif";
-                            c2.fillText(value, (x + 1 / 4) * nodeSize, (y + 2 / 3) * nodeSize);
-                        }
-                    }
-                    
-                    //step
-                    for (let step = 1; step < 1000; ++step) {
-            
-                        // console.log(action); // ???? 여기에 콘솔 찍으면 step 에서 오류남
-                        [next_state, reward, done] = this.environment.step(action);
-                        
-                        //save sample
-                        agent.save_sample(next_state, reward, done)
-                        
-                        // console.log("action", actions[action],"next_state",next_state, "reward", reward,"step", step, "done", done);
-                        
-                        // get action
-                        action = agent.get_action(next_state)
+        //   SARSAgent"
 
-                        //episode done
-                        if (done) {
-                            agent.update()
-                            agent.samples_clear()
-                            console.log("[episode", episode, "] done in", step, "steps");
-                            this.render()
-                            break;
-                        }
-        
-                        //render
-                        this.render()
-        
-                        //delay
-                        await sleep(100);
-                    }
-                }
-                break;
-            case "SARSAgent":
+     async run_td(max_episode_num) {
                 for (let episode = 1; episode <= max_episode_num; ++episode) {
                     let next_state, action, reward, done, next_action;
                     let state = this.environment.reset();
@@ -281,7 +249,6 @@ export class Game{
                         next_action = agent.get_action(next_state.toString())
 
                         console.log(state.toString(), action, reward, next_state.toString(), next_action)
-                        
                         agent.learn(state.toString(), action, reward, next_state.toString(), next_action)
 
                         // 다시 대입
@@ -304,7 +271,6 @@ export class Game{
 
             
         }
-    }
 }
 
 
