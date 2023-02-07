@@ -190,7 +190,7 @@ export class Game{
         for (let episode = 1; episode <= max_episode_num; ++episode) {
             let next_state, action, reward, done;
             let state = this.environment.reset();
-            action = this.agent.get_action(state);
+            action = this.agent.getAction(state);
 
             //render
             this.render();
@@ -203,10 +203,10 @@ export class Game{
                 [next_state, reward, done] = this.environment.step(action);
                 console.log(next_state, reward, done)
                 //save sample
-                this.agent.save_sample(next_state, reward, done)
+                this.agent.saveSample(next_state, reward, done)
 
                 // get action
-                action = this.agent.get_action(next_state)
+                action = this.agent.getAction(next_state)
 
                 //episode done
                 if (done) {
@@ -237,7 +237,7 @@ export class Game{
             for (let step = 1; step < 1000; ++step) {
 
                 // get action
-                action = this.agent.get_action(state.toString());
+                action = this.agent.getAction(state.toString());
          
                 //step
                 [next_state, reward, done] = this.environment.step(action);
@@ -264,7 +264,7 @@ export class Game{
     
     }
 
-    async run_test(max_episode_num) {
+    async run_td_test(max_episode_num) {
         for (let episode = 1; episode <= max_episode_num; ++episode) {
             let next_state, action, reward, done;
             let state = this.environment.reset()
@@ -280,6 +280,7 @@ export class Game{
          
                 //step
                 [next_state, reward, done] = this.environment.step(action);
+
 
                 // 다시 대입
                 state = [next_state[0],next_state[1]];
@@ -307,7 +308,7 @@ export class Game{
     //     for (let episode = 1; episode <= max_episode_num; ++episode) {
     //         let next_state, action, reward, done, next_action;
     //         let state = this.environment.reset();
-    //         action = this.agent.get_action(state.toString());
+    //         action = this.agent.getAction(state.toString());
 
     //         //render
     //         this.render()
@@ -320,7 +321,7 @@ export class Game{
     //             [next_state, reward, done] = this.environment.step(action);
 
     //             // get action
-    //             next_action = this.agent.get_action(next_state.toString())
+    //             next_action = this.agent.getAction(next_state.toString())
 
     //             // console.log(state.toString(),"action", action,"reward", reward, next_state.toString(), next_action)
     //             this.agent.learn(state.toString(), action, reward, next_state.toString(), next_action)
