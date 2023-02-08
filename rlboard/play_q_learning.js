@@ -31,12 +31,15 @@ btnTrain.addEventListener("click", function() {
 btnTest.addEventListener("click", function() {
     btnTrain.disabled = true;
     btnTest.disabled = true;
-    // TODO: implementation
+    game.run_test(1).then(() => {
+        btnTrain.disabled = false;
+        btnTest.disabled = false;
+    });
 });
 
 btnReset.addEventListener("click", function() {
     game.environment.reset();
+    game.agent.reset()
     game.render();
-    // TODO: implementation
-    // 에이전트 리셋
 });
+

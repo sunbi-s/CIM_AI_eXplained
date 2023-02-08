@@ -160,8 +160,6 @@ export class Game{
     }
     
     render() {
-        // draw environment
-        this.environment.draw(this.context);
 
         // draw value table
         if (this.agent.value_table) {
@@ -185,6 +183,9 @@ export class Game{
                 }
             }
         }
+
+        // draw environment
+        this.environment.draw(this.context);
     }
 
     async run(max_episode_num) {
@@ -210,6 +211,10 @@ export class Game{
                 // save sample
                 this.agent.saveSample(next_state, reward, done)
 
+
+                //render
+                this.render()
+
                 // episode done
                 if (done) {
                     this.agent.update()
@@ -219,9 +224,6 @@ export class Game{
                 } else {
                     state = [next_state[0],next_state[1]];
                 }
-
-                //render
-                this.render()
 
                 //delay
                 await sleep(10);
@@ -236,6 +238,7 @@ export class Game{
 
             //render
             this.render();
+            await sleep(300);
 
             //step
             for (let step = 1; step < 1000; ++step) {
@@ -247,6 +250,9 @@ export class Game{
 
                 this.agent.learn(state.toString(), action, reward, next_state.toString());
 
+                //render
+                this.render()
+
                 // episode done
                 if (done) {
                     console.log(this.agent.constructor.name, ": [episode", episode, "] done in", step, "steps");
@@ -255,10 +261,7 @@ export class Game{
                 }
                 else {
                     state = [next_state[0],next_state[1]];
-                }
-
-                //render
-                this.render()
+                } 
 
                 //delay
                 await sleep(10);
@@ -269,19 +272,21 @@ export class Game{
     
     }
 
-    async run_td_test(max_episode_num) {
+    async run_test(max_episode_num) {
         for (let episode = 1; episode <= max_episode_num; ++episode) {
             let next_state, action, reward, done;
             let state = this.environment.reset()
+            
             //render
             this.render()
+            await sleep(300);
             // draw q-value table? 어떤식으로?
 
             //step
             for (let step = 1; step < 1000; ++step) {
 
                 // get action
-                action = this.agent.get_optimal_action(state.toString());
+                action = this.agent.getOptimalAction(state.toString());
          
                 //step
                 [next_state, reward, done] = this.environment.step(action);
@@ -289,17 +294,17 @@ export class Game{
 
                 // 다시 대입
                 state = [next_state[0],next_state[1]];
+                
+                //render
+                this.render()
 
                 //episode done
                 if (done) {
                     break;
                 }
 
-                //render
-                this.render()
-
                 //delay
-                await sleep(100);
+                await sleep(300);
             }
         }
 
@@ -307,45 +312,4 @@ export class Game{
     
     }
 
-
-    //   SARSAgent
-    // async run_td(max_episode_num) {
-    //     for (let episode = 1; episode <= max_episode_num; ++episode) {
-    //         let next_state, action, reward, done, next_action;
-    //         let state = this.environment.reset();
-    //         action = this.agent.getAction(state.toString());
-
-    //         //render
-    //         this.render()
-    //         // draw q-value table? 어떤식으로?
-
-    //         //step
-    //         for (let step = 1; step < 1000; ++step) {
-
-    //             // console.log(action); // ???? 여기에 콘솔 찍으면 step 에서 오류남
-    //             [next_state, reward, done] = this.environment.step(action);
-
-    //             // get action
-    //             next_action = this.agent.getAction(next_state.toString())
-
-    //             // console.log(state.toString(),"action", action,"reward", reward, next_state.toString(), next_action)
-    //             this.agent.learn(state.toString(), action, reward, next_state.toString(), next_action)
-
-    //             // 다시 대입
-    //             state = next_state
-    //             action = next_action
-
-    //             //episode done
-    //             if (done) {
-    //                 break;
-    //             }
-
-    //             //render
-    //             this.render()
-
-    //             //delay
-    //             await sleep(100);
-    //         }
-    //     }
-    // }
 }

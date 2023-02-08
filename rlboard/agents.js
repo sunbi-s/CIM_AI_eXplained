@@ -139,6 +139,9 @@ export class MCAgent{
         }
         return next_state;
     }
+    reset(){
+        this.value_table = {};
+    }
 }
 
 export class QLearningAgent {
@@ -212,5 +215,8 @@ export class QLearningAgent {
             this.qTable[state] = Array(this.actions.length).fill(0);
         }
         return this.qTable[state];
+    }
+    reset(){
+        this.qTable = {};
     }
 }
