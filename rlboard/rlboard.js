@@ -157,11 +157,9 @@ export class Game{
 
         this.episode_rewards = [];
         this.current_step = 0;
-        this.render();
     }
     
     render() {
-
         // draw value table
         if (this.agent.value_table) {
             this.context_2.beginPath();
@@ -204,20 +202,16 @@ export class Game{
         this.environment.draw(this.context);
     }
 
-    async run(max_episode_num) {
+    async run(max_episode_num, sleep_time=10) {
         for (let episode = 1; episode <= max_episode_num; ++episode) {
             let next_state, action, reward, done;
             let state = this.environment.reset();
             action = this.agent.getAction(state);
 
-            //render
-            this.render();
+            // delay
+            await sleep(sleep_time);
 
-            //step
             for (let step = 1; step < 1000; ++step) {
-                // render
-                this.render();
-
                 // get action
                 action = this.agent.getAction(state);
 
@@ -225,38 +219,31 @@ export class Game{
                 [next_state, reward, done] = this.environment.step(action);
 
                 // save sample
-                this.agent.saveSample(next_state, reward, done)
-
-
-                //render
-                this.render()
+                this.agent.saveSample(next_state, reward, done);
 
                 // episode done
                 if (done) {
                     this.agent.update()
                     console.log(this.agent.constructor.name, ": [episode", episode, "] done in", step, "steps");
-                    this.render()
                     break;
                 } else {
-                    state = [next_state[0],next_state[1]];
+                    state = [next_state[0], next_state[1]];
                 }
 
                 //delay
-                await sleep(10);
+                await sleep(sleep_time);
             }
         }
     }
 
-    async run_td(max_episode_num) {
+    async run_td(max_episode_num, sleep_time=10) {
         for (let episode = 1; episode <= max_episode_num; ++episode) {
             let next_state, action, reward, done;
             let state = this.environment.reset();
 
-            //render
-            this.render();
-            await sleep(300);
+            // delay
+            await sleep(sleep_time);
 
-            //step
             for (let step = 1; step < 1000; ++step) {
                 // get action
                 action = this.agent.getAction(state.toString());
@@ -266,67 +253,55 @@ export class Game{
 
                 this.agent.learn(state.toString(), action, reward, next_state.toString());
 
-                //render
-                this.render()
-
                 // episode done
                 if (done) {
                     console.log(this.agent.constructor.name, ": [episode", episode, "] done in", step, "steps");
-                    this.render()
                     break;
                 }
                 else {
-                    state = [next_state[0],next_state[1]];
+                    state = [next_state[0], next_state[1]];
                 } 
 
-                //delay
-                await sleep(10);
+                // delay
+                await sleep(sleep_time);
             }
         }
-
-    
-    
     }
 
-    async run_test(max_episode_num) {
+    async run_test(max_episode_num, sleep_time=300) {
         for (let episode = 1; episode <= max_episode_num; ++episode) {
             let next_state, action, reward, done;
             let state = this.environment.reset()
-            
-            //render
-            this.render()
-            await sleep(300);
+
+            // delay
+            await sleep(sleep_time);
             // draw q-value table? 어떤식으로?
 
-            //step
             for (let step = 1; step < 1000; ++step) {
-
                 // get action
                 action = this.agent.getOptimalAction(state.toString());
          
-                //step
+                // step
                 [next_state, reward, done] = this.environment.step(action);
 
-
-                // 다시 대입
-                state = [next_state[0],next_state[1]];
-                
-                //render
-                this.render()
-
-                //episode done
+                // episode done
                 if (done) {
                     break;
+                } else {
+                    state = [next_state[0], next_state[1]];
                 }
 
-                //delay
-                await sleep(300);
+                // delay
+                await sleep(sleep_time);
             }
         }
-
-    
-    
     }
-
 }
 
+export function animate(game) {
+    requestAnimationFrame(function (){
+        animate(game);
+    });
+
+    game.render();
+}

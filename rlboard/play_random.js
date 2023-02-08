@@ -1,4 +1,4 @@
-import { Game } from "./rlboard.js";
+import { Game, animate } from "./rlboard.js";
 
 const frame = document.querySelector('#play_2')
 const canvas_1 = frame.querySelector('.canvas_1');
@@ -13,6 +13,7 @@ c2.height = canvas_2.height;
 
 let policyName = "random";
 let game = new Game(c, c2, 0, policyName);
+animate(game);
 
 let btnTest = frame.querySelector('.btn_test');
 
