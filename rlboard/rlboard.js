@@ -32,11 +32,12 @@ class player{
     constructor(position, path) {
         this.position = [position[0], position[1]];
         this.imagePath = path;
+        this.imageIdx = 0;
     }
 
     draw(context) {
         let img = new Image();
-        img.src = this.imagePath;
+        img.src = this.imagePath[this.imageIdx % 10];
         img.onload = () => {
             let startX = this.position[0] * nodeScale * context.width;
             let startY = this.position[1] * nodeScale * context.width;
@@ -44,6 +45,7 @@ class player{
             let height = nodeScale * context.width;
             context.drawImage(img, startX, startY, width, height);
         };
+        this.imageIdx = (this.imageIdx + 1) % this.imagePath.length;
     }
 }
 
@@ -299,9 +301,11 @@ export class Game{
 }
 
 export function animate(game) {
-    requestAnimationFrame(function (){
-        animate(game);
-    });
+    setTimeout(() => {
+        requestAnimationFrame(function () {
+            animate(game);
+        });
+        }, 50);
 
     game.render();
 }

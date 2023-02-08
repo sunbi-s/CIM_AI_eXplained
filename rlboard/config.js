@@ -13,6 +13,15 @@ export default [
             [[0, 5], 1000, true],
         ],
         "agentStartPosition": [0, 0],  // [x, y]
-        "agentImagePath": "../img/rlboard/player.png"
+        "agentImagePath": [
+            "../img/rlboard/slime_0.png",
+            "../img/rlboard/slime_1.png",
+            "../img/rlboard/slime_2.png",
+            "../img/rlboard/slime_3.png",
+            "../img/rlboard/slime_4.png",
+            "../img/rlboard/slime_5.png",
+            "../img/rlboard/slime_6.png",
+            "../img/rlboard/slime_7.png",
+        ]
     },
 ];
