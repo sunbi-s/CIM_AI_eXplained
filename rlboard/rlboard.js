@@ -184,11 +184,11 @@ export class Game{
                         this.context_2.fillStyle = rgb(255, 255, 255)
                     } 
                     else if (value < 0) {
-                        let alpha = Math.abs((value/minValue))/2 + 0.5
+                        let alpha = Math.abs((value/minValue))*(1-0.6) + 0.6
                         this.context_2.fillStyle = rgba(255, 200, 200, alpha)
                     }
                     else {
-                        let alpha = Math.abs((value/maxValue))/2 + 0.5
+                        let alpha = Math.abs((value/maxValue))*(1-0.6) + 0.6
                         this.context_2.fillStyle = rgba(200, 255, 200, alpha)
                     }
                     this.context_2.fillRect(x * nodeScale * this.context_2.width + 1, y * nodeScale * this.context_2.width + 1, nodeScale * this.context_2.width - 2, nodeScale * this.context_2.width - 2);
