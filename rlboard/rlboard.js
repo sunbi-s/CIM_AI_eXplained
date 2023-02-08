@@ -1,5 +1,6 @@
 import configs from "./config.js";
 import { ControlAgent, RandomAgent, MCAgent, QLearningAgent } from "./agents.js";
+import { rgb, rgba } from "./utill.js";
 
 const boardShape = [10, 10];
 const nodeScale = 1 / boardShape[0]; //  400/10 40 -> 10
@@ -172,9 +173,24 @@ export class Game{
                 for (let y = 0; y < boardShape[1]; ++y) {
                     let key = [x, y].toString();
                     let value = this.agent.value_table[key] || 0;
+                    
+                    let maxValue = Math.max(...Object.values(this.agent.value_table))
+                    let minValue = Math.min(...Object.values(this.agent.value_table))
 
                     this.context_2.beginPath();
-                    this.context_2.fillStyle = 'white'
+                    // 기준치를 정해놓고 점점 올라가게? 아니면 현재 상태에 비교해서? <- max랑 차이가 너무 많이 남 나중에 생각
+                    // color
+                    if (value === 0) {
+                        this.context_2.fillStyle = rgb(255, 255, 255)
+                    } 
+                    else if (value < 0) {
+                        let alpha = Math.abs((value/minValue))/2 + 0.5
+                        this.context_2.fillStyle = rgba(255, 200, 200, alpha)
+                    }
+                    else {
+                        let alpha = Math.abs((value/maxValue))/2 + 0.5
+                        this.context_2.fillStyle = rgba(200, 255, 200, alpha)
+                    }
                     this.context_2.fillRect(x * nodeScale * this.context_2.width + 1, y * nodeScale * this.context_2.width + 1, nodeScale * this.context_2.width - 2, nodeScale * this.context_2.width - 2);
 
                     this.context_2.fillStyle = 'black';
@@ -313,3 +329,4 @@ export class Game{
     }
 
 }
+
