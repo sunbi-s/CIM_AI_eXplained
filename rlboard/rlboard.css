@@ -41,9 +41,14 @@
 }
 
 .btn_arrow {
+    margin: 50px;
+    transform: translateY(-20%);
+}
+
+.btn_arrow > button:not(.btn_reset) {
     border: 2px solid pink;
     background-color: rgba(0,0,0,0);
+    font-size: 30px;
     color: pink;
-    padding-left: 8px;
-    padding-right: 8px;
+    padding: 16px 22px;
 }
