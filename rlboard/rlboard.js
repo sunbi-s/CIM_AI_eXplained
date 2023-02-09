@@ -134,9 +134,8 @@ class Environment{
 }
 
 export class Game{
-    constructor(context_1, context_2, seed, policyName) {
-        this.context = context_1;
-        this.context_2 = context_2;
+    constructor(context, seed, policyName) {
+        this.context = context;
         this.environment = new Environment(configs[seed]);
 
         // make agent
@@ -162,44 +161,6 @@ export class Game{
     }
     
     render() {
-        // draw value table
-        if (this.agent.value_table) {
-            this.context_2.beginPath();
-            this.context_2.fillStyle = 'black'
-            this.context_2.fillRect(0, 0, this.context_2.width, this.context_2.height);
-
-            this.context_2.fillStyle = 'black';
-            for (let x = 0; x < boardShape[0]; ++x) {
-                for (let y = 0; y < boardShape[1]; ++y) {
-                    let key = [x, y].toString();
-                    let value = this.agent.value_table[key] || 0;
-                    
-                    let maxValue = Math.max(...Object.values(this.agent.value_table))
-                    let minValue = Math.min(...Object.values(this.agent.value_table))
-
-                    this.context_2.beginPath();
-                    // 기준치를 정해놓고 점점 올라가게? 아니면 현재 상태에 비교해서? <- max랑 차이가 너무 많이 남 나중에 생각
-                    // color
-                    if (value === 0) {
-                        this.context_2.fillStyle = rgb(255, 255, 255)
-                    } 
-                    else if (value < 0) {
-                        let alpha = Math.abs((value/minValue))*(1-0.6) + 0.6
-                        this.context_2.fillStyle = rgba(255, 200, 200, alpha)
-                    }
-                    else {
-                        let alpha = Math.abs((value/maxValue))*(1-0.6) + 0.6
-                        this.context_2.fillStyle = rgba(200, 255, 200, alpha)
-                    }
-                    this.context_2.fillRect(x * nodeScale * this.context_2.width + 1, y * nodeScale * this.context_2.width + 1, nodeScale * this.context_2.width - 2, nodeScale * this.context_2.width - 2);
-
-                    this.context_2.fillStyle = 'black';
-                    this.context_2.font = "15px serif";
-                    this.context_2.fillText(value, (x + 1 / 4) * nodeScale * this.context_2.width, (y + 2 / 3) * nodeScale * this.context_2.width);
-                }
-            }
-        }
-
         // draw environment
         this.environment.draw(this.context);
     }
@@ -295,6 +256,53 @@ export class Game{
 
                 // delay
                 await sleep(sleep_time);
+            }
+        }
+    }
+}
+
+export class MCGame extends Game {
+    constructor(context_1, context_2, seed, policyName) {
+        super(context_1, seed, policyName);
+        this.context_2 = context_2;
+    }
+
+    render() {
+        super.render();
+
+        // draw value table
+        this.context_2.beginPath();
+        this.context_2.fillStyle = 'black'
+        this.context_2.fillRect(0, 0, this.context_2.width, this.context_2.height);
+
+        this.context_2.fillStyle = 'black';
+        for (let x = 0; x < boardShape[0]; ++x) {
+            for (let y = 0; y < boardShape[1]; ++y) {
+                let key = [x, y].toString();
+                let value = this.agent.value_table[key] || 0;
+
+                let maxValue = Math.max(...Object.values(this.agent.value_table))
+                let minValue = Math.min(...Object.values(this.agent.value_table))
+
+                this.context_2.beginPath();
+                // 기준치를 정해놓고 점점 올라가게? 아니면 현재 상태에 비교해서? <- max랑 차이가 너무 많이 남 나중에 생각
+                // color
+                if (value === 0) {
+                    this.context_2.fillStyle = rgb(255, 255, 255)
+                }
+                else if (value < 0) {
+                    let alpha = Math.abs((value/minValue))*(1-0.6) + 0.6
+                    this.context_2.fillStyle = rgba(255, 200, 200, alpha)
+                }
+                else {
+                    let alpha = Math.abs((value/maxValue))*(1-0.6) + 0.6
+                    this.context_2.fillStyle = rgba(200, 255, 200, alpha)
+                }
+                this.context_2.fillRect(x * nodeScale * this.context_2.width + 1, y * nodeScale * this.context_2.width + 1, nodeScale * this.context_2.width - 2, nodeScale * this.context_2.width - 2);
+
+                this.context_2.fillStyle = 'black';
+                this.context_2.font = "15px serif";
+                this.context_2.fillText(value, (x + 1 / 4) * nodeScale * this.context_2.width, (y + 2 / 3) * nodeScale * this.context_2.width);
             }
         }
     }

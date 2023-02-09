@@ -139,6 +139,7 @@ export class MCAgent{
         }
         return next_state;
     }
+
     reset(){
         this.value_table = {};
     }
