@@ -1,0 +1,49 @@
+.btn_train {
+    border: 2px solid palevioletred;
+    background-color: rgba(0,0,0,0);
+    color: palevioletred;
+    padding-left: 8px;
+    padding-right: 8px;
+}
+
+.btn_train:disabled {
+    border: 1px solid palevioletred;
+    padding-left: 7px;
+    padding-right: 7px;
+}
+
+.btn_test {
+    border: 2px solid skyblue;
+    background-color: rgba(0,0,0,0);
+    color: skyblue;
+    padding-left: 8px;
+    padding-right: 8px;
+}
+
+.btn_test:disabled {
+    border: 1px solid skyblue;
+    padding-left: 7px;
+    padding-right: 7px;
+}
+
+.btn_reset {
+    border: 2px solid lightgreen;
+    background-color: rgba(0,0,0,0);
+    color: lightgreen;
+    padding-left: 8px;
+    padding-right: 8px;
+}
+
+.btn_reset:disabled {
+    border: 1px solid lightgreen;
+    padding-left: 7px;
+    padding-right: 7px;
+}
+
+.btn_arrow {
+    border: 2px solid pink;
+    background-color: rgba(0,0,0,0);
+    color: pink;
+    padding-left: 8px;
+    padding-right: 8px;
+}
