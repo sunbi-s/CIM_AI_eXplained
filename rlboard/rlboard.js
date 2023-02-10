@@ -289,7 +289,7 @@ export class MCGame extends Game {
                     this.context_2.fillStyle = rgb(255, 255, 255);
                 }
                 else if (value < 0) {
-                    let alpha = Math.abs((value/minValue))*(1 - 0.6) + 0.6
+                    let alpha = Math.abs((value/minValue))*(1-0.6) + 0.6
                     this.context_2.fillStyle = rgba(255, 200, 200, alpha);
                 }
                 else {
