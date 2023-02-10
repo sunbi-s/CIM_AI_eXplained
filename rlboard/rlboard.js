@@ -232,18 +232,19 @@ export class Game{
     }
 
     async run_test(max_episode_num, sleep_time=300) {
+    
         for (let episode = 1; episode <= max_episode_num; ++episode) {
             let next_state, action, reward, done;
-            let state = this.environment.reset()
+            let state = this.environment.reset();
+            action = this.agent.getAction(state);
 
             // delay
             await sleep(sleep_time);
-            // draw q-value table? 어떤식으로?
 
             for (let step = 1; step < 1000; ++step) {
                 // get action
-                action = this.agent.getOptimalAction(state.toString());
-         
+                action = this.agent.getOptimalAction(state);
+
                 // step
                 [next_state, reward, done] = this.environment.step(action);
 
@@ -254,13 +255,12 @@ export class Game{
                     state = [next_state[0], next_state[1]];
                 }
 
-                // delay
+                //delay
                 await sleep(sleep_time);
             }
         }
     }
 }
-
 export class MCGame extends Game {
     constructor(context_1, context_2, seed, policyName) {
         super(context_1, seed, policyName);

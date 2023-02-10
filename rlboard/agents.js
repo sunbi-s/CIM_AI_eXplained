@@ -82,15 +82,16 @@ export class MCAgent{
             return action;
         } else {
             // Action based on Q-value
-            let next_state = this._possilbeNextState(state);
-            let action = this._argMax(next_state);
+            let next_state_value = this._possilbeNextState(state);
+            let action = this._argMax(next_state_value);
             return action;
         }
     }
 
     getOptimalAction(state) {
-        let next_state = this._possilbeNextState(state);
-        let action = this._argMax(next_state);
+        // Action based on Q-value
+        let next_state_value = this._possilbeNextState(state);
+        let action = this._argMax(next_state_value);
         return action;
     }
 
@@ -115,29 +116,30 @@ export class MCAgent{
         let col = state[0];
         let row = state[1];
         
-        let next_state = [0, 0, 0, 0];
+        let next_state_value = [0, 0, 0, 0];
 
         if (row !== 0) {
-            next_state[0] = this.value_table[[col, row - 1].toString()] || 0;
+            next_state_value[0] = this.value_table[[col, row - 1].toString()] || 0;
         } else {
-            next_state[0] = this.value_table[state.toString()] || 0;
+            next_state_value[0] = this.value_table[state.toString()] || 0;
         }
         if (row !== this.height - 1) {
-            next_state[1] = this.value_table[[col, row + 1].toString()] || 0;
+            next_state_value[1] = this.value_table[[col, row + 1].toString()] || 0;
         } else {
-            next_state[1] = this.value_table[state.toString()] || 0;
+            next_state_value[1] = this.value_table[state.toString()] || 0;
         }
         if (col !== 0) {
-            next_state[2] = this.value_table[[col - 1, row].toString()] || 0;
+            next_state_value[2] = this.value_table[[col - 1, row].toString()] || 0;
         } else {
-            next_state[2] = this.value_table[state.toString()] || 0;
+            next_state_value[2] = this.value_table[state.toString()] || 0;
         }
         if (col !== this.width - 1) {
-            next_state[3] = this.value_table[[col + 1, row].toString()] || 0;
+            next_state_value[3] = this.value_table[[col + 1, row].toString()] || 0;
         } else {
-            next_state[3] = this.value_table[state.toString()] || 0;
+            next_state_value[3] = this.value_table[state.toString()] || 0;
         }
-        return next_state;
+        console.log(next_state_value)
+        return next_state_value;
     }
 
     reset(){
