@@ -45,6 +45,7 @@ export class MCAgent{
         this.samples = [];
         this.value_table = {};
     }
+
     // Add a sample to memory
     saveSample(state, reward, done) {
         let new_state = [state[0], state[1]];
@@ -213,12 +214,14 @@ export class QLearningAgent {
         }
         return Math.max(...this.qTable[state]);
     }
+
     _getState(state) {
         if (!this.qTable[state]) {
             this.qTable[state] = Array(this.actions.length).fill(0);
         }
         return this.qTable[state];
     }
+
     reset(){
         this.qTable = {};
     }

@@ -325,3 +325,15 @@ export function animate(game) {
 
     game.render();
 }
+
+export class TestGame extends Game {
+    constructor(div, seed, policyName) {
+        super(div, seed, policyName);
+        this.div = div;
+    }
+
+    render() {
+        // draw environment
+        this.environment.draw(this.context);
+    }
+}
