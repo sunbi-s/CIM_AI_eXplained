@@ -261,6 +261,7 @@ export class Game{
         }
     }
 }
+
 export class MCGame extends Game {
     constructor(context_1, context_2, seed, policyName) {
         super(context_1, seed, policyName);
