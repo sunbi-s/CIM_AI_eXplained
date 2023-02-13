@@ -1,14 +1,10 @@
 import { Game, animate } from "./rlboard.js";
 
 const frame = document.querySelector('#play_1')
-const canvas_1 = frame.querySelector('.canvas_1');
-const c = canvas_1.getContext('2d');
-
-c.width = canvas_1.width;
-c.height = canvas_1.height;
+const div_1 = frame.querySelector('.div_1');
 
 let policyName = "control";
-let game = new Game(c, 0, policyName);
+let game = new Game(div_1, 0, policyName);
 animate(game);
 
 let state = game.environment.reset();
@@ -18,7 +14,6 @@ let done = false;
 frame.querySelector('.btn_action_0').addEventListener("click", function() {
     if (!done) {
         [state, reward, done] = game.environment.step(0);
-        game.render();
     }
     else {
         throw "reset!!!";
@@ -27,7 +22,6 @@ frame.querySelector('.btn_action_0').addEventListener("click", function() {
 frame.querySelector('.btn_action_1').addEventListener("click", function() {
     if (!done) {
         [state, reward, done] = game.environment.step(1);
-        game.render();
     }
     else {
         throw "reset!!!";
@@ -36,7 +30,6 @@ frame.querySelector('.btn_action_1').addEventListener("click", function() {
 frame.querySelector('.btn_action_2').addEventListener("click", function() {
     if (!done) {
         [state, reward, done] = game.environment.step(2);
-        game.render();
     }
     else {
         throw "reset!!!";
@@ -45,7 +38,6 @@ frame.querySelector('.btn_action_2').addEventListener("click", function() {
 frame.querySelector('.btn_action_3').addEventListener("click", function() {
     if (!done) {
         [state, reward, done] = game.environment.step(3);
-        game.render();
     }
     else {
         throw "reset!!!";
@@ -54,5 +46,4 @@ frame.querySelector('.btn_action_3').addEventListener("click", function() {
 frame.querySelector('.btn_reset').addEventListener("click", function() {
     state = game.environment.reset();
     done = false;
-    game.render();
 });

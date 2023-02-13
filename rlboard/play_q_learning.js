@@ -1,14 +1,10 @@
 import { Game, animate } from "./rlboard.js";
 
 const frame = document.querySelector('#play_4')
-const canvas_1 = frame.querySelector('.canvas_1');
-const c = canvas_1.getContext('2d');
-
-c.width = canvas_1.width;
-c.height = canvas_1.height;
+const div_1 = frame.querySelector('.div_1');
 
 let policyName = "td";
-let game = new Game(c, 0, policyName);
+let game = new Game(div_1, 0, policyName);
 animate(game);
 
 let selectNum = frame.querySelector('.select_num');
@@ -36,7 +32,6 @@ btnTest.addEventListener("click", function() {
 
 btnReset.addEventListener("click", function() {
     game.environment.reset();
-    game.agent.reset()
-    game.render();
+    game.agent.reset();
 });
 
