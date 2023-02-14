@@ -37,7 +37,8 @@ class Node{
         // create dom element
         this.dom = document.createElement('div');
         this.dom.className = 'place';
-        this.dom.innerText = this.reward;
+        // this.dom.innerText = this.reward;
+        this.dom.style.userSelect = 'none';
         let row = this.div.childNodes[this.position.y];
         let cell = row.childNodes[this.position.x];
         cell.appendChild(this.dom);
@@ -63,8 +64,8 @@ class Player{
 
     move(position) {
         //out position check
-        position.y = Math.min(Math.max(0, position.y), boardShape[0] - 1)
-        position.x = Math.min(Math.max(0, position.x), boardShape[1] - 1)
+        position.y = Math.min(Math.max(0, position.y), boardShape[0] - 1);
+        position.x = Math.min(Math.max(0, position.x), boardShape[1] - 1);
 
         this.position.set(position);
 
