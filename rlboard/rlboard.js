@@ -11,7 +11,7 @@ function sleep(msec) {
 }
 
 
-class Position {
+export class Position {
     constructor(y, x) {
         this.y = y;
         this.x = x;
@@ -62,6 +62,10 @@ class Player{
     }
 
     move(position) {
+        //out position check
+        position.y = Math.min(Math.max(0, position.y), boardShape[0] - 1)
+        position.x = Math.min(Math.max(0, position.x), boardShape[1] - 1)
+
         this.position.set(position);
 
         let row = this.div.childNodes[this.position.y];
@@ -127,9 +131,6 @@ class Environment{
         let tempPosition = new Position(this.player.position.y, this.player.position.x);
         tempPosition.y += this.actions[action][0]
         tempPosition.x += this.actions[action][1]
-        //out position check
-        tempPosition.y = Math.min(Math.max(0, tempPosition.y), boardShape[0] - 1)
-        tempPosition.x = Math.min(Math.max(0, tempPosition.x), boardShape[1] - 1)
         this.player.move(tempPosition);
         let next_state = this.player.position.get();
 
