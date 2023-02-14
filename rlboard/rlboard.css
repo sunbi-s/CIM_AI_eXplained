@@ -52,3 +52,31 @@
     color: pink;
     padding: 16px 22px;
 }
+
+.row {
+    height: 40px;
+    width: 400px;
+}
+
+.cell {
+    float: left;
+    background-size: contain;
+    background-position-x: right;
+    height: 40px;
+    width: 40px;
+}
+
+.player {
+    float: left;
+    background-size: contain;
+    height: 40px;
+    width: 40px;
+}
+
+.place {
+    background-size: contain;
+    height: 40px;
+    width: 40px;
+    line-height: 250%;
+    font-size: 15px;
+}

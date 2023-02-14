@@ -14,6 +14,10 @@ export class ControlAgent{
     getAction(state) {
         return Math.floor(Math.random( )*this.n_action);
     }
+
+    reset() {
+        // reset
+    }
 }
 
 export class RandomAgent{
@@ -32,6 +36,10 @@ export class RandomAgent{
     getAction(state) {
         return Math.floor(Math.random( )*this.n_action);
     }
+
+    reset() {
+        // reset
+    }
 }
 
 export class MCAgent{
@@ -45,6 +53,7 @@ export class MCAgent{
         this.samples = [];
         this.value_table = {};
     }
+
     // Add a sample to memory
     saveSample(state, reward, done) {
         let new_state = [state[0], state[1]];
@@ -113,36 +122,35 @@ export class MCAgent{
     }
 
     _possilbeNextState(state) {
-        let col = state[0];
-        let row = state[1];
-        
-        let next_state_value = [0, 0, 0, 0];
+        let row = state[0];
+        let col = state[1];
 
+        let next_state_value = [0, 0, 0, 0];
+        //this.actions = [[-1, 0], [1, 0], [0, -1], [0, 1]];
         if (row !== 0) {
-            next_state_value[0] = this.value_table[[col, row - 1].toString()] || 0;
+            next_state_value[0] = this.value_table[[row - 1, col].toString()] || 0;
         } else {
             next_state_value[0] = this.value_table[state.toString()] || 0;
         }
         if (row !== this.height - 1) {
-            next_state_value[1] = this.value_table[[col, row + 1].toString()] || 0;
+            next_state_value[1] = this.value_table[[row + 1, col].toString()] || 0;
         } else {
             next_state_value[1] = this.value_table[state.toString()] || 0;
         }
         if (col !== 0) {
-            next_state_value[2] = this.value_table[[col - 1, row].toString()] || 0;
+            next_state_value[2] = this.value_table[[row, col -1 ].toString()] || 0;
         } else {
             next_state_value[2] = this.value_table[state.toString()] || 0;
         }
         if (col !== this.width - 1) {
-            next_state_value[3] = this.value_table[[col + 1, row].toString()] || 0;
+            next_state_value[3] = this.value_table[[row, col + 1].toString()] || 0;
         } else {
             next_state_value[3] = this.value_table[state.toString()] || 0;
         }
-        console.log(next_state_value)
         return next_state_value;
     }
 
-    reset(){
+    reset() {
         this.value_table = {};
     }
 }
@@ -213,13 +221,15 @@ export class QLearningAgent {
         }
         return Math.max(...this.qTable[state]);
     }
+
     _getState(state) {
         if (!this.qTable[state]) {
             this.qTable[state] = Array(this.actions.length).fill(0);
         }
         return this.qTable[state];
     }
-    reset(){
+
+    reset() {
         this.qTable = {};
     }
 }

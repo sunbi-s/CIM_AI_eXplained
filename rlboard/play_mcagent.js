@@ -1,18 +1,15 @@
 import { MCGame, animate } from "./rlboard.js";
 
 const frame = document.querySelector('#play_3')
-const canvas_1 = frame.querySelector('.canvas_1');
+const div_1 = frame.querySelector('.div_1');
 const canvas_2 = frame.querySelector('.canvas_2');
-const c = canvas_1.getContext('2d');
-const c2 = canvas_2.getContext('2d');
+const context = canvas_2.getContext('2d');
 
-c.width = canvas_1.width;
-c.height = canvas_1.height;
-c2.width = canvas_2.width;
-c2.height = canvas_2.height;
+context.width = canvas_2.width;
+context.height = canvas_2.height;
 
 let policyName = "mc";
-let game = new MCGame(c, c2, 0, policyName);
+let game = new MCGame(div_1, context, 0, policyName);
 animate(game);
 
 let selectNum = frame.querySelector('.select_num');
