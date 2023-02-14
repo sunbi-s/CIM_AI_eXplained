@@ -1,5 +1,5 @@
 import configs from "./config.js";
-import { ControlAgent, RandomAgent, MCAgent, QLearningAgent } from "./agents.js";
+import { ControlAgent, RandomAgent, MCAgent, QLearningAgent, TDAgent } from "./agents.js";
 import { rgb, rgba } from "./utill.js";
 
 const boardShape = [10, 10];
@@ -179,7 +179,8 @@ export class Game{
                 this.agent = new MCAgent(this.environment);
                 break;
             case "td":
-                this.agent = new QLearningAgent(this.environment);
+                this.agent = new TDAgent(this.environment)
+                // this.agent = new QLearningAgent(this.environment);
                 break;
             default:
                 throw "There is no policy named" + policyName;
@@ -228,8 +229,71 @@ export class Game{
             }
         }
     }
+    
 
     async run_td(max_episode_num, sleep_time=10) {
+        for (let episode = 1; episode <= max_episode_num; ++episode) {
+            let next_state, action ,reward, done;
+            let pre_reward = 0 // check
+            let state = this.environment.reset();
+
+            // delay
+            await sleep(sleep_time);
+
+            for (let step = 1; step < this.max_step_num; ++step) {
+                // get action
+                action = this.agent.getAction(state);
+
+                // step
+                [next_state, reward, done] = this.environment.step(action);
+
+                this.agent.learn(state, pre_reward, reward, next_state, done);
+                pre_reward = reward
+                // episode done
+                if (done) {
+                    console.log(this.agent.constructor.name, ": [episode", episode, "] done in", step, "steps");
+                    break;
+                }
+                else {
+                    state = [next_state[0], next_state[1]];
+                }
+
+                // delay
+                await sleep(sleep_time);
+            }
+        }
+    }
+    
+    async run_test(max_episode_num, sleep_time=300) {
+
+        for (let episode = 1; episode <= max_episode_num; ++episode) {
+            let next_state, action, reward, done;
+            let state = this.environment.reset();
+            action = this.agent.getAction(state);
+
+            // delay
+            await sleep(sleep_time);
+
+            for (let step = 1; step < this.max_step_num; ++step) {
+                // get action
+                action = this.agent.getOptimalAction(state);
+
+                // step
+                [next_state, reward, done] = this.environment.step(action);
+                // episode done
+                if (done) {
+                    break;
+                } else {
+                    state = [next_state[0], next_state[1]];
+                }
+
+                //delay
+                await sleep(sleep_time);
+            }
+        }
+    }
+
+    async run_qtd(max_episode_num, sleep_time=10) {
         for (let episode = 1; episode <= max_episode_num; ++episode) {
             let next_state, action, reward, done;
             let state = this.environment.reset();
@@ -260,35 +324,6 @@ export class Game{
             }
         }
     }
-
-    async run_test(max_episode_num, sleep_time=300) {
-
-        for (let episode = 1; episode <= max_episode_num; ++episode) {
-            let next_state, action, reward, done;
-            let state = this.environment.reset();
-            action = this.agent.getAction(state);
-
-            // delay
-            await sleep(sleep_time);
-
-            for (let step = 1; step < this.max_step_num; ++step) {
-                // get action
-                action = this.agent.getOptimalAction(state);
-
-                // step
-                [next_state, reward, done] = this.environment.step(action);
-                // episode done
-                if (done) {
-                    break;
-                } else {
-                    state = [next_state[0], next_state[1]];
-                }
-
-                //delay
-                await sleep(sleep_time);
-            }
-        }
-    }
 }
 
 export class MCGame extends Game {
@@ -310,8 +345,9 @@ export class MCGame extends Game {
                 let key = [y, x].toString();
                 let value = this.agent.value_table[key] || 0;
 
-                let maxValue = Math.max(...Object.values(this.agent.value_table));
-                let minValue = Math.min(...Object.values(this.agent.value_table));
+                let epsilon = 0.0000000001
+                let maxValue = Math.max(...Object.values(this.agent.value_table))+epsilon ;
+                let minValue = Math.min(...Object.values(this.agent.value_table))+epsilon;
 
                 // 기준치를 정해놓고 점점 올라가게? 아니면 현재 상태에 비교해서? <- max랑 차이가 너무 많이 남 나중에 생각
                 // draw tile color

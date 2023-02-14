@@ -2,8 +2,8 @@ export default [
     {
         "backgroundImagePath": "../img/rlboard/background.png",
         "nodes": [
-            [[5, 1], 10, true],  // [position, reward, final]
-            [[3, 0], 10, true],  //  [y, x]
+            // [position, reward, final]  //  [y, x]
+            [[5, 1], 10, true],  
             [[4, 1], 10, true],
             [[4, 2], 10, true],
             [[3, 4], 10, true],
