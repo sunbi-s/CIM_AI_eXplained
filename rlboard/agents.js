@@ -126,24 +126,24 @@ export class MCAgent{
         let col = state[1];
 
         let next_state_value = [0, 0, 0, 0];
-
+        //this.actions = [[-1, 0], [1, 0], [0, -1], [0, 1]];
         if (row !== 0) {
-            next_state_value[0] = this.value_table[[row, col - 1].toString()] || 0;
+            next_state_value[0] = this.value_table[[row - 1, col].toString()] || 0;
         } else {
             next_state_value[0] = this.value_table[state.toString()] || 0;
         }
         if (row !== this.height - 1) {
-            next_state_value[1] = this.value_table[[row, col + 1].toString()] || 0;
+            next_state_value[1] = this.value_table[[row + 1, col].toString()] || 0;
         } else {
             next_state_value[1] = this.value_table[state.toString()] || 0;
         }
         if (col !== 0) {
-            next_state_value[2] = this.value_table[[row - 1, col].toString()] || 0;
+            next_state_value[2] = this.value_table[[row, col -1 ].toString()] || 0;
         } else {
             next_state_value[2] = this.value_table[state.toString()] || 0;
         }
         if (col !== this.width - 1) {
-            next_state_value[3] = this.value_table[[row + 1, col].toString()] || 0;
+            next_state_value[3] = this.value_table[[row, col + 1].toString()] || 0;
         } else {
             next_state_value[3] = this.value_table[state.toString()] || 0;
         }

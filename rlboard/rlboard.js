@@ -185,7 +185,7 @@ export class Game{
                 throw "There is no policy named" + policyName;
         }
 
-        this.max_step_num = 1000;
+        this.max_step_num = 20;
         this.episode_rewards = [];
         this.current_step = 0;
     }
@@ -277,7 +277,6 @@ export class Game{
 
                 // step
                 [next_state, reward, done] = this.environment.step(action);
-
                 // episode done
                 if (done) {
                     break;

@@ -2,12 +2,12 @@ export default [
     {
         "backgroundImagePath": "../img/rlboard/background.png",
         "nodes": [
-            [[5, 1], -1000, true],  // [position, reward, final]
-            [[3, 0], -1000, true],  //  [y, x]
-            [[4, 1], -1000, true],
-            [[4, 2], -1000, true],
-            [[3, 4], -1000, true],
-            [[3, 5], -1000, true],
+            [[5, 1], 10, true],  // [position, reward, final]
+            [[3, 0], 10, true],  //  [y, x]
+            [[4, 1], 10, true],
+            [[4, 2], 10, true],
+            [[3, 4], 10, true],
+            [[3, 5], 10, true],
             [[2, 5], 1000, true],
             [[1, 5], 10000, true],
             [[0, 5], 1000, true],
