@@ -67,27 +67,19 @@
 }
 
 .player {
-    float: left;
-    background-size: contain;
-    height: 40px;
-    width: 40px;
+    height: inherit;
+    width: inherit;
+    margin-left: -20px;
+    position: absolute;
+    z-index: 2;
 }
 
 .place {
-    background-size: contain;
-    height: 40px;
-    width: 40px;
-    line-height: 250%;
-    font-size: 15px;
-}
-
-.temp {
-    background-image: url("../img/rlboard/temp.png");
-    background-size: contain;
-    opacity: 0.8;
-    height: 40px;
-    width: 40px;
-    border-radius: 30px;
+    height: inherit;
+    width: inherit;
+    margin-left: -20px;
+    position: absolute;
+    z-index: 1;
 }
 
 .draggable {

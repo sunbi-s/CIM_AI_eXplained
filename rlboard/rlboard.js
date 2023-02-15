@@ -38,11 +38,7 @@ class Node{
         // create dom element
         this.dom = document.createElement('img');
         this.dom.className = 'place';
-        // this.dom.innerText = this.reward;
-        // this.dom.style.userSelect = 'none';
-        let row = this.div.childNodes[this.position.y];
-        let cell = row.childNodes[this.position.x];
-        cell.appendChild(this.dom);
+        this.move(this.position);
     }
 
     move(position) {
@@ -59,7 +55,6 @@ class Node{
 
     render() {
         this.dom.src = this.imagePath;
-        // this.dom.style.backgroundColor = "yellow";
     }
 }
 
@@ -153,6 +148,7 @@ class Environment{
         let place = this.board[this.player.position.y][this.player.position.x];
         if (place) {
             reward = place.reward;
+            console.log("reward", reward);
         }
         else{
             reward = 0;
@@ -165,6 +161,15 @@ class Environment{
         }
 
         return [next_state, reward, done]
+    }
+
+    move_node(currentPos, targetPos) {
+        let node = this.board[currentPos.y][currentPos.x];
+        node.move(targetPos);
+
+        // apply to board
+        this.board[targetPos.y][targetPos.x] = node;
+        this.board[currentPos.y][currentPos.x] = null;
     }
 
     render() {
