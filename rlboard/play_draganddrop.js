@@ -31,9 +31,12 @@ tempDom.classList.add("temp");
 
 const playerDom = game.environment.player.dom;
 playerDom.classList.add("draggable");
+playerDom.style.position = "absolute"
 const nodes = game.environment.nodes;
 nodes.forEach((node) => {
     node.dom.classList.add("draggable");
+    console.log(node.dom)
+    node.dom.style.position = "absolute";
 });
 
 
@@ -55,7 +58,8 @@ cells.forEach((cell) => {
         if (cell.childElementCount === 0) {
             cell.appendChild(draggable);
         } else if (draggable.classList.contains("player")) {
-            cell.insertBefore(draggable, cell.firstChild);
+            // cell.insertBefore(draggable, cell.firstChild);
+            cell.appendChild(draggable);
         }
     });
 });
