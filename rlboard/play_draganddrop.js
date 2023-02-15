@@ -6,7 +6,6 @@ div_1.style.cursor = 'pointer';
 
 let policyName = "control";
 let game = new Game(div_1, 0, policyName);
-// game.render();
 animate(game);
 
 let state = game.environment.reset();
@@ -28,33 +27,35 @@ function pixel2pos(pixelY, pixelX) {
 }
 
 let tempDom = document.createElement('div');
-tempDom.className = 'temp';
+tempDom.classList.add("temp");
 
-let playerDom = game.environment.player.dom;
-playerDom.draggable = true;
-playerDom.style.userSelect = "auto";
-playerDom.style.cursor = "move";
-playerDom.addEventListener("dragstart", (e)=> {
-    console.log("dragstart")
-})
-playerDom.addEventListener("drag", (event) => {
-    let [dy, dx] = pixel2pos(event.offsetY, event.offsetX);
-    let [y, x] = game.environment.player.position.get();
-    let newY = Math.min(Math.max(0, y + dy), div_1.childNodes.length - 1);
-    let newX = Math.min(Math.max(0, x + dx), div_1.childNodes[0].childNodes.length - 1);
-    let cell = div_1.childNodes[newY].childNodes[newX];
-    if (cell.childNodes.length > 0 && cell.firstChild !== tempDom) {
-        cell.childNodes[0].appendChild(tempDom);
-    } else {
-        cell.appendChild(tempDom);
-    }
-    tempDom.style.display = 'block';
+const playerDom = game.environment.player.dom;
+playerDom.classList.add("draggable");
+const nodes = game.environment.nodes;
+nodes.forEach((node) => {
+    node.dom.classList.add("draggable");
 });
 
-playerDom.addEventListener("dragend", (event) => {
-    let [dy, dx] = pixel2pos(event.offsetY, event.offsetX);
-    let position = game.environment.player.position;
-    let new_position = new Position(position.y + dy, position.x + dx);
-    game.environment.player.move(new_position);
-    tempDom.style.display = 'none';
+
+const draggables = div_1.querySelectorAll(".draggable");
+draggables.forEach((draggable) => {
+    draggable.addEventListener("dragstart", () => {
+        draggable.classList.add("dragging");
+    })
+    draggable.addEventListener("dragend", () => {
+        draggable.classList.remove("dragging");
+    });
+});
+
+let cells = div_1.querySelectorAll(".cell");
+cells.forEach((cell) => {
+    cell.addEventListener("dragover", (e) => {
+        e.preventDefault();
+        const draggable = div_1.querySelector(".dragging");
+        if (cell.childElementCount === 0) {
+            cell.appendChild(draggable);
+        } else if (draggable.classList.contains("player")) {
+            cell.insertBefore(draggable, cell.firstChild);
+        }
+    });
 });

@@ -28,24 +28,38 @@ export class Position {
 }
 
 class Node{
-    constructor(position, reward, done, div) {
+    constructor(position, reward, done, path, div) {
         this.position = new Position(position.y, position.x);
+        this.imagePath = path;
         this.reward = reward;
         this.done = done;
         this.div = div;
 
         // create dom element
-        this.dom = document.createElement('div');
+        this.dom = document.createElement('img');
         this.dom.className = 'place';
         // this.dom.innerText = this.reward;
-        this.dom.style.userSelect = 'none';
+        // this.dom.style.userSelect = 'none';
         let row = this.div.childNodes[this.position.y];
         let cell = row.childNodes[this.position.x];
         cell.appendChild(this.dom);
     }
 
+    move(position) {
+        //out position check
+        position.y = Math.min(Math.max(0, position.y), boardShape[0] - 1);
+        position.x = Math.min(Math.max(0, position.x), boardShape[1] - 1);
+
+        this.position.set(position);
+
+        let row = this.div.childNodes[this.position.y];
+        let cell = row.childNodes[this.position.x];
+        cell.insertBefore(this.dom, cell.firstChild);
+    }
+
     render() {
-        this.dom.style.backgroundColor = "yellow";
+        this.dom.src = this.imagePath;
+        // this.dom.style.backgroundColor = "yellow";
     }
 }
 
@@ -75,8 +89,7 @@ class Player{
     }
 
     render() {
-        // this.dom.style.backgroundImage = "url(" + this.imagePath[this.imageIdx % 10] + ")";
-        this.dom.src =this.imagePath[this.imageIdx % 10]
+        this.dom.src = this.imagePath[this.imageIdx % 10];
         this.imageIdx = (this.imageIdx + 1) % this.imagePath.length;
     }
 }
@@ -110,8 +123,8 @@ class Environment{
 
         // make nodes
         for (let i=0; i<this.config.nodes.length; ++i) {
-            let [_position, _reward, _done] = this.config.nodes[i];
-            let node = new Node(new Position(_position[0], _position[1]), _reward, _done, this.div);
+            let [_position, _reward, _done, _path] = this.config.nodes[i];
+            let node = new Node(new Position(_position[0], _position[1]), _reward, _done, _path, this.div);
             this.nodes.push(node);
             this.board[_position[0]][_position[1]] = node;
         }
