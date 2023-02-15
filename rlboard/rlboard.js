@@ -57,7 +57,7 @@ class Player{
         this.div = div;
 
         // create dom element
-        this.dom = document.createElement('div');
+        this.dom = document.createElement('img');
         this.dom.className = 'player';
         this.move(this.position);
     }
@@ -75,7 +75,8 @@ class Player{
     }
 
     render() {
-        this.dom.style.backgroundImage = "url(" + this.imagePath[this.imageIdx % 10] + ")";
+        // this.dom.style.backgroundImage = "url(" + this.imagePath[this.imageIdx % 10] + ")";
+        this.dom.src =this.imagePath[this.imageIdx % 10]
         this.imageIdx = (this.imageIdx + 1) % this.imagePath.length;
     }
 }
@@ -100,7 +101,6 @@ class Environment{
             this.div.appendChild(row);
             for (let x=0; x<boardShape[0]; ++x) {
                 this.board[y].push(null);
-
                 let cell = document.createElement('div');
                 cell.className = 'cell';
                 cell.style.backgroundImage = "url('../img/rlboard/background/background_" + (y * boardShape[0] + x + 1).toString() + ".jpg')";
@@ -382,6 +382,7 @@ export class MCGame extends Game {
         }
     }
 }
+
 
 export function animate(game) {
     setTimeout(() => {

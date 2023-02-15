@@ -6,6 +6,7 @@ div_1.style.cursor = 'pointer';
 
 let policyName = "control";
 let game = new Game(div_1, 0, policyName);
+// game.render();
 animate(game);
 
 let state = game.environment.reset();
@@ -30,6 +31,12 @@ let tempDom = document.createElement('div');
 tempDom.className = 'temp';
 
 let playerDom = game.environment.player.dom;
+playerDom.draggable = true;
+playerDom.style.userSelect = "auto";
+playerDom.style.cursor = "move";
+playerDom.addEventListener("dragstart", (e)=> {
+    console.log("dragstart")
+})
 playerDom.addEventListener("drag", (event) => {
     let [dy, dx] = pixel2pos(event.offsetY, event.offsetX);
     let [y, x] = game.environment.player.position.get();
