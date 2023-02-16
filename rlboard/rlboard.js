@@ -168,6 +168,7 @@ class Environment{
         node.move(targetPos);
 
         // apply to board
+        console.log('sdf')
         this.board[targetPos.y][targetPos.x] = node;
         this.board[currentPos.y][currentPos.x] = null;
     }
