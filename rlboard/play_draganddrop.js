@@ -1,30 +1,17 @@
 import { Position, Game, animate } from "./rlboard.js";
 
 const frame = document.querySelector('#play_5')
-const div_1 = frame.querySelector('.div_1');
-div_1.style.cursor = 'pointer';
+const boardDom = frame.querySelector('.board');
+boardDom.style.cursor = 'pointer';
 
 let policyName = "control";
-let game = new Game(div_1, 0, policyName);
+let game = new Game(boardDom, 0, policyName);
 animate(game);
 
 let state = game.environment.reset();
 let reward = 0;
 let done = false;
 
-function pixel2pos(pixelY, pixelX) {
-    let cellHeight = parseInt(getComputedStyle(div_1.childNodes[0].childNodes[0]).height);
-    let y = parseInt(pixelY / cellHeight);
-    if (pixelY < 0) {
-        y -= 1;
-    }
-    let cellWidth = parseInt(getComputedStyle(div_1.childNodes[0].childNodes[0]).width);
-    let x = parseInt(pixelX / cellWidth);
-    if (pixelX < 0) {
-        x -= 1;
-    }
-    return [y, x];
-}
 
 function getCellPosition(div, _cell) {
     for (let y=0; y<div.childElementCount; ++y) {
@@ -48,7 +35,7 @@ nodes.forEach((node) => {
 
 
 // Add drag event
-const draggables = div_1.querySelectorAll(".draggable");
+const draggables = boardDom.querySelectorAll(".draggable");
 draggables.forEach((draggable) => {
     draggable.addEventListener("dragstart", () => {
         draggable.classList.add("dragging");
@@ -58,17 +45,21 @@ draggables.forEach((draggable) => {
     });
 });
 
-let cells = div_1.querySelectorAll(".cell");
+let cells = boardDom.querySelectorAll(".cell");
 cells.forEach((cell) => {
     cell.addEventListener("dragover", (e) => {
         e.preventDefault();
-        const draggable = div_1.querySelector(".dragging");
+        const draggable = boardDom.querySelector(".dragging");
+        if (draggable == null) {
+            return;
+        }
+
         if (draggable.classList.contains("player")) {
-            let cellPosition = getCellPosition(div_1, cell);
+            let cellPosition = getCellPosition(boardDom, cell);
             game.environment.player.move(cellPosition);
         } else if (cell.childElementCount === 0) {
-            let nodePosition = getCellPosition(div_1, draggable.parentNode);
-            let cellPosition = getCellPosition(div_1, cell);
+            let nodePosition = getCellPosition(boardDom, draggable.parentNode);
+            let cellPosition = getCellPosition(boardDom, cell);
             game.environment.move_node(nodePosition, cellPosition);
         }
     });
@@ -91,4 +82,27 @@ frame.querySelector('.btn_action_3').addEventListener("click", function() {
 frame.querySelector('.btn_reset').addEventListener("click", function() {
     state = game.environment.reset();
     done = false;
+});
+
+
+// Add place_creator event
+const place_creator = frame.querySelector(".place_creator");
+place_creator.addEventListener("dragstart", (e) => {
+    console.log("dragstart");
+    // TODO: create 'place' corresponding to current pixel position
+});
+place_creator.addEventListener("dragover", (e) => {
+    e.preventDefault();
+});
+place_creator.addEventListener("drop", (e) => {
+    e.preventDefault();
+    const draggable = boardDom.querySelector(".dragging");
+    if (draggable == null) {
+        return;
+    }
+
+    if (draggable.classList.contains("place")) {
+        console.log("remove", draggable);
+        draggable.remove();
+    }
 });
