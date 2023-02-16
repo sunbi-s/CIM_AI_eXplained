@@ -1,7 +1,7 @@
 import { Position, Game, animate } from "./rlboard.js";
 
 const frame = document.querySelector('#play_5')
-const boardDom = frame.querySelector('.div_1');
+const boardDom = frame.querySelector('.board');
 boardDom.style.cursor = 'pointer';
 
 let policyName = "control";
