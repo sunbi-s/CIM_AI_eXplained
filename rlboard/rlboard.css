@@ -76,8 +76,8 @@
 }
 
 .place {
-    height: inherit;
-    width: inherit;
+    height: 40px;
+    width: 40px;
     margin-left: -20px;
     position: absolute;
     z-index: 1;
@@ -95,6 +95,8 @@
 }
 
 .place_creator {
+    position: relative;
+    top: -130px;
     background-image: url("../img/rlboard/place_creator.png");
     background-size: contain;
     display: inline-block;
@@ -103,4 +105,11 @@
     margin-left: 40px;
     margin-top: 50px;
     margin-bottom: 50px;
+    padding: 30px 20px;
+    cursor: pointer;
+}
+
+.place_creator > img.place {
+    position: relative;
+    margin: 10px;
 }

@@ -25,31 +25,62 @@ function getCellPosition(div, _cell) {
     }
 }
 
+function setDraggable(node) {
+    node.classList.add("draggable");
+    node.addEventListener("dragstart", () => {
+        node.classList.add("dragging");
+    })
+    node.addEventListener("dragend", () => {
+        node.classList.remove("dragging");
+    });
+}
+
 
 const playerDom = game.environment.player.dom;
-playerDom.classList.add("draggable");
+setDraggable(playerDom);
+
 const nodes = game.environment.nodes;
 nodes.forEach((node) => {
-    node.dom.classList.add("draggable");
+    setDraggable(node.dom);
+});
+
+
+// Add place_creator event
+const place_creator = frame.querySelector(".place_creator");
+place_creator.addEventListener("dragover", (e) => {
+    e.preventDefault();
+});
+place_creator.addEventListener("drop", (e) => {
+    e.preventDefault();
+    const draggable = boardDom.querySelector(".dragging");
+    if (draggable == null) {
+        return;
+    }
+
+    if (draggable.classList.contains("place")) {
+        console.log("remove", draggable);
+        draggable.remove();
+    }
+});
+
+
+// Add dummy places into place_creator
+nodes.forEach((node) => {
+    let copied_node = node.dom.cloneNode(true);
+    place_creator.appendChild(copied_node);
+    setDraggable(copied_node);
 });
 
 
 // Add drag event
-const draggables = boardDom.querySelectorAll(".draggable");
-draggables.forEach((draggable) => {
-    draggable.addEventListener("dragstart", () => {
-        draggable.classList.add("dragging");
-    })
-    draggable.addEventListener("dragend", () => {
-        draggable.classList.remove("dragging");
-    });
-});
-
-let cells = boardDom.querySelectorAll(".cell");
+const cells = boardDom.querySelectorAll(".cell");
 cells.forEach((cell) => {
     cell.addEventListener("dragover", (e) => {
         e.preventDefault();
-        const draggable = boardDom.querySelector(".dragging");
+    });
+    cell.addEventListener("drop", (e) => {
+        e.preventDefault();
+        let draggable = frame.querySelector(".dragging");
         if (draggable == null) {
             return;
         }
@@ -58,9 +89,20 @@ cells.forEach((cell) => {
             let cellPosition = getCellPosition(boardDom, cell);
             game.environment.player.move(cellPosition);
         } else if (cell.childElementCount === 0) {
-            let nodePosition = getCellPosition(boardDom, draggable.parentNode);
-            let cellPosition = getCellPosition(boardDom, cell);
-            game.environment.move_node(nodePosition, cellPosition);
+            if (draggable.parentNode.classList.contains("cell")) {
+                let nodePosition = getCellPosition(boardDom, draggable.parentNode);
+                let cellPosition = getCellPosition(boardDom, cell);
+                game.environment.move_node(nodePosition, cellPosition);
+            } else if (draggable.parentNode.classList.contains("place_creator")) {
+                // Create new node
+                let cellPosition = getCellPosition(boardDom, cell);
+                let copied_draggable = game.environment.create_node(cellPosition);
+
+                // Add drag event
+                setDraggable(copied_draggable);
+
+                console.log("create", copied_draggable);
+            }
         }
     });
 });
@@ -82,27 +124,4 @@ frame.querySelector('.btn_action_3').addEventListener("click", function() {
 frame.querySelector('.btn_reset').addEventListener("click", function() {
     state = game.environment.reset();
     done = false;
-});
-
-
-// Add place_creator event
-const place_creator = frame.querySelector(".place_creator");
-place_creator.addEventListener("dragstart", (e) => {
-    console.log("dragstart");
-    // TODO: create 'place' corresponding to current pixel position
-});
-place_creator.addEventListener("dragover", (e) => {
-    e.preventDefault();
-});
-place_creator.addEventListener("drop", (e) => {
-    e.preventDefault();
-    const draggable = boardDom.querySelector(".dragging");
-    if (draggable == null) {
-        return;
-    }
-
-    if (draggable.classList.contains("place")) {
-        console.log("remove", draggable);
-        draggable.remove();
-    }
 });
