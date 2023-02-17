@@ -337,3 +337,14 @@ export class QLearningAgent {
         this.qTable = {};
     }
 }
+
+export class UserAgent{
+    constructor(env) {
+        this.actions = env.actions;
+        this.action_table = {};
+    }
+
+    getAction(state) {
+            
+        }
+}

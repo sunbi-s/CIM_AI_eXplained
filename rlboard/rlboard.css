@@ -83,6 +83,14 @@
     z-index: 1;
 }
 
+.arrow {
+    height: inherit;
+    width: inherit;
+    margin-left: -20px;
+    position: absolute;
+    z-index: 1;
+
+}
 .draggable {
     cursor: move;
 }
