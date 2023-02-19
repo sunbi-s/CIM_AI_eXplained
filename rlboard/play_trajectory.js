@@ -39,21 +39,21 @@ function setDraggable(node) {
 
 function make_action_table(){
     
-    let arrows = board.querySelectorAll(".arrow");
-    
-    arrows.forEach((arrow) => {
+    let arrows = boardDom.getElementsByClassName(".arrow"); // 이거 array 아님
+    Array.from(arrows).forEach((arrow) => {
+        console.log(arrow.classList)
         //posiotin
         let cell = arrow.parentNode;
-        let position = getCellPosition(cell);
+        let position = getCellPosition(boardDom, cell);
         
-        x = position[0];
-        y = position[1];
+        let [y, x] = position.get()
 
         //direction  this.actions = [[-1, 0], [1, 0], [0, -1], [0, 1]];
-        let directions = ['up','down','left','right']
-        for(let i = 1; i < 4; ++i) {
-            if (arrow.contains(directions[i])){
-                
+        let directions = ['.up','.down','.left','.right']
+
+        for(var i = 0; i < 4; ++i) {
+            if (arrow.classList.contains(directions[i])){
+                action_table[x][y] = i
             }
         }
     })
@@ -90,6 +90,8 @@ cells.forEach((cell) => {
         if (cell.childElementCount === 0) {
             cell.appendChild(draggable);
         }
+
+        make_action_table()
     });
 });
 
@@ -99,13 +101,33 @@ let btnTest = frame.querySelector('.btn_test');
 
 btnTest.addEventListener("click", function() {
     btnTest.disabled = true;
+    let action = -1
+    let next_state, state, reward, done
+    
+    done = false
 
     state = game.environment.reset();
-    while (!done) {
-        done = game.environment.step(0);
-        done = true;
+    [next_state, reward, done] = game.environment.step(1);
+    console.log(action_table)
+    state = next_state
+    for (var i = 0; i <100; i++){
+        /// action
+        let y = state[0]
+        let x = state[1]
+        action = action_table[x][y]
+        console.log(action)
+        ////
+
+        if(action == -1){
+            done= true
+            return;
+        }
+
+        [next_state, reward, done] = game.environment.step(action);
+
+        state = next_state
+        if(done){
+            btnTest.disabled = false;
+        }
     }
-    game.run_test(1).then(() => {
-        btnTest.disabled = false;
-    });
 });
