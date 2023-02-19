@@ -173,8 +173,8 @@ class Environment{
         this.board[currentPos.y][currentPos.x] = null;
     }
 
-    create_node(targetPos) {
-        let [_position, _reward, _done, _path] = this.config.nodes[0];
+    create_node(targetPos, index) {
+        let [_position, _reward, _done, _path] = this.config.nodes[index];
         let node = new Node(new Position(targetPos.y, targetPos.x), _reward, _done, _path, this.div);
         this.nodes.push(node);
         this.board[targetPos.y][targetPos.x] = node;

@@ -65,10 +65,13 @@ place_creator.addEventListener("drop", (e) => {
 
 
 // Add dummy places into place_creator
-nodes.forEach((node) => {
+nodes.forEach((node, index) => {
     let copied_node = node.dom.cloneNode(true);
     place_creator.appendChild(copied_node);
     setDraggable(copied_node);
+
+    // set 'index' property to
+    copied_node.index = index;
 });
 
 
@@ -96,7 +99,7 @@ cells.forEach((cell) => {
             } else if (draggable.parentNode.classList.contains("place_creator")) {
                 // Create new node
                 let cellPosition = getCellPosition(boardDom, cell);
-                let copied_draggable = game.environment.create_node(cellPosition);
+                let copied_draggable = game.environment.create_node(cellPosition, draggable.index);
 
                 // Add drag event
                 setDraggable(copied_draggable);
