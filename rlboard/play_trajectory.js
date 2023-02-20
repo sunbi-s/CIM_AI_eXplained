@@ -1,7 +1,8 @@
 import { Position, Game, animate } from "./rlboard.js";
 
 const frame = document.querySelector('#play_6')
-const board = frame.querySelector('.board');
+console.log(frame)
+const board = frame.querySelector('#board');
 board.style.cursor = 'pointer';
 
 let policyName = "control";
@@ -69,18 +70,6 @@ let y = 0
 board.querySelectorAll(".cell")[10*y + x].appendChild(tempdiv)
 ////////////////////////
 
-function getCellPosition(div, _cell) {
-    for (let y=0; y<div.childElementCount; ++y) {
-        let row = div.childNodes[y];
-        for (let x=0; x<row.childElementCount; ++x) {
-            let cell = row.childNodes[x];
-            if (cell === _cell) {
-                return new Position(y, x);
-            }
-        }
-    }
-}
-
 // drag 중인 객체 구분
 const draggables = board.querySelectorAll(".draggable");
 draggables.forEach((draggable) => {
@@ -113,11 +102,10 @@ let btnTest = frame.querySelector('.btn_test');
 btnTest.addEventListener("click", function() {
     btnTest.disabled = true;
     
-    let state,  
     let done = false
 
     while(!done){
-        = environment.reset()
+        let kd = environment.reset()
     }
     game.run_test(1).then(() => {
         btnTrain.disabled = false;
