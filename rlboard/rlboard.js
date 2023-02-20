@@ -17,100 +17,29 @@ export class Position {
         this.x = x;
     }
 
-    set(position) {
-        this.y = position.y;
-        this.x = position.x;
-    }
-
     get() {
         return [this.y, this.x];
     }
 }
 
-class Node{
-    constructor(position, reward, done, path, div) {
-        this.position = new Position(position.y, position.x);
-        this.imagePath = path;
-        this.reward = reward;
-        this.done = done;
-        this.div = div;
-
-        // create dom element
-        this.dom = document.createElement('img');
-        this.dom.className = 'place';
-        this.move(this.position);
-    }
-
-    move(position) {
-        //out position check
-        position.y = Math.min(Math.max(0, position.y), boardShape[0] - 1);
-        position.x = Math.min(Math.max(0, position.x), boardShape[1] - 1);
-
-        this.position.set(position);
-
-        let row = this.div.childNodes[this.position.y];
-        let cell = row.childNodes[this.position.x];
-        cell.insertBefore(this.dom, cell.firstChild);
-    }
-
-    render() {
-        this.dom.src = this.imagePath;
-    }
-}
-
-class Player{
-    constructor(position, path, div) {
-        this.position = new Position(position.y, position.x);
-        this.imagePath = path;
-        this.imageIdx = 0;
-        this.div = div;
-
-        // create dom element
-        this.dom = document.createElement('img');
-        this.dom.className = 'player';
-        this.move(this.position);
-    }
-
-    move(position) {
-        //out position check
-        position.y = Math.min(Math.max(0, position.y), boardShape[0] - 1);
-        position.x = Math.min(Math.max(0, position.x), boardShape[1] - 1);
-
-        this.position.set(position);
-
-        let row = this.div.childNodes[this.position.y];
-        let cell = row.childNodes[this.position.x];
-        cell.insertBefore(this.dom, cell.firstChild);
-    }
-
-    render() {
-        this.dom.src = this.imagePath[this.imageIdx % 10];
-        this.imageIdx = (this.imageIdx + 1) % this.imagePath.length;
-    }
-}
 
 class Environment{
     constructor(div, config) {
-        this.board = [];
-        this.nodes = [];
         this.actions = [[-1, 0], [1, 0], [0, -1], [0, 1]];
         this.div = div;
         this.config = config;
-        this._make_board();
+        this._makeBoard();
     }
 
-    _make_board() {
+    _makeBoard() {
         // make board
         for (let y=0; y<boardShape[0]; ++y) {
-            this.board.push([]);
-
             let row = document.createElement('div');
-            row.className = 'row';
+            row.classList.add("row");
             this.div.appendChild(row);
             for (let x=0; x<boardShape[0]; ++x) {
-                this.board[y].push(null);
                 let cell = document.createElement('div');
-                cell.className = 'cell';
+                cell.classList.add("cell");
                 cell.style.backgroundImage = "url('../img/rlboard/background/background_" + (y * boardShape[0] + x + 1).toString() + ".jpg')";
                 row.appendChild(cell);
             }
@@ -119,76 +48,111 @@ class Environment{
         // make nodes
         for (let i=0; i<this.config.nodes.length; ++i) {
             let [_position, _reward, _done, _path] = this.config.nodes[i];
-            let node = new Node(new Position(_position[0], _position[1]), _reward, _done, _path, this.div);
-            this.nodes.push(node);
-            this.board[_position[0]][_position[1]] = node;
+            let position = new Position(_position[0], _position[1]);
+            this.createPlace(position, i);
         }
 
         // make player
-        let position = new Position(this.config.agentStartPosition[0], this.config.agentStartPosition[1]);
-        this.player = new Player(position, this.config.agentImagePath, this.div);
+        let _position = this.config.agentStartPosition;
+        let position = new Position(_position[0], _position[1]);
+        this._createPlayer(position, this.config.agentImagePath);
+    }
+
+    _getCell(position) {
+        return this.div.querySelectorAll(".cell")[boardShape[0] * position.y + position.x];
+    }
+
+    _movePlayer(action) {
+        // find player position
+        let cells = this.div.querySelectorAll(".cell");
+        let index = Array.from(cells).findIndex((cell) => {
+            return cell === this.player.parentNode;
+        });
+        let y = parseInt(index / boardShape[0]);
+        let x = index % boardShape[0];
+        let targetPos = new Position(y, x);
+
+        // move player position
+        targetPos.y = Math.max(0, Math.min(targetPos.y + this.actions[action][0], boardShape[0] - 1));
+        targetPos.x = Math.max(0, Math.min(targetPos.x + this.actions[action][1], boardShape[1] - 1));
+
+        // append player into target cell
+        let targetCell = this._getCell(targetPos);
+        targetCell.insertBefore(this.player, targetCell.firstChild);
+
+        return [targetPos, targetCell];
     }
 
     reset() {
         let position = new Position(this.config.agentStartPosition[0], this.config.agentStartPosition[1]);
-        this.player.move(position);
-        return this.player.position.get();
+        let player = this.div.querySelector(".player");
+        let cell = this._getCell(position);
+        cell.insertBefore(player, cell.firstChild);
+        return position.get();
     }
 
     step(action) {
-        // move agent
-        let tempPosition = new Position(this.player.position.y, this.player.position.x);
-        tempPosition.y += this.actions[action][0]
-        tempPosition.x += this.actions[action][1]
-        this.player.move(tempPosition);
-        let next_state = this.player.position.get();
-
-        //reward
-        let reward;
-        let place = this.board[this.player.position.y][this.player.position.x];
-        if (place) {
-            reward = place.reward;
-            console.log("reward", reward);
-        }
-        else{
-            reward = 0;
-        }
-
-        // check terminal
+        let reward = 0;
         let done = false;
-        if (place && place.done) {
-            done = true;
+
+        // move player
+        let [position, cell] = this._movePlayer(action);
+        let next_state = position.get();
+
+        // check state
+        let place = cell.lastChild;
+        if (place.classList.contains("place")) {
+            reward = place.reward;
+            done = place.done;
+            console.log("reward", reward, "done", done);
         }
 
         return [next_state, reward, done]
     }
 
-    move_node(currentPos, targetPos) {
-        let node = this.board[currentPos.y][currentPos.x];
-        node.move(targetPos);
-
-        // apply to board
-        console.log('sdf')
-        this.board[targetPos.y][targetPos.x] = node;
-        this.board[currentPos.y][currentPos.x] = null;
+    moveNode(node, targetPos) {
+        let targetCell = this._getCell(targetPos);
+        targetCell.appendChild(node);
     }
 
-    create_node(targetPos, index) {
+    createPlace(targetPos, index) {
         let [_position, _reward, _done, _path] = this.config.nodes[index];
-        let node = new Node(new Position(targetPos.y, targetPos.x), _reward, _done, _path, this.div);
-        this.nodes.push(node);
-        this.board[targetPos.y][targetPos.x] = node;
-        return node.dom;
+
+        // create dom element
+        let place = document.createElement('img');
+        place.classList.add("place");
+        place.reward = _reward;
+        place.done = _done;
+        place.imagePath = _path;
+        place.setAttribute("placeIndex", index);
+
+        // append node into target position
+        let cell = this._getCell(targetPos);
+        cell.appendChild(place);
+        return place;
+    }
+
+    _createPlayer(targetPos, imagePath) {
+        let player = document.createElement('img');
+        player.classList.add("player");
+        player.imagePath = imagePath;
+        player.imageIndex = 0;
+        let cell = this._getCell(targetPos);
+        cell.appendChild(player);
+        this.player = player;
     }
 
     render() {
-        // render node
-        this.nodes.forEach(node => {
-            node.render();
+        // render nodes
+        let places = this.div.querySelectorAll(".place");
+        places.forEach((place) => {
+            place.src = place.imagePath;
         });
 
         // render player
-        this.player.render();
+        let player = this.div.querySelector(".player");
+        player.src = player.imagePath[player.imageIndex % 10];
+        player.imageIndex = (player.imageIndex + 1) % player.imagePath.length;
     }
 }
 
@@ -258,7 +222,6 @@ export class Game{
             }
         }
     }
-    
 
     async run_td(max_episode_num, sleep_time=10) {
         for (let episode = 1; episode <= max_episode_num; ++episode) {
