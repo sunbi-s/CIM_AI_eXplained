@@ -1,12 +1,11 @@
 import { Position, Game, animate } from "./rlboard.js";
 
 const frame = document.querySelector('#play_6')
-console.log(frame)
-const board = frame.querySelector('#board');
-board.style.cursor = 'pointer';
+const boardDom = frame.querySelector('.board');
+boardDom.style.cursor = 'pointer';
 
 let policyName = "control";
-let game = new Game(board, 0, policyName);
+let game = new Game(boardDom, 0, policyName);
 animate(game);
 
 let state = game.environment.reset();
@@ -28,87 +27,107 @@ function getCellPosition(div, _cell) {
     }
 }
 
+function setDraggable(node) {
+    node.classList.add("draggable");
+    node.addEventListener("dragstart", () => {
+        node.classList.add("dragging");
+    })
+    node.addEventListener("dragend", () => {
+        node.classList.remove("dragging");
+    });
+}
 
 function make_action_table(){
     
-    arrows = board.querySelectorAll(".arrow");
-    
-    arrows.forEach((arrow) =>{
+    let arrows = boardDom.getElementsByClassName(".arrow"); // 이거 array 아님
+    Array.from(arrows).forEach((arrow) => {
+        console.log(arrow.classList)
         //posiotin
-        cell = arrow.parentNode
-        position = getCellPosition(cell)
+        let cell = arrow.parentNode;
+        let position = getCellPosition(boardDom, cell);
         
-        x = position[0]
-        y = position[1]
+        let [y, x] = position.get()
 
         //direction  this.actions = [[-1, 0], [1, 0], [0, -1], [0, 1]];
-        directions = ['up','down','left','right']
-        for(var i = 1; i <4; i++) {
-            if (arrow.contains(directions[i])){
-                
+        let directions = ['.up','.down','.left','.right']
+
+        for(var i = 0; i < 4; ++i) {
+            if (arrow.classList.contains(directions[i])){
+                action_table[x][y] = i
             }
         }
     })
 
 }
 
-//player
-const playerDom = game.environment.player.dom;
-playerDom.style.position = "absolute"
 
 // 다른 공간에서 화살표를 가져왔다고 생각하고 추가.
 let tempdiv = document.createElement('img');
-tempdiv.src = "../img/rlboard/arrow/up.png"
-tempdiv.classList.add(".arrow")
-tempdiv.classList.add(".up")
-tempdiv.classList.add("draggable")
-//////////////////////////////////////////////////
+tempdiv.src = "../img/rlboard/arrow/up.png";
+tempdiv.classList.add(".arrow");
+tempdiv.classList.add(".up");
+setDraggable(tempdiv);
 
-let x = 3
-let y = 0
+let y = 0;
+let x = 3;
 
-board.querySelectorAll(".cell")[10*y + x].appendChild(tempdiv)
-////////////////////////
+boardDom.querySelectorAll(".cell")[10*y + x].appendChild(tempdiv)
 
-// drag 중인 객체 구분
-const draggables = board.querySelectorAll(".draggable");
-draggables.forEach((draggable) => {
-    draggable.addEventListener("dragstart", () => {
-        console.log(draggable)
-        draggable.classList.add("dragging");
-    })
-    draggable.addEventListener("dragend", () => {
-        draggable.classList.remove("dragging");
-    });
-});
 
 // drag 중인 객체 이동
-let cells = board.querySelectorAll(".cell");
+const cells = boardDom.querySelectorAll(".cell");
 cells.forEach((cell) => {
     cell.addEventListener("dragover", (e) => {
         e.preventDefault();
-        const draggable = board.querySelector(".dragging");
+    });
+    cell.addEventListener("drop", (e) => {
+        e.preventDefault();
+        let draggable = boardDom.querySelector(".dragging");
+        if (draggable == null) {
+            return;
+        }
+
         if (cell.childElementCount === 0) {
             cell.appendChild(draggable);
-        } else if (draggable.classList.contains("player")) {
-            // cell.insertBefore(draggable, cell.firstChild);
-            cell.appendChild(draggable);
         }
+
+        make_action_table()
     });
 });
 
+
+// Add btn event
 let btnTest = frame.querySelector('.btn_test');
 
 btnTest.addEventListener("click", function() {
     btnTest.disabled = true;
+    let action = -1
+    let next_state, state, reward, done
     
-    let done = false
+    done = false
 
-    while(!done){
-        let kd = environment.reset()
+    state = game.environment.reset();
+    [next_state, reward, done] = game.environment.step(1);
+    console.log(action_table)
+    state = next_state
+    for (var i = 0; i <100; i++){
+        /// action
+        let y = state[0]
+        let x = state[1]
+        action = action_table[x][y]
+        console.log(action)
+        ////
+
+        if(action == -1){
+            done= true
+            return;
+        }
+
+        [next_state, reward, done] = game.environment.step(action);
+
+        state = next_state
+        if(done){
+            btnTest.disabled = false;
+        }
     }
-    game.run_test(1).then(() => {
-        btnTrain.disabled = false;
-        btnTest.disabled = false;
-    });
 });

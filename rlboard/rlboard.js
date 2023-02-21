@@ -1,5 +1,5 @@
 import configs from "./config.js";
-import { ControlAgent, RandomAgent, MCAgent, QLearningAgent, TDAgent } from "./agents.js";
+import { ControlAgent, RandomAgent, MCAgent, TDAgent } from "./agents.js";
 import { rgb, rgba } from "./utill.js";
 
 const boardShape = [10, 10];
@@ -171,6 +171,14 @@ class Environment{
         console.log('sdf')
         this.board[targetPos.y][targetPos.x] = node;
         this.board[currentPos.y][currentPos.x] = null;
+    }
+
+    create_node(targetPos, index) {
+        let [_position, _reward, _done, _path] = this.config.nodes[index];
+        let node = new Node(new Position(targetPos.y, targetPos.x), _reward, _done, _path, this.div);
+        this.nodes.push(node);
+        this.board[targetPos.y][targetPos.x] = node;
+        return node.dom;
     }
 
     render() {
