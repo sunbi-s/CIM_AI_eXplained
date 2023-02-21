@@ -77,7 +77,7 @@
     width: inherit;
     margin-left: -20px;
     position: absolute;
-    z-index: 2;
+    z-index: 3;
 }
 
 .place {
@@ -90,12 +90,11 @@
 }
 
 .arrow {
-    height: inherit;
-    width: inherit;
+    height: 40px;
+    width: 40px;
     margin-left: -20px;
     position: absolute;
-    z-index: 1;
-
+    z-index: 2;
 }
 .draggable {
     cursor: move;
@@ -122,7 +121,7 @@
     cursor: pointer;
 }
 
-.place_creator > img.place {
+.place_creator > img {
     position: relative;
     margin: 10px;
 }

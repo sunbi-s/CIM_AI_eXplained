@@ -20,6 +20,24 @@ export class ControlAgent{
     }
 }
 
+export class UserAgent{
+    constructor(env) {
+        this.n_action = env.actions.length;
+        this.action_table = Array.from(Array(10), () => Array(10).fill(-1));
+    }
+
+    getAction(state) {
+        let y = state[0]
+        let x = state[1]
+        let action =  this.action_table[x][y]
+        return action
+    }
+
+    reset() {
+        // reset
+    }
+}
+
 export class RandomAgent{
     constructor(env) {
         this.n_action = env.actions.length;
@@ -336,15 +354,4 @@ export class QLearningAgent {
     reset() {
         this.qTable = {};
     }
-}
-
-export class UserAgent{
-    constructor(env) {
-        this.actions = env.actions;
-        this.action_table = {};
-    }
-
-    getAction(state) {
-            
-        }
 }
