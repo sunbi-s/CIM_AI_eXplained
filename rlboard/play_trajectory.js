@@ -61,20 +61,8 @@ function make_action_table(){
 }
 
 
-// 다른 공간에서 화살표를 가져왔다고 생각하고 추가.
-let tempdiv = document.createElement('img');
-tempdiv.src = "../img/rlboard/arrow/up.png";
-tempdiv.classList.add("arrow");
-tempdiv.classList.add("up");
-setDraggable(tempdiv);
-
-let y = 0;
-let x = 3;
-
-boardDom.querySelectorAll(".cell")[10*y + x].appendChild(tempdiv)
-
 ///
-make_action_table()
+make_action_table();
 
 // drag 중인 객체 이동
 const cells = boardDom.querySelectorAll(".cell");
@@ -84,75 +72,52 @@ cells.forEach((cell) => {
     });
     cell.addEventListener("drop", (e) => {
         e.preventDefault();
-        let draggable = boardDom.querySelector(".dragging");       
+        let draggable = frame.querySelector(".dragging");
         if (draggable == null) {
             return;
         }
         // 여기 바꿔야됨
         let drop = true
-        Array.from(cell.children).forEach((child) => {
-            if(child.classList.contains('place')){
-                drop = false
-            }
-        })
+        // Array.from(cell.children).forEach((child) => {
+        //     if(child.classList.contains('place')){
+        //         drop = false
+        //     }
+        // })
         if (drop) {
-            cell.appendChild(draggable);
-        }
-        make_action_table()
-
-
-
-        // create node
-        if (cell.childElementCount === 0) {
+            console.log(draggable);
             if (draggable.parentNode.classList.contains("cell")) {
-                let nodePosition = getCellPosition(boardDom, draggable.parentNode);
-                let cellPosition = getCellPosition(boardDom, cell);
-                game.environment.move_node(nodePosition, cellPosition);
-            } else if (draggable.parentNode.classList.contains("place_creator")) {
-                // Create new node
-                let cellPosition = getCellPosition(boardDom, cell);
-                // let copied_draggable = game.environment.create_node(cellPosition, draggable.index);
-                let copied_draggable = document.createElement('img');
-                copied_draggable.classList.add('arrow');
-                boardDom.querySelectorAll(".cell")[10*cellPosition.y + cellPosition.x].appendChild(copied_draggable);
-
-                // Add drag event
+                // move node
+                cell.appendChild(draggable);
+            } else
+            if (draggable.parentNode.classList.contains("place_creator")) {
+                // create node
+                let copied_draggable = draggable.cloneNode(true);
+                cell.appendChild(copied_draggable);
                 setDraggable(copied_draggable);
+                copied_draggable.classList.remove("dragging");
 
                 console.log("create", copied_draggable);
             }
         }
+
+        make_action_table();
     });
 });
 
 
 // Add place_creator event
 const place_creator = frame.querySelector(".place_creator");
-place_creator.addEventListener("dragover", (e) => {
-    e.preventDefault();
-});
-place_creator.addEventListener("drop", (e) => {
-    e.preventDefault();
-    const draggable = boardDom.querySelector(".dragging");
-    if (draggable == null) {
-        return;
-    }
-
-    if (draggable.classList.contains("place")) {
-        console.log("remove", draggable);
-        draggable.remove();
-    }
-});
-
 
 // Add dummy arrow into place_creator
-let tempup = document.createElement('img');
-tempup.src = "../img/rlboard/arrow/up.png";
-tempup.classList.add("arrow");
-tempup.classList.add("up");
-setDraggable(tempup);
-tempup.index = 0;
-place_creator.appendChild(tempup);
+for (const direction of ["up", "down", "left", "right"]) {
+    let tempup = document.createElement('img');
+    tempup.src = "../img/rlboard/arrow/" + direction + ".png";
+    tempup.classList.add("arrow");
+    tempup.classList.add(direction);
+    setDraggable(tempup);
+    tempup.index = 0;
+    place_creator.appendChild(tempup);
+}
 
 
 // Add btn event
