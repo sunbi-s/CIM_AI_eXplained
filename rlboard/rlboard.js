@@ -261,7 +261,6 @@ export class Game{
             }
         }
     }
-    
 
     async run_td(max_episode_num, sleep_time=10) {
         for (let episode = 1; episode <= max_episode_num; ++episode) {
@@ -341,41 +340,6 @@ export class Game{
                 [next_state, reward, done] = this.environment.step(action);
 
                 this.agent.learn(state.toString(), action, reward, next_state.toString());
-
-                // episode done
-                if (done) {
-                    console.log(this.agent.constructor.name, ": [episode", episode, "] done in", step, "steps");
-                    break;
-                }
-                else {
-                    state = [next_state[0], next_state[1]];
-                }
-
-                // delay
-                await sleep(sleep_time);
-            }
-        }
-    }
-    
-    async run_user(max_episode_num, sleep_time=10) {
-        for (let episode = 1; episode <= max_episode_num; ++episode) {
-            let next_state, action, reward, done;
-            let state = this.environment.reset();
-
-            // delay
-            await sleep(sleep_time);
-
-            for (let step = 1; step < this.max_step_num; ++step) {
-                // get action
-                action = this.agent.getAction(state);
-                
-                // stop where node without arrow
-                if (action == -1) {
-                    break;
-                }
-
-                // step
-                [next_state, reward, done] = this.environment.step(action);
 
                 // episode done
                 if (done) {

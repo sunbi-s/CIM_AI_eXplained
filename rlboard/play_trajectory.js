@@ -1,4 +1,4 @@
-import { Position, Game, animate } from "./rlboard.js";
+import { Game, animate } from "./rlboard.js";
 
 const frame = document.querySelector('#play_6')
 const boardDom = frame.querySelector('.board');
@@ -7,23 +7,11 @@ boardDom.style.cursor = 'pointer';
 let policyName = "user";
 let game = new Game(boardDom, 0, policyName);
 animate(game);
-let env = game.environment
-let agent = game.agent
+
 let state = game.environment.reset();
 let reward = 0;
 let done = false;
 
-function getCellPosition(div, _cell) {
-    for (let y=0; y<div.childElementCount; ++y) {
-        let row = div.childNodes[y];
-        for (let x=0; x<row.childElementCount; ++x) {
-            let cell = row.childNodes[x];
-            if (cell === _cell) {
-                return new Position(y, x);
-            }
-        }
-    }
-}
 
 function setDraggable(node) {
     node.classList.add("draggable");
@@ -35,36 +23,57 @@ function setDraggable(node) {
     });
 }
 
-function make_action_table(){
-    let action_table =  Array.from(Array(10), () => Array(10).fill(-1));
-    let arrows = boardDom.getElementsByClassName(".arrow"); // 이거 array 아님
-    Array.from(arrows).forEach((arrow) => {
-     
-        console.log(arrow.classList)
-        //posiotin
-        let cell = arrow.parentNode;
-        let position = getCellPosition(boardDom, cell);
-        
-        let [x, y] = position.get()
+function follow_arrow(game, episodeLength) {
+    let timeout = 200;
+    done = false;
 
-        //direction  this.actions = [[-1, 0], [1, 0], [0, -1], [0, 1]];
-        let directions = ['.up','.down','.left','.right']
+    // loop step
+    let interval = setInterval(() => {
+        if (done) {
+            done = false;
+            clearTimeout(interval);
+            return;
+        }
 
-        for(var i = 0; i < 4; ++i) {
-            if (arrow.classList.contains(directions[i])){
-                action_table[x][y] = i
+        // find action for the arrow
+        let action = -1;
+        for (let child of Array.from(game.environment.player.dom.parentNode.childNodes)) {
+            if (child.classList.contains("arrow")) {
+                action = child.getAttribute("index");
             }
         }
-    })
+        if (action !== -1 && !done) {
+            [state, reward, done] = game.environment.step(action);
+        }
+    }, timeout);
 
-    agent.action_table = action_table
+    // stop interval when reach max episode length
+    setTimeout(() => {
+        clearTimeout(interval);
+    }, timeout * episodeLength);
 }
 
 
-///
-make_action_table();
+// Add place_creator event
+const place_creator = frame.querySelector(".place_creator");
+place_creator.addEventListener("dragover", (e) => {
+    e.preventDefault();
+});
+place_creator.addEventListener("drop", (e) => {
+    e.preventDefault();
+    const draggable = boardDom.querySelector(".dragging");
+    if (draggable == null) {
+        return;
+    }
 
-// drag 중인 객체 이동
+    if (draggable.classList.contains("arrow")) {
+        console.log("remove", draggable);
+        draggable.remove();
+    }
+});
+
+
+// Add drag event
 const cells = boardDom.querySelectorAll(".cell");
 cells.forEach((cell) => {
     cell.addEventListener("dragover", (e) => {
@@ -76,15 +85,11 @@ cells.forEach((cell) => {
         if (draggable == null) {
             return;
         }
-        // 여기 바꿔야됨
-        let drop = true
-        // Array.from(cell.children).forEach((child) => {
-        //     if(child.classList.contains('place')){
-        //         drop = false
-        //     }
-        // })
-        if (drop) {
-            console.log(draggable);
+
+        let hasArrow = Array.from(cell.childNodes).some((elem) => {
+            return elem.classList.contains("arrow");
+        });
+        if (!hasArrow) {
             if (draggable.parentNode.classList.contains("cell")) {
                 // move node
                 cell.appendChild(draggable);
@@ -99,33 +104,32 @@ cells.forEach((cell) => {
                 console.log("create", copied_draggable);
             }
         }
-
-        make_action_table();
     });
 });
 
 
-// Add place_creator event
-const place_creator = frame.querySelector(".place_creator");
-
 // Add dummy arrow into place_creator
-for (const direction of ["up", "down", "left", "right"]) {
-    let tempup = document.createElement('img');
-    tempup.src = "../img/rlboard/arrow/" + direction + ".png";
-    tempup.classList.add("arrow");
-    tempup.classList.add(direction);
-    setDraggable(tempup);
-    tempup.index = 0;
-    place_creator.appendChild(tempup);
+for (const [index, direction] of ["up", "down", "left", "right"].entries()) {
+    let temp = document.createElement('img');
+    temp.src = "../img/rlboard/arrow/" + direction + ".png";
+    temp.classList.add("arrow");
+    temp.classList.add(direction);
+    setDraggable(temp);
+    temp.setAttribute("index", index);
+    place_creator.appendChild(temp);
 }
 
 
 // Add btn event
-let btnTest = frame.querySelector('.btn_test');
-
-btnTest.addEventListener("click", function() {
-    console.log("run")
-    game.run_user(1)
-    console.log("end")
+frame.querySelector('.btn_test').addEventListener("click", function() {
+    follow_arrow(game, 40);
 });
-
+frame.querySelector('.btn_reset').addEventListener("click", function() {
+    state = game.environment.reset();
+    done = true;
+});
+frame.querySelector('.btn_clear').addEventListener("click", function() {
+    boardDom.querySelectorAll(".arrow").forEach((arrow) => {
+        arrow.remove();
+    });
+});
