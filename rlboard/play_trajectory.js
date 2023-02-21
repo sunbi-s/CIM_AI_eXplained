@@ -4,16 +4,14 @@ const frame = document.querySelector('#play_6')
 const boardDom = frame.querySelector('.board');
 boardDom.style.cursor = 'pointer';
 
-let policyName = "control";
+let policyName = "user";
 let game = new Game(boardDom, 0, policyName);
 animate(game);
-
+let env = game.environment
+let agent = game.agent
 let state = game.environment.reset();
 let reward = 0;
 let done = false;
-
-let action_table = Array.from(Array(10), () => Array(10).fill(-1))
-
 
 function getCellPosition(div, _cell) {
     for (let y=0; y<div.childElementCount; ++y) {
@@ -38,15 +36,16 @@ function setDraggable(node) {
 }
 
 function make_action_table(){
-    
+    let action_table =  Array.from(Array(10), () => Array(10).fill(-1));
     let arrows = boardDom.getElementsByClassName(".arrow"); // 이거 array 아님
     Array.from(arrows).forEach((arrow) => {
+     
         console.log(arrow.classList)
         //posiotin
         let cell = arrow.parentNode;
         let position = getCellPosition(boardDom, cell);
         
-        let [y, x] = position.get()
+        let [x, y] = position.get()
 
         //direction  this.actions = [[-1, 0], [1, 0], [0, -1], [0, 1]];
         let directions = ['.up','.down','.left','.right']
@@ -58,14 +57,15 @@ function make_action_table(){
         }
     })
 
+    agent.action_table = action_table
 }
 
 
 // 다른 공간에서 화살표를 가져왔다고 생각하고 추가.
 let tempdiv = document.createElement('img');
 tempdiv.src = "../img/rlboard/arrow/up.png";
-tempdiv.classList.add(".arrow");
-tempdiv.classList.add(".up");
+tempdiv.classList.add("arrow");
+tempdiv.classList.add("up");
 setDraggable(tempdiv);
 
 let y = 0;
@@ -73,6 +73,8 @@ let x = 3;
 
 boardDom.querySelectorAll(".cell")[10*y + x].appendChild(tempdiv)
 
+///
+make_action_table()
 
 // drag 중인 객체 이동
 const cells = boardDom.querySelectorAll(".cell");
@@ -82,52 +84,83 @@ cells.forEach((cell) => {
     });
     cell.addEventListener("drop", (e) => {
         e.preventDefault();
-        let draggable = boardDom.querySelector(".dragging");
+        let draggable = boardDom.querySelector(".dragging");       
         if (draggable == null) {
             return;
         }
-
-        if (cell.childElementCount === 0) {
+        // 여기 바꿔야됨
+        let drop = true
+        Array.from(cell.children).forEach((child) => {
+            if(child.classList.contains('place')){
+                drop = false
+            }
+        })
+        if (drop) {
             cell.appendChild(draggable);
         }
-
         make_action_table()
+
+
+
+        // create node
+        if (cell.childElementCount === 0) {
+            if (draggable.parentNode.classList.contains("cell")) {
+                let nodePosition = getCellPosition(boardDom, draggable.parentNode);
+                let cellPosition = getCellPosition(boardDom, cell);
+                game.environment.move_node(nodePosition, cellPosition);
+            } else if (draggable.parentNode.classList.contains("place_creator")) {
+                // Create new node
+                let cellPosition = getCellPosition(boardDom, cell);
+                // let copied_draggable = game.environment.create_node(cellPosition, draggable.index);
+                let copied_draggable = document.createElement('img');
+                copied_draggable.classList.add('arrow');
+                boardDom.querySelectorAll(".cell")[10*cellPosition.y + cellPosition.x].appendChild(copied_draggable);
+
+                // Add drag event
+                setDraggable(copied_draggable);
+
+                console.log("create", copied_draggable);
+            }
+        }
     });
 });
+
+
+// Add place_creator event
+const place_creator = frame.querySelector(".place_creator");
+place_creator.addEventListener("dragover", (e) => {
+    e.preventDefault();
+});
+place_creator.addEventListener("drop", (e) => {
+    e.preventDefault();
+    const draggable = boardDom.querySelector(".dragging");
+    if (draggable == null) {
+        return;
+    }
+
+    if (draggable.classList.contains("place")) {
+        console.log("remove", draggable);
+        draggable.remove();
+    }
+});
+
+
+// Add dummy arrow into place_creator
+let tempup = document.createElement('img');
+tempup.src = "../img/rlboard/arrow/up.png";
+tempup.classList.add("arrow");
+tempup.classList.add("up");
+setDraggable(tempup);
+tempup.index = 0;
+place_creator.appendChild(tempup);
 
 
 // Add btn event
 let btnTest = frame.querySelector('.btn_test');
 
 btnTest.addEventListener("click", function() {
-    btnTest.disabled = true;
-    let action = -1
-    let next_state, state, reward, done
-    
-    done = false
-
-    state = game.environment.reset();
-    [next_state, reward, done] = game.environment.step(1);
-    console.log(action_table)
-    state = next_state
-    for (var i = 0; i <100; i++){
-        /// action
-        let y = state[0]
-        let x = state[1]
-        action = action_table[x][y]
-        console.log(action)
-        ////
-
-        if(action == -1){
-            done= true
-            return;
-        }
-
-        [next_state, reward, done] = game.environment.step(action);
-
-        state = next_state
-        if(done){
-            btnTest.disabled = false;
-        }
-    }
+    console.log("run")
+    game.run_user(1)
+    console.log("end")
 });
+
