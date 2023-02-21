@@ -44,6 +44,8 @@ function follow_arrow(game, episodeLength) {
         }
         if (action !== -1 && !done) {
             [state, reward, done] = game.environment.step(action);
+        } else {
+            done = true;
         }
     }, timeout);
 
