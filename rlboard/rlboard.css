@@ -86,7 +86,6 @@
     margin-left: -20px;
     position: absolute;
     z-index: 1;
-    user-select: none;
 }
 
 .arrow {

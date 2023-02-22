@@ -36,12 +36,12 @@ function setDraggable(node) {
 }
 
 
-const playerDom = game.environment.player.dom;
-setDraggable(playerDom);
+const player = boardDom.querySelector(".player");
+setDraggable(player);
 
-const nodes = game.environment.nodes;
-nodes.forEach((node) => {
-    setDraggable(node.dom);
+const places = boardDom.querySelectorAll('.place');
+places.forEach((place) => {
+    setDraggable(place);
 });
 
 
@@ -65,13 +65,10 @@ place_creator.addEventListener("drop", (e) => {
 
 
 // Add dummy places into place_creator
-nodes.forEach((node, index) => {
-    let copied_node = node.dom.cloneNode(true);
+places.forEach((place) => {
+    let copied_node = place.cloneNode(true);
     place_creator.appendChild(copied_node);
     setDraggable(copied_node);
-
-    // set 'index' property to
-    copied_node.index = index;
 });
 
 
@@ -89,17 +86,15 @@ cells.forEach((cell) => {
         }
 
         if (draggable.classList.contains("player")) {
-            let cellPosition = getCellPosition(boardDom, cell);
-            game.environment.player.move(cellPosition);
+            cell.insertBefore(draggable, cell.firstChild);
         } else if (cell.childElementCount === 0) {
             if (draggable.parentNode.classList.contains("cell")) {
-                let nodePosition = getCellPosition(boardDom, draggable.parentNode);
                 let cellPosition = getCellPosition(boardDom, cell);
-                game.environment.move_node(nodePosition, cellPosition);
+                game.environment.moveNode(draggable, cellPosition);
             } else if (draggable.parentNode.classList.contains("place_creator")) {
                 // Create new node
                 let cellPosition = getCellPosition(boardDom, cell);
-                let copied_draggable = game.environment.create_node(cellPosition, draggable.index);
+                let copied_draggable = game.environment.createPlace(cellPosition, draggable.getAttribute("placeIndex"));
 
                 // Add drag event
                 setDraggable(copied_draggable);
