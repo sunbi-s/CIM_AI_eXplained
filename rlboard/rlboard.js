@@ -1,5 +1,5 @@
 import configs from "./config.js";
-import { ControlAgent, RandomAgent, MCAgent, TDAgent, UserAgent } from "./agents.js";
+import { ControlAgent, RandomAgent, MCAgent, TDAgent } from "./agents.js";
 import { rgb, rgba } from "./utill.js";
 
 const boardShape = [10, 10];
@@ -165,9 +165,6 @@ export class Game{
             case "control":
                 this.agent = new ControlAgent(this.environment);
                 break;
-            case "user":
-                this.agent = new UserAgent(this.environment);
-                break;
             case "random":
                 this.agent = new RandomAgent(this.environment);
                 break;
@@ -179,7 +176,7 @@ export class Game{
                 // this.agent = new QLearningAgent(this.environment);
                 break;
             default:
-                throw "There is no policy named" + policyName;
+                console.log("[WARN] There is no policy named " + policyName);
         }
 
         this.max_step_num = 20;

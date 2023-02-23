@@ -37,7 +37,8 @@ function follow_arrow(game, episodeLength) {
 
         // find action for the arrow
         let action = -1;
-        for (let child of Array.from(game.environment.player.dom.parentNode.childNodes)) {
+        let player = boardDom.querySelector(".player");
+        for (let child of Array.from(player.parentNode.childNodes)) {
             if (child.classList.contains("arrow")) {
                 action = child.getAttribute("index");
             }
