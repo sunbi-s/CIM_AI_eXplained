@@ -6,7 +6,7 @@ const boardShape = [10, 10];
 const nodeScale = 1 / boardShape[0]; //  400/10 40 -> 10
 
 
-function sleep(msec) {
+export function sleep(msec) {
     return new Promise(resolve => setTimeout(resolve, msec));
 }
 

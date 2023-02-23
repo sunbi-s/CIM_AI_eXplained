@@ -1,7 +1,6 @@
 // import { game } from './play_tdagent.js'
 import { game } from './play_mcagent.js'
 
-const boardShape = [10, 10];
 let frame = document.querySelector("#play_3d_table");
 
 
