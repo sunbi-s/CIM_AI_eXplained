@@ -40,12 +40,12 @@ export class MDP {
             new Edge(0, 1, 0.4, +1),
 
             new Edge(1, 0, 0.1, -1),
-            new Edge(1, 1, 0.9, -1),
+            new Edge(1, 1, 0.9, +0),
 
-            new Edge(2, 3, 0.3, +1),
+            new Edge(2, 3, 0.3, +0),
             new Edge(2, this.DUMMY_IDX, 0.7, +1),  // to dummy node
 
-            new Edge(3, this.END_IDX, 0.8, 10),
+            new Edge(3, this.END_IDX, 0.8, +10),
             new Edge(3, 2, 0.2, -1),
         ];
         this.positions = {
@@ -72,7 +72,9 @@ export class MDP {
             if (candidates[action] === undefined) {
                 return;
             }
-            this.currentIdx = candidates[action].toIdx;
+            let edge = candidates[action];
+            this.currentIdx = edge.toIdx;
+            this.reward += edge.reward;
 
             this.render();
             await sleep(1000);
@@ -98,13 +100,17 @@ export class MDP {
                 let candidates = this.edges.filter((e) => e.fromIdx === this.currentIdx);
                 let edge = weightedRandom(candidates);
                 this.currentIdx = edge.toIdx;
+                this.reward += edge.reward;
             }
         }
 
         this.render();
+
+        console.log("accumulated reward: " + this.reward);
     }
 
     reset() {
         this.currentIdx = this.initIdx;
+        this.reward = 0;
     }
 }
