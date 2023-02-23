@@ -104,7 +104,7 @@ class Environment{
         if (place.classList.contains("place")) {
             reward = place.reward;
             done = place.done;
-            console.log("reward", reward, "done", done);
+            // console.log("reward", reward, "done", done);
         }
 
         return [next_state, reward, done]
@@ -211,7 +211,7 @@ export class Game{
                 // episode done
                 if (done) {
                     this.agent.update()
-                    console.log(this.agent.constructor.name, ": [episode", episode, "] done in", step, "steps");
+                    // console.log(this.agent.constructor.name, ": [episode", episode, "] done in", step, "steps");
                     break;
                 } else {
                     state = [next_state[0], next_state[1]];

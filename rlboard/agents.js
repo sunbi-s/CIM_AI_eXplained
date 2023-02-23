@@ -153,6 +153,20 @@ export class MCAgent{
     reset() {
         this.value_table = {};
     }
+
+    get_value_table() {
+        let value_table = [];
+        for (let y = 0; y < this.height; ++y) {
+            value_table.push([]);
+            for (let x = 0; x < this.width; ++x) {
+                let key = [y, x].toString();
+                let value = this.value_table[key] || 0;
+
+                value_table[y].push(value);
+            }
+        }
+        return value_table
+    }
 }
 
 export class TDAgent {

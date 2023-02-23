@@ -1,6 +1,6 @@
 import { Game, animate } from "./rlboard.js";
 
-const frame = document.querySelector('#play_2')
+const frame = document.querySelector('#play_random')
 const boardDom = frame.querySelector('.board');
 
 let policyName = "random";

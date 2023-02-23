@@ -1,20 +1,46 @@
+// import { game } from './play_tdagent.js'
+import { game } from './play_mcagent.js'
 
-let TESTER = document.getElementById('tester');
+const boardShape = [10, 10];
+let frame = document.querySelector("#play_3d_table");
+
 
 function getData() {
-    var arr = [];
-    for(let i =0;i<10;i++){
-        arr.push(Array(10).fill(Math.random()));
+    let data = game.agent.get_value_table();
+    let max = Math.max(...data.flat());
+
+    // normalize -> [0, 1]
+    let dataNorm = data;
+    if (max > 0) {
+        for (let y = 0; y < dataNorm.length; ++y) {
+            for (let x = 0; x < dataNorm[y].length; ++x) {
+                dataNorm[y][x] /= max;
+            }
+        }
     }
-    return arr;
+
+    return [{
+        z: dataNorm,
+        type: 'surface',
+        colorscale: [
+            ['0.0', 'rgb(255,200,200)'],
+            ['1.0', 'rgb(255,0,0)']
+          ],
+    }]
 }
 
-console.log(getData());
 
-
-var layout = {
-    title: 'test value',
-    scene: {camera: {eye: {x: 1.87, y: 0.88, z: 1.64}}},
+let layout = {
+    title: 'Value Table',
+    scene: {
+        camera: {
+            eye: {x: 1.87, y: 0.88, z: 1.64}
+        },
+        zaxis: {
+            title: "Value",
+            range: [0, 5],
+        }
+    },
     autosize: true,
     width: 1000,
     height: 800,
@@ -27,18 +53,9 @@ var layout = {
       b: 20,
       t: 0,
     },
-    scene:{
-        zaxis:{
-            title: "Value"
-        }
-    }
-  };
+};
 
-
-var data = [{
-    z: getData(),
-    type: 'surface'
-      
-  }]
-
-Plotly.newPlot( TESTER, data, layout);
+Plotly.newPlot(frame, getData(), layout);
+setInterval(() => {
+    Plotly.react(frame, getData(), layout);
+}, 5000);

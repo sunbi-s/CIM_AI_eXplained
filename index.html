@@ -198,7 +198,7 @@
               You can add an introductory text for interactive elements to motivate users to check out the following block.
             </div>
 
-            <div id="play_1" class="play_div">
+            <div id="play_control" class="play_div">
               <div class="board"></div>
 
               <div class="btn_arrow" style="display: inline-block">
@@ -211,7 +211,7 @@
                 <br><br>
                 <button class="btn_reset" style="display: block; margin: auto">Reset</button>
               </div>
-              <script type="module" src="rlboard/play_controllable.js"></script>
+              <script type="module" src="rlboard/play_control.js"></script>
             </div>
 
             <div class="caption"><b>Figure 2:</b><br> Example of an interactive figure: Introducing the 8-Queens problem. Drag and drop queens to change their position. Try to position all queens
@@ -229,7 +229,7 @@
               You can add an introductory text for interactive elements to motivate users to check out the following block.
             </div>
 
-            <div id="play_2" class="play_div">
+            <div id="play_random" class="play_div">
               <div class="board"></div>
               <br>
 
@@ -252,7 +252,7 @@
               You can add an introductory text for interactive elements to motivate users to check out the following block.
             </div>
 
-            <div id="play_3" class="play_div">
+            <div id="play_mc" class="play_div">
               <div class="board"></div>
               <canvas class="canvas_2" width="400px" height="400px"></canvas>
               <br>
@@ -286,7 +286,7 @@
               You can add an introductory text for interactive elements to motivate users to check out the following block.
             </div>
 
-            <div id="play_4" class="play_div">
+            <div id="play_td" class="play_div">
               <div class="board"></div>
               <canvas class="canvas_2" width="400px" height="400px"></canvas>
               <br>
@@ -307,7 +307,27 @@
               such that no two queens share the same row, column, or diagonal. Queens that threaten each other
               will be highlighted in red. In case you found a solution all queens will be highlighted in green.</div>
 
-            <script type="module" src="rlboard/play_td_learning.js"></script>
+            <script type="module" src="rlboard/play_tdagent.js"></script>
+          </div>
+        </div>
+      </section>
+
+      <section id="3dtable">
+        <h3>VI. 3D Value Table</h3>
+        <div class="framed">
+          <div class="inside">
+            <div class="eyebrow">
+              You can add an introductory text for interactive elements to motivate users to check out the following block.
+            </div>
+
+            <div id="play_3d_table">
+            </div>
+
+            <div class="caption"><b>Figure 2:</b><br> Example of an interactive figure: Introducing the 8-Queens problem. Drag and drop queens to change their position. Try to position all queens
+              such that no two queens share the same row, column, or diagonal. Queens that threaten each other
+              will be highlighted in red. In case you found a solution all queens will be highlighted in green.</div>
+
+            <script type="module" src="rlboard/3D_table.js"></script>
           </div>
         </div>
       </section>
@@ -320,7 +340,7 @@
               You can add an introductory text for interactive elements to motivate users to check out the following block.
             </div>
 
-            <div id="play_5" class="play_div">
+            <div id="play_draganddrop" class="play_div">
               <div class="board"></div>
               <div style="display: inline-block;">
                 <div class="place_creator" style="top: -130px"></div>
@@ -372,23 +392,7 @@
         </div>
       </section>
 
-      <section id="3D">
-        <h3>VI. 3D Value Table</h3>
-        <div class="framed">
-          <div class="inside">
-            <div class="eyebrow">
-              You can add an introductory text for interactive elements to motivate users to check out the following block.
-            </div>
-            <div id="tester"></div>
-            <script type="module" src="rlboard/3D_table.js"></script>
-              <div class="caption"><b>Figure 2:</b><br> Example of an interactive figure: Introducing the 8-Queens problem. Drag and drop queens to change their position. Try to position all queens
-                such that no two queens share the same row, column, or diagonal. Queens that threaten each other
-                will be highlighted in red. In case you found a solution all queens will be highlighted in green.</div>
-  
-            </div>
-          </div>
-        </div>
-      </section>
+
 
       <h2 id="commonmistakes">Some Common Mistakes</h2>
 

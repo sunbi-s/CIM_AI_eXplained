@@ -1,6 +1,6 @@
 import { Game, animate } from "./rlboard.js";
 
-const frame = document.querySelector('#play_1')
+const frame = document.querySelector('#play_control')
 const boardDom = frame.querySelector('.board');
 
 let policyName = "control";
