@@ -1,10 +1,10 @@
 import { Game, animate } from "./rlboard.js";
 
 const frame = document.querySelector('#play_1')
-const div_1 = frame.querySelector('.div_1');
+const boardDom = frame.querySelector('.board');
 
 let policyName = "control";
-let game = new Game(div_1, 0, policyName);
+let game = new Game(boardDom, 0, policyName);
 animate(game);
 
 let state = game.environment.reset();

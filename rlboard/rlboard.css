@@ -41,6 +41,7 @@
 }
 
 .btn_arrow {
+    display: inline-block;
     margin: 50px;
     transform: translateY(-20%);
 }
@@ -51,6 +52,11 @@
     font-size: 30px;
     color: pink;
     padding: 16px 22px;
+}
+
+.play_div {
+    text-align: center;
+    user-select: none;
 }
 
 .row {
@@ -67,16 +73,54 @@
 }
 
 .player {
-    float: left;
-    background-size: contain;
-    height: 40px;
-    width: 40px;
+    height: inherit;
+    width: inherit;
+    margin-left: -20px;
+    position: absolute;
+    z-index: 3;
 }
 
 .place {
-    background-size: contain;
     height: 40px;
     width: 40px;
-    line-height: 250%;
-    font-size: 15px;
+    margin-left: -20px;
+    position: absolute;
+    z-index: 1;
+}
+
+.arrow {
+    height: 40px;
+    width: 40px;
+    margin-left: -20px;
+    position: absolute;
+    z-index: 2;
+}
+.draggable {
+    cursor: move;
+}
+
+.board {
+    display: inline-block;
+    width: 400px;
+    height: 400px;
+    margin: auto;
+}
+
+.place_creator {
+    position: relative;
+    background-image: url("../img/rlboard/place_creator.png");
+    background-size: contain;
+    display: inline-block;
+    width: 250px;
+    height: 300px;
+    margin-left: 40px;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    padding: 30px 20px;
+    cursor: pointer;
+}
+
+.place_creator > img {
+    position: relative;
+    margin: 10px;
 }
