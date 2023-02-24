@@ -17,7 +17,7 @@ class MDP_Action extends MDP {
         // draw background image
         let img = new Image();
         img.src = "../img/mdp/action.PNG"
-        this.context.drawImage(img, 0, 50);
+        this.context.drawImage(img, 8, 50);
 
         // draw title text
         this.context.fillStyle = "#e7326b";
