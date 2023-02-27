@@ -185,17 +185,17 @@ export class TDAgent {
     learn(state, pre_reward, reward, next_state, done){
         state = state.toString()
         next_state = next_state.toString()
-        console.log(state, next_state, reward, done)
+        // console.log(state, next_state, reward, done);
 
         let V_next = this.value_table[next_state] || 0 ; //default value
         let V_cur = this.value_table[state] || 0 ; //default value
         this.value_table[state] = V_cur + this.learning_rate * (pre_reward + this.discount_factor * V_next - V_cur);
 
-        console.log(V_cur, V_next)
+        // console.log(V_cur, V_next);
         if (done){
             let V_next_next = 0
             this.value_table[next_state] = V_next + this.learning_rate * (reward + this.discount_factor * V_next_next - V_next); 
-            console.log(this.value_table[next_state])
+            // console.log(this.value_table[next_state]);
         }
 
     }

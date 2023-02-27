@@ -39,5 +39,4 @@ btnTest.addEventListener("click", function() {
 btnReset.addEventListener("click", function() {
     game.environment.reset();
     game.agent.reset()
-    game.render();
 });

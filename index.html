@@ -323,6 +323,26 @@
         </div>
       </section>
 
+      <section id="3dtable">
+        <h3>IX. 3D Value Table</h3>
+        <div class="framed">
+          <div class="inside">
+            <div class="eyebrow">
+              You can add an introductory text for interactive elements to motivate users to check out the following block.
+            </div>
+
+            <div id="play_3d_table">
+            </div>
+
+            <div class="caption"><b>Figure 2:</b><br> Example of an interactive figure: Introducing the 8-Queens problem. Drag and drop queens to change their position. Try to position all queens
+              such that no two queens share the same row, column, or diagonal. Queens that threaten each other
+              will be highlighted in red. In case you found a solution all queens will be highlighted in green.</div>
+
+            <script type="module" src="rlboard/3D_table.js"></script>
+          </div>
+        </div>
+      </section>
+
       <section id="td">
         <h3>VIII. Here is TD agent. Let's play!</h3>
         <div class="framed">
@@ -357,22 +377,37 @@
         </div>
       </section>
 
-      <section id="3dtable">
-        <h3>IX. 3D Value Table</h3>
+      <section id="mcvstd">
+        <h3>VIII. Here is MC vs TD agent. Let's play!</h3>
         <div class="framed">
           <div class="inside">
             <div class="eyebrow">
               You can add an introductory text for interactive elements to motivate users to check out the following block.
             </div>
 
-            <div id="play_3d_table">
+            <div id="play_mc_vs_td" class="play_div">
+              <div class="board"></div>
+              <div class="board"></div>
+              <canvas class="canvas_1" width="400px" height="400px"></canvas>
+              <canvas class="canvas_2" width="400px" height="400px"></canvas>
+              <br>
+
+              <select class="select_num" name="lang">
+                <option value=1>1</option>
+                <option value=10 selected>10</option>
+                <option value=100>100</option>
+                <option value=1000>1000</option>
+              </select>
+              <button class="btn_train">Train</button>
+              <button class="btn_test">Test</button>
+              <button class="btn_reset">Reset</button>
             </div>
 
             <div class="caption"><b>Figure 2:</b><br> Example of an interactive figure: Introducing the 8-Queens problem. Drag and drop queens to change their position. Try to position all queens
               such that no two queens share the same row, column, or diagonal. Queens that threaten each other
               will be highlighted in red. In case you found a solution all queens will be highlighted in green.</div>
 
-            <script type="module" src="rlboard/3D_table.js"></script>
+            <script type="module" src="rlboard/play_mc_vs_td.js"></script>
           </div>
         </div>
       </section>
@@ -421,7 +456,7 @@
 
             <div id="play_6" class="play_div">
               <div class="board"></div>
-              <div class="place_creator"></div>
+              <div class="place_creator" style="top: -180px"></div>
               <br>
               <button class="btn_test">Test</button>
               <button class="btn_reset">Reset</button>

@@ -17,9 +17,10 @@ function getData() {
             }
         }
     }
+    let dataTransposed = dataNorm[0].map((x,i) => dataNorm.map(x => x[i]));
 
     return [{
-        z: dataNorm,
+        z: dataTransposed,
         type: 'surface',
         colorscale: [
             ['0.0', 'rgb(255,200,200)'],

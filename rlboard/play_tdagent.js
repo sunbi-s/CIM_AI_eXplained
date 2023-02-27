@@ -17,7 +17,6 @@ let selectNum = frame.querySelector('.select_num');
 let btnTrain = frame.querySelector('.btn_train');
 let btnTest = frame.querySelector('.btn_test');
 let btnReset = frame.querySelector('.btn_reset');
-
 btnTrain.addEventListener("click", function() {
     btnTrain.disabled = true;
     btnTest.disabled = true;
@@ -39,4 +38,5 @@ btnTest.addEventListener("click", function() {
 btnReset.addEventListener("click", function() {
     game.environment.reset();
     game.agent.reset();
+    console.log(runPromise);
 });
