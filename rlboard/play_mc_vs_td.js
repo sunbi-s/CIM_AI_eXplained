@@ -1,4 +1,4 @@
-import { MCGame, animate } from "./rlboard.js";
+import {MCGame, animate, TDGame} from "./game.js";
 
 const frame = document.querySelector('#play_mc_vs_td');
 const boardDom1 = frame.querySelectorAll('.board')[0];
@@ -13,10 +13,8 @@ context2.width = canvas2.width;
 context2.height = canvas2.height;
 
 
-let policyName1 = "mc";
-let policyName2 = "td";
-export let game1 = new MCGame(boardDom1, context1, 0, policyName1);
-export let game2 = new MCGame(boardDom2, context2, 0, policyName2);
+export let game1 = new MCGame(boardDom1, context1, 0);
+export let game2 = new TDGame(boardDom2, context2, 0);
 animate(game1);
 animate(game2);
 
@@ -26,24 +24,35 @@ let btnTest = frame.querySelector('.btn_test');
 let btnReset = frame.querySelector('.btn_reset');
 
 btnTrain.addEventListener("click", function() {
+    let done1 = false;
+    let done2 = false;
     btnTrain.disabled = true;
     btnTest.disabled = true;
     game1.run(selectNum.value, 100).then(() => {
-        btnTrain.disabled = false;
-        btnTest.disabled = false;
+        done1 = true;
+        btnTrain.disabled = !(done1 && done2);
+        btnTest.disabled = !(done1 && done2);
     });
-    game2.run_td(selectNum.value, 100).then(() => {
-        btnTrain.disabled = false;
-        btnTest.disabled = false;
+    game2.run(selectNum.value, 100).then(() => {
+        done2 = true;
+        btnTrain.disabled = !(done1 && done2);
+        btnTest.disabled = !(done1 && done2);
     });
 });
 btnTest.addEventListener("click", function() {
+    let done1 = false;
+    let done2 = false;
+    btnTrain.disabled = true;
     btnTest.disabled = true;
     game1.run_test(1).then(() => {
-        btnTest.disabled = false;
+        done1 = true;
+        btnTrain.disabled = !(done1 && done2);
+        btnTest.disabled = !(done1 && done2);
     });
     game2.run_test(1).then(() => {
-        btnTest.disabled = false;
+        done2 = true;
+        btnTrain.disabled = !(done1 && done2);
+        btnTest.disabled = !(done1 && done2);
     });
 });
 btnReset.addEventListener("click", function() {

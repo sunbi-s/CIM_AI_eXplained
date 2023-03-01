@@ -1,4 +1,4 @@
-import { MCGame, animate } from "./rlboard.js";
+import { TDGame, animate } from "./game.js";
 
 const frame = document.querySelector('#play_td')
 const boardDom = frame.querySelector('.board');
@@ -9,8 +9,7 @@ context.width = canvas_2.width;
 context.height = canvas_2.height;
 
 
-let policyName = "td";
-export let game = new MCGame(boardDom, context, 0, policyName);
+export let game = new TDGame(boardDom, context, 0);
 animate(game);
 
 let selectNum = frame.querySelector('.select_num');
@@ -20,7 +19,7 @@ let btnReset = frame.querySelector('.btn_reset');
 btnTrain.addEventListener("click", function() {
     btnTrain.disabled = true;
     btnTest.disabled = true;
-    game.run_td(selectNum.value).then(() => {
+    game.run(selectNum.value).then(() => {
         btnTrain.disabled = false;
         btnTest.disabled = false;
     });
@@ -38,5 +37,4 @@ btnTest.addEventListener("click", function() {
 btnReset.addEventListener("click", function() {
     game.environment.reset();
     game.agent.reset();
-    console.log(runPromise);
 });

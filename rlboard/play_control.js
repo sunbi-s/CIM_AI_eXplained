@@ -1,4 +1,4 @@
-import { Game, animate } from "./rlboard.js";
+import { Game, animate } from "./game.js";
 
 const frame = document.querySelector('#play_control')
 const boardDom = frame.querySelector('.board');

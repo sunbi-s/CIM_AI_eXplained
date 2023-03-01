@@ -1,4 +1,4 @@
-import { animate } from "./rlboard.js";
+import { animate } from "./game.js";
 import { MDP } from "./mdp.js";
 
 const frame = document.querySelector('#play_mdp_transition');

@@ -42,8 +42,7 @@
 
 .btn_arrow {
     display: inline-block;
-    margin: 50px;
-    transform: translateY(-20%);
+    margin: 0 50px;
 }
 
 .btn_arrow > button:not(.btn_reset) {
@@ -61,7 +60,6 @@
 
 .row {
     height: 40px;
-    width: 400px;
 }
 
 .cell {
@@ -95,14 +93,13 @@
     position: absolute;
     z-index: 2;
 }
+
 .draggable {
     cursor: move;
 }
 
 .board {
     display: inline-block;
-    width: 400px;
-    height: 400px;
     margin: auto;
 }
 
@@ -114,8 +111,6 @@
     width: 250px;
     height: 300px;
     margin-left: 40px;
-    margin-top: 50px;
-    margin-bottom: 50px;
     padding: 30px 20px;
     cursor: pointer;
 }

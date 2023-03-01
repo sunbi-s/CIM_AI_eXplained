@@ -1,4 +1,4 @@
-import { sleep } from "./rlboard.js"
+import { sleep } from "./utill.js"
 
 function weightedRandom(edges) {
     let i;

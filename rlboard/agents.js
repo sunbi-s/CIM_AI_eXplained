@@ -1,55 +1,24 @@
-export class ControlAgent{
-    constructor(env) {
-        this.n_action = env.actions.length;
-    }
+import { clamp, Position } from "./utill.js";
 
-    saveSample(state, reward, done) {
-        // pass
-    }
-
-    update() {
-        // update
-    }
-
-    getAction(state) {
-        return Math.floor(Math.random( )*this.n_action);
-    }
-
-    reset() {
-        // reset
-    }
-}
 
 export class RandomAgent{
     constructor(env) {
         this.n_action = env.actions.length;
     }
 
-    saveSample(state, reward, done) {
-        // pass
-    }
-
-    update() {
-        // update
-    }
-
     getAction(state) {
         return Math.floor(Math.random( )*this.n_action);
     }
-
-    reset() {
-        // reset
-    }
 }
 
-export class MCAgent{
+export class MCAgent {
     constructor(env) {
-        this.width = 10;
-        this.height = 10;
+        this.height = env.boardShape[0];
+        this.width = env.boardShape[1];
         this.actions = env.actions;
         this.learning_rate = 0.01;
         this.discount_factor = 0.9;
-        this.epsilon = 0.1;
+        this.epsilon = 0.3;
         this.samples = [];
         this.value_table = {};
     }
@@ -85,14 +54,15 @@ export class MCAgent{
     // Return an action based on Q-value
     // Return an action based on epsilon-greedy policy
     getAction(state) {
+        let action;
         if (Math.random() < this.epsilon) {
             // Random action
-            let action = Math.floor(Math.random() * this.actions.length);
+            action = Math.floor(Math.random() * this.actions.length);
             return action;
         } else {
             // Action based on Q-value
             let next_state_value = this._possilbeNextState(state);
-            let action = this._argMax(next_state_value);
+            action = this._argMax(next_state_value);
             return action;
         }
     }
@@ -100,8 +70,7 @@ export class MCAgent{
     getOptimalAction(state) {
         // Action based on Q-value
         let next_state_value = this._possilbeNextState(state);
-        let action = this._argMax(next_state_value);
-        return action;
+        return this._argMax(next_state_value);
     }
 
     // Calculate arg_max if there are multiple candidates and return one randomly
@@ -171,13 +140,12 @@ export class MCAgent{
 
 export class TDAgent {
     constructor(env) {
-        this.width = 10;
-        this.height = 10;
+        this.height = env.boardShape[0];
+        this.width = env.boardShape[1];
         this.actions = env.actions;
         this.learning_rate = 0.01;
         this.discount_factor = 0.9;
-        this.epsilon = 0.1;
-        this.samples = [];
+        this.epsilon = 0.3;
         this.value_table = {};
     }
 
@@ -203,14 +171,15 @@ export class TDAgent {
     // Return an action based on Q-value
     // Return an action based on epsilon-greedy policy
     getAction(state) {
+        let action;
         if (Math.random() < this.epsilon) {
             // Random action
-            let action = Math.floor(Math.random() * this.actions.length);
+            action = Math.floor(Math.random() * this.actions.length);
             return action;
         } else {
             // Action based on Q-value
             let next_state_value = this._possilbeNextState(state);
-            let action = this._argMax(next_state_value);
+            action = this._argMax(next_state_value);
             return action;
         }
     }
@@ -218,8 +187,7 @@ export class TDAgent {
     getOptimalAction(state) {
         // Action based on Q-value
         let next_state_value = this._possilbeNextState(state);
-        let action = this._argMax(next_state_value);
-        return action;
+        return this._argMax(next_state_value);
     }
 
     // Calculate arg_max if there are multiple candidates and return one randomly
@@ -271,83 +239,109 @@ export class TDAgent {
     reset() {
         this.value_table = {};
     }
-} 
+}
 
-export class QLearningAgent {
+export class OptimAgent {
     constructor(env) {
+        this.env = env;
+        this.height = env.boardShape[0];
+        this.width = env.boardShape[1];
         this.actions = env.actions;
-        this.learningRate = 0.1;
-        this.discountFactor = 0.9;
-        this.epsilon = 0.2;
-        this.qTable = {};
+        this.discount_factor = 0.9;
+
+        this._calcOptimal();
     }
 
-    learn(state, action, reward, nextState) {
-        let q1 = this._getQValue(state, action);
-        let q2 = reward + this.discountFactor * this._getMaxQValue(nextState);
-        this._setQValue(state, action, q1 + this.learningRate * (q2 - q1));
-    }
-
-    getAction(state) {
-        if (Math.random() < this.epsilon) {
-        return Math.floor(Math.random() * this.actions.length);
-        } 
-        else {
-        return this._argMax(this._getState(state));
+    _calcOptimal() {
+        this.value_table = {};
+        // TODO: implementation optimal value table
+        for (let i = 0; i < 10; ++i) {
+            this._valueIteration();
         }
+    }
+
+    _valueIteration() {
+        let next_value_table = {};
+        for (let y = 0; y < this.height; ++y) {
+            for (let x = 0; x < this.width; ++x) {
+                let state = [y, x];
+                let cell = this.env._getCell(new Position(state[0], state[1]));
+                if (cell) {
+                    let place = cell.lastChild;
+                    if (place && place.classList.contains("place")) {
+                        if (place.done) {
+                            next_value_table[state.toString()] = 0;//place.reward;
+                            continue;
+                        }
+                    }
+                }
+
+                let value_list = [];
+
+                for (let action of this.actions) {
+                    let next_state = [state[0], state[1]];
+                    next_state[0] = clamp(next_state[0] + action[0], 0, this.height - 1);
+                    next_state[1] = clamp(next_state[1] + action[1], 0, this.width - 1);
+
+                    let reward = 0;
+                    let next_cell = this.env._getCell(new Position(next_state[0], next_state[1]));
+                    if (next_cell) {
+                        let place = next_cell.lastChild;
+                        if (place && place.classList.contains("place")) {
+                            reward = place.reward;
+                        }
+
+
+                        let next_value = this.value_table[next_state.toString()] || 0;
+                        value_list.push(reward + this.discount_factor * next_value);
+                    }
+
+                    // let sum = value_list.reduce((a, b) => a + b, 0);
+                    // next_value_table[state.toString()] = sum / value_list.length;
+                    next_value_table[state.toString()] = Math.max(...value_list);
+                }
+            }
+        }
+        this.value_table = next_value_table;
     }
 
     getOptimalAction(state) {
-        return this._argMax(this._getState(state));
-    }
+        // Action based on Q-value
+        let value_list = [];
+        for (let action of this.actions) {
+            let next_state = [state[0], state[1]];
+            next_state[0] = clamp(next_state[0] + action[0], 0, this.height - 1);
+            next_state[1] = clamp(next_state[1] + action[1], 0, this.width - 1);
 
-    _argMax(stateAction) {
-        let maxIndexList = [];
-        let maxValue = stateAction[0];
-        for (let i = 0; i < stateAction.length; i++) {
-            if (stateAction[i] > maxValue) {
-                maxIndexList = [];
-                maxValue = stateAction[i];
-                maxIndexList.push(i);
-            } 
-            else if (stateAction[i] == maxValue) {
-                maxIndexList.push(i);
+            let reward = 0;
+            let next_cell = this.env._getCell(new Position(next_state[0], next_state[1]));
+            if (next_cell) {
+                let place = next_cell.lastChild;
+                if (place && place.classList.contains("place")) {
+                    reward = place.reward;
+                }
+
+                let next_value = this.value_table[next_state.toString()] || 0;
+                value_list.push(reward + this.discount_factor * next_value);
             }
         }
-        return maxIndexList[Math.floor(Math.random() * maxIndexList.length)];
+        return this._argMax(value_list);
     }
 
-    _getQValue(state, action) {
-        if (!this.qTable[state]) {
-            this.qTable[state] = Array(this.actions.length).fill(0);
+    // Calculate arg_max if there are multiple candidates and return one randomly
+    _argMax(next_state) {
+        let max_index_list = [];
+        let max_value = next_state[0];
+        for (let i = 0; i < next_state.length; i++) {
+            let value = next_state[i];
+            if (value > max_value) {
+                max_index_list.length = 0;
+                max_value = value;
+                max_index_list.push(i);
+            } else if (value === max_value) {
+                max_index_list.push(i);
+            }
         }
-        return this.qTable[state][action];
-    }
-
-    _setQValue(state, action, value) {
-        if (!this.qTable[state]) {
-            this.qTable[state] = Array(this.actions.length).fill(0);
-        }
-        let stateAction = this.qTable[state];
-        stateAction[action] = value;
-        this.qTable[state] = stateAction;
-    }
-
-    _getMaxQValue(state) {
-        if (!this.qTable[state]) {
-            this.qTable[state] = Array(this.actions.length).fill(0);
-        }
-        return Math.max(...this.qTable[state]);
-    }
-
-    _getState(state) {
-        if (!this.qTable[state]) {
-            this.qTable[state] = Array(this.actions.length).fill(0);
-        }
-        return this.qTable[state];
-    }
-
-    reset() {
-        this.qTable = {};
+        return max_index_list[Math.floor(Math.random() * max_index_list.length)];
     }
 }

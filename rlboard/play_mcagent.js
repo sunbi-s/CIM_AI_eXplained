@@ -1,4 +1,4 @@
-import { MCGame, animate } from "./rlboard.js";
+import { MCGame, animate } from "./game.js";
 
 const frame = document.querySelector('#play_mc');
 const boardDom = frame.querySelector('.board');
@@ -9,8 +9,7 @@ context.width = canvas_2.width;
 context.height = canvas_2.height;
 
 
-let policyName = "mc";
-export let game = new MCGame(boardDom, context, 0, policyName);
+export let game = new MCGame(boardDom, context, 0);
 animate(game);
 
 let selectNum = frame.querySelector('.select_num');

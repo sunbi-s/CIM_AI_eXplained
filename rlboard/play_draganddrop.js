@@ -1,4 +1,5 @@
-import { Position, Game, animate } from "./rlboard.js";
+import { Position } from "./utill.js";
+import { Game, animate } from "./game.js";
 
 const frame = document.querySelector('#play_draganddrop')
 const boardDom = frame.querySelector('.board');

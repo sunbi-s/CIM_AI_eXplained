@@ -1,17 +1,16 @@
-import { Game, animate } from "./rlboard.js";
+import { RDGame, animate } from "./game.js";
 
 const frame = document.querySelector('#play_random')
 const boardDom = frame.querySelector('.board');
 
-let policyName = "random";
-let game = new Game(boardDom, 0, policyName);
+let game = new RDGame(boardDom, 0);
 animate(game);
 
 let btnTest = frame.querySelector('.btn_test');
 
 btnTest.addEventListener("click", function() {
     btnTest.disabled = true;
-    game.run(10).then(() => {
+    game.run_test(1).then(() => {
         btnTest.disabled = false;
     });
 });
