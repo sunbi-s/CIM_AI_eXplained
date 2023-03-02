@@ -18,9 +18,7 @@ export function animate(game) {
 export class Game{
     constructor(div, seed) {
         this.environment = new Environment(div, configs[seed]);
-        this.max_step_num = 50;
-        this.episode_rewards = [];
-        this.current_step = 0;
+        this.max_step_num = 100;
     }
 
     render() {
@@ -74,26 +72,29 @@ export class MCGame extends Game {
     }
 
     async run(max_episode_num, sleep_time=10) {
+        let step = 0;
+
         for (let episode = 1; episode <= max_episode_num; ++episode) {
             let next_state, action, reward, done;
             let state = this.environment.reset();
+            let rewards = [];
 
             // delay
             await sleep(sleep_time);
 
-            for (let step = 1; step < this.max_step_num; ++step) {
+            for (step = 1; step < this.max_step_num; ++step) {
                 // get action
                 action = this.agent.getAction(state);
 
                 // step
                 [next_state, reward, done] = this.environment.step(action);
+                rewards.push(reward);
 
                 // save sample
                 this.agent.saveSample(next_state, reward, done);
 
                 // episode done
                 if (done) {
-                    this.agent.update()
                     break;
                 } else {
                     state = [next_state[0], next_state[1]];
@@ -102,6 +103,10 @@ export class MCGame extends Game {
                 //delay
                 await sleep(sleep_time);
             }
+
+            this.agent.update();
+            console.log(this.agent.constructor.name, ": [episode", episode, "] done in", step, "steps",
+                ", total reward:", rewards.reduce((a, b) => a + b, 0));
         }
     }
 
@@ -135,6 +140,10 @@ export class MCGame extends Game {
     render() {
         super.render();
 
+        if (this.context == null) {
+            return;
+        }
+
         // draw value table
         this.context.beginPath();
         this.context.fillStyle = 'black'
@@ -142,12 +151,11 @@ export class MCGame extends Game {
 
         for (let y = 0; y < this.environment.boardShape[0]; ++y) {
             for (let x = 0; x < this.environment.boardShape[1]; ++x) {
-                let key = [y, x].toString();
-                let value = this.agent.value_table[key] || 0;
+                let value = this.agent.value_table[y][x];
 
-                let epsilon = 0.0000000001
-                let maxValue = Math.max(...Object.values(this.agent.value_table))+epsilon ;
-                let minValue = Math.min(...Object.values(this.agent.value_table))+epsilon;
+                let epsilon = 0.0000000001;
+                let maxValue = Math.max(...this.agent.value_table.flat()) + epsilon;
+                let minValue = Math.min(...this.agent.value_table.flat()) + epsilon;
 
                 // 기준치를 정해놓고 점점 올라가게? 아니면 현재 상태에 비교해서? <- max랑 차이가 너무 많이 남 나중에 생각
                 // draw tile color
@@ -191,26 +199,31 @@ export class TDGame extends MCGame {
     }
 
     async run(max_episode_num, sleep_time=10) {
+        let step = 0;
+
         for (let episode = 1; episode <= max_episode_num; ++episode) {
             let next_state, action ,reward, done;
-            let pre_reward = 0 // check
+            let pre_reward = 0;
             let state = this.environment.reset();
+            let rewards = [];
 
             // delay
             await sleep(sleep_time);
 
-            for (let step = 1; step < this.max_step_num; ++step) {
+            for (step = 1; step < this.max_step_num; ++step) {
                 // get action
                 action = this.agent.getAction(state);
 
                 // step
                 [next_state, reward, done] = this.environment.step(action);
+                rewards.push(reward);
 
+                // update
                 this.agent.learn(state, pre_reward, reward, next_state, done);
-                pre_reward = reward
+                pre_reward = reward;
+
                 // episode done
                 if (done) {
-                    console.log(this.agent.constructor.name, ": [episode", episode, "] done in", step, "steps");
                     break;
                 }
                 else {
@@ -220,6 +233,9 @@ export class TDGame extends MCGame {
                 // delay
                 await sleep(sleep_time);
             }
+
+            console.log(this.agent.constructor.name, ": [episode", episode, "] done in", step, "steps",
+                ", total reward:", rewards.reduce((a, b) => a + b, 0));
         }
     }
 }

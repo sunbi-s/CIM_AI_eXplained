@@ -74,7 +74,7 @@ export class Environment{
     }
 
     step(action) {
-        let reward = 0;
+        let reward = -1;
         let done = false;
 
         // move player
@@ -85,9 +85,7 @@ export class Environment{
         let place = cell.lastChild;
         if (place.classList.contains("place")) {
             reward = place.reward;
-            reward -= 1;
             done = place.done;
-            console.log("reward", reward, "done", done);
         }
 
         return [next_state, reward, done]

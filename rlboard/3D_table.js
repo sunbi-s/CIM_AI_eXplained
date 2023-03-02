@@ -5,11 +5,19 @@ let frame = document.querySelector("#play_3d_table");
 
 
 function getData() {
-    let data = game.agent.get_value_table();
-    let max = Math.max(...data.flat());
+    let data = game.agent.value_table;
+    let dataNorm = data;
+
+    // transform -> [0, ~]
+    let min = Math.min(...dataNorm.flat());
+    for (let y = 0; y < dataNorm.length; ++y) {
+        for (let x = 0; x < dataNorm[y].length; ++x) {
+            dataNorm[y][x] -= min;
+        }
+    }
 
     // normalize -> [0, 1]
-    let dataNorm = data;
+    let max = Math.max(...data.flat());
     if (max > 0) {
         for (let y = 0; y < dataNorm.length; ++y) {
             for (let x = 0; x < dataNorm[y].length; ++x) {
@@ -17,6 +25,7 @@ function getData() {
             }
         }
     }
+
     let dataTransposed = dataNorm[0].map((x,i) => dataNorm.map(x => x[i]));
 
     return [{
@@ -38,7 +47,7 @@ let layout = {
         },
         zaxis: {
             title: "Value",
-            range: [0, 5],
+            range: [0, 2],
         }
     },
     autosize: true,

@@ -11,6 +11,7 @@ export default [
             [[5, 5], -50, false, "../img/rlboard/place/place_4.png"],
             [[2, 5], -10, false, "../img/rlboard/place/place_5.png"],
             [[1, 6], 200, true, "../img/rlboard/place/place_6.png"],
+            // [[1, 6],   0, true, "../img/rlboard/place/place_6.png"],
             [[1, 3], -10, false, "../img/rlboard/place/place_7.png"],
         ],
         "agentStartPosition": [0, 0],  // [x, y]
