@@ -136,14 +136,15 @@ export class MCAgent {
 export class TDAgent extends MCAgent {
     // learn value of all states visited by the agent in all episodes
     learn(state, pre_reward, reward, next_state, done) {
-        let V = this.value_table[next_state[0]][next_state[1]]; //default value
-        let nextV = this.value_table[state[0]][state[1]]; //default value
-        this.value_table[state[0]][state[1]] = V + this.learning_rate * (pre_reward + this.discount_factor * nextV - V);
+        let V = this.value_table[state[0]][state[1]];
+        let nextV = this.value_table[next_state[0]][next_state[1]];
+        let targetV = pre_reward + this.discount_factor * nextV;
+        this.value_table[state[0]][state[1]] = V + this.learning_rate * (targetV - V);
 
         if (done) {
             let nextNextV = 0;
-            let targetV = reward + this.discount_factor * nextNextV;
-            this.value_table[next_state[0]][next_state[1]] = nextV + this.learning_rate * (targetV - nextV);
+            let nextTargetV = reward + this.discount_factor * nextNextV;
+            this.value_table[next_state[0]][next_state[1]] = nextV + this.learning_rate * (nextTargetV - nextV);
         }
     }
 }
