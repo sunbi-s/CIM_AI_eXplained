@@ -51,7 +51,12 @@ export class RDGame extends Game {
 
                 // step
                 [next_state, reward, done] = this.environment.step(action);
-
+                
+                // state no change
+                if (state[0] == next_state[0] && state[1] == next_state[1]) {
+                    // console.log("stateSame")
+                    break;
+                }
                 // episode done
                 if (done) {
                     break;
@@ -87,7 +92,8 @@ export class MCGame extends Game {
 
             for (step = 1; step < this.max_step_num; ++step) {
                 // get action
-                action = this.agent.getAction(state);
+                // action = this.agent.getAction(state);
+                action = this.agent.getRndAction(state);
 
                 // step
                 [next_state, reward, done] = this.environment.step(action);
@@ -127,12 +133,20 @@ export class MCGame extends Game {
 
                 // step
                 [next_state, reward, done] = this.environment.step(action);
+                
+                // state no change
+                if (state[0] == next_state[0] && state[1] == next_state[1]) {
+                    // console.log("stateSame")
+                    break;
+                }
                 // episode done
+
                 if (done) {
                     break;
                 } else {
                     state = [next_state[0], next_state[1]];
                 }
+
 
                 //delay
                 await sleep(sleep_time);
@@ -215,7 +229,8 @@ export class TDGame extends MCGame {
 
             for (step = 1; step < this.max_step_num; ++step) {
                 // get action
-                action = this.agent.getAction(state);
+                // action = this.agent.getAction(state);
+                action = this.agent.getRndAction(state);
 
                 // step
                 [next_state, reward, done] = this.environment.step(action);
