@@ -4,6 +4,9 @@ import { RandomAgent, MCAgent, TDAgent, OptimAgent } from "./agents.js";
 import { rgb, rgba, sleep } from "./utill.js";
 
 
+const math = window['math'];
+
+
 export function animate(game) {
     setTimeout(() => {
         requestAnimationFrame(function () {
@@ -246,5 +249,82 @@ export class OptimGame extends MCGame {
         this.context = context;
 
         this.agent = new OptimAgent(this.environment);
+    }
+}
+
+export class BiasGame {
+    constructor(mcDiv, tdDiv, optimDiv, seed) {
+        this.mcGame = new MCGame(mcDiv, null, seed);
+        this.tdGame = new TDGame(tdDiv, null, seed);
+        this.optimGame = new OptimGame(optimDiv, null, seed);
+
+        this.mcRmse = [];
+        this.tdRmse = [];
+
+        Plotly.newPlot('chart', [
+            { x: [], y: [], type:'line', name: 'MC' },
+            { x: [], y: [], type:'line', name: 'TD' },
+        ]);
+    }
+
+    async run(max_episode_num, sleep_time=10) {
+        for (let i = 0; i< max_episode_num; ++i)
+        {
+            let done1 = false, done2 = false;
+            this.mcGame.run(1, sleep_time).then(() => {done1 = true});
+            this.tdGame.run(1, sleep_time).then(() => {done2 = true});
+
+            // sync each game
+            while (!(done1 && done2)) { await sleep(); }
+
+            // plot
+            this.plot();
+        }
+    }
+
+    async run_test(max_episode_num, sleep_time=300) {
+        await this.mcGame.run_test(max_episode_num, sleep_time);
+        await this.tdGame.run_test(max_episode_num, sleep_time);
+    }
+
+    reset() {
+        this.mcGame.environment.reset();
+        this.mcGame.agent.reset();
+        this.tdGame.environment.reset();
+        this.tdGame.agent.reset();
+    }
+
+    plot() {
+        const mc_value_table = this.mcGame.agent.value_table;
+        const td_value_table = this.tdGame.agent.value_table;
+        const optim_value_table = this.optimGame.agent.value_table;
+        const temp_value_table = math.zeros(optim_value_table.length, optim_value_table[0].length)._data;
+
+        // mc
+        for (let y = 0; y < optim_value_table.length; ++y) {
+            for (let x = 0; x < optim_value_table[0].length; ++x) {
+                temp_value_table[y][x] = optim_value_table[y][x] - mc_value_table[y][x];
+            }
+        }
+        this.mcRmse.push(math.sqrt(math.mean(math.square(temp_value_table))));
+
+        // td
+        for (let y = 0; y < optim_value_table.length; ++y) {
+            for (let x = 0; x < optim_value_table[0].length; ++x) {
+                temp_value_table[y][x] = optim_value_table[y][x] - td_value_table[y][x];
+            }
+        }
+        this.tdRmse.push(math.sqrt(math.mean(math.square(temp_value_table))));
+
+        // plot
+        Plotly.react('chart', [
+            { x: [...Array(this.mcRmse.length).keys()], y: this.mcRmse, type:'line', name: 'MC' },
+            { x: [...Array(this.mcRmse.length).keys()], y: this.tdRmse, type:'line', name: 'TD' },
+        ]);
+    }
+
+    render() {
+        this.mcGame.render();
+        this.tdGame.render();
     }
 }
