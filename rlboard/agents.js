@@ -16,7 +16,8 @@ export class MCAgent {
         this.height = env.boardShape[0];
         this.width = env.boardShape[1];
         this.actions = env.actions;
-        this.learning_rate = 0.01;
+        this.n_action = env.actions.length;
+        this.learning_rate = 0.1;
         this.discount_factor = 0.9;
         this.epsilon = 0.1;
         this.samples = [];
@@ -71,6 +72,10 @@ export class MCAgent {
             action = this._argMax(next_state_value);
             return action;
         }
+    }
+
+    getRndAction(state) {
+        return Math.floor(Math.random( )*this.n_action);
     }
 
     getOptimalAction(state) {

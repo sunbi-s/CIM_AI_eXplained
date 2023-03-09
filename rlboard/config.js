@@ -4,11 +4,11 @@ export default [
         "nodes": [
             // [position, reward, final, path]
             //  [y, x]
-            [[6, 4], -10, false, "../img/rlboard/place/place_0.png"],
-            [[4, 1], -10, false, "../img/rlboard/place/place_1.png"],
-            [[6, 0], -10, false, "../img/rlboard/place/place_2.png"],
-            [[3, 4], -20, false, "../img/rlboard/place/place_3.png"],
-            [[5, 5], -50, false, "../img/rlboard/place/place_4.png"],
+            [[6, 4], -5, false, "../img/rlboard/place/place_0.png"],
+            [[4, 1], -2, false, "../img/rlboard/place/place_1.png"],
+            [[6, 0], -5, false, "../img/rlboard/place/place_2.png"],
+            [[3, 4], -2, false, "../img/rlboard/place/place_3.png"],
+            [[5, 5], -5, false, "../img/rlboard/place/place_4.png"],
             [[2, 5], -10, false, "../img/rlboard/place/place_5.png"],
             [[1, 6], 200, true, "../img/rlboard/place/place_6.png"],
             // [[1, 6],   0, true, "../img/rlboard/place/place_6.png"],
