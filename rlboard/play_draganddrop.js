@@ -1,8 +1,12 @@
 import { Position } from "./utill.js";
+import { Game, animate } from "./game.js";
 
 const frame = document.querySelector('#play_draganddrop')
 const boardDom = frame.querySelector('.board');
 boardDom.style.cursor = 'pointer';
+
+let game = new Game(boardDom, 0);
+animate(game);
 
 
 function getCellPosition(div, _cell) {
