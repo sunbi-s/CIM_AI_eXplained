@@ -292,8 +292,11 @@ export class BiasGame {
             // sync each game
             while (!(done1 && done2)) { await sleep(); }
 
+            // calculate rmse
+            this._calcRmse();
+
             // plot
-            this.plot();
+            this._plot();
         }
     }
 
@@ -307,9 +310,15 @@ export class BiasGame {
         this.mcGame.agent.reset();
         this.tdGame.environment.reset();
         this.tdGame.agent.reset();
+
+        this.mcRmse = [];
+        this.tdRmse = [];
+
+        // plot
+        this._plot();
     }
 
-    plot() {
+    _calcRmse() {
         const mc_value_table = this.mcGame.agent.value_table;
         const td_value_table = this.tdGame.agent.value_table;
         const optim_value_table = this.optimGame.agent.value_table;
@@ -330,8 +339,9 @@ export class BiasGame {
             }
         }
         this.tdRmse.push(math.sqrt(math.mean(math.square(temp_value_table))));
+    }
 
-        // plot
+    _plot() {
         Plotly.react('chart', [
             { x: [...Array(this.mcRmse.length).keys()], y: this.mcRmse, type:'line', name: 'MC' },
             { x: [...Array(this.mcRmse.length).keys()], y: this.tdRmse, type:'line', name: 'TD' },

@@ -1,4 +1,4 @@
-import { BiasGame, animate } from "./game.js";
+import { BiasGame } from "./game.js";
 
 
 const frame = document.querySelector('#play_biased');
@@ -8,29 +8,19 @@ const boardDom3 = frame.querySelectorAll('.board')[2];
 
 
 export let game = new BiasGame(boardDom1, boardDom2, boardDom3, 0);
-animate(game);
 
 
 // Add btn event
 let selectNum = frame.querySelector('.select_num');
 let btnTrain = frame.querySelector('.btn_train');
-let btnTest = frame.querySelector('.btn_test');
 let btnReset = frame.querySelector('.btn_reset');
 
 btnTrain.addEventListener("click", function() {
     btnTrain.disabled = true;
-    btnTest.disabled = true;
-    game.run(selectNum.value, 10).then(() => {
+    btnReset.disabled = true;
+    game.run(selectNum.value, 0).then(() => {
         btnTrain.disabled = false;
-        btnTest.disabled = false;
-    });
-});
-btnTest.addEventListener("click", function() {
-    btnTrain.disabled = true;
-    btnTest.disabled = true;
-    game.run_test(1).then(() => {
-        btnTrain.disabled = false;
-        btnTest.disabled = false;
+        btnReset.disabled = false;
     });
 });
 btnReset.addEventListener("click", function() {
