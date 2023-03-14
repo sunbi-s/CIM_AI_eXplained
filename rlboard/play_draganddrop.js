@@ -1,17 +1,8 @@
 import { Position } from "./utill.js";
-import { Game, animate } from "./game.js";
 
 const frame = document.querySelector('#play_draganddrop')
 const boardDom = frame.querySelector('.board');
 boardDom.style.cursor = 'pointer';
-
-let policyName = "control";
-let game = new Game(boardDom, 0, policyName);
-animate(game);
-
-let state = game.environment.reset();
-let reward = 0;
-let done = false;
 
 
 function getCellPosition(div, _cell) {
@@ -125,7 +116,7 @@ cells.forEach((cell) => {
 
 
 // Add btn event
-let selectNum = frame.querySelector('.select_num');
+let selectAgent = frame.querySelector('.select_num');
 let divPlayMyMDP = frame.querySelector('#play_my_mdp');
 let btnSave = frame.querySelector('.btn_save');
 let btnTrain = frame.querySelector('.btn_train');
