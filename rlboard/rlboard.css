@@ -105,7 +105,7 @@
 
 .place_creator {
     position: relative;
-    background-image: url("../img/rlboard/place_creator.png");
+    background-image: url("./../img/rlboard/place_creator.png");
     background-size: contain;
     display: inline-block;
     width: 250px;

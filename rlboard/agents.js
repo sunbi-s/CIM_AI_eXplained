@@ -249,6 +249,7 @@ export class OptimAgent {
                 value_list.push(reward + this.discount_factor * next_value);
             }
         }
+        console.log(value_list)
         return this._argMax(value_list);
     }
 
