@@ -455,12 +455,14 @@
               <div class="board" style="display: none"></div>
               <br>
 
-              <select class="select_num" name="lang">
-                <option value=1 selected>1</option>
-                <option value=500>500</option>
-                <option value=1000>1000</option>
-                <option value=5000>5000</option>
-              </select>
+              <label>
+                <select class="select_num" name="lang">
+                  <option value=100 selected>100</option>
+                  <option value=500>500</option>
+                  <option value=1000>1000</option>
+                  <option value=5000>5000</option>
+                </select>
+              </label>
               <button class="btn_train">Train</button>
               <button class="btn_reset">Reset</button>
 
@@ -486,19 +488,20 @@
 
             <div id="play_draganddrop" class="play_div" style="margin-bottom: -50px">
               <div class="board"></div>
-              <div style="display: inline-block;">
-                <div class="place_creator" style="top: -100px"></div>
-                <div class="btn_arrow">
-                  <button class="btn_action_0" style="display: block; margin: auto">⮝</button>
-                  <button class="btn_action_2">⮜</button>
-                  &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-                  <button class="btn_action_3">⮞</button>
-                  <br>
-                  <button class="btn_action_1">⮟</button>
-                  <br><br>
-                  <button class="btn_reset" style="display: block; margin: auto">Reset</button>
-                </div>
+              <div class="place_creator" style="top: -100px"></div>
+              <br>
+
+              <button class="btn_save">save</button>
+              <div id="play_my_mdp" style="display: none">
+                <label>
+                  <select class="select_num" name="lang">
+                    <option value=MC selected>MC</option>
+                    <option value=TD>TD</option>
+                  </select>
+                </label>
+                <button class="btn_train">train</button>
               </div>
+
             </div>
 
             <div class="caption"><b>Figure 2:</b><br> Example of an interactive figure: Introducing the 8-Queens problem. Drag and drop queens to change their position. Try to position all queens

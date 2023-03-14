@@ -26,14 +26,22 @@ function getCellPosition(div, _cell) {
     }
 }
 
+
+function addDraggingClass(ev) {
+    ev.target.classList.add("dragging");
+}
+function removeDraggingClass(ev) {
+    ev.target.classList.remove("dragging");
+}
 function setDraggable(node) {
     node.classList.add("draggable");
-    node.addEventListener("dragstart", () => {
-        node.classList.add("dragging");
-    })
-    node.addEventListener("dragend", () => {
-        node.classList.remove("dragging");
-    });
+    node.addEventListener("dragstart", addDraggingClass);
+    node.addEventListener("dragend", removeDraggingClass);
+}
+function unsetDraggable(node) {
+    node.classList.remove("draggable");
+    node.removeEventListener("dragstart", addDraggingClass);
+    node.removeEventListener("dragend", removeDraggingClass);
 }
 
 
@@ -58,6 +66,15 @@ place_creator.addEventListener("drop", (e) => {
         return;
     }
 
+    // There should be at least one done place in board
+    let places = boardDom.querySelectorAll(".place");
+    let doneCount = Array.from(places).reduce((sum, place) => sum + (place.done ? 1 : 0), 0);
+    if (doneCount - draggable.done < 1) {
+        console.log("There should be at least one done place in board.");
+        return;
+    }
+
+    // remove place
     if (draggable.classList.contains("place")) {
         console.log("remove", draggable);
         draggable.remove();
@@ -108,19 +125,23 @@ cells.forEach((cell) => {
 
 
 // Add btn event
-frame.querySelector('.btn_action_0').addEventListener("click", function() {
-    game.environment.step(0);
+let selectNum = frame.querySelector('.select_num');
+let divPlayMyMDP = frame.querySelector('#play_my_mdp');
+let btnSave = frame.querySelector('.btn_save');
+let btnTrain = frame.querySelector('.btn_train');
+
+btnSave.addEventListener("click", function() {
+    btnSave.style.display = "none";
+    divPlayMyMDP.style.display = "block";
+
+    place_creator.remove();
+    for (let draggable of boardDom.querySelectorAll(".draggable")) {
+        unsetDraggable(draggable);
+    }
 });
-frame.querySelector('.btn_action_1').addEventListener("click", function() {
-    [state, reward, done] = game.environment.step(1);
-});
-frame.querySelector('.btn_action_2').addEventListener("click", function() {
-    [state, reward, done] = game.environment.step(2);
-});
-frame.querySelector('.btn_action_3').addEventListener("click", function() {
-    [state, reward, done] = game.environment.step(3);
-});
-frame.querySelector('.btn_reset').addEventListener("click", function() {
-    state = game.environment.reset();
-    done = false;
+btnTrain.addEventListener("click", function() {
+    btnTrain.disabled = true;
+
+    // TODO: implementation
+    console.log("TODO: implementation");
 });
