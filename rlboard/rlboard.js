@@ -22,7 +22,7 @@ export class Environment{
             for (let x=0; x<this.boardShape[0]; ++x) {
                 let cell = document.createElement('div');
                 cell.classList.add("cell");
-                cell.style.backgroundImage = "url('./../img/rlboard/background/background_" + (y * this.boardShape[0] + x + 1).toString() + ".jpg')";
+                cell.style.backgroundImage = "url('img/rlboard/background/background_" + (y * this.boardShape[0] + x + 1).toString() + ".jpg')";
                 row.appendChild(cell);
             }
         }
