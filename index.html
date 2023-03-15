@@ -201,7 +201,15 @@
         <h2>II. Markov Decision Process</h2>
 
         <p>
-          Content
+          Reinforcement learning is a widely-used methodology in machine learning that focuses on solving sequential decision-making problems. In these types of problems, the decisions made at the current step have an impact on future outcomes. One of the most popular ways to formalize this process is through the Markov decision process (MDP), which provides a useful framework for representing and solving sequential decision-making problems.
+        </p>
+
+        <p>
+          MDPs are defined by a set of states, actions, and transition probabilities that govern how the system moves from one state to another based on the decisions made by the agent. It is crucial to understand MDP because the goal of reinforcement learning is to find an optimal policy, or a set of actions that maximize rewards, given the MDP's rules and constraints. MDP extends the concept of a Markov process, which is a stochastic process that only consists of states and transition probabilities.
+        </p>
+
+        <p>  
+          A Markov process is a stochastic process that describes a system in which the state of the system changes over time. At each time step, the state may remain the same or transition to a different state, based on the probability of transition that depends solely on the current state. This property is known as the Markov property, where the future state of the system is determined only by the present state and not by any previous states. An example of a Markov process is shown in Fig2."
         </p>
 
 
@@ -229,7 +237,7 @@
           </div>
         </div>
 
-        <h3>III. Here is MDP transition. Let's play!</h3>
+        <h3>III. Here is Markov Process. Let's play!</h3>
         <div class="framed">
           <div class="inside">
             <div class="eyebrow">
@@ -249,6 +257,13 @@
           </div>
         </div>
 
+        <p>
+        There are five possible states that a child can be in, including Lying (s0), Awake (s1), Drowsy (s2), Light Sleep (s3), and Deep Sleep (s4). Each state lasts for a unit of time, such as one minute, and transitions to the next state based on certain probabilities. Assuming the Markov Process always starts with the child lying down(s0), the child remains in this state for one minute. After that, there is a 40\% probability of transitioning to Awake (s1) or a 60\% probability of transitioning to Light Sleep (s3). The process continues until the child reaches Deep Sleep (s4), which ends the Markov Process. 
+        </p>
+        
+        <p>
+          The Markov Decision Process (MDP) extends the Markov Process by incorporating decision-making capabilities, which sets it apart from the latter. While the Markov Process models a system where the future state is determined only by the current state, the MDP introduces the concept of actions taken by an agent that can influence the next state of the system. This enables the MDP to better model real-world scenarios.
+        </p>
         <h3>IV. Here is MDP action. Let's play!</h3>
         <div class="framed">
           <div class="inside">
@@ -387,7 +402,9 @@
         <p>
           Content
         </p>
-
+        <p>
+          Content
+        </p>
 
         <h3>VIII. Here is TD agent. Let's play!</h3>
         <div class="framed">
