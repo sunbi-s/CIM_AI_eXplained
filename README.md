@@ -1,12 +1,12 @@
 # Interactive Article on Reinforcement Learning
 Reinforcement Learning: An Introduction to Monte Carlo and Temporal Difference Methods
-##How to run
+## How to run
 1. open ```index.html``` file on pycharm
 2. click browser icon shown in upper right side
 
 ![brw_icon.png](brw_icon.png)
 
-##Html structure
+## Html structure
 ```
 <h1> : page title
 <p class="subhead"> : subheading
