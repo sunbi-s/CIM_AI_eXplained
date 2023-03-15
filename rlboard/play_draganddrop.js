@@ -27,16 +27,16 @@ function addDraggingClass(ev) {
 }
 function removeDraggingClass(ev) {
     ev.target.classList.remove("dragging");
+
+    // remove highlight
+    frame.querySelectorAll(".cell.highlight").forEach((highlight) => {
+        highlight.classList.remove("highlight");
+    });
 }
 function setDraggable(node) {
     node.classList.add("draggable");
     node.addEventListener("dragstart", addDraggingClass);
     node.addEventListener("dragend", removeDraggingClass);
-}
-function unsetDraggable(node) {
-    node.classList.remove("draggable");
-    node.removeEventListener("dragstart", addDraggingClass);
-    node.removeEventListener("dragend", removeDraggingClass);
 }
 
 
@@ -96,16 +96,11 @@ cells.forEach((cell) => {
         e.preventDefault();
     });
     cell.addEventListener("drop", (e) => {
-        e.preventDefault();
+        // e.preventDefault();
         let draggable = frame.querySelector(".dragging");
         if (draggable == null) {
             return;
         }
-
-        // remove highlight
-        frame.querySelectorAll(".cell.highlight").forEach((highlight) => {
-            highlight.classList.remove("highlight");
-        });
 
         if (draggable.classList.contains("player")) {
             cell.insertBefore(draggable, cell.firstChild);
@@ -129,23 +124,14 @@ cells.forEach((cell) => {
 
 
 // Add btn event
-let selectAgent = frame.querySelector('.select_num');
-let divPlayMyMDP = frame.querySelector('#play_my_mdp');
 let btnSave = frame.querySelector('.btn_save');
-let btnTrain = frame.querySelector('.btn_train');
+let btnReset = frame.querySelector('.btn_reset');
 
 btnSave.addEventListener("click", function() {
-    btnSave.style.display = "none";
-    divPlayMyMDP.style.display = "block";
-
-    place_creator.remove();
-    for (let draggable of boardDom.querySelectorAll(".draggable")) {
-        unsetDraggable(draggable);
-    }
+    document.querySelectorAll(".board").forEach((_boardDom) => {
+        // TODO: implementation
+    });
 });
-btnTrain.addEventListener("click", function() {
-    btnTrain.disabled = true;
-
+btnReset.addEventListener("click", function() {
     // TODO: implementation
-    console.log("TODO: implementation");
 });
