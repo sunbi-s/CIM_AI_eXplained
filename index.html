@@ -40,12 +40,12 @@
       <div class="container">
         <!-- Page title -->
         <h1>
-          Bare Demo of Immersive Articles for the IEEE Computational Intelligence Magazine
+          Reinforcement Learning: An Introduction to Monte Carlo and Temporal Difference Methods
         </h1>
         <!-- Subheading -->
         <p class="subhead">
-          This and the index.html file define the components of your paper [title, text, heads, etc.].
-          <b>CRITICAL:</b> Do Not Use Symbols, Special Characters, Footnotes, or Math in Paper Title or Abstract.
+          An interactive article on introducing Monte Carlo and Temporal difference approach on a gird world.
+          Learn Monte Carlo and Temporal difference approach and their difference.
         </p>
         <!-- Header info general wrapper -->
         <div class="header-info">
@@ -86,19 +86,24 @@
               <span class="separator">&nbsp;&nbsp;|&nbsp;&nbsp;</span>
             </li>
             <li>
-              <a href="#easeofuse">Ease of Use</a>
+              <a href="#mdp">Markov Decision Process</a>
               <span class="separator">&nbsp;&nbsp;|&nbsp;&nbsp;</span>
             </li>
             <li>
-              <a href="#commonmistakes">Some Common Mistakes</a>
+              <a href="#monte_carlo">Monte Carlo approach</a>
               <span class="separator">&nbsp;&nbsp;|&nbsp;&nbsp;</span>
             </li>
             <li>
-              <a href="#authors">Authors and Affiliations</a>
+              <a href="#temporal_difference">Temporal Difference Learning</a>
               <span class="separator">&nbsp;&nbsp;|&nbsp;&nbsp;</span>
             </li>
             <li>
-              <a href="#hints">Hints and General Advice</a>
+              <a href="#difference">Difference between MC and TD</a>
+              <span class="separator">&nbsp;&nbsp;|&nbsp;&nbsp;</span>
+            </li>
+            <li>
+              <a href="#conclusion">Conclusion</a>
+              <span class="separator">&nbsp;&nbsp;|&nbsp;&nbsp;</span>
             </li>
           </ul>
         </div>
@@ -112,87 +117,118 @@
         <!-- Section title -->
         <h2>I. Introduction</h2>
         <p>
-          This demo file is intended to serve as a "starter file" for IEEE Computational Intelligence
-          Magazine papers produced under html using interactive.html version 0.1 and later.
-          I wish you the best of success.
-        </p>
-        <p style="text-align: right">
-          Alexander Dockhorn<br>
-          December 1, 2022
-        </p>
-      </section>
-
-      <section id="easeofuse">
-        <h2>II. Ease of Use</h2>
-
-        <p class="inline-math tex2jax_ignore">
-          Be sure that the symbols in your equation have been defined before or immediately following
-          the equation. To define inline equations you can surround them with double-$ symbol as in $$1+1=2$$
-          and add the 'class="inline-math' to the surrounding tags.
+          Learning through interaction with an environment is a common intelligent behavior easily observed in humans or animals.
+          Generally, they recognize the surrounding environment or state and take action based on their understanding.
+          As a result of actions, feedback is given, and they learn from it.
+          Reinforcement learning (RL) is a computational approach based on this learning mechanism.
+          Recently RL showed impressive results in various domains, such as Go, StarCraft, protein-folding problem, etc.
         </p>
 
-        <h3>Figures and Tables</h3>
-        <p id="FiguresTables">
-          Place figures and tables close to the paragraph in which they are discussed.
-          Captions should be below the figures and tables.
-          Insert figures and tables after they are cited in the text.
-          Use the abbreviation "Fig. 1", even at the beginning of a sentence.
+        <p>
+          (Fig 1. overview of RL)
         </p>
 
+        <p>
+          RL consists of four main elements:
+        </p>
 
-        <div class="formula-wrapper">
-          <table class="formula" style="margin: auto auto">
-            <tbody>
-            <tr>
-              <th style="width: 150px">Column 1</th>
-              <th style="width: 250px; text-align: center">Column 2 of fixed width</th>
-              <th style="width: 250px; text-align: left">Column 3 aligned left</th>
-            </tr>
-            <tr>
-              <td>Data 1,1</td>
-              <td style="text-align:center">Data 1,2</td>
-              <td style="text-align:center">a very very very very very long centered text</td>
-            </tr>
-            <tr>
-              <td>$$1\times 1 = 1$$</td>
-              <td style="text-align:center">$$\pi$$</td>
-              <td style="text-align:right">$$\binom{n}{k} =\prod _{j=1}^{k}{\frac {n+1-j}{j}}$$</td>
-            </tr>
-            </tbody>
-          </table>
-          <div class="caption">
-            <b>Table 1:</b> This is an example of a table caption.
-          </div>
-        </div>
+        <ul id="Units">
+          <li> Policy: the probability of action in a given state. It determines the agent’s behavior.</li>
+          <li> Reward: a single number that is given to the agent at each timestep. The reward function determines a goal in an RL problem. Higher reward means a better policy.</li>
+          <li> Value function: the total amount of reward that an agent will get in the future, starting from a specific state. It shows how good a state is in the long run.</li>
+          <li> Model of the environment: a model that makes predictions of the environment’s behavior, thereby enabling inference about how the environment will behave.</li>
+        </ul>
 
-        <div class="static">
-          <img src="img/fig1.png" alt="Alternative text in case the image cannot be loaded." style="margin: auto auto; width: max-content; display: block"/>
-          <div class="caption"><b>Figure 1:</b> Example of a figure caption.</div>
-        </div>
+        <p>
+          Reinforcement learning is a type of artificial intelligence that allows an agent to learn how to make decisions in an environment by trial and error.
+          In each step, the agent's policy decides on an action based on the current state.
+          The environment then responds with a next state and a reward.
+          If the agent reaches the terminal state, the episode ends.
+          To improve its decision-making, the agent's policy can be updated based on the value function,
+          which estimates the value of a state or action.
+          However, obtaining the correct value function can be challenging since the agent must predict future rewards
+          without actually visiting all possible future states.
+        </p>
 
+        <p>
+          There are two types of reinforcement learning algorithms: model-free and model-based.
+          Model-free algorithms estimate the value function from many trials and update the policy based on the values.
+          Model-based algorithms, on the other hand, compute the values of states by considering all possible future
+          states and actions using the model of the environment.
+        </p>
+
+        <p>
+          In this article, we will focus on two fundamental model-free algorithms: Monte Carlo and Temporal Difference.
+          These algorithms are powerful tools for solving a variety of reinforcement learning problems.
+        </p>
+
+        <h3>Make MDP</h3>
         <div class="framed">
           <div class="inside">
             <div class="eyebrow">
               You can add an introductory text for interactive elements to motivate users to check out the following block.
             </div>
 
-            <div id="board-letsplay" style="width: 320px; margin: auto auto 10px;"></div>
+            <div id="play_draganddrop" class="play_div" style="margin-bottom: -50px">
+              <div class="board"></div>
+              <div class="place_creator" style="top: -100px"></div>
+              <br>
+
+              <button class="btn_save">save</button>
+              <div id="play_my_mdp" style="display: none">
+                <label>
+                  <select class="select_num" name="lang">
+                    <option value=MC selected>MC</option>
+                    <option value=TD>TD</option>
+                  </select>
+                </label>
+                <button class="btn_train">train</button>
+              </div>
+
+            </div>
 
             <div class="caption"><b>Figure 2:</b><br> Example of an interactive figure: Introducing the 8-Queens problem. Drag and drop queens to change their position. Try to position all queens
               such that no two queens share the same row, column, or diagonal. Queens that threaten each other
               will be highlighted in red. In case you found a solution all queens will be highlighted in green.</div>
 
-            <script type="module" src="chessboard/chessboard_lets_play.js"></script>
+            <script type="module" src="rlboard/play_draganddrop.js"></script>
           </div>
         </div>
 
-        <p>
-          Note, that we recommend to place the script import just behind the corresponding interactive figure,
-          such that we can easily match them later on.
-        </p>
       </section>
 
-      <section id="mdp_transition">
+      <section id="mdp">
+        <h2>II. Markov Decision Process</h2>
+
+        <p>
+          Content
+        </p>
+
+
+        <h3>XII. Here make trajectory. Let's play!</h3>
+        <div class="framed">
+          <div class="inside">
+            <div class="eyebrow">
+              You can add an introductory text for interactive elements to motivate users to check out the following block.
+            </div>
+
+            <div id="play_6" class="play_div">
+              <div class="board"></div>
+              <div class="place_creator" style="margin-bottom: -130px; top: -150px"></div>
+              <br>
+              <button class="btn_test">Test</button>
+              <button class="btn_reset">Reset</button>
+              <button class="btn_reset btn_clear">Clear</button>
+            </div>
+
+            <div class="caption"><b>Figure 2:</b><br> Example of an interactive figure: Introducing the 8-Queens problem. Drag and drop queens to change their position. Try to position all queens
+              such that no two queens share the same row, column, or diagonal. Queens that threaten each other
+              will be highlighted in red. In case you found a solution all queens will be highlighted in green.</div>
+
+            <script type="module" src="rlboard/play_trajectory.js"></script>
+          </div>
+        </div>
+
         <h3>III. Here is MDP transition. Let's play!</h3>
         <div class="framed">
           <div class="inside">
@@ -212,9 +248,7 @@
               will be highlighted in red. In case you found a solution all queens will be highlighted in green.</div>
           </div>
         </div>
-      </section>
 
-      <section id="mdp_action">
         <h3>IV. Here is MDP action. Let's play!</h3>
         <div class="framed">
           <div class="inside">
@@ -235,9 +269,7 @@
               will be highlighted in red. In case you found a solution all queens will be highlighted in green.</div>
           </div>
         </div>
-      </section>
 
-      <section id="control">
         <h3>V. Here is control agent. Let's play!</h3>
         <div class="framed">
           <div class="inside">
@@ -266,9 +298,7 @@
               will be highlighted in red. In case you found a solution all queens will be highlighted in green.</div>
           </div>
         </div>
-      </section>
 
-      <section id="random">
         <h3>VI. Here is random agent. Let's play!</h3>
         <div class="framed">
           <div class="inside">
@@ -289,9 +319,16 @@
               will be highlighted in red. In case you found a solution all queens will be highlighted in green.</div>
           </div>
         </div>
+
       </section>
 
-      <section id="mc">
+      <section id="monte_carlo">
+        <h2>III. Monte Carlo approach</h2>
+
+        <p>
+          Content
+        </p>
+
         <h3>VII. Here is MC agent. Let's play!</h3>
         <div class="framed">
           <div class="inside">
@@ -323,9 +360,7 @@
             <script type="module" src="rlboard/play_mcagent.js"></script>
           </div>
         </div>
-      </section>
 
-      <section id="3dtable">
         <h3>IX. 3D Value Table</h3>
         <div class="framed">
           <div class="inside">
@@ -343,9 +378,17 @@
             <script type="module" src="rlboard/3D_table.js"></script>
           </div>
         </div>
+
       </section>
 
-      <section id="td">
+      <section id="temporal_difference">
+        <h2>IV. Temporal Difference learning</h2>
+
+        <p>
+          Content
+        </p>
+
+
         <h3>VIII. Here is TD agent. Let's play!</h3>
         <div class="framed">
           <div class="inside">
@@ -377,9 +420,16 @@
             <script type="module" src="rlboard/play_tdagent.js"></script>
           </div>
         </div>
+
       </section>
 
-      <section id="mcvstd">
+      <section id="difference">
+        <h2>V. Difference between MC and TD</h2>
+
+        <p>
+          Content
+        </p>
+
         <h3>VIII. Here is MC vs TD agent. Let's play!</h3>
         <div class="framed">
           <div class="inside">
@@ -413,9 +463,7 @@
             <script type="module" src="rlboard/play_mc_vs_td.js"></script>
           </div>
         </div>
-      </section>
 
-      <section id="optim">
         <h3>X. Here is Optimal Value Function. Let's play!</h3>
         <div class="framed">
           <div class="inside">
@@ -439,9 +487,7 @@
             <script type="module" src="rlboard/play_optim.js"></script>
           </div>
         </div>
-      </section>
 
-      <section id="biased">
         <h3>X. Here is biased vs unbiased. Let's play!</h3>
         <div class="framed">
           <div class="inside">
@@ -478,106 +524,28 @@
         </div>
       </section>
 
-      <section id="draganddrop">
-        <h3>XI. Here is drag and drop. Let's play!</h3>
-        <div class="framed">
-          <div class="inside">
-            <div class="eyebrow">
-              You can add an introductory text for interactive elements to motivate users to check out the following block.
-            </div>
+      <section id="conclusion">
+        <h2>V. Conclusion</h2>
 
-            <div id="play_draganddrop" class="play_div" style="margin-bottom: -50px">
-              <div class="board"></div>
-              <div class="place_creator" style="top: -100px"></div>
-              <br>
 
-              <button class="btn_save">save</button>
-              <div id="play_my_mdp" style="display: none">
-                <label>
-                  <select class="select_num" name="lang">
-                    <option value=MC selected>MC</option>
-                    <option value=TD>TD</option>
-                  </select>
-                </label>
-                <button class="btn_train">train</button>
-              </div>
+        <p>
+          In conclusion, this paper has provided an overview of two popular approaches in reinforcement learning: Monte
+          Carlo and Temporal Difference. While these methods have their respective advantages and disadvantages, it is
+          worth noting that there are many other approaches to reinforcement learning beyond MC and TD. For example,
+          model-based and policy gradient methods are also commonly used in this field. These other methods may be
+          better suited to certain types of problems or have particular advantages in different contexts.
+        </p>
 
-            </div>
+        <p>
+          Moreover, recent advancements in the field of reinforcement learning have demonstrated the potential for
+          combining reinforcement learning with deep learning to achieve even better results. These hybrid approaches
+          have shown promise in a wide range of applications, from game-playing and robotics to natural language
+          processing and recommendation systems. As the field continues to evolve, it is likely that we will see more
+          innovations and breakthroughs in the area of reinforcement learning, and it will be exciting to see how these
+          new approaches and techniques can be applied to address real-world challenges.
+        </p>
 
-            <div class="caption"><b>Figure 2:</b><br> Example of an interactive figure: Introducing the 8-Queens problem. Drag and drop queens to change their position. Try to position all queens
-              such that no two queens share the same row, column, or diagonal. Queens that threaten each other
-              will be highlighted in red. In case you found a solution all queens will be highlighted in green.</div>
-
-            <script type="module" src="rlboard/play_draganddrop.js"></script>
-          </div>
-        </div>
       </section>
-
-      <section id="trajectory">
-        <h3>XII. Here make trajectory. Let's play!</h3>
-        <div class="framed">
-          <div class="inside">
-            <div class="eyebrow">
-              You can add an introductory text for interactive elements to motivate users to check out the following block.
-            </div>
-
-            <div id="play_6" class="play_div">
-              <div class="board"></div>
-              <div class="place_creator" style="margin-bottom: -130px; top: -150px"></div>
-              <br>
-              <button class="btn_test">Test</button>
-              <button class="btn_reset">Reset</button>
-              <button class="btn_reset btn_clear">Clear</button>
-            </div>
-
-            <div class="caption"><b>Figure 2:</b><br> Example of an interactive figure: Introducing the 8-Queens problem. Drag and drop queens to change their position. Try to position all queens
-              such that no two queens share the same row, column, or diagonal. Queens that threaten each other
-              will be highlighted in red. In case you found a solution all queens will be highlighted in green.</div>
-
-            <script type="module" src="rlboard/play_trajectory.js"></script>
-          </div>
-        </div>
-      </section>
-
-
-
-      <h2 id="commonmistakes">Some Common Mistakes</h2>
-
-      <p>
-        An excellent style manual for science writers is [<a href="#ref_3">3</a>].
-      </p>
-
-      <h2 id="authors">Authors and Affiliations</h2>
-      <p>
-        A minimum of one author is required for all articles. Author names
-        should be listed from top to bottom.
-        This is the author sequence that will be used in future citations
-        and by indexing services. Names should not be listed in groups by
-        affiliation. Please keep your affiliations as succinct as possible (for
-        example, do not differentiate among departments of the same organization).
-      </p>
-
-      <h2 id="hints">Hints and General Advice</h2>
-      <h3>Identify the Headings</h3>
-
-
-      <h3>HTML-Specific Advice</h3>
-
-      <ul>
-        <li> &lt h1&gt  : Page title </li>
-        <li> &lt p class="subhead"&gt  : Subheading </li>
-        <li> &lt div class="header-authors"&gt  : Authors grid </li>
-        <li> &lt div class="header-published"&gt  : Published date information </li>
-        <li> &lt div class="contents box"&gt  : Table of contents </li>
-        <li> &lt section id="introduction"&gt  : Sections from table of contents. Allows for inclusion of in-line references </li>
-        <li> &lt figure class="text-center"&gt  : Tagging for images with caption </li>
-        <li class="tex2jax_ignore"> &lt p class="inline-math"&gt  : Allows for handling of MathJax expressions. Use $$ – some equation here – $$ to add an expression </li>
-        <li> &lt p class="math-left"&gt  and &lt p class="math-right"&gt  : Enables left/right alignment of an expression </li>
-        <li> &lt div class="static"&gt  : Supports static illustrations with caption </li>
-        <li> &lt div class="framed"&gt  : Each interactive element and scripts will be surrounded with this tagging </li>
-        <li> &lt div class="formula-wrapper"&gt  : Allows for adding content into styled and responsive table </li>
-        <li> &lt section class="references"&gt  : Reference list </li>
-      </ul>
 
       <section class="references">
         <h2>References</h2>
