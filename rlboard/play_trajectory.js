@@ -114,7 +114,7 @@ cells.forEach((cell) => {
 // Add dummy arrow into place_creator
 for (const [index, direction] of ["up", "down", "left", "right"].entries()) {
     let temp = document.createElement('img');
-    temp.src = "../img/rlboard/arrow/" + direction + ".png";
+    temp.src = "img/rlboard/arrow/" + direction + ".png";
     temp.classList.add("arrow");
     temp.classList.add(direction);
     setDraggable(temp);
