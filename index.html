@@ -353,7 +353,13 @@
         <h2>III. Monte Carlo approach</h2>
 
         <p>
-          Content
+          Monte Carlo estimate the values by simply averaging sample returns.
+          The Monte Carlo method is based on simulating a number of episodes of an agent interacting with the environment.
+          In each episode, the agent takes actions and receives rewards, and the sequence of states, actions, and rewards is recorded.
+          The final outcome of each episode is used to update the value of each state.
+          The Monte Carlo approach estimates the value of a state as the average of the returns received in all the episodes in which that state was visited.
+          The return is the sum of rewards received after visiting that state until the end of the episode.
+          The estimated value of a state becomes more accurate as the number of episodes increases.
         </p>
 
         <h3>VII. Here is MC agent. Let's play!</h3>
@@ -405,6 +411,16 @@
             <script type="module" src="rlboard/3D_table.js"></script>
           </div>
         </div>
+
+        <p>
+          There are a few disadvantages of the Monte Carlo approach.
+          One disadvantage is that Monte Carlo requires complete episodes of interaction with the environment before updating the values of states.
+          This can be time-consuming and computationally expensive, especially in problems where episodes are long or infinite.
+          In addition, Monte Carlo can suffer from high variance in the estimates of values, particularly when episodes are short or few.
+          This variance can make it difficult for the agent to learn the true values of states, and can lead to slower convergence.
+          Following Temporal Difference approach addresses this issues, making it more stable and efficient in learning the values.
+        </p>
+
 
       </section>
 
