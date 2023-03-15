@@ -1,5 +1,13 @@
-STRUCTURE:
+# Interactive Article on Reinforcement Learning
+Reinforcement Learning: An Introduction to Monte Carlo and Temporal Difference Methods
+##How to run
+1. open ```index.html``` file on pycharm
+2. click browser icon shown in upper right side
 
+![brw_icon.png](brw_icon.png)
+
+##Html structure
+```
 <h1> : page title
 <p class="subhead"> : subheading
 <div class="header-authors"> : authors grid
@@ -15,3 +23,4 @@ STRUCTURE:
 <div class="framed"> : frame to insert interactive elements and scripts
 <div class="formula-wrapper"> : allows adding content into styled and responsive table
 <section class="references"> : created section of references.
+```
