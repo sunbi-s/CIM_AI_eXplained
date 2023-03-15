@@ -89,6 +89,10 @@ places.forEach((place) => {
 const cells = boardDom.querySelectorAll(".cell");
 cells.forEach((cell) => {
     cell.addEventListener("dragover", (e) => {
+        frame.querySelectorAll(".cell.highlight").forEach((highlight) => {
+            highlight.classList.remove("highlight");
+        });
+        e.target.classList.add("highlight");
         e.preventDefault();
     });
     cell.addEventListener("drop", (e) => {
@@ -97,6 +101,11 @@ cells.forEach((cell) => {
         if (draggable == null) {
             return;
         }
+
+        // remove highlight
+        frame.querySelectorAll(".cell.highlight").forEach((highlight) => {
+            highlight.classList.remove("highlight");
+        });
 
         if (draggable.classList.contains("player")) {
             cell.insertBefore(draggable, cell.firstChild);
