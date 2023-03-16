@@ -51,12 +51,7 @@ export class RDGame extends Game {
 
                 // step
                 [next_state, reward, done] = this.environment.step(action);
-                
-                // state no change
-                if (state[0] == next_state[0] && state[1] == next_state[1]) {
-                    // console.log("stateSame")
-                    break;
-                }
+
                 // episode done
                 if (done) {
                     break;
@@ -100,14 +95,14 @@ export class MCGame extends Game {
                 rewards.push(reward);
 
                 // save sample
-                this.agent.saveSample(next_state, reward, done);
+                this.agent.saveSample(state, reward, done);
+
+                state = [next_state[0], next_state[1]];
 
                 // episode done
                 if (done) {
                     break;
-                } else {
-                    state = [next_state[0], next_state[1]];
-                }
+                } 
 
                 //delay
                 await sleep(sleep_time);
@@ -133,19 +128,18 @@ export class MCGame extends Game {
 
                 // step
                 [next_state, reward, done] = this.environment.step(action);
+
                 
                 // state no change
                 if (state[0] == next_state[0] && state[1] == next_state[1]) {
                     // console.log("stateSame")
                     break;
                 }
+                state = [next_state[0], next_state[1]];
                 // episode done
-
                 if (done) {
                     break;
-                } else {
-                    state = [next_state[0], next_state[1]];
-                }
+                } 
 
 
                 //delay
@@ -261,7 +255,6 @@ export class TDGame extends MCGame {
 export class OptimGame extends MCGame {
     constructor(div, context, seed) {
         super(div, context, seed);
-        this.context = context;
 
         this.agent = new OptimAgent(this.environment);
     }

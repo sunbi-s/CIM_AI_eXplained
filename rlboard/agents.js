@@ -12,6 +12,7 @@ export class RandomAgent{
 }
 
 export class MCAgent {
+    // https://sumniya.tistory.com/11
     constructor(env) {
         this.height = env.boardShape[0];
         this.width = env.boardShape[1];
@@ -40,18 +41,21 @@ export class MCAgent {
 
     // Update the Q-value of all states visited by the agent in all episodes
     update() {
-        let state, reward, V_t;
+        let state, reward, done, V_t;
         let visit_state = [];
         let G_t = 0;
 
         for (let i = this.samples.length-1; i >= 0; --i) {
-            [state, reward, ] = this.samples[i];
+            [state, reward, done] = this.samples[i];
             if (!visit_state.includes(state.toString())) {
                 visit_state.push(state.toString());
+
                 G_t = reward + this.discount_factor * G_t;
                 V_t = this.value_table[state[0]][state[1]]; //default value
                 this.value_table[state[0]][state[1]] = V_t + this.learning_rate * (G_t - V_t);
+
             }
+
         }
 
         // samples clear
@@ -155,6 +159,7 @@ export class TDAgent extends MCAgent {
 }
 
 export class OptimAgent {
+    // https://github.com/rlcode/reinforcement-learning/blob/master/1-grid-world/2-value-iteration/value_iteration.py#L4
     constructor(env) {
         this.env = env;
         this.height = env.boardShape[0];
@@ -196,7 +201,6 @@ export class OptimAgent {
                     if (place && place.classList.contains("place")) {
                         if (place.done) {
                             next_value_table[state[0]][state[1]] = 0;
-                            // next_value_table[state[0]][state[1]] = place.reward;
                             continue;
                         }
                     }
@@ -214,7 +218,7 @@ export class OptimAgent {
                     if (next_cell) {
                         let place = next_cell.lastChild;
                         if (place && place.classList.contains("place")) {
-                            reward = place.reward;
+                            reward += place.reward;
                         }
 
                         let next_value = this.value_table[next_state[0]][next_state[1]];
@@ -249,7 +253,6 @@ export class OptimAgent {
                 value_list.push(reward + this.discount_factor * next_value);
             }
         }
-        console.log(value_list)
         return this._argMax(value_list);
     }
 

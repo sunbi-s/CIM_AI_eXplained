@@ -7,7 +7,10 @@ export class Environment{
         this.actions = [[-1, 0], [1, 0], [0, -1], [0, 1]];
         this.div = div;
         this.config = config;
-        this._makeBoard();
+
+        if (div) {
+            this._makeBoard();
+        }
     }
 
     _makeBoard() {
@@ -101,6 +104,7 @@ export class Environment{
 
         // create dom element
         let place = document.createElement('img');
+        place.draggable = false;
         place.classList.add("place");
         place.reward = _reward;
         place.done = _done;
@@ -115,6 +119,7 @@ export class Environment{
 
     _createPlayer(targetPos, imagePath) {
         let player = document.createElement('img');
+        player.draggable = false;
         player.classList.add("player");
         player.imagePath = imagePath;
         player.imageIndex = 0;

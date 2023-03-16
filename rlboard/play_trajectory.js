@@ -20,12 +20,27 @@ function setDraggable(node) {
     })
     node.addEventListener("dragend", () => {
         node.classList.remove("dragging");
+
+        // remove highlight
+        frame.querySelectorAll(".cell.highlight").forEach((highlight) => {
+            highlight.classList.remove("highlight");
+        });
     });
 }
 
 function follow_arrow(game, episodeLength) {
+    let player = boardDom.querySelector(".player");
+
     let timeout = 200;
     done = false;
+
+    // alert instruction
+    let childNodes = Array.from(player.parentNode.childNodes);
+    let arrowCount = childNodes.reduce((sum, child) => sum + (child.classList.contains("arrow") ? 1 : 0), 0);
+    if (arrowCount === 0) {
+        alert("There are no arrows.\nDrag and drop the arrow on the board.");
+        return;
+    }
 
     // loop step
     let interval = setInterval(() => {
@@ -37,7 +52,6 @@ function follow_arrow(game, episodeLength) {
 
         // find action for the arrow
         let action = -1;
-        let player = boardDom.querySelector(".player");
         for (let child of Array.from(player.parentNode.childNodes)) {
             if (child.classList.contains("arrow")) {
                 action = child.getAttribute("index");
@@ -80,6 +94,10 @@ place_creator.addEventListener("drop", (e) => {
 const cells = boardDom.querySelectorAll(".cell");
 cells.forEach((cell) => {
     cell.addEventListener("dragover", (e) => {
+        frame.querySelectorAll(".cell.highlight").forEach((highlight) => {
+            highlight.classList.remove("highlight");
+        });
+        e.target.classList.add("highlight");
         e.preventDefault();
     });
     cell.addEventListener("drop", (e) => {
@@ -114,7 +132,7 @@ cells.forEach((cell) => {
 // Add dummy arrow into place_creator
 for (const [index, direction] of ["up", "down", "left", "right"].entries()) {
     let temp = document.createElement('img');
-    temp.src = "../img/rlboard/arrow/" + direction + ".png";
+    temp.src = "img/rlboard/arrow/" + direction + ".png";
     temp.classList.add("arrow");
     temp.classList.add(direction);
     setDraggable(temp);

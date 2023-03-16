@@ -17,21 +17,21 @@ class MDP_Transition extends MDP {
         // draw background image
         let img = new Image();
         img.src = "img/mdp/transition.png"
-        this.context.drawImage(img, 8, 50);
+        this.context.drawImage(img, 50, 10, this.context.width * 0.9, this.context.height);
 
         // draw title text
         this.context.fillStyle = "#e7326b";
-        this.context.font = "bold 30pt Arial";
-        this.context.fillText("아이 재우기 MDP", 40, 60);
+        this.context.font = "bold 20pt Arial";
+        this.context.fillText("Markov Process for child’s sleep pattern", 40, 20);
 
         // draw current position
         this.context.beginPath();
         this.context.strokeStyle = "#eeb540";
         let radius;
         if (this.currentIdx === this.DUMMY_IDX) {
-            radius = 10;
+            radius = 8;
         } else {
-            radius = 70;
+            radius = 50;
         }
         let currentPos = this.positions[this.currentIdx];
         this.context.arc(currentPos[0], currentPos[1], radius, 0, 2 * Math.PI);

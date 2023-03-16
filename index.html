@@ -7,7 +7,7 @@
   <meta name="description"
     content="An interactive article on using genetic algorithms to solve the 8-Queens problem. Learn how the choice of representation and operators affects your genetic algorithm.">
   <meta charset="utf8">
-  <title>Bare Demo of Immersive Articles for the IEEE Computational Intelligence Magazine
+  <title>Reinforcement Learning: An Introduction to Monte Carlo and Temporal Difference Methods
   </title>
 
   <!-- Stylesheet for IEEE Xplore immersive article -->
@@ -133,10 +133,10 @@
         </p>
 
         <ul id="Units">
-          <li> Policy: the probability of action in a given state. It determines the agent’s behavior.</li>
-          <li> Reward: a single number that is given to the agent at each timestep. The reward function determines a goal in an RL problem. Higher reward means a better policy.</li>
-          <li> Value function: the total amount of reward that an agent will get in the future, starting from a specific state. It shows how good a state is in the long run.</li>
-          <li> Model of the environment: a model that makes predictions of the environment’s behavior, thereby enabling inference about how the environment will behave.</li>
+          <li> <b>Policy</b>: the probability of action in a given state. It determines the agent’s behavior.</li>
+          <li> <b>Reward</b>: a single number that is given to the agent at each timestep. The reward function determines a goal in an RL problem. Higher reward means a better policy.</li>
+          <li> <b>Value</b> function: the total amount of reward that an agent will get in the future, starting from a specific state. It shows how good a state is in the long run.</li>
+          <li> <b>Model</b> of the environment: a model that makes predictions of the environment’s behavior, thereby enabling inference about how the environment will behave.</li>
         </ul>
 
         <p>
@@ -159,39 +159,34 @@
 
         <p>
           In this article, we will focus on two fundamental model-free algorithms: Monte Carlo and Temporal Difference.
-          These algorithms are powerful tools for solving a variety of reinforcement learning problems.
+          These algorithms are powerful tools for solving a variety of reinforcement learning problems. We will train
+          and evaluate the agents on grid world environment. The agent starts from upper left start grid, and the
+          goal is to reach lower right destination grid.
         </p>
 
-        <h3>Make MDP</h3>
         <div class="framed">
           <div class="inside">
             <div class="eyebrow">
-              You can add an introductory text for interactive elements to motivate users to check out the following block.
+              Control the character using arrow keys on the right.
             </div>
 
-            <div id="play_draganddrop" class="play_div" style="margin-bottom: -50px">
+            <div id="play_control" class="play_div">
               <div class="board"></div>
-              <div class="place_creator" style="top: -100px"></div>
-              <br>
 
-              <button class="btn_save">save</button>
-              <div id="play_my_mdp" style="display: none">
-                <label>
-                  <select class="select_num" name="lang">
-                    <option value=MC selected>MC</option>
-                    <option value=TD>TD</option>
-                  </select>
-                </label>
-                <button class="btn_train">train</button>
+              <div class="btn_arrow" style="display: inline-block">
+                <button class="btn_action_0" style="display: block; margin: auto">⮝</button>
+                <button class="btn_action_2">⮜</button>
+                &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                <button class="btn_action_3">⮞</button>
+                <br>
+                <button class="btn_action_1">⮟</button>
+                <br><br>
+                <button class="btn_reset" style="display: block; margin: auto">Reset</button>
               </div>
-
+              <script type="module" src="rlboard/play_control.js"></script>
             </div>
 
-            <div class="caption"><b>Figure 2:</b><br> Example of an interactive figure: Introducing the 8-Queens problem. Drag and drop queens to change their position. Try to position all queens
-              such that no two queens share the same row, column, or diagonal. Queens that threaten each other
-              will be highlighted in red. In case you found a solution all queens will be highlighted in green.</div>
-
-            <script type="module" src="rlboard/play_draganddrop.js"></script>
+            <div class="caption"><b>Figure 2:</b><br> Introducing the gird world environment. </div>
           </div>
         </div>
 
@@ -201,26 +196,26 @@
         <h2>II. Markov Decision Process</h2>
 
         <p>
-          Reinforcement learning is a widely-used methodology in machine learning that focuses on solving sequential decision-making problems.
-          In these types of problems, the decisions made at the current step have an impact on future outcomes. One of the most popular ways to 
-          formalize this process is through the Markov decision process (MDP), which provides a useful framework for representing and solving sequential 
-          decision-making problems.
+          Reinforcement learning is a widely-used methodology in machine learning that focuses on solving sequential
+          decision-making problems. In these types of problems, the decisions made at the current step have an impact on
+          future outcomes. One of the most popular ways to formalize this process is through the Markov decision process
+          (MDP), which provides a useful framework for representing and solving sequential decision-making problems.
         </p>
 
         <p>
-          MDPs are defined by a set of states, actions, and transition probabilities that govern how the system moves from one state to another based 
-          on the decisions made by the agent. It is crucial to understand MDP because the goal of reinforcement learning is to find an optimal policy, 
-          or a set of actions that maximize rewards, given the MDP's rules and constraints. MDP extends the concept of a Markov process, which is a 
-          stochastic process that only consists of states and transition probabilities.
+          MDPs are defined by a set of states, actions, and transition probabilities that govern how the system moves
+          from one state to another based on the decisions made by the agent. It is crucial to understand MDP because
+          the goal of reinforcement learning is to find an optimal policy, or a set of actions that maximize rewards,
+          given the MDP's rules and constraints. MDP extends the concept of a Markov process, which is a stochastic
+          process that only consists of states and transition probabilities.
         </p>
 
-        <h3> Markov Process</h3>
-        <p>  
-          A Markov process is a stochastic process that describes a system in which the state of the system changes over time. At each time step,
-          the state may remain the same or transition to a different state, based on the probability of transition that depends solely on the current state.
-          This property is known as the Markov property, where the future state of the system is determined only by the present state and not by any previous 
-          states. An example of a Markov process is shown in Figure 2.<br>
-          \[\textbf{(Property 1)}: \text{Markov Property}: P(s_{t+1} \mid s_t) = P(s_{t+1} \mid s_0, s_1, s_2, ..., s_t)\]
+        <p>
+          A Markov process is a stochastic process that describes a system in which the state of the system changes
+          over time. At each time step, the state may remain the same or transition to a different state, based on the
+          probability of transition that depends solely on the current state. This property is known as the Markov
+          property, where the future state of the system is determined only by the present state and not by any previous
+          states. An example of a Markov process is shown in Fig2."
         </p>
         
         <figure class="static">
@@ -276,7 +271,7 @@
             </div>
 
             <div id="play_mdp_transition" class="play_div">
-              <canvas width="1000px" height="600px"></canvas>
+              <canvas width="800px" height="400px"></canvas>
               <button class="btn_transition" style="display: block; margin: auto">Transition</button>
               <button class="btn_reset" style="display: block; margin: auto">Reset</button>
               <script type="module" src="rlboard/play_mdp_transition.js"></script>
@@ -286,6 +281,45 @@
           </div>
         </div>
         
+
+        <h3>Make MDP</h3>
+        <div class="framed">
+          <div class="inside">
+            <div class="eyebrow">
+              You can add an introductory text for interactive elements to motivate users to check out the following block.
+            </div>
+
+            <div id="play_draganddrop" class="play_div" style="margin-bottom: -50px">
+              <div class="board"></div>
+              <div class="place_creator" style="top: -100px"></div>
+              <br>
+
+              <button class="btn_back" style="display: none">Back</button>
+              <button class="btn_save">Save</button>
+
+              <div id="play_my_mdp" style="display: none">
+                <button class="btn_back" style="display: none">Back</button>
+                <label>
+                  <select id="select_agent" name="lang">
+                    <option value=Optimal>Optimal</option>
+                    <option value=MC selected>MC</option>
+                    <option value=TD>TD</option>
+                  </select>
+                </label>
+                <button class="btn_run">Run</button>
+              </div>
+
+            </div>
+
+            <div class="caption"><b>Figure 2:</b><br> Example of an interactive figure: Introducing the 8-Queens problem. Drag and drop queens to change their position. Try to position all queens
+              such that no two queens share the same row, column, or diagonal. Queens that threaten each other
+              will be highlighted in red. In case you found a solution all queens will be highlighted in green.</div>
+
+            <script type="module" src="rlboard/play_draganddrop.js"></script>
+          </div>
+        </div>
+
+
 
         <h3> Markov Decision Process </h3>
         
@@ -329,7 +363,7 @@
             </div>
 
             <div id="play_mdp_action" class="play_div">
-              <canvas width="1000px" height="600px"></canvas>
+              <canvas width="800px" height="400px"></canvas>
               <button class="btn_action_0" style="display: block; margin: auto">Action 0</button>
               <button class="btn_action_1" style="display: block; margin: auto">Action 1</button>
               <button class="btn_reset" style="display: block; margin: auto">Reset</button>
@@ -453,7 +487,13 @@
         <h2>III. Monte Carlo approach</h2>
 
         <p>
-          Content
+          Monte Carlo estimate the values by simply averaging sample returns.
+          The Monte Carlo method is based on simulating a number of episodes of an agent interacting with the environment.
+          In each episode, the agent takes actions and receives rewards, and the sequence of states, actions, and rewards is recorded.
+          The final outcome of each episode is used to update the value of each state.
+          The Monte Carlo approach estimates the value of a state as the average of the returns received in all the episodes in which that state was visited.
+          The return is the sum of rewards received after visiting that state until the end of the episode.
+          The estimated value of a state becomes more accurate as the number of episodes increases.
         </p>
 
         <h3>VII. Here is MC agent. Let's play!</h3>
@@ -495,7 +535,7 @@
               You can add an introductory text for interactive elements to motivate users to check out the following block.
             </div>
 
-            <div id="play_3d_table">
+            <div id="play_mc_3d_table">
             </div>
 
             <div class="caption"><b>Figure 2:</b><br> Example of an interactive figure: Introducing the 8-Queens problem. Drag and drop queens to change their position. Try to position all queens
@@ -505,6 +545,16 @@
             <script type="module" src="rlboard/3D_table.js"></script>
           </div>
         </div>
+
+        <p>
+          There are a few disadvantages of the Monte Carlo approach.
+          One disadvantage is that Monte Carlo requires complete episodes of interaction with the environment before updating the values of states.
+          This can be time-consuming and computationally expensive, especially in problems where episodes are long or infinite.
+          In addition, Monte Carlo can suffer from high variance in the estimates of values, particularly when episodes are short or few.
+          This variance can make it difficult for the agent to learn the true values of states, and can lead to slower convergence.
+          Following Temporal Difference approach addresses this issues, making it more stable and efficient in learning the values.
+        </p>
+
 
       </section>
 
@@ -560,13 +610,36 @@
           </div>
         </div>
 
+        <h3>IX. 3D Value Table</h3>
+        <div class="framed">
+          <div class="inside">
+            <div class="eyebrow">
+              You can add an introductory text for interactive elements to motivate users to check out the following block.
+            </div>
+
+            <div id="play_td_3d_table">
+            </div>
+
+            <div class="caption"><b>Figure 2:</b><br> Example of an interactive figure: Introducing the 8-Queens problem. Drag and drop queens to change their position. Try to position all queens
+              such that no two queens share the same row, column, or diagonal. Queens that threaten each other
+              will be highlighted in red. In case you found a solution all queens will be highlighted in green.</div>
+
+            <script type="module" src="rlboard/3D_table.js"></script>
+          </div>
+        </div>
+
       </section>
 
       <section id="difference">
         <h2>V. Difference between MC and TD</h2>
 
         <p>
-          Content
+          Both MC and TD approaches are used in reinforcement learning to estimate the value function, but they differ
+          in how they update this function. Monte Carlo estimates values by averaging the sample returns obtained from
+          multiple episodes, while TD uses the Bellman equation to compute target values from estimated values. This
+          means that MC can update values only at the end of each episode, while TD can update values after each time
+          step. Therefore, MC can be more computationally expensive and time-consuming, whereas TD is more efficient
+          and faster to converge.
         </p>
 
         <h3>VIII. Here is MC vs TD agent. Let's play!</h3>
@@ -627,6 +700,17 @@
           </div>
         </div>
 
+        <p>
+          From a machine learning perspective, we can consider the bias and variance of these two algorithms. MC
+          learning has low bias but high variance because it estimates the value function by averaging the returns
+          from multiple episodes, which can lead to high variance. However, since the value function is updated only
+          with the sample returns, there is no bias introduced by bootstrapping. On the other hand, TD learning has low
+          variance but high bias because it updates the value function at each time step based on the difference between
+          the observed reward and the predicted reward. This leads to lower variance since each update is based on a
+          single time step, but it can introduce bias since the predicted reward is estimated based on the value
+          function, which itself may be biased.
+        </p>
+
         <h3>X. Here is biased vs unbiased. Let's play!</h3>
         <div class="framed">
           <div class="inside">
@@ -661,6 +745,15 @@
             <script type="module" src="rlboard/play_biased.js"></script>
           </div>
         </div>
+
+        <p>
+          In practice, the choice between MC and TD depends on the specific problem and the available resources.
+          If the episodes are short and the rewards are delayed, TD may be more suitable as it can update values
+          after each time step. If the episodes are long and the rewards are immediate, MC may be a better choice
+          as it can update values at the end of each episode. By understanding the differences between MC and TD,
+          researchers and practitioners can choose the most appropriate approach for their particular application.
+        </p>
+
       </section>
 
       <section id="conclusion">

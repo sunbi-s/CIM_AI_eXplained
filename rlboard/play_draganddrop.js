@@ -1,11 +1,21 @@
 import { Position } from "./utill.js";
-import { Game, animate } from "./game.js";
+import { Game, MCGame, TDGame, OptimGame, animate } from "./game.js";
 
 const frame = document.querySelector('#play_draganddrop')
 const boardDom = frame.querySelector('.board');
 boardDom.style.cursor = 'pointer';
 
 let game = new Game(boardDom, 0);
+let mcGame = new MCGame(null, null, 0);
+mcGame.environment.div = boardDom;
+mcGame.environment.player = game.environment.player;
+let tdGame = new TDGame(null, null, 0);
+tdGame.environment.div = boardDom;
+tdGame.environment.player = game.environment.player;
+// let optimGame = new OptimGame(null, null, 0);
+// optimGame.environment.div = boardDom;
+// optimGame.environment.player = game.environment.player;
+
 animate(game);
 
 
@@ -27,13 +37,20 @@ function addDraggingClass(ev) {
 }
 function removeDraggingClass(ev) {
     ev.target.classList.remove("dragging");
+
+    // remove highlight
+    frame.querySelectorAll(".cell.highlight").forEach((highlight) => {
+        highlight.classList.remove("highlight");
+    });
 }
 function setDraggable(node) {
+    node.draggable = true;
     node.classList.add("draggable");
     node.addEventListener("dragstart", addDraggingClass);
     node.addEventListener("dragend", removeDraggingClass);
 }
 function unsetDraggable(node) {
+    node.draggable = false;
     node.classList.remove("draggable");
     node.removeEventListener("dragstart", addDraggingClass);
     node.removeEventListener("dragend", removeDraggingClass);
@@ -65,7 +82,7 @@ place_creator.addEventListener("drop", (e) => {
     let places = boardDom.querySelectorAll(".place");
     let doneCount = Array.from(places).reduce((sum, place) => sum + (place.done ? 1 : 0), 0);
     if (doneCount - draggable.done < 1) {
-        console.log("There should be at least one done place in board.");
+        alert("There should be at least one terminal place in board.");
         return;
     }
 
@@ -89,10 +106,14 @@ places.forEach((place) => {
 const cells = boardDom.querySelectorAll(".cell");
 cells.forEach((cell) => {
     cell.addEventListener("dragover", (e) => {
+        frame.querySelectorAll(".cell.highlight").forEach((highlight) => {
+            highlight.classList.remove("highlight");
+        });
+        e.target.classList.add("highlight");
         e.preventDefault();
     });
     cell.addEventListener("drop", (e) => {
-        e.preventDefault();
+        // e.preventDefault();
         let draggable = frame.querySelector(".dragging");
         if (draggable == null) {
             return;
@@ -120,23 +141,48 @@ cells.forEach((cell) => {
 
 
 // Add btn event
-let selectAgent = frame.querySelector('.select_num');
+let selectAgent = frame.querySelector('#select_agent');
 let divPlayMyMDP = frame.querySelector('#play_my_mdp');
 let btnSave = frame.querySelector('.btn_save');
-let btnTrain = frame.querySelector('.btn_train');
+let btnBack = frame.querySelector('.btn_back');
+let btnRun = frame.querySelector('.btn_run');
 
 btnSave.addEventListener("click", function() {
     btnSave.style.display = "none";
-    divPlayMyMDP.style.display = "block";
-
-    place_creator.remove();
+    btnBack.style.display = "inline-block";
+    divPlayMyMDP.style.display = "inline-block";
+    place_creator.style.display = "none";
     for (let draggable of boardDom.querySelectorAll(".draggable")) {
         unsetDraggable(draggable);
     }
 });
-btnTrain.addEventListener("click", function() {
-    btnTrain.disabled = true;
-
-    // TODO: implementation
-    console.log("TODO: implementation");
+btnBack.addEventListener("click", function() {
+    btnSave.style.display = "inline-block";
+    btnBack.style.display = "none";
+    divPlayMyMDP.style.display = "none";
+    place_creator.style.display = "inline-block";
+    for (let place of boardDom.querySelectorAll(".place")) {
+        setDraggable(place);
+    }
+});
+btnRun.addEventListener("click", function() {
+    btnRun.disabled = true;
+    btnBack.disabled = true;
+    if (selectAgent.value === "Optimal") {
+        // TODO: implementation
+        // optimGame.run_test(10).then(() => {
+        //     btnRun.disabled = false;
+        //     btnBack.disabled = false;
+        // });
+    } else if (selectAgent.value === "MC")  {
+        mcGame.run(10).then(() => {
+            btnRun.disabled = false;
+            btnBack.disabled = false;
+        });
+    } else if (selectAgent.value === "TD")  {
+        tdGame.run(10).then(() => {
+            btnRun.disabled = false;
+            btnBack.disabled = false;
+        });
+    }
 });

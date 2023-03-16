@@ -1,10 +1,11 @@
-// import { game } from './play_tdagent.js'
-import { game } from './play_mcagent.js'
+import { game as mcgame } from './play_mcagent.js'
+import { game as tdgame } from './play_tdagent.js'
 
-let frame = document.querySelector("#play_3d_table");
+let mcframe = document.querySelector("#play_mc_3d_table");
+let tdframe = document.querySelector("#play_td_3d_table");
 
 
-function getData() {
+function getData(game) {
     let data = game.agent.value_table;
     let dataNorm = data;
 
@@ -64,7 +65,9 @@ let layout = {
     },
 };
 
-Plotly.newPlot(frame, getData(), layout);
+Plotly.newPlot(mcframe, getData(mcgame), layout);
+Plotly.newPlot(tdframe, getData(tdgame), layout);
 setInterval(() => {
-    Plotly.react(frame, getData(), layout);
+    Plotly.react(mcframe, getData(mcgame), layout);
+    Plotly.react(tdframe, getData(tdgame), layout);
 }, 5000);

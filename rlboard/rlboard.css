@@ -98,6 +98,10 @@
     cursor: move;
 }
 
+.cell.highlight {
+    border: 1px solid yellow;
+}
+
 .board {
     display: inline-block;
     margin: auto;
