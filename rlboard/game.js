@@ -96,6 +96,7 @@ export class MCGame extends Game {
 
                 // save sample
                 this.agent.saveSample(state, reward, done);
+
                 state = [next_state[0], next_state[1]];
 
                 // episode done
