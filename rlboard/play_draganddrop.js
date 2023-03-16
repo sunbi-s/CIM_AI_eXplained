@@ -34,11 +34,13 @@ function removeDraggingClass(ev) {
     });
 }
 function setDraggable(node) {
+    node.draggable = true;
     node.classList.add("draggable");
     node.addEventListener("dragstart", addDraggingClass);
     node.addEventListener("dragend", removeDraggingClass);
 }
 function unsetDraggable(node) {
+    node.draggable = false;
     node.classList.remove("draggable");
     node.removeEventListener("dragstart", addDraggingClass);
     node.removeEventListener("dragend", removeDraggingClass);
