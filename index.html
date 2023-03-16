@@ -496,6 +496,27 @@
           The estimated value of a state becomes more accurate as the number of episodes increases.
         </p>
 
+        <p class="inline-math">
+          After each episode, sample return $$G_t$$ is computed by each step.
+        </p>
+
+        <p>
+          $$G_t = R_{t+1} + \gamma R_{t+2} + ... + \gamma^{T-1} R_{T}$$
+        </p>
+
+        <p class="inline-math">
+          Then for each visited state in the episode, the increment counter $$N(s)$$ (which refers the number of visits to
+          state $$s$$) increased by 1
+          and the sample return $$G_t$$ is added to total return $$S(s)$$, and finally dividing $$S(s)$$ by $$N(s)$$,
+          the state value $$V(s)$$ is obtained.
+        </p>
+
+        <p>
+          \[N(s) = N(s) + 1\]
+          \[S(s) = S(s) + G_t\]
+          \[V(s) = S(s) / N(s)\]
+        </p>
+
         <h3>VII. Here is MC agent. Let's play!</h3>
         <div class="framed">
           <div class="inside">
