@@ -6,7 +6,7 @@ let tdframe = document.querySelector("#play_td_3d_table");
 
 
 function getData(game) {
-    let data = game.agent.value_table;
+    let data = game.agent.value_table.map(v => [...v]);
     let dataNorm = data;
 
     // transform -> [0, ~]
