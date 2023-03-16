@@ -16,7 +16,7 @@ frame.querySelector('.btn_action_0').addEventListener("click", function() {
         [state, reward, done] = game.environment.step(0);
     }
     else {
-        throw "reset!!!";
+        alert("Episode is done.\nYou have to reset before playing.");
     }
 });
 frame.querySelector('.btn_action_1').addEventListener("click", function() {
@@ -24,7 +24,7 @@ frame.querySelector('.btn_action_1').addEventListener("click", function() {
         [state, reward, done] = game.environment.step(1);
     }
     else {
-        throw "reset!!!";
+        alert("Episode is done.\nYou have to reset before playing.");
     }
 });
 frame.querySelector('.btn_action_2').addEventListener("click", function() {
@@ -32,7 +32,7 @@ frame.querySelector('.btn_action_2').addEventListener("click", function() {
         [state, reward, done] = game.environment.step(2);
     }
     else {
-        throw "reset!!!";
+        alert("Episode is done.\nYou have to reset before playing.");
     }
 });
 frame.querySelector('.btn_action_3').addEventListener("click", function() {
@@ -40,7 +40,7 @@ frame.querySelector('.btn_action_3').addEventListener("click", function() {
         [state, reward, done] = game.environment.step(3);
     }
     else {
-        throw "reset!!!";
+        alert("Episode is done.\nYou have to reset before playing.");
     }
 });
 frame.querySelector('.btn_reset').addEventListener("click", function() {
