@@ -7,7 +7,10 @@ export class Environment{
         this.actions = [[-1, 0], [1, 0], [0, -1], [0, 1]];
         this.div = div;
         this.config = config;
-        this._makeBoard();
+
+        if (div) {
+            this._makeBoard();
+        }
     }
 
     _makeBoard() {

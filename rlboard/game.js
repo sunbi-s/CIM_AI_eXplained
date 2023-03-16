@@ -254,7 +254,6 @@ export class TDGame extends MCGame {
 export class OptimGame extends MCGame {
     constructor(div, context, seed) {
         super(div, context, seed);
-        this.context = context;
 
         this.agent = new OptimAgent(this.environment);
     }

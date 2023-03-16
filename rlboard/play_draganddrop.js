@@ -1,11 +1,21 @@
 import { Position } from "./utill.js";
-import { Game, animate } from "./game.js";
+import { Game, MCGame, TDGame, OptimGame, animate } from "./game.js";
 
 const frame = document.querySelector('#play_draganddrop')
 const boardDom = frame.querySelector('.board');
 boardDom.style.cursor = 'pointer';
 
 let game = new Game(boardDom, 0);
+let mcGame = new MCGame(null, null, 0);
+mcGame.environment.div = boardDom;
+mcGame.environment.player = game.environment.player;
+let tdGame = new TDGame(null, null, 0);
+tdGame.environment.div = boardDom;
+tdGame.environment.player = game.environment.player;
+// let optimGame = new OptimGame(null, null, 0);
+// optimGame.environment.div = boardDom;
+// optimGame.environment.player = game.environment.player;
+
 animate(game);
 
 
@@ -135,12 +145,12 @@ let selectAgent = frame.querySelector('#select_agent');
 let divPlayMyMDP = frame.querySelector('#play_my_mdp');
 let btnSave = frame.querySelector('.btn_save');
 let btnBack = frame.querySelector('.btn_back');
-let btnTrain = frame.querySelector('.btn_train');
+let btnRun = frame.querySelector('.btn_run');
 
 btnSave.addEventListener("click", function() {
     btnSave.style.display = "none";
     btnBack.style.display = "inline-block";
-    divPlayMyMDP.style.display = "block";
+    divPlayMyMDP.style.display = "inline-block";
     place_creator.style.display = "none";
     for (let draggable of boardDom.querySelectorAll(".draggable")) {
         unsetDraggable(draggable);
@@ -155,6 +165,24 @@ btnBack.addEventListener("click", function() {
         setDraggable(place);
     }
 });
-btnTrain.addEventListener("click", function() {
-    alert(selectAgent.value);
+btnRun.addEventListener("click", function() {
+    btnRun.disabled = true;
+    btnBack.disabled = true;
+    if (selectAgent.value === "Optimal") {
+        // TODO: implementation
+        // optimGame.run_test(10).then(() => {
+        //     btnRun.disabled = false;
+        //     btnBack.disabled = false;
+        // });
+    } else if (selectAgent.value === "MC")  {
+        mcGame.run(10).then(() => {
+            btnRun.disabled = false;
+            btnBack.disabled = false;
+        });
+    } else if (selectAgent.value === "TD")  {
+        tdGame.run(10).then(() => {
+            btnRun.disabled = false;
+            btnBack.disabled = false;
+        });
+    }
 });
