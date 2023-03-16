@@ -214,7 +214,6 @@ export class TDGame extends MCGame {
 
         for (let episode = 1; episode <= max_episode_num; ++episode) {
             let next_state, action ,reward, done;
-            let pre_reward = 0;
             let state = this.environment.reset();
             let rewards = [];
 
@@ -231,15 +230,11 @@ export class TDGame extends MCGame {
                 rewards.push(reward);
 
                 // update
-                this.agent.learn(state, pre_reward, reward, next_state, done);
-                pre_reward = reward;
-
+                this.agent.learn(state, reward, next_state);
+                state = [next_state[0], next_state[1]];
                 // episode done
                 if (done) {
                     break;
-                }
-                else {
-                    state = [next_state[0], next_state[1]];
                 }
 
                 // delay
