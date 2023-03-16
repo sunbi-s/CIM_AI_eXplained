@@ -128,14 +128,8 @@ export class MCGame extends Game {
 
                 // step
                 [next_state, reward, done] = this.environment.step(action);
-                
-                // state no change
-                if (state[0] == next_state[0] && state[1] == next_state[1]) {
-                    // console.log("stateSame")
-                    break;
-                }
-                // episode done
 
+                // episode done
                 if (done) {
                     break;
                 } else {
