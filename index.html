@@ -494,7 +494,12 @@
         <h2>V. Difference between MC and TD</h2>
 
         <p>
-          Content
+          Both MC and TD approaches are used in reinforcement learning to estimate the value function, but they differ
+          in how they update this function. Monte Carlo estimates values by averaging the sample returns obtained from
+          multiple episodes, while TD uses the Bellman equation to compute target values from estimated values. This
+          means that MC can update values only at the end of each episode, while TD can update values after each time
+          step. Therefore, MC can be more computationally expensive and time-consuming, whereas TD is more efficient
+          and faster to converge.
         </p>
 
         <h3>VIII. Here is MC vs TD agent. Let's play!</h3>
@@ -555,6 +560,17 @@
           </div>
         </div>
 
+        <p>
+          From a machine learning perspective, we can consider the bias and variance of these two algorithms. MC
+          learning has low bias but high variance because it estimates the value function by averaging the returns
+          from multiple episodes, which can lead to high variance. However, since the value function is updated only
+          with the sample returns, there is no bias introduced by bootstrapping. On the other hand, TD learning has low
+          variance but high bias because it updates the value function at each time step based on the difference between
+          the observed reward and the predicted reward. This leads to lower variance since each update is based on a
+          single time step, but it can introduce bias since the predicted reward is estimated based on the value
+          function, which itself may be biased.
+        </p>
+
         <h3>X. Here is biased vs unbiased. Let's play!</h3>
         <div class="framed">
           <div class="inside">
@@ -589,6 +605,15 @@
             <script type="module" src="rlboard/play_biased.js"></script>
           </div>
         </div>
+
+        <p>
+          In practice, the choice between MC and TD depends on the specific problem and the available resources.
+          If the episodes are short and the rewards are delayed, TD may be more suitable as it can update values
+          after each time step. If the episodes are long and the rewards are immediate, MC may be a better choice
+          as it can update values at the end of each episode. By understanding the differences between MC and TD,
+          researchers and practitioners can choose the most appropriate approach for their particular application.
+        </p>
+
       </section>
 
       <section id="conclusion">
