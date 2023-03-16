@@ -35,8 +35,7 @@ export class MCAgent {
 
     // Add a sample to memory
     saveSample(state, reward, done) {
-        let new_state = [state[0], state[1]];
-        this.samples.push([new_state, reward, done])
+        this.samples.push([state, reward, done])
     }
 
     // Update the Q-value of all states visited by the agent in all episodes
@@ -54,7 +53,6 @@ export class MCAgent {
                 this.value_table[state[0]][state[1]] = V_t + this.learning_rate * (G_t - V_t);
             }
         }
-
         // samples clear
         this.samples = [];
     }
@@ -174,7 +172,7 @@ export class OptimAgent {
         }
 
         // calculate optimal value table
-        for (let i = 0; i < 100; ++i) {
+        for (let i = 0; i < 1000; ++i) {
             this._valueIteration();
         }
     }

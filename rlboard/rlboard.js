@@ -87,7 +87,7 @@ export class Environment{
         // check state
         let place = cell.lastChild;
         if (place.classList.contains("place")) {
-            reward = place.reward;
+            reward += place.reward;
             done = place.done;
         }
 

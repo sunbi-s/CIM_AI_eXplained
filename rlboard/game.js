@@ -21,7 +21,7 @@ export function animate(game) {
 export class Game{
     constructor(div, seed) {
         this.environment = new Environment(div, configs[seed]);
-        this.max_step_num = 100;
+        this.max_step_num = 1000;
     }
 
     render() {
@@ -121,7 +121,7 @@ export class MCGame extends Game {
             // delay
             await sleep(sleep_time);
 
-            for (let step = 1; step < this.max_step_num; ++step) {
+            for (let step = 1; step < 30; ++step) {
                 // get action
                 action = this.agent.getOptimalAction(state);
 
