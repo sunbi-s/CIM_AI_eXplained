@@ -155,6 +155,7 @@ export class TDAgent extends MCAgent {
 }
 
 export class OptimAgent {
+    // https://github.com/rlcode/reinforcement-learning/blob/master/1-grid-world/2-value-iteration/value_iteration.py#L4
     constructor(env) {
         this.env = env;
         this.height = env.boardShape[0];
