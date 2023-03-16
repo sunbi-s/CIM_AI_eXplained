@@ -12,9 +12,11 @@ mcGame.environment.player = game.environment.player;
 let tdGame = new TDGame(null, null, 0);
 tdGame.environment.div = boardDom;
 tdGame.environment.player = game.environment.player;
-// let optimGame = new OptimGame(null, null, 0);
-// optimGame.environment.div = boardDom;
-// optimGame.environment.player = game.environment.player;
+
+let div = document.createElement("div");
+let optimGame = new OptimGame(div, null, 0);
+optimGame.environment.div = boardDom;
+optimGame.environment.player = game.environment.player;
 
 animate(game);
 
@@ -169,18 +171,17 @@ btnRun.addEventListener("click", function() {
     btnRun.disabled = true;
     btnBack.disabled = true;
     if (selectAgent.value === "Optimal") {
-        // TODO: implementation
-        // optimGame.run_test(10).then(() => {
-        //     btnRun.disabled = false;
-        //     btnBack.disabled = false;
-        // });
+        optimGame.run_test(3).then(() => {
+            btnRun.disabled = false;
+            btnBack.disabled = false;
+        });
     } else if (selectAgent.value === "MC")  {
-        mcGame.run(10).then(() => {
+        mcGame.run(3).then(() => {
             btnRun.disabled = false;
             btnBack.disabled = false;
         });
     } else if (selectAgent.value === "TD")  {
-        tdGame.run(10).then(() => {
+        tdGame.run(3).then(() => {
             btnRun.disabled = false;
             btnBack.disabled = false;
         });
