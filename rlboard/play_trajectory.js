@@ -24,8 +24,18 @@ function setDraggable(node) {
 }
 
 function follow_arrow(game, episodeLength) {
+    let player = boardDom.querySelector(".player");
+
     let timeout = 200;
     done = false;
+
+    // alert instruction
+    let childNodes = Array.from(player.parentNode.childNodes);
+    let arrowCount = childNodes.reduce((sum, child) => sum + (child.classList.contains("arrow") ? 1 : 0), 0);
+    if (arrowCount === 0) {
+        alert("There are no arrows.\nDrag and drop the arrow on the board.");
+        return;
+    }
 
     // loop step
     let interval = setInterval(() => {
@@ -37,7 +47,6 @@ function follow_arrow(game, episodeLength) {
 
         // find action for the arrow
         let action = -1;
-        let player = boardDom.querySelector(".player");
         for (let child of Array.from(player.parentNode.childNodes)) {
             if (child.classList.contains("arrow")) {
                 action = child.getAttribute("index");
