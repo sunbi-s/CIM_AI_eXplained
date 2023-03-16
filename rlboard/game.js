@@ -97,12 +97,12 @@ export class MCGame extends Game {
                 // save sample
                 this.agent.saveSample(state, reward, done);
 
+                state = [next_state[0], next_state[1]];
+
                 // episode done
                 if (done) {
                     break;
-                } else {
-                    state = [next_state[0], next_state[1]];
-                }
+                } 
 
                 //delay
                 await sleep(sleep_time);
@@ -129,12 +129,17 @@ export class MCGame extends Game {
                 // step
                 [next_state, reward, done] = this.environment.step(action);
 
+                
+                // state no change
+                if (state[0] == next_state[0] && state[1] == next_state[1]) {
+                    // console.log("stateSame")
+                    break;
+                }
+                state = [next_state[0], next_state[1]];
                 // episode done
                 if (done) {
                     break;
-                } else {
-                    state = [next_state[0], next_state[1]];
-                }
+                } 
 
 
                 //delay

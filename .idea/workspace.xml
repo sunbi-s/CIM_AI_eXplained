@@ -2,9 +2,19 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="03ac3ace-1f26-443b-a814-651f5bb2e4d1" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/img/mdp/action.png" beforeDir="false" afterPath="$PROJECT_DIR$/img/mdp/action.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/img/mdp/transition.png" beforeDir="false" afterPath="$PROJECT_DIR$/img/mdp/transition.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/rlboard/agents.js" beforeDir="false" afterPath="$PROJECT_DIR$/rlboard/agents.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rlboard/config.js" beforeDir="false" afterPath="$PROJECT_DIR$/rlboard/config.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/rlboard/game.js" beforeDir="false" afterPath="$PROJECT_DIR$/rlboard/game.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rlboard/mdp.js" beforeDir="false" afterPath="$PROJECT_DIR$/rlboard/mdp.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rlboard/play_draganddrop.js" beforeDir="false" afterPath="$PROJECT_DIR$/rlboard/play_draganddrop.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rlboard/play_mdp_action.js" beforeDir="false" afterPath="$PROJECT_DIR$/rlboard/play_mdp_action.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rlboard/play_mdp_transition.js" beforeDir="false" afterPath="$PROJECT_DIR$/rlboard/play_mdp_transition.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rlboard/play_trajectory.js" beforeDir="false" afterPath="$PROJECT_DIR$/rlboard/play_trajectory.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rlboard/rlboard.js" beforeDir="false" afterPath="$PROJECT_DIR$/rlboard/rlboard.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -36,7 +46,7 @@
       <workItem from="1678844259009" duration="1068000" />
       <workItem from="1678850107818" duration="9616000" />
       <workItem from="1678932580288" duration="4518000" />
-      <workItem from="1678942932466" duration="652000" />
+      <workItem from="1678942932466" duration="2960000" />
     </task>
     <servers />
   </component>

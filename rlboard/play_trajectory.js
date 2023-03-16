@@ -20,6 +20,11 @@ function setDraggable(node) {
     })
     node.addEventListener("dragend", () => {
         node.classList.remove("dragging");
+
+        // remove highlight
+        frame.querySelectorAll(".cell.highlight").forEach((highlight) => {
+            highlight.classList.remove("highlight");
+        });
     });
 }
 
@@ -89,6 +94,10 @@ place_creator.addEventListener("drop", (e) => {
 const cells = boardDom.querySelectorAll(".cell");
 cells.forEach((cell) => {
     cell.addEventListener("dragover", (e) => {
+        frame.querySelectorAll(".cell.highlight").forEach((highlight) => {
+            highlight.classList.remove("highlight");
+        });
+        e.target.classList.add("highlight");
         e.preventDefault();
     });
     cell.addEventListener("drop", (e) => {
