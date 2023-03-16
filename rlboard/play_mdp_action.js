@@ -11,12 +11,6 @@ frame.insertBefore(canvas, frame.firstChild);
 const context = canvas.getContext('2d');
 context.width = canvas.width;
 context.height = canvas.height;
-canvas.onclick = (ev) => {
-    let bounds = canvas.getBoundingClientRect();
-    let mouseX = (ev.clientX / bounds.width) * canvas.width - bounds.x;
-    let mouseY = (ev.clientY / bounds.height) * canvas.height - bounds.y;
-    console.log(mouseX, mouseY);
-};
 
 class MDP_Action extends MDP {
     constructor(context) {
