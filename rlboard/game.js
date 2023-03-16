@@ -95,7 +95,7 @@ export class MCGame extends Game {
                 rewards.push(reward);
 
                 // save sample
-                this.agent.saveSample(next_state, reward, done);
+                this.agent.saveSample(state, reward, done);
 
                 // episode done
                 if (done) {

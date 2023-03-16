@@ -40,18 +40,21 @@ export class MCAgent {
 
     // Update the Q-value of all states visited by the agent in all episodes
     update() {
-        let state, reward, V_t;
+        let state, reward, done, V_t;
         let visit_state = [];
         let G_t = 0;
 
         for (let i = this.samples.length-1; i >= 0; --i) {
-            [state, reward, ] = this.samples[i];
+            [state, reward, done] = this.samples[i];
             if (!visit_state.includes(state.toString())) {
                 visit_state.push(state.toString());
+
                 G_t = reward + this.discount_factor * G_t;
                 V_t = this.value_table[state[0]][state[1]]; //default value
                 this.value_table[state[0]][state[1]] = V_t + this.learning_rate * (G_t - V_t);
+
             }
+
         }
 
         // samples clear
