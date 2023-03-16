@@ -201,17 +201,176 @@
         <h2>II. Markov Decision Process</h2>
 
         <p>
-          Reinforcement learning is a widely-used methodology in machine learning that focuses on solving sequential decision-making problems. In these types of problems, the decisions made at the current step have an impact on future outcomes. One of the most popular ways to formalize this process is through the Markov decision process (MDP), which provides a useful framework for representing and solving sequential decision-making problems.
+          Reinforcement learning is a widely-used methodology in machine learning that focuses on solving sequential decision-making problems.
+          In these types of problems, the decisions made at the current step have an impact on future outcomes. One of the most popular ways to 
+          formalize this process is through the Markov decision process (MDP), which provides a useful framework for representing and solving sequential 
+          decision-making problems.
         </p>
 
         <p>
-          MDPs are defined by a set of states, actions, and transition probabilities that govern how the system moves from one state to another based on the decisions made by the agent. It is crucial to understand MDP because the goal of reinforcement learning is to find an optimal policy, or a set of actions that maximize rewards, given the MDP's rules and constraints. MDP extends the concept of a Markov process, which is a stochastic process that only consists of states and transition probabilities.
+          MDPs are defined by a set of states, actions, and transition probabilities that govern how the system moves from one state to another based 
+          on the decisions made by the agent. It is crucial to understand MDP because the goal of reinforcement learning is to find an optimal policy, 
+          or a set of actions that maximize rewards, given the MDP's rules and constraints. MDP extends the concept of a Markov process, which is a 
+          stochastic process that only consists of states and transition probabilities.
         </p>
 
+        <h3> Markov Process</h3>
         <p>  
-          A Markov process is a stochastic process that describes a system in which the state of the system changes over time. At each time step, the state may remain the same or transition to a different state, based on the probability of transition that depends solely on the current state. This property is known as the Markov property, where the future state of the system is determined only by the present state and not by any previous states. An example of a Markov process is shown in Fig2."
+          A Markov process is a stochastic process that describes a system in which the state of the system changes over time. At each time step,
+          the state may remain the same or transition to a different state, based on the probability of transition that depends solely on the current state.
+          This property is known as the Markov property, where the future state of the system is determined only by the present state and not by any previous 
+          states. An example of a Markov process is shown in Figure 2.<br>
+          \[\textbf{(Property 1)}: \text{Markov Property}: P(s_{t+1} \mid s_t) = P(s_{t+1} \mid s_0, s_1, s_2, ..., s_t)\]
+        </p>
+        
+        <figure class="static">
+          <img src="img/mdp/transition(real).png" alt="Markov process for child's sleep pattern" style="margin: auto auto; max-width: 70%; display: block"/>
+          <figcaption><b>Figure 2:</b> Example of a Markov Process for Modeling a Child's Sleep Pattern.</figcaption>
+        </figure>
+        
+        <p>
+          There are five possible states that a child can be in, including \(s_0\)(Lying), \(s_1\)(Awake),  \(s_2\)(Drowsy), \(s_3\)(Light Sleep), and \(s_4\)(Deep Sleep). 
+          Each state lasts for a unit of time, such as one minute, and transitions to the next state based on certain probabilities. Assuming the markov 
+          process always starts with the child \(s_0\)(Lying), the child remains in this state for one minute. After that, there is a 40% probability 
+          of transitioning to \(s_1\)(Awake) or a 60% probability of transitioning to \(s_3\)(Light Sleep). The process continues until the child reaches \(s_4\)(Deep Sleep)
+          , which ends the Markov Process. 
+        </p>
+        <p>
+          Here are the components that make up a Markov Process:
+        </p>
+        <ul id="mp_components">
+          <li> State Space (\(S\)): All possible states that the system can take. In case of the example, the state space include various sleep 
+               states such as Deep sleep, Light sleep, and Awake. i.e&#41; \(\{s_0, s_1, s_2, s_3, s_4 \in S\}\) </li>
+          <li> Transition Probability(\(P_{ss'}\)): The probabilities of transitioning from one state \(s\) to another state \(s'\) given step \(t\).<br>
+               i.e&#41; \(P_{ss'} = P(S_{t+1} = s' \mid S_{t} = s)\)
+          </li>
+        <p>
+              \[
+              \begin{array}{c c} 
+              & 
+              \begin{array}{c c c c c} s_0 & s_1 & s_2 & s_3 & s_4 \\
+              \end{array} \\
+              P_{ss'} = 
+              \begin{array}{c c c}s_0 \\ s_1 \\ s_2 \\ s_3 \\ s_4 \end{array} &
+              \left[
+              \begin{array}{c c c}
+                  & 0.4 & 0.6 &     &     \\
+              0.1 & 0.9 &     &     &     \\
+                  &     &     & 0.7 & 0.3 \\
+                  &     &     & 1.0 &     \\
+                  &     &     & 1.0 &     \\
+              \end{array}
+              \right]
+              \end{array}
+              \]
+        </p>
+        <br>
+        <br>
+        <br>
+
+        </ul>
+        <div class="framed">
+          <div class="inside">
+            <div class="eyebrow">
+              Click the transition button to check out the states transition on given probability in markov process for child’s sleep pattern.
+            </div>
+
+            <div id="play_mdp_transition" class="play_div">
+              <canvas width="1000px" height="600px"></canvas>
+              <button class="btn_transition" style="display: block; margin: auto">Transition</button>
+              <button class="btn_reset" style="display: block; margin: auto">Reset</button>
+              <script type="module" src="rlboard/play_mdp_transition.js"></script>
+            </div>
+
+            <div class="caption"><b>Figure 3:</b><br> Introduing Child's sleeping pattern system as an example of the markov Process</div>
+          </div>
+        </div>
+        
+
+        <h3> Markov Decision Process </h3>
+        
+        <p>
+          The Markov Decision Process (MDP) extends the Markov Process by incorporating decision-making capabilities, which sets it apart from the latter.
+           While the Markov Process models a system where the future state is determined only by the current state, the MDP introduces the concept of actions 
+           taken by an agent that can influence the next state of the system. This enables the MDP to better model real-world scenarios.
         </p>
 
+        <p>
+          In an MDP, at each time step, the agent chooses an action based on its current state and the reward associated with the action. The chosen action then 
+          determines the probability of transitioning to the next state. The agent's goal is to learn a policy, which is a mapping of states to actions that maximizes 
+          the expected cumulative reward over time. By making decisions based on this policy, the agent can navigate the system and achieve its objectives efficiently. 
+          Figure 4 provides an example of an MDP.
+        </p>
+
+        <figure class="static">
+          <img src="img/mdp/action.png" alt="Markov Decision Process for Improving a child’s sleep quality" style="margin: auto auto; max-width: 70%; display: block"/>
+          <figcaption><b>Figure 2:</b> Example of a Markov Decision Process for Improving a child's sleep quality.</figcaption>
+        </figure>
+
+        <p>
+          Here are the components that make up a Markov Decision Process:
+        </p>
+        
+        <ul id="mdp_components">
+          <li> State Space (\(S\)): All possible states that the system can take. \(\{s_0, s_1, s_2, s_3, s_4 \in S\}\) </li>
+          <li> Action Space(\(A\)): All possible action that can be taken given states.\(s\) In case of the example, the action space include singing a lullaby and 
+             playing with child. i.e&#41; \(\{a_0, s_2, s_3, s_4, s_5 \in S\}\) </li>
+          <li> Transition Probability(\(P_{ss'}^a\)): The probabilities of transitioning from one state \(s\) to another state \(s'\) after taking a specific action \(a\) given step \(t\).
+               i.e&#41; \(P_{ss'}^a = P(S_{t+1} = s' \mid S_{t} = s, A_{t}=a)\)</li>
+          <li> Reward function(\(R\)): The reward function in this MDP can evaluate the desirability of different actions by providing scalar value called Reward(\(R_t)\) given step \(t\).</li>
+          <li> Discount Factor(\(\gamma\)): It is a value between 0 and 1 that determines the importance of immediate rewards versus long-term rewards. </li>
+        </ul>
+
+        <h3>IV. Here is MDP action. Let's play!</h3>
+        <div class="framed">
+          <div class="inside">
+            <div class="eyebrow">
+              You can add an introductory text for interactive elements to motivate users to check out the following block.
+            </div>
+
+            <div id="play_mdp_action" class="play_div">
+              <canvas width="1000px" height="600px"></canvas>
+              <button class="btn_action_0" style="display: block; margin: auto">Action 0</button>
+              <button class="btn_action_1" style="display: block; margin: auto">Action 1</button>
+              <button class="btn_reset" style="display: block; margin: auto">Reset</button>
+              <script type="module" src="rlboard/play_mdp_action.js"></script>
+            </div>
+
+            <div class="caption"><b>Figure 4:</b><br> Example of an interactive figure: Introducing the 8-Queens problem. Drag and drop queens to change their position. Try to position all queens
+              such that no two queens share the same row, column, or diagonal. Queens that threaten each other
+              will be highlighted in red. In case you found a solution all queens will be highlighted in green.</div>
+          </div>
+        </div>
+        
+        <p>
+          Markov Decision Processes (MDPs) differ from Markov Processes in that they include a goal through reward. In the context of helping a child sleep, 
+          a reward function can be set to encourage good sleeping patterns. Alternatively, if the objective is to play with the child, MDPs may reward being awake. 
+          The goal of MDPs is to determine which action to select in each state to maximize the sum of rewards.
+        </p>
+        <p>
+          For instance, \(a_0\)(Playing with child) in the \(s_0\)(Lying state) immediately transitions to the state \(s_1\)(Awake) and receives positive rewards. 
+          However, in the long term, continuous \(a_1\)(Singing a lullaby) to put the child to sleep will yield the highest reward. Interestingly, If playing with 
+          child action is taken while the child is \(s_2\)(Drowsy), depending on the given probability, it may transition to a playing state or a lying state. 
+          This transition probability helps to model more realistic problems.
+        </p>
+        
+        <p>
+          To maximize the sum of rewards(\(R_t\)) by time(\(t\)) in an MDP, it is necessary to evaluate the value of each state and determine which action to take in each state(\(s\)).
+           The value of a state is determined by the expected sum of discounted future rewards that can be obtained by taking a particular action in that state. The discounting 
+           factor(\(\gamma)\) is used to ensure that immediate rewards are valued more highly than delayed rewards. This expected sum of future rewards is called the return(\(G_t\)).
+        </p>
+        
+        <p>
+          However, since the return value changes every time due to probabilistic factors such as transitions, the expected value of the return must be used. A function that outputs 
+          the expected return value for each state is called the value function\(v_\pi\). The value function is a critical concept in reinforcement learning as it enables an agent to evaluate
+          the value of different states and determine the optimal policy to follow to maximize rewards.
+          \[v_\pi(s) \doteq \mathbb{E}_\pi\left[G_t \mid S_t=s\right]=\mathbb{E}_\pi\left[\sum_{k=0}^{\infty} \gamma^k R_{t+k+1} \mid S_t=s\right], \text { for all } s \in \mathcal{S}\]
+        </p>
+
+        <p>
+          In a model-free environment, the transition probability and reward function are not known. Therefore, they must be estimated from experience. There are two primary methods 
+          for estimating the value function in a model-free environment: the Monte Carlo (MC) method and the Temporal Difference (TD) method.
+        </p>
 
         <h3>XII. Here make trajectory. Let's play!</h3>
         <div class="framed">
@@ -229,61 +388,14 @@
               <button class="btn_reset btn_clear">Clear</button>
             </div>
 
-            <div class="caption"><b>Figure 2:</b><br> Example of an interactive figure: Introducing the 8-Queens problem. Drag and drop queens to change their position. Try to position all queens
-              such that no two queens share the same row, column, or diagonal. Queens that threaten each other
-              will be highlighted in red. In case you found a solution all queens will be highlighted in green.</div>
+            <div class="caption"><b>Figure 2:</b><br> Example of an interactive figure: Introducing the 8-Queens problem. Drag and drop queens to change their position. 
+              Try to position all queens such that no two queens share the same row, column, or diagonal. Queens that threaten each other will be highlighted in red. 
+              In case you found a solution all queens will be highlighted in green.</div>
 
             <script type="module" src="rlboard/play_trajectory.js"></script>
           </div>
         </div>
 
-        <h3>III. Here is Markov Process. Let's play!</h3>
-        <div class="framed">
-          <div class="inside">
-            <div class="eyebrow">
-              You can add an introductory text for interactive elements to motivate users to check out the following block.
-            </div>
-
-            <div id="play_mdp_transition" class="play_div">
-              <canvas width="1000px" height="600px"></canvas>
-              <button class="btn_transition" style="display: block; margin: auto">Transition</button>
-              <button class="btn_reset" style="display: block; margin: auto">Reset</button>
-              <script type="module" src="rlboard/play_mdp_transition.js"></script>
-            </div>
-
-            <div class="caption"><b>Figure 2:</b><br> Example of an interactive figure: Introducing the 8-Queens problem. Drag and drop queens to change their position. Try to position all queens
-              such that no two queens share the same row, column, or diagonal. Queens that threaten each other
-              will be highlighted in red. In case you found a solution all queens will be highlighted in green.</div>
-          </div>
-        </div>
-
-        <p>
-        There are five possible states that a child can be in, including Lying (s0), Awake (s1), Drowsy (s2), Light Sleep (s3), and Deep Sleep (s4). Each state lasts for a unit of time, such as one minute, and transitions to the next state based on certain probabilities. Assuming the Markov Process always starts with the child lying down(s0), the child remains in this state for one minute. After that, there is a 40\% probability of transitioning to Awake (s1) or a 60\% probability of transitioning to Light Sleep (s3). The process continues until the child reaches Deep Sleep (s4), which ends the Markov Process. 
-        </p>
-        
-        <p>
-          The Markov Decision Process (MDP) extends the Markov Process by incorporating decision-making capabilities, which sets it apart from the latter. While the Markov Process models a system where the future state is determined only by the current state, the MDP introduces the concept of actions taken by an agent that can influence the next state of the system. This enables the MDP to better model real-world scenarios.
-        </p>
-        <h3>IV. Here is MDP action. Let's play!</h3>
-        <div class="framed">
-          <div class="inside">
-            <div class="eyebrow">
-              You can add an introductory text for interactive elements to motivate users to check out the following block.
-            </div>
-
-            <div id="play_mdp_action" class="play_div">
-              <canvas width="1000px" height="600px"></canvas>
-              <button class="btn_action_0" style="display: block; margin: auto">Action 0</button>
-              <button class="btn_action_1" style="display: block; margin: auto">Action 1</button>
-              <button class="btn_reset" style="display: block; margin: auto">Reset</button>
-              <script type="module" src="rlboard/play_mdp_action.js"></script>
-            </div>
-
-            <div class="caption"><b>Figure 2:</b><br> Example of an interactive figure: Introducing the 8-Queens problem. Drag and drop queens to change their position. Try to position all queens
-              such that no two queens share the same row, column, or diagonal. Queens that threaten each other
-              will be highlighted in red. In case you found a solution all queens will be highlighted in green.</div>
-          </div>
-        </div>
 
         <h3>V. Here is control agent. Let's play!</h3>
         <div class="framed">
@@ -400,10 +512,20 @@
         <h2>IV. Temporal Difference learning</h2>
 
         <p>
-          Content
+          Temporal Difference (TD) is another method for estimating the value function in reinforcement learning. Unlike Monte Carlo (MC) methods, which require waiting until 
+          the end of an episode to update the value function, TD updates the value function at every transition. MC methods require the complete return of an episode to update 
+          the value function. However, the return cannot be known until the end of the episode. This waiting time can be avoided by using TD, which updates the value function 
+          before the end of an episode.
+        </p>
+        <p>  
+          TD achieves this goal by using the Bootstrap method, which updates an estimate using another estimate. Specifically, TD uses the difference between observed rewards
+           and predicted rewards to update the value function estimate at each time step. This allows TD to update the value function estimate incrementally and in real-time,
+            without the need to wait for the end of an episode.
+            \[v_\pi\left(s_t\right)=\mathbb{E}_\pi\left[r_{t+1}+\gamma v_\pi\left(s_{t+1}\right)\right]\]
         </p>
         <p>
-          Content
+          Compared to MC methods, TD has the advantage of being more computationally efficient. However, it may have bias and may not converge to the true value function. 
+          Despite this limitation, TD has been successfully applied in a wide range of reinforcement learning problems.
         </p>
 
         <h3>VIII. Here is TD agent. Let's play!</h3>
