@@ -38,6 +38,11 @@ function setDraggable(node) {
     node.addEventListener("dragstart", addDraggingClass);
     node.addEventListener("dragend", removeDraggingClass);
 }
+function unsetDraggable(node) {
+    node.classList.remove("draggable");
+    node.removeEventListener("dragstart", addDraggingClass);
+    node.removeEventListener("dragend", removeDraggingClass);
+}
 
 
 const player = boardDom.querySelector(".player");
@@ -65,7 +70,7 @@ place_creator.addEventListener("drop", (e) => {
     let places = boardDom.querySelectorAll(".place");
     let doneCount = Array.from(places).reduce((sum, place) => sum + (place.done ? 1 : 0), 0);
     if (doneCount - draggable.done < 1) {
-        console.log("There should be at least one done place in board.");
+        alert("There should be at least one terminal place in board.");
         return;
     }
 
@@ -124,14 +129,30 @@ cells.forEach((cell) => {
 
 
 // Add btn event
+let selectAgent = frame.querySelector('#select_agent');
+let divPlayMyMDP = frame.querySelector('#play_my_mdp');
 let btnSave = frame.querySelector('.btn_save');
-let btnReset = frame.querySelector('.btn_reset');
+let btnBack = frame.querySelector('.btn_back');
+let btnTrain = frame.querySelector('.btn_train');
 
 btnSave.addEventListener("click", function() {
-    document.querySelectorAll(".board").forEach((_boardDom) => {
-        // TODO: implementation
-    });
+    btnSave.style.display = "none";
+    btnBack.style.display = "inline-block";
+    divPlayMyMDP.style.display = "block";
+    place_creator.style.display = "none";
+    for (let draggable of boardDom.querySelectorAll(".draggable")) {
+        unsetDraggable(draggable);
+    }
 });
-btnReset.addEventListener("click", function() {
-    // TODO: implementation
+btnBack.addEventListener("click", function() {
+    btnSave.style.display = "inline-block";
+    btnBack.style.display = "none";
+    divPlayMyMDP.style.display = "none";
+    place_creator.style.display = "inline-block";
+    for (let place of boardDom.querySelectorAll(".place")) {
+        setDraggable(place);
+    }
+});
+btnTrain.addEventListener("click", function() {
+    alert(selectAgent.value);
 });

@@ -276,8 +276,20 @@
               <div class="place_creator" style="top: -100px"></div>
               <br>
 
+              <button class="btn_back" style="display: none">Back</button>
               <button class="btn_save">Save</button>
-              <button class="btn_reset">Reset</button>
+
+              <div id="play_my_mdp" style="display: none">
+                <button class="btn_back" style="display: none">Back</button>
+                <label>
+                  <select id="select_agent" name="lang">
+                    <option value=Optimal>Optimal</option>
+                    <option value=MC selected>MC</option>
+                    <option value=TD>TD</option>
+                  </select>
+                </label>
+                <button class="btn_train">train</button>
+              </div>
 
             </div>
 
