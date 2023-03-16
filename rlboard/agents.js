@@ -198,7 +198,6 @@ export class OptimAgent {
                     if (place && place.classList.contains("place")) {
                         if (place.done) {
                             next_value_table[state[0]][state[1]] = 0;
-                            // next_value_table[state[0]][state[1]] = place.reward;
                             continue;
                         }
                     }
@@ -216,7 +215,7 @@ export class OptimAgent {
                     if (next_cell) {
                         let place = next_cell.lastChild;
                         if (place && place.classList.contains("place")) {
-                            reward = place.reward;
+                            reward += place.reward;
                         }
 
                         let next_value = this.value_table[next_state[0]][next_state[1]];
@@ -251,7 +250,6 @@ export class OptimAgent {
                 value_list.push(reward + this.discount_factor * next_value);
             }
         }
-        console.log(value_list)
         return this._argMax(value_list);
     }
 
