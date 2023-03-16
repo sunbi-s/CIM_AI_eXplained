@@ -19,7 +19,7 @@ function weightedRandom(edges) {
 }
 
 
-class Edge {
+export class Edge {
     constructor(fromIdx, toIdx, prob, reward) {
         this.fromIdx = fromIdx;
         this.toIdx = toIdx;
@@ -33,29 +33,27 @@ export class MDP {
         this.context = context;
 
         this.END_IDX = 4;
-        this.DUMMY_IDX = 9;
 
         this.edges = [
-            new Edge(0, 2, 0.6, -1),
-            new Edge(0, 1, 0.4, +1),
+            new Edge(0, 2, 0.6, 0),
+            new Edge(0, 1, 0.4, 0),
 
-            new Edge(1, 0, 0.1, -1),
-            new Edge(1, 1, 0.9, +0),
+            new Edge(1, 0, 0.1, 0),
+            new Edge(1, 1, 0.9, 0),
 
-            new Edge(2, 3, 0.3, +0),
-            new Edge(2, this.DUMMY_IDX, 0.7, +1),  // to dummy node
+            new Edge(2, 3, 0.7, 0),
+            new Edge(2, this.END_IDX, 0.3, 0),
 
-            new Edge(3, this.END_IDX, 0.8, +10),
-            new Edge(3, 2, 0.2, -1),
+            new Edge(3, this.END_IDX, 1.0, 0),
         ];
         this.positions = {
-            0: [89, 492],
-            1: [89, 225],
-            2: [356, 492],
-            3: [623, 492],
-            4: [890, 492],
+            0: [132, 346],
+            1: [132, 158],
+            2: [316, 346],
+            3: [500, 346],
+            4: [684, 346],
         };
-        this.positions[this.DUMMY_IDX] = [245, 336];
+
         this.initIdx = 0;
 
         this.reset();
@@ -63,7 +61,7 @@ export class MDP {
 
     async step(action=null) {
         if (this.currentIdx === this.END_IDX) {
-            console.log("Done. Reset, please");
+            alert("Episode is done.\nYou have to reset before playing.");
             return;
         }
 
