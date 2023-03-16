@@ -12,6 +12,7 @@ export class RandomAgent{
 }
 
 export class MCAgent {
+    // https://sumniya.tistory.com/11
     constructor(env) {
         this.height = env.boardShape[0];
         this.width = env.boardShape[1];

@@ -5,12 +5,12 @@ export default [
             // [position, reward, final, path]
             //  [y, x]
             [[6, 4], -5, false, "img/rlboard/place/place_0.png"],
-            [[4, 1], -2, false, "img/rlboard/place/place_1.png"],
-            [[6, 0], -5, false, "img/rlboard/place/place_2.png"],
-            [[3, 4], -2, false, "img/rlboard/place/place_3.png"],
-            [[5, 5], -5, false, "img/rlboard/place/place_4.png"],
+            [[4, 1], -100, false, "img/rlboard/place/place_1.png"],
+            [[6, 0], -100, false, "img/rlboard/place/place_2.png"],
+            [[3, 4], -100, false, "img/rlboard/place/place_3.png"],
+            [[5, 5], -100, false, "img/rlboard/place/place_4.png"],
             [[2, 5], -10, false, "img/rlboard/place/place_5.png"],
-            [[1, 6], 200, true, "img/rlboard/place/place_6.png"],
+            [[7, 7], 0, true, "img/rlboard/place/place_6.png"],
             // [[1, 6],   0, true, "img/rlboard/place/place_6.png"],
             [[1, 3], -10, false, "img/rlboard/place/place_7.png"],
         ],
