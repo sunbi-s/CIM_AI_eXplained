@@ -52,14 +52,14 @@ let layout = {
         }
     },
     autosize: false,
-    width: 1000,
+    width: 800,
     height:400,
     font: {
         size: 15,
     },
     margin: {
-      l: 200,
-      r: 300,
+      l: 100,
+      r: 0,
       b: 0,
       t: 0,
     },
