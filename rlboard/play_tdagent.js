@@ -17,24 +17,40 @@ let btnTrain = frame.querySelector('.btn_train');
 let btnTest = frame.querySelector('.btn_test');
 let btnReset = frame.querySelector('.btn_reset');
 btnTrain.addEventListener("click", function() {
-    btnTrain.disabled = true;
-    btnTest.disabled = true;
+    if (btnTrain.classList.contains("disabled")) {
+        return;
+    }
+
+    btnTrain.classList.add("disabled");
+    btnTest.classList.add("disabled");
+    btnReset.classList.add("disabled");
     game.run(selectNum.value).then(() => {
-        btnTrain.disabled = false;
-        btnTest.disabled = false;
+        btnTrain.classList.remove("disabled");
+        btnTest.classList.remove("disabled");
+        btnReset.classList.remove("disabled");
     });
 });
 
 btnTest.addEventListener("click", function() {
-    btnTrain.disabled = true;
-    btnTest.disabled = true;
+    if (btnTest.classList.contains("disabled")) {
+        return;
+    }
+
+    btnTrain.classList.add("disabled");
+    btnTest.classList.add("disabled");
+    btnReset.classList.add("disabled");
     game.run_test(1).then(() => {
-        btnTrain.disabled = false;
-        btnTest.disabled = false;
+        btnTrain.classList.remove("disabled");
+        btnTest.classList.remove("disabled");
+        btnReset.classList.remove("disabled");
     });
 });
 
 btnReset.addEventListener("click", function() {
+    if (btnReset.classList.contains("disabled")) {
+        return;
+    }
+
     game.environment.reset();
     game.agent.reset();
 });

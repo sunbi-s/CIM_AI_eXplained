@@ -16,13 +16,21 @@ let btnTrain = frame.querySelector('.btn_train');
 let btnReset = frame.querySelector('.btn_reset');
 
 btnTrain.addEventListener("click", function() {
-    btnTrain.disabled = true;
-    btnReset.disabled = true;
+    if (btnTrain.classList.contains("disabled")) {
+        return;
+    }
+
+    btnTrain.classList.add("disabled");
+    btnReset.classList.add("disabled");
     game.run(selectNum.value, 0).then(() => {
-        btnTrain.disabled = false;
-        btnReset.disabled = false;
+        btnTrain.classList.remove("disabled");
+        btnReset.classList.remove("disabled");
     });
 });
 btnReset.addEventListener("click", function() {
+    if (btnReset.classList.contains("disabled")) {
+        return;
+    }
+
     game.reset();
 });

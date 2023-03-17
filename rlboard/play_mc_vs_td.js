@@ -24,38 +24,64 @@ let btnTest = frame.querySelector('.btn_test');
 let btnReset = frame.querySelector('.btn_reset');
 
 btnTrain.addEventListener("click", function() {
+    if (btnTrain.classList.contains("disabled")) {
+        return;
+    }
+
     let done1 = false;
     let done2 = false;
-    btnTrain.disabled = true;
-    btnTest.disabled = true;
-    game1.run(selectNum.value, 100).then(() => {
+    btnTrain.classList.add("disabled");
+    btnTest.classList.add("disabled");
+    btnReset.classList.add("disabled");
+    game1.run(selectNum.value, 50).then(() => {
         done1 = true;
-        btnTrain.disabled = !(done1 && done2);
-        btnTest.disabled = !(done1 && done2);
+        if (done1 && done2) {
+            btnTrain.classList.remove("disabled");
+            btnTest.classList.remove("disabled");
+            btnReset.classList.remove("disabled");
+        }
     });
-    game2.run(selectNum.value, 100).then(() => {
+    game2.run(selectNum.value, 50).then(() => {
         done2 = true;
-        btnTrain.disabled = !(done1 && done2);
-        btnTest.disabled = !(done1 && done2);
+        if (done1 && done2) {
+            btnTrain.classList.remove("disabled");
+            btnTest.classList.remove("disabled");
+            btnReset.classList.remove("disabled");
+        }
     });
 });
 btnTest.addEventListener("click", function() {
+    if (btnTest.classList.contains("disabled")) {
+        return;
+    }
+
     let done1 = false;
     let done2 = false;
-    btnTrain.disabled = true;
-    btnTest.disabled = true;
+    btnTrain.classList.add("disabled");
+    btnTest.classList.add("disabled");
+    btnReset.classList.add("disabled");
     game1.run_test(1).then(() => {
         done1 = true;
-        btnTrain.disabled = !(done1 && done2);
-        btnTest.disabled = !(done1 && done2);
+        if (done1 && done2) {
+            btnTrain.classList.remove("disabled");
+            btnTest.classList.remove("disabled");
+            btnReset.classList.remove("disabled");
+        }
     });
     game2.run_test(1).then(() => {
         done2 = true;
-        btnTrain.disabled = !(done1 && done2);
-        btnTest.disabled = !(done1 && done2);
+        if (done1 && done2) {
+            btnTrain.classList.remove("disabled");
+            btnTest.classList.remove("disabled");
+            btnReset.classList.remove("disabled");
+        }
     });
 });
 btnReset.addEventListener("click", function() {
+    if (btnReset.classList.contains("disabled")) {
+        return;
+    }
+
     game1.environment.reset();
     game1.agent.reset()
     game2.environment.reset();

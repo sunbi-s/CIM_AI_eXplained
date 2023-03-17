@@ -9,8 +9,12 @@ animate(game);
 let btnTest = frame.querySelector('.btn_test');
 
 btnTest.addEventListener("click", function() {
-    btnTest.disabled = true;
+    if (btnTest.classList.contains("disabled")) {
+        return;
+    }
+
+    btnTest.classList.add("disabled");
     game.run_test(1).then(() => {
-        btnTest.disabled = false;
+        btnTest.classList.remove("disabled");
     });
 });

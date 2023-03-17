@@ -13,15 +13,14 @@ export let game = new OptimGame(boardDom, context, 0);
 animate(game);
 
 let btnTest = frame.querySelector('.btn_test');
-let btnReset = frame.querySelector('.btn_reset');
 
 btnTest.addEventListener("click", function() {
-    btnTest.disabled = true;
-    game.run_test(1).then(() => {
-        btnTest.disabled = false;
-    });
-});
+    if (btnTest.classList.contains("disabled")) {
+        return;
+    }
 
-btnReset.addEventListener("click", function() {
-    game.environment.reset();
+    btnTest.classList.add("disabled");
+    game.run_test(1).then(() => {
+        btnTest.classList.remove("disabled");
+    });
 });

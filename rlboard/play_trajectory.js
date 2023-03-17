@@ -39,6 +39,7 @@ function follow_arrow(game, episodeLength) {
     let arrowCount = childNodes.reduce((sum, child) => sum + (child.classList.contains("arrow") ? 1 : 0), 0);
     if (arrowCount === 0) {
         alert("There are no arrows.\nDrag and drop the arrow on the board.");
+        btnTest.classList.remove("disabled");
         return;
     }
 
@@ -47,6 +48,7 @@ function follow_arrow(game, episodeLength) {
         if (done) {
             done = false;
             clearTimeout(interval);
+            btnTest.classList.remove("disabled");
             return;
         }
 
@@ -140,9 +142,15 @@ for (const [index, direction] of ["up", "down", "left", "right"].entries()) {
     place_creator.appendChild(temp);
 }
 
+let btnTest = frame.querySelector('.btn_test');
 
 // Add btn event
-frame.querySelector('.btn_test').addEventListener("click", function() {
+btnTest.addEventListener("click", function() {
+    if (btnTest.classList.contains("disabled")) {
+        return;
+    }
+
+    btnTest.classList.add("disabled");
     follow_arrow(game, 40);
 });
 frame.querySelector('.btn_reset').addEventListener("click", function() {
