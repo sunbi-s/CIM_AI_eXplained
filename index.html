@@ -55,9 +55,7 @@
             <div class="header-authors">
               <h2>Authors</h2>
               <ul>
-                <li>Alexander Dockhorn | Leibniz University, Hannover</li>
-                <li>John Doe | IEEE, New York</li>
-                <li>Jane Doe | IEEE, New York</li>
+                <li>Anonymous | Gwangju Institute of Science and Technology, South Korea</li>
               </ul>
             </div>
             <!-- Published info section -->
@@ -167,7 +165,9 @@
         <div class="framed">
           <div class="inside">
             <div class="eyebrow">
-              Control the character using arrow keys on the right.
+              Play the GridWorld. Move the shark character in any direction using the arrow button. Begin at the top left corner and make your way 
+              to the treasure box located at the bottom right, being careful to avoid the bombs and nets scattered throughout the grid. 
+
             </div>
 
             <div id="play_control" class="play_div">
@@ -186,7 +186,7 @@
               <script type="module" src="rlboard/play_control.js"></script>
             </div>
 
-            <div class="caption"><b>Figure 2:</b><br> Introducing the gird world environment. </div>
+            <div class="caption"><b>Figure 2:</b><br> Introducing the gridworld environment. </div>
           </div>
         </div>
 
@@ -224,7 +224,7 @@
         </figure>
         
         <p>
-          There are five possible states that a child can be in, including \(s_0\)(Lying), \(s_1\)(Awake),  \(s_2\)(Drowsy), \(s_3\)(Light Sleep), and \(s_4\)(Deep Sleep). 
+          There are five possible states that a child can be in, including \(s_0\)(Lying), \(s_1\)(Awake), \(s_2\)(Drowsy), \(s_3\)(Light Sleep), and \(s_4\)(Deep Sleep). 
           Each state lasts for a unit of time, such as one minute, and transitions to the next state based on certain probabilities. Assuming the markov 
           process always starts with the child \(s_0\)(Lying), the child remains in this state for one minute. After that, there is a 40% probability 
           of transitioning to \(s_1\)(Awake) or a 60% probability of transitioning to \(s_3\)(Light Sleep). The process continues until the child reaches \(s_4\)(Deep Sleep)
@@ -267,7 +267,8 @@
         <div class="framed">
           <div class="inside">
             <div class="eyebrow">
-              Click the transition button to check out the states transition on given probability in markov process for child’s sleep pattern.
+              Click the transition button to see state transitions in the Markov process for a child's sleep pattern.
+              The probabilities of each state transition are displayed.
             </div>
 
             <div id="play_mdp_transition" class="play_div">
@@ -277,7 +278,7 @@
               <script type="module" src="rlboard/play_mdp_transition.js"></script>
             </div>
 
-            <div class="caption"><b>Figure 3:</b><br> Introduing Child's sleeping pattern system as an example of the markov Process</div>
+            <div class="caption"><b>Figure 3:</b><br> Example of a Markov process - the sleep pattern system of a child.</div>
           </div>
         </div>
 
@@ -315,11 +316,10 @@
           <li> Discount Factor(\(\gamma\)): It is a value between 0 and 1 that determines the importance of immediate rewards versus long-term rewards. </li>
         </ul>
 
-        <h3>IV. Here is MDP action. Let's play!</h3>
         <div class="framed">
           <div class="inside">
             <div class="eyebrow">
-              You can add an introductory text for interactive elements to motivate users to check out the following block.
+              Click on the action buttons to see the state transitions in the Markov decision process for improving the quality of a child's sleep based on different actions.
             </div>
 
             <div id="play_mdp_action" class="play_div">
@@ -332,9 +332,7 @@
               <script type="module" src="rlboard/play_mdp_action.js"></script>
             </div>
 
-            <div class="caption"><b>Figure 4:</b><br> Example of an interactive figure: Introducing the 8-Queens problem. Drag and drop queens to change their position. Try to position all queens
-              such that no two queens share the same row, column, or diagonal. Queens that threaten each other
-              will be highlighted in red. In case you found a solution all queens will be highlighted in green.</div>
+            <div class="caption"><b>Figure 4:</b><br>Example of a Markov Decision Process for Improving a child's sleep quality. </div>
           </div>
         </div>
         
@@ -367,12 +365,15 @@
           In a model-free environment, the transition probability and reward function are not known. Therefore, they must be estimated from experience. There are two primary methods 
           for estimating the value function in a model-free environment: the Monte Carlo (MC) method and the Temporal Difference (TD) method.
         </p>
+        
+        <h3> GridWorld Environment </h3>
+        explain about state, action, reward,....
 
-        <h3>XII. Here make trajectory. Let's play!</h3>
+        <h3>Let's make optimal Path</h3>
         <div class="framed">
           <div class="inside">
             <div class="eyebrow">
-              You can add an introductory text for interactive elements to motivate users to check out the following block.
+              Plan for yourself which action should be taken in which state to create an Optimal Path.
             </div>
 
             <div id="play_6" class="play_div">
@@ -385,19 +386,19 @@
               <a class="btn_clear" style="display: inline-block; margin: auto"><img src="img/buttons/clear.png" width="62" alt="clear"/></a>
             </div>
 
-            <div class="caption"><b>Figure 2:</b><br> Example of an interactive figure: Introducing the 8-Queens problem. Drag and drop queens to change their position. 
-              Try to position all queens such that no two queens share the same row, column, or diagonal. Queens that threaten each other will be highlighted in red. 
-              In case you found a solution all queens will be highlighted in green.</div>
+            <div class="caption"><b>Figure 5:</b><br> The optimal actions for given MDP.</div>
 
             <script type="module" src="rlboard/play_trajectory.js"></script>
           </div>
         </div>
 
-        <h3>VI. Here is random agent. Let's play!</h3>
+        <h3>Here is random agent. Let's play!</h3>
         <div class="framed">
           <div class="inside">
             <div class="eyebrow">
-              You can add an introductory text for interactive elements to motivate users to check out the following block.
+              Click the test button to see how the random agent play in the game.The random agent randomly selects actions from the available options with a 25% probability for each action, including 
+              moving the shark character up, down, left, or right. It does not consider the consequences of its actions. Using this random agent, we can evaluate the value of 
+              each square.
             </div>
 
             <div id="play_random" class="play_div">
@@ -408,9 +409,7 @@
               <script type="module" src="rlboard/play_random.js"></script>
             </div>
 
-            <div class="caption"><b>Figure 2:</b><br> Example of an interactive figure: Introducing the 8-Queens problem. Drag and drop queens to change their position. Try to position all queens
-              such that no two queens share the same row, column, or diagonal. Queens that threaten each other
-              will be highlighted in red. In case you found a solution all queens will be highlighted in green.</div>
+            <div class="caption"><b>Figure 6:</b><br> Introducing the random agent on the gridworld.</div>
           </div>
         </div>
 
@@ -454,7 +453,9 @@
         <div class="framed">
           <div class="inside">
             <div class="eyebrow">
-              You can add an introductory text for interactive elements to motivate users to check out the following block.
+              Select number of episodes using the drop-down menu and click "Train" button to train a MC agent.
+              Click "Test" button to observe the behavior of the trained agent.
+              Click "Reset" button to reset the value table.
             </div>
 
             <div id="play_mc" class="play_div">
@@ -474,9 +475,10 @@
               <a class="btn_reset" style="display: inline-block; margin: auto"><img src="img/buttons/reset2.png" width="70" alt="reset"/></a>
             </div>
 
-            <div class="caption"><b>Figure 2:</b><br> Example of an interactive figure: Introducing the 8-Queens problem. Drag and drop queens to change their position. Try to position all queens
-              such that no two queens share the same row, column, or diagonal. Queens that threaten each other
-              will be highlighted in red. In case you found a solution all queens will be highlighted in green.</div>
+            <div class="caption"><b>Figure 2:</b><br>
+              Monte Carlo learning process. Left figure represents the agent and the environment, where right figure
+              represents state value table.
+            </div>
 
             <script type="module" src="rlboard/play_mcagent.js"></script>
           </div>
@@ -486,17 +488,15 @@
         <div class="framed">
           <div class="inside">
             <div class="eyebrow">
-              You can add an introductory text for interactive elements to motivate users to check out the following block.
+              Drag and zoom to change the view of the 3D value table.
             </div>
 
             <div id="play_mc_3d_table">
             </div>
 
-            <div class="caption"><b>Figure 2:</b><br> Example of an interactive figure: Introducing the 8-Queens problem. Drag and drop queens to change their position. Try to position all queens
-              such that no two queens share the same row, column, or diagonal. Queens that threaten each other
-              will be highlighted in red. In case you found a solution all queens will be highlighted in green.</div>
 
-            <script type="module" src="rlboard/3D_table.js"></script>
+            <div class="caption"><b>Figure 2:</b><br> 3D value table of the MC agent.</div>
+              <script type="module" src="rlboard/3D_table.js"></script>
           </div>
         </div>
 
@@ -532,11 +532,12 @@
           Despite this limitation, TD has been successfully applied in a wide range of reinforcement learning problems.
         </p>
 
-        <h3>VIII. Here is TD agent. Let's play!</h3>
+        <h3>Here is TD agent. Let's play!</h3>
         <div class="framed">
           <div class="inside">
             <div class="eyebrow">
-              You can add an introductory text for interactive elements to motivate users to check out the following block.
+              Train the TD agent and watch how it does by picking the number of iterations and hitting the train button. The more iterations you set, the more accurate 
+              the value will be for each square. When it's done with all the iterations, give the agent a test run to make sure it's taking the best path to the goal.
             </div>
 
             <div id="play_td" class="play_div">
@@ -556,9 +557,7 @@
               <a class="btn_reset" style="display: inline-block; margin: auto"><img src="img/buttons/reset2.png" width="70" alt="reset"/></a>
             </div>
 
-            <div class="caption"><b>Figure 2:</b><br> Example of an interactive figure: Introducing the 8-Queens problem. Drag and drop queens to change their position. Try to position all queens
-              such that no two queens share the same row, column, or diagonal. Queens that threaten each other
-              will be highlighted in red. In case you found a solution all queens will be highlighted in green.</div>
+            <div class="caption"><b>Figure 10: Introducing the TD agent</b><br> </div>
 
             <script type="module" src="rlboard/play_tdagent.js"></script>
           </div>
@@ -600,7 +599,9 @@
         <div class="framed">
           <div class="inside">
             <div class="eyebrow">
-              You can add an introductory text for interactive elements to motivate users to check out the following block.
+              Select number of episodes using the drop-down menu and click "Train" button to train MC and TD agents.
+              Click "Test" button to observe the behavior of the trained agent.
+              Click "Reset" button to reset the value table.
             </div>
 
             <div id="play_mc_vs_td" class="play_div">
@@ -622,9 +623,9 @@
               <a class="btn_reset" style="display: inline-block; margin: auto"><img src="img/buttons/reset2.png" width="70" alt="reset"/></a>
             </div>
 
-            <div class="caption"><b>Figure 2:</b><br> Example of an interactive figure: Introducing the 8-Queens problem. Drag and drop queens to change their position. Try to position all queens
-              such that no two queens share the same row, column, or diagonal. Queens that threaten each other
-              will be highlighted in red. In case you found a solution all queens will be highlighted in green.</div>
+            <div class="caption"><b>Figure 2:</b><br>
+              Comparison of MC and TD learning. The left figure is MC and the right figure is TD.
+            </div>
 
             <script type="module" src="rlboard/play_mc_vs_td.js"></script>
           </div>
@@ -634,7 +635,7 @@
         <div class="framed">
           <div class="inside">
             <div class="eyebrow">
-              You can add an introductory text for interactive elements to motivate users to check out the following block.
+              Click "Test" button to observe the behavior of the optimal agent.
             </div>
 
             <div id="play_optim" class="play_div">
@@ -645,9 +646,10 @@
               <a class="btn_test" style="display: inline-block; margin: auto"><img src="img/buttons/test.png" width="60" alt="test"/></a>
             </div>
 
-            <div class="caption"><b>Figure 2:</b><br> Example of an interactive figure: Introducing the 8-Queens problem. Drag and drop queens to change their position. Try to position all queens
-              such that no two queens share the same row, column, or diagonal. Queens that threaten each other
-              will be highlighted in red. In case you found a solution all queens will be highlighted in green.</div>
+            <div class="caption"><b>Figure 2:</b><br>
+              Optimal value of the environment. The left figure shows the agent and the environment
+              and the right figure shows optimal value table.
+            </div>
 
             <script type="module" src="rlboard/play_optim.js"></script>
           </div>
@@ -668,7 +670,8 @@
         <div class="framed">
           <div class="inside">
             <div class="eyebrow">
-              You can add an introductory text for interactive elements to motivate users to check out the following block.
+              Click "Train" button to start MC and TD training.
+              Click "Reset" button to clear all results.
             </div>
 
             <div id="play_biased" class="play_div">
@@ -691,9 +694,10 @@
               <a class="btn_reset" style="display: inline-block; margin: auto"><img src="img/buttons/reset2.png" width="70" alt="reset"/></a>
             </div>
 
-            <div class="caption"><b>Figure 2:</b><br> Example of an interactive figure: Introducing the 8-Queens problem. Drag and drop queens to change their position. Try to position all queens
-              such that no two queens share the same row, column, or diagonal. Queens that threaten each other
-              will be highlighted in red. In case you found a solution all queens will be highlighted in green.</div>
+            <div class="caption"><b>Figure 2:</b><br>
+              Comparison of RMSE(Root Mean Squared Error) of MC and TD agents.
+              X axis is number of episodes and Y axis is RMSE.
+            </div>
 
             <script type="module" src="rlboard/play_biased.js"></script>
           </div>
@@ -711,7 +715,9 @@
         <div class="framed">
           <div class="inside">
             <div class="eyebrow">
-              You can add an introductory text for interactive elements to motivate users to check out the following block.
+              Create your own MDP by dragging elements on the right into the game scene.
+              To test various agents on the MDP, click "save" button and select an algorithm using drop-down menu.
+              Click "Run" button to see agent's behavior.
             </div>
 
             <div id="play_draganddrop" class="play_div" style="margin-bottom: -50px">
@@ -735,9 +741,7 @@
 
             </div>
 
-            <div class="caption"><b>Figure 2:</b><br> Example of an interactive figure: Introducing the 8-Queens problem. Drag and drop queens to change their position. Try to position all queens
-              such that no two queens share the same row, column, or diagonal. Queens that threaten each other
-              will be highlighted in red. In case you found a solution all queens will be highlighted in green.</div>
+            <div class="caption"><b>Figure 2:</b><br> Example of an MDP. </div>
 
             <script type="module" src="rlboard/play_draganddrop.js"></script>
           </div>
