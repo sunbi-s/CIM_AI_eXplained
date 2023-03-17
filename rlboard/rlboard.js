@@ -3,7 +3,7 @@ import { clamp, Position } from "./utill.js";
 
 export class Environment{
     constructor(div, config) {
-        this.boardShape = [8, 8];
+        this.boardShape = [6, 6];
         this.actions = [[-1, 0], [1, 0], [0, -1], [0, 1]];
         this.div = div;
         this.config = config;
@@ -15,12 +15,12 @@ export class Environment{
 
     _makeBoard() {
         // make board
-        this.div.style.height = 40 * this.boardShape[0] + "px";
-        this.div.style.width = 40 * this.boardShape[1] + "px";
+        this.div.style.height = 50 * this.boardShape[0] + "px";
+        this.div.style.width = 50 * this.boardShape[1] + "px";
         for (let y=0; y<this.boardShape[0]; ++y) {
             let row = document.createElement('div');
             row.classList.add("row");
-            row.style.width = 40 * this.boardShape[1] + "px";
+            row.style.width = 50 * this.boardShape[1] + "px";
             this.div.appendChild(row);
             for (let x=0; x<this.boardShape[0]; ++x) {
                 let cell = document.createElement('div');

@@ -280,46 +280,6 @@
             <div class="caption"><b>Figure 3:</b><br> Introduing Child's sleeping pattern system as an example of the markov Process</div>
           </div>
         </div>
-        
-
-        <h3>Make MDP</h3>
-        <div class="framed">
-          <div class="inside">
-            <div class="eyebrow">
-              You can add an introductory text for interactive elements to motivate users to check out the following block.
-            </div>
-
-            <div id="play_draganddrop" class="play_div" style="margin-bottom: -50px">
-              <div class="board"></div>
-              <div class="place_creator" style="top: -100px"></div>
-              <br>
-
-              <button class="btn_back" style="display: none">Back</button>
-              <button class="btn_save">Save</button>
-
-              <div id="play_my_mdp" style="display: none">
-                <button class="btn_back" style="display: none">Back</button>
-                <label>
-                  <select id="select_agent" name="lang">
-                    <option value=Optimal>Optimal</option>
-                    <option value=MC selected>MC</option>
-                    <option value=TD>TD</option>
-                  </select>
-                </label>
-                <button class="btn_run">Run</button>
-              </div>
-
-            </div>
-
-            <div class="caption"><b>Figure 2:</b><br> Example of an interactive figure: Introducing the 8-Queens problem. Drag and drop queens to change their position. Try to position all queens
-              such that no two queens share the same row, column, or diagonal. Queens that threaten each other
-              will be highlighted in red. In case you found a solution all queens will be highlighted in green.</div>
-
-            <script type="module" src="rlboard/play_draganddrop.js"></script>
-          </div>
-        </div>
-
-
 
         <h3> Markov Decision Process </h3>
         
@@ -496,7 +456,7 @@
 
             <div id="play_mc" class="play_div">
               <div class="board"></div>
-              <canvas class="canvas_2" width="320px" height="320px"></canvas>
+              <canvas class="canvas_2" width="300px" height="300px"></canvas>
               <br>
 
               <select class="select_num" name="lang">
@@ -578,7 +538,7 @@
 
             <div id="play_td" class="play_div">
               <div class="board"></div>
-              <canvas class="canvas_2" width="320px" height="320px"></canvas>
+              <canvas class="canvas_2" width="300px" height="300px"></canvas>
               <br>
 
               <select class="select_num" name="lang">
@@ -644,8 +604,8 @@
               <div class="board"></div>
               <div class="board"></div>
               <br>
-              <canvas class="canvas_1" width="320px" height="320px"></canvas>
-              <canvas class="canvas_2" width="320px" height="320px"></canvas>
+              <canvas class="canvas_1" width="300px" height="300px"></canvas>
+              <canvas class="canvas_2" width="300px" height="300px"></canvas>
               <br>
 
               <select class="select_num" name="lang">
@@ -676,7 +636,7 @@
 
             <div id="play_optim" class="play_div">
               <div class="board"></div>
-              <canvas class="canvas_1" width="320px" height="320px"></canvas>
+              <canvas class="canvas_1" width="300px" height="300px"></canvas>
               <br>
 
               <button class="btn_test">Test</button>
@@ -715,6 +675,8 @@
               <div class="board" style="display: none"></div>
               <br>
 
+              <div id="chart"></div>
+
               <label>
                 <select class="select_num" name="lang">
                   <option value=100 selected>100</option>
@@ -725,8 +687,6 @@
               </label>
               <button class="btn_train">Train</button>
               <button class="btn_reset">Reset</button>
-
-              <div id="chart"></div>
             </div>
 
             <div class="caption"><b>Figure 2:</b><br> Example of an interactive figure: Introducing the 8-Queens problem. Drag and drop queens to change their position. Try to position all queens
@@ -744,6 +704,43 @@
           as it can update values at the end of each episode. By understanding the differences between MC and TD,
           researchers and practitioners can choose the most appropriate approach for their particular application.
         </p>
+
+        <h3>Make MDP</h3>
+        <div class="framed">
+          <div class="inside">
+            <div class="eyebrow">
+              You can add an introductory text for interactive elements to motivate users to check out the following block.
+            </div>
+
+            <div id="play_draganddrop" class="play_div" style="margin-bottom: -50px">
+              <div class="board"></div>
+              <div class="place_creator" style="margin-bottom: -60px; top: -90px"></div>
+              <br>
+
+              <button class="btn_back" style="display: none">Back</button>
+              <button class="btn_save">Save</button>
+
+              <div id="play_my_mdp" style="display: none">
+                <button class="btn_back" style="display: none">Back</button>
+                <label>
+                  <select id="select_agent" name="lang">
+                    <option value=Optimal>Optimal</option>
+                    <option value=MC selected>MC</option>
+                    <option value=TD>TD</option>
+                  </select>
+                </label>
+                <button class="btn_run">Run</button>
+              </div>
+
+            </div>
+
+            <div class="caption"><b>Figure 2:</b><br> Example of an interactive figure: Introducing the 8-Queens problem. Drag and drop queens to change their position. Try to position all queens
+              such that no two queens share the same row, column, or diagonal. Queens that threaten each other
+              will be highlighted in red. In case you found a solution all queens will be highlighted in green.</div>
+
+            <script type="module" src="rlboard/play_draganddrop.js"></script>
+          </div>
+        </div>
 
       </section>
 

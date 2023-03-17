@@ -51,16 +51,16 @@ let layout = {
             range: [0, 2],
         }
     },
-    autosize: true,
+    autosize: false,
     width: 1000,
-    height: 800,
+    height:400,
     font: {
         size: 15,
     },
     margin: {
-      l: 40,
-      r: 0,
-      b: 20,
+      l: 200,
+      r: 300,
+      b: 0,
       t: 0,
     },
 };
