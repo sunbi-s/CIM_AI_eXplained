@@ -49,6 +49,7 @@ select {
 .arrow {
     height: 40px;
     width: 40px;
+    margin-top: 5px;
     margin-left: -20px;
     position: absolute;
     z-index: 2;
@@ -82,4 +83,12 @@ select {
 .place_creator > img {
     position: relative;
     margin: 8px;
+}
+
+.effect {
+    height: 50px;
+    width: 50px;
+    margin-left: -20px;
+    position: absolute;
+    z-index: 2;
 }

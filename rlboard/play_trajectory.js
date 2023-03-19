@@ -69,6 +69,7 @@ function follow_arrow(game, episodeLength) {
     // stop interval when reach max episode length
     setTimeout(() => {
         clearTimeout(interval);
+        btnTest.classList.remove("disabled");
     }, timeout * episodeLength);
 }
 
@@ -151,7 +152,7 @@ btnTest.addEventListener("click", function() {
     }
 
     btnTest.classList.add("disabled");
-    follow_arrow(game, 40);
+    follow_arrow(game, 100);
 });
 frame.querySelector('.btn_reset').addEventListener("click", function() {
     state = game.environment.reset();
