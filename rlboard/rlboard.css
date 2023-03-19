@@ -32,7 +32,7 @@ select {
 .player {
     height: inherit;
     width: inherit;
-    margin-left: -20px;
+    margin-left: -25px;
     position: absolute;
     z-index: 3;
 }
