@@ -98,6 +98,10 @@ place_creator.addEventListener("drop", (e) => {
 
 // Add dummy places into place_creator
 places.forEach((place) => {
+    if (place.done) {
+        return;
+    }
+
     let copied_node = place.cloneNode(true);
     place_creator.appendChild(copied_node);
     setDraggable(copied_node);
