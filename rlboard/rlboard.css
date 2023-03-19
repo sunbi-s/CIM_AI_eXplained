@@ -2,9 +2,37 @@
     opacity: 50%;
 }
 
+.btn_train > img {
+    height: 23px;
+}
+
+.btn_test > img {
+    height: 23px;
+}
+
+.btn_reset > img {
+    height: 23px;
+}
+
+.btn_save > img {
+    height: 23px;
+}
+
+.btn_back > img {
+    height: 23px;
+}
+
+.btn_run > img {
+    height: 23px;
+}
+
+.btn_clear > img {
+    height: 23px;
+}
+
 select {
     position: relative;
-    top: -8px;
+    top: -7px;
 }
 
 .btn_arrow {
