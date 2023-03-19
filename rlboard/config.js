@@ -7,7 +7,7 @@ export default [
             [[4, 2], 0, false, "img/rlboard/place/Dynamite.png"],
             [[4, 1], 0, false, "img/rlboard/place/Bomb.png"],
             [[5, 0], 0, false, "img/rlboard/place/Dynamite.png"],
-            [[3, 4], 0, false, "img/rlboard/place/Dynamite.png"],
+            [[3, 4], 0, false, "img/rlboard/place/Net.png"],
             [[2, 5], 0, false, "img/rlboard/place/Bomb.png"],
             [[1, 3], 0, false, "img/rlboard/place/Dynamite.png"],
             [[5, 5], 0, true, "img/rlboard/place/Treasure.png"],

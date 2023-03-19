@@ -111,10 +111,10 @@ cells.forEach((cell) => {
         frame.querySelectorAll(".cell.highlight").forEach((highlight) => {
             highlight.classList.remove("highlight");
         });
-        e.target.classList.add("highlight");
+        cell.classList.add("highlight");
         e.preventDefault();
     });
-    cell.addEventListener("drop", (e) => {
+    cell.addEventListener("drop", () => {
         // e.preventDefault();
         let draggable = frame.querySelector(".dragging");
         if (draggable == null) {

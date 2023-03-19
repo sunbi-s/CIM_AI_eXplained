@@ -40,6 +40,7 @@ select {
 .place {
     height: 40px;
     width: 40px;
+    margin-top: 5px;
     margin-left: -20px;
     position: absolute;
     z-index: 1;
@@ -74,7 +75,7 @@ select {
     width: 180px;
     height: 280px;
     margin-left: 40px;
-    padding: 20px 0px;
+    padding: 20px 0;
     cursor: pointer;
 }
 
