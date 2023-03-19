@@ -1,4 +1,5 @@
-import { Game, animate } from "./game.js";
+import {Game, animate, renderEffect} from "./game.js";
+import {Position} from "./utill.js";
 
 const frame = document.querySelector('#play_control')
 const boardDom = frame.querySelector('.board');
@@ -14,6 +15,7 @@ let done = false;
 frame.querySelector('.btn_action_0').addEventListener("click", function() {
     if (!done) {
         [state, reward, done] = game.environment.step(0);
+        renderEffect(game.environment._getCell(new Position(state[0], state[1])));
     }
     else {
         alert("Episode is done.\nYou have to reset before playing.");
@@ -22,6 +24,7 @@ frame.querySelector('.btn_action_0').addEventListener("click", function() {
 frame.querySelector('.btn_action_1').addEventListener("click", function() {
     if (!done) {
         [state, reward, done] = game.environment.step(1);
+        renderEffect(game.environment._getCell(new Position(state[0], state[1])));
     }
     else {
         alert("Episode is done.\nYou have to reset before playing.");
@@ -30,6 +33,7 @@ frame.querySelector('.btn_action_1').addEventListener("click", function() {
 frame.querySelector('.btn_action_2').addEventListener("click", function() {
     if (!done) {
         [state, reward, done] = game.environment.step(2);
+        renderEffect(game.environment._getCell(new Position(state[0], state[1])));
     }
     else {
         alert("Episode is done.\nYou have to reset before playing.");
@@ -38,6 +42,7 @@ frame.querySelector('.btn_action_2').addEventListener("click", function() {
 frame.querySelector('.btn_action_3').addEventListener("click", function() {
     if (!done) {
         [state, reward, done] = game.environment.step(3);
+        renderEffect(game.environment._getCell(new Position(state[0], state[1])));
     }
     else {
         alert("Episode is done.\nYou have to reset before playing.");
