@@ -160,6 +160,10 @@ export class OptimAgent {
         this.actions = env.actions;
         this.discount_factor = 0.9;
 
+        this.initValueTable();
+    }
+
+    initValueTable() {
         this.value_table = [];
         for (let y = 0; y < this.height; ++y) {
             let row = [];

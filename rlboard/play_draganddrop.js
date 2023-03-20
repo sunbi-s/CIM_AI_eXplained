@@ -161,6 +161,9 @@ btnSave.addEventListener("click", function() {
     for (let draggable of boardDom.querySelectorAll(".draggable")) {
         unsetDraggable(draggable);
     }
+
+    // init agents
+    optimGame.agent.initValueTable();
 });
 btnBack.addEventListener("click", function() {
     btnSave.style.display = "inline-block";
