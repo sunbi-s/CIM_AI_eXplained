@@ -4,12 +4,12 @@ export default [
         "nodes": [
             // [position, reward, final, path]
             //  [y, x]
-            [[4, 2], -5, false, "img/rlboard/place/Dynamite.png"],
-            [[4, 1], -20, false, "img/rlboard/place/Bomb.png"],
-            [[5, 0], -5, false, "img/rlboard/place/Dynamite.png"],
-            [[3, 4], -50, false, "img/rlboard/place/Net.png"],
-            [[2, 5], -20, false, "img/rlboard/place/Bomb.png"],
-            [[1, 3], -5, false, "img/rlboard/place/Dynamite.png"],
+            // [[4, 2], 0, false, "img/rlboard/place/Dynamite.png"],
+            // [[4, 1], 0, false, "img/rlboard/place/Bomb.png"],
+            [[5, 0], -0.5, false, "img/rlboard/place/Dynamite.png"],
+            // [[3, 4], 0, false, "img/rlboard/place/Net.png"],
+            // [[2, 5], -0.5, false, "img/rlboard/place/Bomb.png"],
+            // [[1, 3], -0.5, false, "img/rlboard/place/Dynamite.png"],
             [[5, 5], 0, true, "img/rlboard/place/Treasure.png"],
         ],
         "agentStartPosition": [0, 0],  // [x, y]

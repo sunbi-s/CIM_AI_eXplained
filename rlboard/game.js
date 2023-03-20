@@ -1,6 +1,6 @@
 import configs from "./config.js";
 import { Environment } from "./rlboard.js";
-import { RandomAgent, MCAgent, TDAgent, OptimAgent } from "./agents.js";
+import { RandomAgent, MCAgent, TDAgent, OptimAgent, OptimAgentAVG } from "./agents.js";
 import {Position, rgb, sleep} from "./utill.js";
 
 
@@ -296,13 +296,24 @@ export class OptimGame extends MCGame {
 
         this.agent = new OptimAgent(this.environment);
     }
+
 }
+
+export class OptimGameAVG extends MCGame {
+    constructor(div, context, seed) {
+        super(div, context, seed);
+
+        this.agent = new OptimAgentAVG(this.environment);
+    }
+
+}
+
 
 export class BiasGame {
     constructor(mcDiv, tdDiv, optimDiv, seed) {
         this.mcGame = new MCGame(mcDiv, null, seed);
         this.tdGame = new TDGame(tdDiv, null, seed);
-        this.optimGame = new OptimGame(optimDiv, null, seed);
+        this.optimGame = new OptimGameAVG(optimDiv, null, seed);
 
         this.mcRmse = [];
         this.tdRmse = [];
