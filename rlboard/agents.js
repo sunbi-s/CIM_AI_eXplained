@@ -52,7 +52,7 @@ export class MCAgent {
                 G_t = reward + this.discount_factor * G_t;
                 V_t = this.value_table[state[0]][state[1]]; //default value
                 this.value_table[state[0]][state[1]] = V_t + this.learning_rate * (G_t - V_t);
-
+                console.log(state[0],state[1], G_t - V_t)
             }
 
         }
@@ -218,9 +218,9 @@ export class OptimAgent {
                         value_list.push(reward + this.discount_factor * next_value);
                     }
                 }
-                // let sum = value_list.reduce((a, b) => a + b, 0);
-                // next_value_table[state[0]][state[1]] = sum / value_list.length;
-                next_value_table[state[0]][state[1]] = Math.max(...value_list);
+                let sum = value_list.reduce((a, b) => a + b, 0);
+                next_value_table[state[0]][state[1]] = sum / value_list.length;
+                // next_value_table[state[0]][state[1]] = Math.max(...value_list);
             }
         }
         this.value_table = next_value_table;
@@ -239,10 +239,10 @@ export class OptimAgent {
             if (next_cell) {
                 let place = next_cell.lastChild;
                 if (place && place.classList.contains("place")) {
-                    reward = place.reward;
+                    reward += place.reward;
                 }
-
                 let next_value = this.value_table[next_state[0]][next_state[1]];
+                console.log(reward, state[0], state[1], next_state[0], next_state[1], next_value)
                 value_list.push(reward + this.discount_factor * next_value);
             }
         }
