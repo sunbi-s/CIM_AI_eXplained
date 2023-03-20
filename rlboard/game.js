@@ -1,7 +1,7 @@
 import configs from "./config.js";
 import { Environment } from "./rlboard.js";
 import { RandomAgent, MCAgent, TDAgent, OptimAgent } from "./agents.js";
-import {Position, rgb, rgba, sleep} from "./utill.js";
+import {Position, rgb, sleep} from "./utill.js";
 
 
 const math = window['math'];
@@ -30,7 +30,7 @@ export class Game{
     }
 }
 
-export function renderEffect(cell) {
+export function renderEffect(cell, timeout=500) {
     if (cell.childNodes.length < 2) {
         return;
     }
@@ -49,7 +49,7 @@ export function renderEffect(cell) {
             effect.src = "img/rlboard/effect/Explosion.png";
         }
         cell.appendChild(effect);
-        setTimeout(() => effect.remove(), 500);
+        setTimeout(() => effect.remove(), timeout);
     }
 }
 
@@ -120,6 +120,9 @@ export class MCGame extends Game {
                 // step
                 [next_state, reward, done] = this.environment.step(action);
                 rewards.push(reward);
+
+                // render effect
+                renderEffect(this.environment._getCell(new Position(next_state[0], next_state[1])), 100);
 
                 // save sample
                 this.agent.saveSample(state, reward, done);
@@ -265,6 +268,9 @@ export class TDGame extends MCGame {
                 // step
                 [next_state, reward, done] = this.environment.step(action);
                 rewards.push(reward);
+
+                // render effect
+                renderEffect(this.environment._getCell(new Position(next_state[0], next_state[1])), 100);
 
                 // update
                 this.agent.learn(state, reward, next_state);
