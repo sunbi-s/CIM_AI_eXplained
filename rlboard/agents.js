@@ -20,7 +20,7 @@ export class MCAgent {
         this.n_action = env.actions.length;
         this.learning_rate = 0.1;
         this.discount_factor = 0.9;
-        this.epsilon = 0.1;
+        this.epsilon = 0.9;
         this.samples = [];
 
         this.value_table = [];
@@ -54,7 +54,6 @@ export class MCAgent {
                 this.value_table[state[0]][state[1]] = V_t + this.learning_rate * (G_t - V_t);
                 console.log(state[0],state[1], G_t - V_t)
             }
-
         }
         // samples clear
         this.samples = [];
@@ -174,7 +173,7 @@ export class OptimAgent {
         }
 
         // calculate optimal value table
-        for (let i = 0; i < 1000; ++i) {
+        for (let i = 0; i < 100; ++i) {
             this._valueIteration();
         }
     }
@@ -222,7 +221,7 @@ export class OptimAgent {
                         value_list.push(reward + this.discount_factor * next_value);
                     }
                 }
-                let sum = value_list.reduce((a, b) => a + b, 0);
+                let sum = value_list.reduce((accumulator , currentValue ) => accumulator + currentValue, 0);
                 next_value_table[state[0]][state[1]] = sum / value_list.length;
                 // next_value_table[state[0]][state[1]] = Math.max(...value_list);
             }
