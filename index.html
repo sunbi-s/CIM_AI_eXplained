@@ -158,14 +158,14 @@
         <p>
           In this article, we will focus on two fundamental model-free algorithms: Monte Carlo and Temporal Difference.
           These algorithms are powerful tools for solving a variety of reinforcement learning problems. We will train
-          and evaluate the agents on grid world environment. The agent starts from upper left start grid, and the
+          and evaluate the agents on grid-based environment. The agent starts from upper left start grid, and the
           goal is to reach lower right destination grid.
         </p>
 
         <div class="framed">
           <div class="inside">
             <div class="eyebrow">
-              Play the GridWorld. Move the shark character in any direction using the arrow button. Begin at the top left corner and make your way 
+              Play the SharkGame. Move the shark character in any direction using the arrow button. Begin at the top left corner and make your way 
               to the treasure box located at the bottom right, being careful to avoid the bombs and nets scattered throughout the grid. 
 
             </div>
@@ -187,7 +187,7 @@
               <script type="module" src="rlboard/play_control.js"></script>
             </div>
 
-            <div class="caption"><b>Figure 2:</b><br> Introducing the gridworld environment. </div>
+            <div class="caption"><b>Figure 2:</b><br> Introducing the SharkGame environment. </div>
           </div>
         </div>
 
@@ -211,17 +211,18 @@
           process that only consists of states and transition probabilities.
         </p>
 
+        <h3>Markov Process</h3>
         <p>
           A Markov process is a stochastic process that describes a system in which the state of the system changes
           over time. At each time step, the state may remain the same or transition to a different state, based on the
           probability of transition that depends solely on the current state. This property is known as the Markov
           property, where the future state of the system is determined only by the present state and not by any previous
-          states. An example of a Markov process is shown in Fig2."
+          states. An example of a Markov process is shown in Figure3.
         </p>
         
         <figure class="static">
           <img src="img/mdp/transition.png" alt="Markov process for child's sleep pattern" style="margin: auto auto; max-width: 70%; display: block"/>
-          <figcaption><b>Figure 2:</b> Example of a Markov Process for Modeling a Child's Sleep Pattern.</figcaption>
+          <figcaption><b>Figure 3:</b> Example of a markov process for modeling a child's sleep pattern.</figcaption>
         </figure>
         
         <p>
@@ -235,10 +236,8 @@
           Here are the components that make up a Markov Process:
         </p>
         <ul id="mp_components">
-          <li> State Space (\(S\)): All possible states that the system can take. In case of the example, the state space include various sleep 
-               states such as Deep sleep, Light sleep, and Awake. i.e&#41; \(\{s_0, s_1, s_2, s_3, s_4 \in S\}\) </li>
-          <li> Transition Probability(\(P_{ss'}\)): The probabilities of transitioning from one state \(s\) to another state \(s'\) given step \(t\).<br>
-               i.e&#41; \(P_{ss'} = P(S_{t+1} = s' \mid S_{t} = s)\)
+          <li> State Space (\(S\)): All possible states that the system can take, such as Deep sleep, Light sleep, Drowsy and Awake, represented as \(\{s_0, s_1, s_2, s_3, s_4\} \in S\). </li>
+          <li> Transition Probability(\(P_{ss'}\)): The probability of transitioning from state \(s\) to another state \(s'\) at step \(t\), represented as \(P_{ss'} = P(S_{t+1} = s' \mid S_{t} = s)\).
           </li>
         <p>
               \[
@@ -264,55 +263,53 @@
         <br>
         <br>
 
-        </ul>
-        <div class="framed">
-          <div class="inside">
-            <div class="eyebrow">
-              Click the transition button to see state transitions in the Markov process for a child's sleep pattern.
-              The probabilities of each state transition are displayed.
-            </div>
-
-            <div id="play_mdp_transition" class="play_div">
-              <canvas width="800px" height="400px"></canvas>
-              <a class="btn_transition" style="display: block; margin: auto"><img src="img/buttons/transition.png" width="120" alt="trasition"/></a>
-              <a class="btn_reset" style="display: block; margin: auto"><img src="img/buttons/reset2.png" alt="reset"/></a>
-              <script type="module" src="rlboard/play_mdp_transition.js"></script>
-            </div>
-
-            <div class="caption"><b>Figure 3:</b><br> Example of a Markov process - the sleep pattern system of a child.</div>
+      </ul>
+      <div class="framed">
+        <div class="inside">
+          <div class="eyebrow">
+            Click the transition button to see state transitions in the Markov process for a child's sleep pattern, along with their corresponding probabilities.
           </div>
+
+          <div id="play_mdp_transition" class="play_div">
+            <canvas width="800px" height="400px"></canvas>
+            <a class="btn_transition" style="display: block; margin: auto"><img src="img/buttons/transition.png" width="120" alt="trasition"/></a>
+            <a class="btn_reset" style="display: block; margin: auto"><img src="img/buttons/reset2.png" alt="reset"/></a>
+            <script type="module" src="rlboard/play_mdp_transition.js"></script>
+          </div>
+
+          <div class="caption"><b>Figure 4:</b><br> Example of a markov process for modeling a child's sleep pattern.</div>
         </div>
+      </div>
 
-        <h3> Markov Decision Process </h3>
+      <h3> Markov Decision Process </h3>
         
-        <p>
-          The Markov Decision Process (MDP) extends the Markov Process by incorporating decision-making capabilities, which sets it apart from the latter.
-           While the Markov Process models a system where the future state is determined only by the current state, the MDP introduces the concept of actions 
-           taken by an agent that can influence the next state of the system. This enables the MDP to better model real-world scenarios.
-        </p>
+      <p>
+        The Markov Decision Process (MDP) extends the Markov Process by incorporating decision-making capabilities, which sets it apart from the latter.
+         While the Markov Process models a system where the future state is determined only by the current state, the MDP introduces the concept of actions 
+         taken by an agent that can influence the next state of the system. This enables the MDP to better model real-world scenarios.
+      </p>
 
-        <p>
-          In an MDP, at each time step, the agent chooses an action based on its current state and the reward associated with the action. The chosen action then 
-          determines the probability of transitioning to the next state. The agent's goal is to learn a policy, which is a mapping of states to actions that maximizes 
-          the expected cumulative reward over time. By making decisions based on this policy, the agent can navigate the system and achieve its objectives efficiently. 
-          Figure 4 provides an example of an MDP.
-        </p>
+      <p>
+        In an MDP, at each time step, the agent chooses an action based on its current state and the reward associated with the action. The chosen action then 
+        determines the probability of transitioning to the next state. The agent's goal is to learn a policy, which is a mapping of states to actions that maximizes 
+        the expected cumulative reward over time. By making decisions based on this policy, the agent can navigate the system and achieve its objectives efficiently. 
+        Figure 5 provides an example of an MDP.
+      </p>
 
-        <figure class="static">
-          <img src="img/mdp/action.png" alt="Markov Decision Process for Improving a child’s sleep quality" style="margin: auto auto; max-width: 70%; display: block"/>
-          <figcaption><b>Figure 2:</b> Example of a Markov Decision Process for Improving a child's sleep quality.</figcaption>
-        </figure>
+      <figure class="static">
+        <img src="img/mdp/action.png" alt="Markov Decision Process for Improving a child’s sleep quality" style="margin: auto auto; max-width: 70%; display: block"/>
+        <figcaption><b>Figure 5:</b> Example of a markov decision process for improving a child's sleep quality.</figcaption>
+      </figure>
 
-        <p>
-          Here are the components that make up a Markov Decision Process:
-        </p>
+      <p>
+        Here are the components that make up a Markov Decision Process:
+      </p>
         
         <ul id="mdp_components">
-          <li> State Space (\(S\)): All possible states that the system can take. \(\{s_0, s_1, s_2, s_3, s_4 \in S\}\) </li>
-          <li> Action Space(\(A\)): All possible action that can be taken given states.\(s\) In case of the example, the action space include singing a lullaby and 
-             playing with child. i.e&#41; \(\{a_0, s_2, s_3, s_4, s_5 \in S\}\) </li>
-          <li> Transition Probability(\(P_{ss'}^a\)): The probabilities of transitioning from one state \(s\) to another state \(s'\) after taking a specific action \(a\) given step \(t\).
-               i.e&#41; \(P_{ss'}^a = P(S_{t+1} = s' \mid S_{t} = s, A_{t}=a)\)</li>
+          <li> State Space (\(S\)): All possible states that the system can take, represented as \(\{s_0, s_1, s_2, s_3, s_4\} \in S\). </li>
+          <li> Action Space(\(A\)): All possible actions that can be taken given a state \(s\), including singing a lullaby and playing with the child, represented as \(\{a_0, a_1\} \in A\). </li>
+          <li> Transition Probability(\(P_{ss'}^a\)): The probability of transitioning from state \(s\) to another state \(s'\) after taking action \(a\) at step \(t\), represented as \(P_{ss'}^a = P(S_{t+1} = s' \mid S_{t} = s, A_{t}=a)\).
+          </li>
           <li> Reward function(\(R\)): The reward function in this MDP can evaluate the desirability of different actions by providing scalar value called Reward(\(R_t)\) given step \(t\).</li>
           <li> Discount Factor(\(\gamma\)): It is a value between 0 and 1 that determines the importance of immediate rewards versus long-term rewards. </li>
         </ul>
@@ -320,7 +317,7 @@
         <div class="framed">
           <div class="inside">
             <div class="eyebrow">
-              Click on the action buttons to see the state transitions in the Markov decision process for improving the quality of a child's sleep based on different actions.
+              Click the action buttons to see state transitions in the Markov decision process for improving a child's sleep quality based on different actions.
             </div>
 
             <div id="play_mdp_action" class="play_div">
@@ -333,7 +330,7 @@
               <script type="module" src="rlboard/play_mdp_action.js"></script>
             </div>
 
-            <div class="caption"><b>Figure 4:</b><br>Example of a Markov Decision Process for Improving a child's sleep quality. </div>
+            <div class="caption"><b>Figure 6:</b><br>Example of a markov decision process for improving a child's sleep quality. </div>
           </div>
         </div>
         
@@ -343,7 +340,7 @@
           The goal of MDPs is to determine which action to select in each state to maximize the sum of rewards.
         </p>
         <p>
-          For instance, \(a_0\)(Playing with child) in the \(s_0\)(Lying state) immediately transitions to the state \(s_1\)(Awake) and receives positive rewards. 
+          For instance, \(a_0\)(Playing with child) in the \(s_0\)(Lying) immediately transitions to the state \(s_1\)(Awake) and receives positive rewards. 
           However, in the long term, continuous \(a_1\)(Singing a lullaby) to put the child to sleep will yield the highest reward. Interestingly, If playing with 
           child action is taken while the child is \(s_2\)(Drowsy), depending on the given probability, it may transition to a playing state or a lying state. 
           This transition probability helps to model more realistic problems.
@@ -359,47 +356,35 @@
           However, since the return value changes every time due to probabilistic factors such as transitions, the expected value of the return must be used. A function that outputs 
           the expected return value for each state is called the value function\(v_\pi\). The value function is a critical concept in reinforcement learning as it enables an agent to evaluate
           the value of different states and determine the optimal policy to follow to maximize rewards.
-          \[v_\pi(s) \doteq \mathbb{E}_\pi\left[G_t \mid S_t=s\right]=\mathbb{E}_\pi\left[\sum_{k=0}^{\infty} \gamma^k R_{t+k+1} \mid S_t=s\right], \text { for all } s \in \mathcal{S}\]
+          \[V(s) = \mathbb{E}\left[G_t \mid S_t=s\right]=\mathbb{E}\left[\sum_{k=0}^{\infty} \gamma^k R_{t+k+1} \mid S_t=s\right], \text { for all } s \in \mathcal{S}\]
         </p>
 
         <p>
           In a model-free environment, the transition probability and reward function are not known. Therefore, they must be estimated from experience. There are two primary methods 
           for estimating the value function in a model-free environment: the Monte Carlo (MC) method and the Temporal Difference (TD) method.
         </p>
-        
-        <h3> GridWorld Environment </h3>
-        explain about state, action, reward,....
+    
+        <h3> SharkGame Environment </h3>
 
-        <h3>Let's make optimal Path</h3>
+        <p>
+          The SharkGame can be viewed as a Markov Decision Process where the states represent the position of the shark character and the actions are moving up, down, left, or right. 
+          The probability of transitioning to a new state is deterministic, meaning that the action will always result in a specific next state. If the agent is 
+          at the top left corner and chooses to move right, it will always transition to the state on the right with no chance of moving to the state above, below, or left.
+          The rewards function provide negative feedback for each step taken by the agent and encountering obstacles such as bombs and nets. This approach encourages the agent 
+          to find the shortest path to the goal while avoiding obstacles. The consequently learned policy is to select actions that lead to the transition to the state with the maximum value. 
+        </p>
+
+        <figure class="static">
+          <img src="img/mdp/shark_mdp.png" alt="Interpretation of SharkGame as a markov decision process." style="margin: auto auto; max-width: 65%; display: block"/>
+          <figcaption><b>Figure 7:</b> Interpretation of SharkGame as a markov decision process.</figcaption>
+        </figure>
+        <br>
+
         <div class="framed">
           <div class="inside">
             <div class="eyebrow">
-              Plan for yourself which action should be taken in which state to create an Optimal Path.
-            </div>
-
-            <div id="play_6" class="play_div">
-              <div class="board"></div>
-              <div class="place_creator" style="margin-bottom: -140px; top: -150px"></div>
-              <br>
-
-              <a class="btn_test" style="display: inline-block; margin: auto"><img src="img/buttons/test.png" alt="test"/></a>
-              <a class="btn_reset" style="display: inline-block; margin: auto"><img src="img/buttons/reset2.png" alt="reset"/></a>
-              <a class="btn_clear" style="display: inline-block; margin: auto"><img src="img/buttons/clear.png" alt="clear"/></a>
-            </div>
-
-            <div class="caption"><b>Figure 5:</b><br> The optimal actions for given MDP.</div>
-
-            <script type="module" src="rlboard/play_trajectory.js"></script>
-          </div>
-        </div>
-
-        <h3>Here is random agent. Let's play!</h3>
-        <div class="framed">
-          <div class="inside">
-            <div class="eyebrow">
-              Click the test button to see how the random agent play in the game.The random agent randomly selects actions from the available options with a 25% probability for each action, including 
-              moving the shark character up, down, left, or right. It does not consider the consequences of its actions. Using this random agent, we can evaluate the value of 
-              each square.
+              Click the test button to see how the random agent plays the game. The agent randomly selects to move up, down, left, or right with a 25% chance for each direction. 
+              This random agent will be used to evaluate the value of each square on the game board.
             </div>
 
             <div id="play_random" class="play_div">
@@ -410,11 +395,11 @@
               <script type="module" src="rlboard/play_random.js"></script>
             </div>
 
-            <div class="caption"><b>Figure 6:</b><br> Introducing the random agent on the gridworld.</div>
+            <div class="caption"><b>Figure 8:</b><br> Introducing the random agent on the SharkGame.</div>
           </div>
         </div>
-
-      </section>
+  
+        </section>
 
       <section id="monte_carlo">
         <h2>III. Monte Carlo approach</h2>
@@ -450,7 +435,6 @@
           \[V(s) = S(s) / N(s)\]
         </p>
 
-        <h3>VII. Here is MC agent. Let's play!</h3>
         <div class="framed">
           <div class="inside">
             <div class="eyebrow">
@@ -476,16 +460,16 @@
               <a class="btn_reset" style="display: inline-block; margin: auto"><img src="img/buttons/reset2.png" alt="reset"/></a>
             </div>
 
-            <div class="caption"><b>Figure 2:</b><br>
-              Monte Carlo learning process. Left figure represents the agent and the environment, where right figure
-              represents state value table.
+            <div class="caption"><b>Figure 9:</b><br>
+              Monte Carlo learning process. The left figure shows the agent and environment, while the right figure displays the state value table..
             </div>
 
             <script type="module" src="rlboard/play_mcagent.js"></script>
           </div>
         </div>
 
-        <h3>IX. 3D Value Table</h3>
+        <br>
+
         <div class="framed">
           <div class="inside">
             <div class="eyebrow">
@@ -496,7 +480,7 @@
             </div>
 
 
-            <div class="caption"><b>Figure 2:</b><br> 3D value table of the MC agent.</div>
+            <div class="caption"><b>Figure 10:</b><br> 3D value table of the MC agent.</div>
               <script type="module" src="rlboard/3D_table.js"></script>
           </div>
         </div>
@@ -533,12 +517,10 @@
           Despite this limitation, TD has been successfully applied in a wide range of reinforcement learning problems.
         </p>
 
-        <h3>Here is TD agent. Let's play!</h3>
         <div class="framed">
           <div class="inside">
             <div class="eyebrow">
-              Train the TD agent and watch how it does by picking the number of iterations and hitting the train button. The more iterations you set, the more accurate 
-              the value will be for each square. When it's done with all the iterations, give the agent a test run to make sure it's taking the best path to the goal.
+              Select number of episodes using the drop-down menu and click "Train" button to train a TD agent. Click "Test" button to observe the behavior of the trained agent. Click "Reset" button to reset the value table.
             </div>
 
             <div id="play_td" class="play_div">
@@ -558,25 +540,25 @@
               <a class="btn_reset" style="display: inline-block; margin: auto"><img src="img/buttons/reset2.png" alt="reset"/></a>
             </div>
 
-            <div class="caption"><b>Figure 10: Introducing the TD agent</b><br> </div>
+            <div class="caption"><b>Figure 11:</b><br> Temporal Difference learning process. The left figure shows the agent and environment, 
+              while the right figure displays the state value table. </div>
 
             <script type="module" src="rlboard/play_tdagent.js"></script>
           </div>
         </div>
 
-        <h3>IX. 3D Value Table</h3>
+        <br>
+
         <div class="framed">
           <div class="inside">
             <div class="eyebrow">
-              You can add an introductory text for interactive elements to motivate users to check out the following block.
+              Drag and zoom to change the view of the 3D value table.
             </div>
 
             <div id="play_td_3d_table">
             </div>
 
-            <div class="caption"><b>Figure 2:</b><br> Example of an interactive figure: Introducing the 8-Queens problem. Drag and drop queens to change their position. Try to position all queens
-              such that no two queens share the same row, column, or diagonal. Queens that threaten each other
-              will be highlighted in red. In case you found a solution all queens will be highlighted in green.</div>
+            <div class="caption"><b>Figure 12:</b><br> 3D value table of the TD agent.</div>
 
             <script type="module" src="rlboard/3D_table.js"></script>
           </div>
@@ -596,7 +578,6 @@
           and faster to converge.
         </p>
 
-        <h3>VIII. Here is MC vs TD agent. Let's play!</h3>
         <div class="framed">
           <div class="inside">
             <div class="eyebrow">
@@ -624,7 +605,7 @@
               <a class="btn_reset" style="display: inline-block; margin: auto"><img src="img/buttons/reset2.png" alt="reset"/></a>
             </div>
 
-            <div class="caption"><b>Figure 2:</b><br>
+            <div class="caption"><b>Figure 13:</b><br>
               Comparison of MC and TD learning. The left figure is MC and the right figure is TD.
             </div>
 
@@ -632,7 +613,8 @@
           </div>
         </div>
 
-        <h3>X. Here is Optimal Value Function. Let's play!</h3>
+        <br>
+
         <div class="framed">
           <div class="inside">
             <div class="eyebrow">
@@ -647,7 +629,7 @@
               <a class="btn_test" style="display: inline-block; margin: auto"><img src="img/buttons/test.png" alt="test"/></a>
             </div>
 
-            <div class="caption"><b>Figure 2:</b><br>
+            <div class="caption"><b>Figure 14:</b><br>
               Optimal value of the environment. The left figure shows the agent and the environment
               and the right figure shows optimal value table.
             </div>
@@ -667,7 +649,6 @@
           function, which itself may be biased.
         </p>
 
-        <h3>X. Here is biased vs unbiased. Let's play!</h3>
         <div class="framed">
           <div class="inside">
             <div class="eyebrow">
@@ -695,7 +676,7 @@
               <a class="btn_reset" style="display: inline-block; margin: auto"><img src="img/buttons/reset2.png" alt="reset"/></a>
             </div>
 
-            <div class="caption"><b>Figure 2:</b><br>
+            <div class="caption"><b>Figure 15:</b><br>
               Comparison of RMSE(Root Mean Squared Error) of MC and TD agents.
               X axis is number of episodes and Y axis is RMSE.
             </div>
@@ -742,7 +723,7 @@
 
             </div>
 
-            <div class="caption"><b>Figure 2:</b><br> Example of an MDP. </div>
+            <div class="caption"><b>Figure 16:</b><br> Example of an MDP. </div>
 
             <script type="module" src="rlboard/play_draganddrop.js"></script>
           </div>
