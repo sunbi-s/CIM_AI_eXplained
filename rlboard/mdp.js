@@ -61,7 +61,11 @@ export class MDP {
 
     async step(action=null) {
         if (this.currentIdx === this.END_IDX) {
-            alert("Episode is done.\nYou have to reset before playing.");
+            Swal.fire({
+                icon: 'error',
+                title: 'Episode is done.',
+                text: "You have to reset before playing.",
+            });
             return;
         }
 

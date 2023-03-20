@@ -38,7 +38,11 @@ function follow_arrow(game, episodeLength) {
     let childNodes = Array.from(player.parentNode.childNodes);
     let arrowCount = childNodes.reduce((sum, child) => sum + (child.classList.contains("arrow") ? 1 : 0), 0);
     if (arrowCount === 0) {
-        alert("There are no arrows.\nDrag and drop the arrow on the board.");
+        Swal.fire({
+            icon: 'error',
+            title: 'There are no arrows.',
+            text: "Drag and drop the arrow on the board.",
+        });
         btnTest.classList.remove("disabled");
         return;
     }
