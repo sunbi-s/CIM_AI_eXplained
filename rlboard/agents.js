@@ -206,8 +206,15 @@ export class OptimAgent {
 
                 for (let action of this.actions) {
                     let next_state = [state[0], state[1]];
-                    next_state[0] = clamp(next_state[0] + action[0], 0, this.height - 1);
-                    next_state[1] = clamp(next_state[1] + action[1], 0, this.width - 1);
+                    if (next_state[0] + action[0] < 0 || next_state[0] + action[0] > this.height - 1){
+                        continue;
+                    }
+                    if (next_state[1] + action[1] < 0 || next_state[1] + action[1] > this.width - 1){
+                        continue;
+                    }
+
+                    next_state[0] = next_state[0] + action[0]
+                    next_state[1] = next_state[1] + action[1]
 
                     let reward = -1;
                     let next_cell = this.env._getCell(new Position(next_state[0], next_state[1]));
@@ -221,9 +228,9 @@ export class OptimAgent {
                         value_list.push(reward + this.discount_factor * next_value);
                     }
                 }
-                let sum = value_list.reduce((accumulator , currentValue ) => accumulator + currentValue, 0);
-                next_value_table[state[0]][state[1]] = sum / value_list.length;
-                // next_value_table[state[0]][state[1]] = Math.max(...value_list);
+                let sum = value_list.reduce((a, b) => a + b, 0);
+                // next_value_table[state[0]][state[1]] = sum / value_list.length;
+                next_value_table[state[0]][state[1]] = Math.max(...value_list);
             }
         }
         this.value_table = next_value_table;
