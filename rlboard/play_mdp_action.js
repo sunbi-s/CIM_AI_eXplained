@@ -32,7 +32,7 @@ class MDP_Action extends MDP {
             new Edge(3, 2, 0.2, -1),
         ];
 
-        this.positions[this.DUMMY_IDX] = [240, 235];
+        this.positions[this.DUMMY_IDX] = [222, 236];
     }
 
     render() {
@@ -41,24 +41,18 @@ class MDP_Action extends MDP {
         img.src = "img/mdp/action.png"
         this.context.drawImage(img, 50, 10, this.context.width * 0.9, this.context.height);
 
-        // draw title text
-        this.context.fillStyle = "#e7326b";
-        this.context.font = "bold 20pt Arial";
-        this.context.fillText("MDP for Improving child’s sleep quality", 40, 20);
-
         // draw current position
-        this.context.beginPath();
-        this.context.strokeStyle = "#eeb540";
+        let circleImg = new Image();
         let radius;
         if (this.currentIdx === this.DUMMY_IDX) {
-            radius = 8;
+            circleImg.src = "img/mdp/circle_small.png"
+            radius = 35;
         } else {
-            radius = 50;
+            circleImg.src = "img/mdp/circle.png"
+            radius = 122;
         }
         let currentPos = this.positions[this.currentIdx];
-        this.context.arc(currentPos[0], currentPos[1], radius, 0, 2 * Math.PI);
-        this.context.lineWidth = 4;
-        this.context.stroke();
+        this.context.drawImage(circleImg, currentPos[0] - radius/2, currentPos[1] - radius/2, radius, radius);
     }
 }
 

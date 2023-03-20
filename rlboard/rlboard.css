@@ -2,22 +2,42 @@
     opacity: 50%;
 }
 
+.btn_train > img {
+    height: 23px;
+}
+
+.btn_test > img {
+    height: 23px;
+}
+
+.btn_reset > img {
+    height: 23px;
+}
+
+.btn_save > img {
+    height: 23px;
+}
+
+.btn_back > img {
+    height: 23px;
+}
+
+.btn_run > img {
+    height: 23px;
+}
+
+.btn_clear > img {
+    height: 23px;
+}
+
 select {
     position: relative;
-    top: -8px;
+    top: -7px;
 }
 
 .btn_arrow {
     display: inline-block;
     margin: 0 50px;
-}
-
-.btn_arrow > button:not(.btn_reset) {
-    border: 2px solid pink;
-    background-color: rgba(0,0,0,0);
-    font-size: 30px;
-    color: pink;
-    padding: 16px 22px;
 }
 
 .play_div {
@@ -40,7 +60,7 @@ select {
 .player {
     height: inherit;
     width: inherit;
-    margin-left: -20px;
+    margin-left: -25px;
     position: absolute;
     z-index: 3;
 }
@@ -48,6 +68,7 @@ select {
 .place {
     height: 40px;
     width: 40px;
+    margin-top: 5px;
     margin-left: -20px;
     position: absolute;
     z-index: 1;
@@ -56,6 +77,7 @@ select {
 .arrow {
     height: 40px;
     width: 40px;
+    margin-top: 5px;
     margin-left: -20px;
     position: absolute;
     z-index: 2;
@@ -82,11 +104,20 @@ select {
     width: 180px;
     height: 280px;
     margin-left: 40px;
-    padding: 20px 0px;
+    padding: 20px 0;
     cursor: pointer;
 }
 
 .place_creator > img {
     position: relative;
     margin: 8px;
+}
+
+.effect {
+    height: 60px;
+    width: 60px;
+    margin-top: -5px;
+    margin-left: -30px;
+    position: absolute;
+    z-index: 2;
 }

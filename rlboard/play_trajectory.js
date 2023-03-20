@@ -1,11 +1,11 @@
-import { Game, animate } from "./game.js";
+import { Game, animate, renderEffect } from "./game.js";
+import {Position} from "./utill.js";
 
 const frame = document.querySelector('#play_6')
 const boardDom = frame.querySelector('.board');
 boardDom.style.cursor = 'pointer';
 
-let policyName = "user";
-let game = new Game(boardDom, 0, policyName);
+let game = new Game(boardDom, 0);
 animate(game);
 
 let state = game.environment.reset();
@@ -61,6 +61,7 @@ function follow_arrow(game, episodeLength) {
         }
         if (action !== -1 && !done) {
             [state, reward, done] = game.environment.step(action);
+            renderEffect(game.environment._getCell(new Position(state[0], state[1])));
         } else {
             done = true;
         }
@@ -69,6 +70,7 @@ function follow_arrow(game, episodeLength) {
     // stop interval when reach max episode length
     setTimeout(() => {
         clearTimeout(interval);
+        btnTest.classList.remove("disabled");
     }, timeout * episodeLength);
 }
 
@@ -116,13 +118,17 @@ cells.forEach((cell) => {
             if (draggable.parentNode.classList.contains("cell")) {
                 // move node
                 cell.appendChild(draggable);
-            } else
-            if (draggable.parentNode.classList.contains("place_creator")) {
+            } else if (draggable.parentNode.classList.contains("place_creator")) {
                 // create node
                 let copied_draggable = draggable.cloneNode(true);
-                cell.appendChild(copied_draggable);
                 setDraggable(copied_draggable);
                 copied_draggable.classList.remove("dragging");
+
+                if (cell.hasChildNodes() && cell.lastChild.classList.contains("place")) {
+                    cell.insertBefore(copied_draggable, cell.lastChild);
+                } else {
+                    cell.appendChild(copied_draggable);
+                }
 
                 console.log("create", copied_draggable);
             }
@@ -151,7 +157,7 @@ btnTest.addEventListener("click", function() {
     }
 
     btnTest.classList.add("disabled");
-    follow_arrow(game, 40);
+    follow_arrow(game, 100);
 });
 frame.querySelector('.btn_reset').addEventListener("click", function() {
     state = game.environment.reset();

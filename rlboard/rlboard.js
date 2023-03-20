@@ -137,7 +137,7 @@ export class Environment{
 
         // render player
         let player = this.div.querySelector(".player");
-        player.src = player.imagePath[player.imageIndex % 10];
+        player.src = player.imagePath[player.imageIndex % player.imagePath.length];
         player.imageIndex = (player.imageIndex + 1) % player.imagePath.length;
     }
 }

@@ -1,7 +1,7 @@
 import configs from "./config.js";
 import { Environment } from "./rlboard.js";
 import { RandomAgent, MCAgent, TDAgent, OptimAgent } from "./agents.js";
-import { rgb, rgba, sleep } from "./utill.js";
+import {Position, rgb, rgba, sleep} from "./utill.js";
 
 
 const math = window['math'];
@@ -30,6 +30,30 @@ export class Game{
     }
 }
 
+export function renderEffect(cell) {
+    if (cell.childNodes.length < 2) {
+        return;
+    }
+
+    if (cell.lastChild.classList.contains("place")) {
+        let effect = document.createElement("img");
+        effect.classList.add("effect");
+
+        if (cell.lastChild.done) {
+            effect.src = "img/rlboard/effect/Clear.png";
+            effect.style.height = "200px";
+            effect.style.width = "400px";
+            effect.style.marginTop = "-205px";
+            effect.style.marginLeft = "-330px";
+        } else {
+            effect.src = "img/rlboard/effect/Explosion.png";
+        }
+        cell.appendChild(effect);
+        setTimeout(() => effect.remove(), 500);
+    }
+}
+
+
 export class RDGame extends Game {
     constructor(div, seed) {
         super(div, seed);
@@ -51,6 +75,9 @@ export class RDGame extends Game {
 
                 // step
                 [next_state, reward, done] = this.environment.step(action);
+
+                // render effect
+                renderEffect(this.environment._getCell(new Position(next_state[0], next_state[1])));
 
                 // episode done
                 if (done) {
@@ -129,9 +156,11 @@ export class MCGame extends Game {
                 // step
                 [next_state, reward, done] = this.environment.step(action);
 
+                // render effect
+                renderEffect(this.environment._getCell(new Position(next_state[0], next_state[1])));
                 
                 // state no change
-                if (state[0] == next_state[0] && state[1] == next_state[1]) {
+                if (state[0] === next_state[0] && state[1] === next_state[1]) {
                     // console.log("stateSame")
                     break;
                 }
@@ -139,8 +168,7 @@ export class MCGame extends Game {
                 // episode done
                 if (done) {
                     break;
-                } 
-
+                }
 
                 //delay
                 await sleep(sleep_time);

@@ -19,24 +19,12 @@ class MDP_Transition extends MDP {
         img.src = "img/mdp/transition.png"
         this.context.drawImage(img, 50, 10, this.context.width * 0.9, this.context.height);
 
-        // draw title text
-        this.context.fillStyle = "#e7326b";
-        this.context.font = "bold 20pt Arial";
-        this.context.fillText("Markov Process for child’s sleep pattern", 40, 20);
-
         // draw current position
-        this.context.beginPath();
-        this.context.strokeStyle = "#eeb540";
-        let radius;
-        if (this.currentIdx === this.DUMMY_IDX) {
-            radius = 8;
-        } else {
-            radius = 50;
-        }
+        let circleImg = new Image();
+        circleImg.src = "img/mdp/circle.png"
+        let radius = 122;
         let currentPos = this.positions[this.currentIdx];
-        this.context.arc(currentPos[0], currentPos[1], radius, 0, 2 * Math.PI);
-        this.context.lineWidth = 4;
-        this.context.stroke();
+        this.context.drawImage(circleImg, currentPos[0] - radius/2, currentPos[1] - radius/2, radius, radius);
     }
 }
 
