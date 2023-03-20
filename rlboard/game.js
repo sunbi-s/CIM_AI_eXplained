@@ -200,17 +200,25 @@ export class MCGame extends Game {
                 // draw tile color
                 if (value === 0) {
                     this.context.fillStyle = rgb(255, 255, 255);
-                    console.log(this.context)
-                }
-                else if (value < 0) {
-                    let alpha = Math.abs((value/minValue))*(1-0.6) + 0.6
-                    this.context.fillStyle = rgba(255, 200, 200, alpha);
-                    this.context.fillRect = ()
                 }
                 else {
-                    let alpha = Math.abs(value / maxValue) * (1 - 0.6) + 0.6;
-                    this.context.fillStyle = rgba(200, 255, 200, alpha);
+                    let max_r = 24;
+                    let min_r = 236;
+                    let max_g = 198;
+                    let min_g = 250;
+                    let max_b = 40;
+                    let min_b = 237;
+                    let r = Math.abs((value/minValue))*(max_r-min_r)
+                    let g = Math.abs((value/minValue))*(max_g-min_g)
+                    let b = Math.abs((value/minValue))*(max_b-min_b)
+                    console.log(rgb(max_r - r, max_g - g, max_b - b))
+                    this.context.fillStyle = rgb(max_r - r, max_g - g, max_b - b);
+                    // this.context.fillRect = ()
                 }
+                // else {
+                //     let alpha = Math.abs(value / maxValue) * (1 - 0.6) + 0.6;
+                //     this.context.fillStyle = rgba(200, 255, 200, alpha);
+                // }
 
                 // draw grid line
                 let nodeScale = 1 / this.environment.boardShape[0];
