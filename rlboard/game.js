@@ -172,10 +172,12 @@ export class MCGame extends Game {
                 // draw tile color
                 if (value === 0) {
                     this.context.fillStyle = rgb(255, 255, 255);
+                    console.log(this.context)
                 }
                 else if (value < 0) {
                     let alpha = Math.abs((value/minValue))*(1-0.6) + 0.6
                     this.context.fillStyle = rgba(255, 200, 200, alpha);
+                    this.context.fillRect = ()
                 }
                 else {
                     let alpha = Math.abs(value / maxValue) * (1 - 0.6) + 0.6;
