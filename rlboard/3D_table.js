@@ -10,22 +10,22 @@ function getData(game) {
     let dataNorm = data;
 
     // transform -> [0, ~]
-    let min = Math.min(...dataNorm.flat());
-    for (let y = 0; y < dataNorm.length; ++y) {
-        for (let x = 0; x < dataNorm[y].length; ++x) {
-            dataNorm[y][x] -= min;
-        }
-    }
-
-    // normalize -> [0, 1]
-    let max = Math.max(...data.flat());
-    if (max > 0) {
-        for (let y = 0; y < dataNorm.length; ++y) {
-            for (let x = 0; x < dataNorm[y].length; ++x) {
-                dataNorm[y][x] /= max;
-            }
-        }
-    }
+    // let min = Math.min(...dataNorm.flat());
+    // for (let y = 0; y < dataNorm.length; ++y) {
+    //     for (let x = 0; x < dataNorm[y].length; ++x) {
+    //         dataNorm[y][x] -= min;
+    //     }
+    // }
+    //
+    // // normalize -> [0, 1]
+    // let max = Math.max(...data.flat());
+    // if (max > 0) {
+    //     for (let y = 0; y < dataNorm.length; ++y) {
+    //         for (let x = 0; x < dataNorm[y].length; ++x) {
+    //             dataNorm[y][x] /= max;
+    //         }
+    //     }
+    // }
 
     let dataTransposed = dataNorm[0].map((x,i) => dataNorm.map(x => x[i]));
 
@@ -48,7 +48,8 @@ let layout = {
         },
         zaxis: {
             title: "Value",
-            range: [0, 2],
+            // range: [0, 2],
+            range: [-20, 10],
         }
     },
     autosize: false,
