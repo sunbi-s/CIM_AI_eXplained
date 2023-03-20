@@ -119,12 +119,14 @@
           Generally, they recognize the surrounding environment or state and take action based on their understanding.
           As a result of actions, feedback is given, and they learn from it.
           Reinforcement learning (RL) is a computational approach based on this learning mechanism.
-          Recently RL showed impressive results in various domains, such as Go, StarCraft, protein-folding problem, etc.
+          Recently RL showed impressive results in various domains, such as Go[<a href="#ref_1">1</a>],
+          StarCraft[<a href="#ref_2">2</a>], protein-folding problem[<a href="#ref_3">3</a>], etc.
         </p>
 
-        <p>
-          (Fig 1. overview of RL)
-        </p>
+        <figure class="static">
+          <img src="img/intro/rl_overview.png" alt="Overview of RL" style="margin: auto auto; max-width: 70%; display: block"/>
+          <figcaption><b>Figure 1:</b> Overview of RL </figcaption>
+        </figure>
 
         <p>
           RL consists of four main elements:
@@ -615,6 +617,15 @@
 
         <br>
 
+        <p>
+          Whereas MC and TD estimate values in different ways, but both of them converge to the optimal values in the
+          end. You can see the optimal agent's behavior in the figure below. The optimal values are obtained through
+          considering all possible future states and actions by using a model of the environment. Based on these values,
+          the optimal agent selects the best action, resulting in the highest possible reward. While the optimal agent
+          considers all possibilities, MC and TD agents only consider a subset of possible future states and actions.
+          Despite this difference, all three agents can achieve the same optimal values and reward in the long run.
+        </p>
+
         <div class="framed">
           <div class="inside">
             <div class="eyebrow">
@@ -693,7 +704,10 @@
           researchers and practitioners can choose the most appropriate approach for their particular application.
         </p>
 
-        <h3>Make MDP</h3>
+        <p>
+          Depend on the MDP, optimal behavior is different. In figure below, create your own MDP and check how
+          optimal, MC, and TD agents behaves.
+        </p>
         <div class="framed">
           <div class="inside">
             <div class="eyebrow">
@@ -739,13 +753,13 @@
           In conclusion, this paper has provided an overview of two popular approaches in reinforcement learning: Monte
           Carlo and Temporal Difference. While these methods have their respective advantages and disadvantages, it is
           worth noting that there are many other approaches to reinforcement learning beyond MC and TD. For example,
-          model-based and policy gradient methods are also commonly used in this field. These other methods may be
+          model-based[<a href="#ref_4">4</a>] and policy gradient methods[<a href="#ref_5">5</a>] are also commonly used in this field. These other methods may be
           better suited to certain types of problems or have particular advantages in different contexts.
         </p>
 
         <p>
           Moreover, recent advancements in the field of reinforcement learning have demonstrated the potential for
-          combining reinforcement learning with deep learning to achieve even better results. These hybrid approaches
+          combining reinforcement learning with deep learning to achieve even better results [<a href="#ref_6">6</a>]. These hybrid approaches
           have shown promise in a wide range of applications, from game-playing and robotics to natural language
           processing and recommendation systems. As the field continues to evolve, it is likely that we will see more
           innovations and breakthroughs in the area of reinforcement learning, and it will be exciting to see how these
@@ -758,51 +772,53 @@
         <h2>References</h2>
         <ol>
           <li id="ref_1">
-            Data-Driven Documents / d3.js
-            <br>
+            Mastering the game of go without human knowledge
             <span>
-              <a href="https://d3js.org/" target="_blank">https://d3js.org/</a>
+              Silver, David, et al. "Mastering the game of go without human knowledge." nature 550.7676 (2017): 354-359.
+              DOI:<a href="https://doi.org/10.1038/nature24270" target="_blank">10.1038/nature24270</a>
             </span>
           </li>
+
           <li id="ref_2">
-            three.js / editor
-            <br>
+            Grandmaster level in StarCraft II using multi-agent reinforcement learning
             <span>
-              three.js <a href="https://threejs.org/" target="_blank">https://threejs.org/</a>
+              Vinyals, Oriol, et al. "Grandmaster level in StarCraft II using multi-agent reinforcement learning." Nature 575.7782 (2019): 350-354.
+              DOI:<a href="https://doi.org/10.1038/s41586-019-1724-z" target="_blank">10.1038/s41586-019-1724-z</a>
             </span>
           </li>
+
           <li id="ref_3">
-            The Technical Writer's Handbook
-            <br>
+            Highly accurate protein structure prediction with AlphaFold
             <span>
-              Young, M., 1989. University Science Books.
+              Jumper, John, et al. "Highly accurate protein structure prediction with AlphaFold." Nature 596.7873 (2021): 583-589.
+              DOI:<a href="https://doi.org/10.1038/s41586-021-03819-2" target="_blank">10.1038/s41586-021-03819-2</a>
             </span>
           </li>
+
           <li id="ref_4">
-            Choosing Representation, Mutation, and Crossover in Genetic Algorithms
+            Model-based reinforcement learning: A survey
             <span>
-              A. Dockhorn and S. Lucas, IEEE Computational Intelligence Magazine, vol. 17, no. 4, pp. 52-53, 1 Nov. 2022. DOI:<a href="https://ieeexplore.ieee.org/document/9942691" target="_blank">
-              10.1109/MCI.2022.3199626</a>
+              Moerland, T. M., Broekens, J., Plaat, A., & Jonker, C. M. (2023). Model-based reinforcement learning: A survey. Foundations and Trends in Machine Learning, 16(1), 1-118.
+              DOI:<a href="http://dx.doi.org/10.1561/2200000086" target="_blank">10.1561/2200000086</a>
             </span>
           </li>
+
           <li id="ref_5">
-            Title of paper if known
+            A natural policy gradient
             <span>
-              Elissa, K.. unpublished.
+              Kakade, S. M. (2001). A natural policy gradient. Advances in neural information processing systems, 14.
             </span>
           </li>
+
           <li id="ref_6">
-            Title of paper with only first word capitalized
+            Human-level control through deep reinforcement learning
             <span>
-              Nicole, R., (in press). J. Name Stand. Abbrev.
+              Mnih, Volodymyr, et al. "Human-level control through deep reinforcement learning." nature 518.7540 (2015): 529-533.
+              DOI:<a href="https://doi.org/10.1038/nature14236" target="_blank">10.1038/nature14236</a>
             </span>
           </li>
-          <li id="ref_7">
-            Electron spectroscopy studies on magneto-optical media and plastic substrate interface
-            <span>
-              Y. Yorozu, M.H. and Tagawa, Y., 1987. , Vol 2, pp. 740--741. IEEE Transl. J. Magn. Japan.
-            </span>
-          </li>
+
+
         </ol>
       </section>
     </div>
