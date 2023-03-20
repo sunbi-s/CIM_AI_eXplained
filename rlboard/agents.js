@@ -158,7 +158,7 @@ export class OptimAgent {
         this.height = env.boardShape[0];
         this.width = env.boardShape[1];
         this.actions = env.actions;
-        this.discount_factor = 0.9;
+        this.discount_factor = 1;
 
         this.initValueTable();
     }
@@ -230,8 +230,8 @@ export class OptimAgent {
                     }
                 }
                 let sum = value_list.reduce((a, b) => a + b, 0);
-                // next_value_table[state[0]][state[1]] = sum / value_list.length;
-                next_value_table[state[0]][state[1]] = Math.max(...value_list);
+                next_value_table[state[0]][state[1]] = sum / value_list.length;
+                // next_value_table[state[0]][state[1]] = Math.max(...value_list);
             }
         }
         this.value_table = next_value_table;
@@ -239,11 +239,19 @@ export class OptimAgent {
 
     getOptimalAction(state) {
         // Action based on Q-value
-        let value_list = [];
-        for (let action of this.actions) {
+        let value_list = [-9999, -9999, -9999, -9999];
+        for (let [idx, action] of this.actions.entries()) {
+            console.log(action, idx);
             let next_state = [state[0], state[1]];
-            next_state[0] = clamp(next_state[0] + action[0], 0, this.height - 1);
-            next_state[1] = clamp(next_state[1] + action[1], 0, this.width - 1);
+            if (next_state[0] + action[0] < 0 || next_state[0] + action[0] > this.height - 1){
+                continue;
+            }
+            if (next_state[1] + action[1] < 0 || next_state[1] + action[1] > this.width - 1){
+                continue;
+            }
+
+            next_state[0] = next_state[0] + action[0]
+            next_state[1] = next_state[1] + action[1]
 
             let reward = -1;
             let next_cell = this.env._getCell(new Position(next_state[0], next_state[1]));
@@ -254,7 +262,7 @@ export class OptimAgent {
                 }
                 let next_value = this.value_table[next_state[0]][next_state[1]];
                 console.log(reward, state[0], state[1], next_state[0], next_state[1], next_value)
-                value_list.push(reward + this.discount_factor * next_value);
+                value_list[idx] = reward + this.discount_factor * next_value;
             }
         }
         return this._argMax(value_list);
