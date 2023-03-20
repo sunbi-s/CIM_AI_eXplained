@@ -193,10 +193,9 @@ export class MCGame extends Game {
                 let value = this.agent.value_table[y][x];
 
                 let epsilon = 0.0000000001;
-                let maxValue = Math.max(...this.agent.value_table.flat()) + epsilon;
+                // expcept 0  and all Values is negative 2 positive
+                let maxValue = Math.max(...this.agent.value_table.flat().slice(0,6*6-2)) + epsilon;
                 let minValue = Math.min(...this.agent.value_table.flat()) + epsilon;
-
-                // 기준치를 정해놓고 점점 올라가게? 아니면 현재 상태에 비교해서? <- max랑 차이가 너무 많이 남 나중에 생각
                 // draw tile color
                 if (value === 0) {
                     this.context.fillStyle = rgb(255, 255, 255);
@@ -208,11 +207,11 @@ export class MCGame extends Game {
                     let min_g = 250;
                     let max_b = 40;
                     let min_b = 237;
-                    let r = Math.abs((value/minValue))*(max_r-min_r)
-                    let g = Math.abs((value/minValue))*(max_g-min_g)
-                    let b = Math.abs((value/minValue))*(max_b-min_b)
-                    console.log(rgb(max_r - r, max_g - g, max_b - b))
-                    this.context.fillStyle = rgb(max_r - r, max_g - g, max_b - b);
+                    let normalize =(value- minValue)/(maxValue - minValue)
+                    let r = (normalize)*(max_r-min_r)
+                    let g = (normalize)*(max_g-min_g)
+                    let b = (normalize)*(max_b-min_b)
+                    this.context.fillStyle = rgb(min_r + r, min_g + g, min_b + b);
                     // this.context.fillRect = ()
                 }
                 // else {
