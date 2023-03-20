@@ -6,10 +6,10 @@ export default [
             //  [y, x]
             [[4, 2], 0, false, "img/rlboard/place/Dynamite.png"],
             [[4, 1], 0, false, "img/rlboard/place/Bomb.png"],
-            [[5, 0], 0, false, "img/rlboard/place/Dynamite.png"],
+            [[5, 0], -1, false, "img/rlboard/place/Dynamite.png"],
             [[3, 4], 0, false, "img/rlboard/place/Net.png"],
-            [[2, 5], 0, false, "img/rlboard/place/Bomb.png"],
-            [[1, 3], 0, false, "img/rlboard/place/Dynamite.png"],
+            [[2, 5], -2, false, "img/rlboard/place/Bomb.png"],
+            [[1, 3], -1, false, "img/rlboard/place/Dynamite.png"],
             [[5, 5], 0, true, "img/rlboard/place/Treasure.png"],
         ],
         "agentStartPosition": [0, 0],  // [x, y]
