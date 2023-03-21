@@ -47,7 +47,7 @@ export class Environment{
         return this.div.querySelectorAll(".cell")[this.boardShape[0] * position.y + position.x];
     }
 
-    _movePlayer(action) {
+    _get_player_position() {
         // find player position
         let cells = this.div.querySelectorAll(".cell");
         let index = Array.from(cells).findIndex((cell) => {
@@ -56,6 +56,11 @@ export class Environment{
         let y = parseInt(index / this.boardShape[0]);
         let x = index % this.boardShape[0];
         let targetPos = new Position(y, x);
+        return targetPos;
+    }
+
+    _movePlayer(action) {
+        let targetPos = this._get_player_position();
 
         // move player position
         targetPos.y = clamp(targetPos.y + this.actions[action][0], 0, this.boardShape[0] - 1);
@@ -80,6 +85,14 @@ export class Environment{
         let reward = -1;
         let done = false;
 
+        // compute reward
+        let CurrentPos = this._get_player_position();
+        let currentCell = this._getCell(CurrentPos);
+        let curr_place = currentCell.lastChild;
+        if (curr_place.classList.contains("place")) {
+            reward += curr_place.reward;
+        }
+
         // move player
         let [position, cell] = this._movePlayer(action);
         let next_state = position.get();
@@ -87,7 +100,6 @@ export class Environment{
         // check state
         let place = cell.lastChild;
         if (place.classList.contains("place")) {
-            reward += place.reward;
             done = place.done;
         }
 

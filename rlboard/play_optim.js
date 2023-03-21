@@ -1,4 +1,4 @@
-import { OptimGame, animate } from "./game.js";
+import { OptimGame, OptimGameAVG, animate } from "./game.js";
 
 const frame = document.querySelector('#play_optim');
 const boardDom = frame.querySelector('.board');
@@ -9,7 +9,7 @@ context.width = canvas_1.width;
 context.height = canvas_1.height;
 
 
-export let game = new OptimGame(boardDom, context, 0);
+export let game = new OptimGameAVG(boardDom, context, 0);
 animate(game);
 
 let btnTest = frame.querySelector('.btn_test');
