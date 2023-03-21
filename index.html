@@ -30,6 +30,10 @@
 
   <!-- mathjs -->
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/5.0.0/math.js"></script>
+
+  <!-- SweetAlert2-->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.js"></script>
 </head>
 
 <body>
@@ -133,10 +137,10 @@
         </p>
 
         <ul id="Units">
-          <li> <b>Policy</b>: the probability of action in a given state. It determines the agent’s behavior.</li>
-          <li> <b>Reward</b>: a single number that is given to the agent at each timestep. The reward function determines a goal in an RL problem. Higher reward means a better policy.</li>
-          <li> <b>Value</b> function: the total amount of reward that an agent will get in the future, starting from a specific state. It shows how good a state is in the long run.</li>
-          <li> <b>Model</b> of the environment: a model that makes predictions of the environment’s behavior, thereby enabling inference about how the environment will behave.</li>
+          <li> <b>Policy</b>: a probability distribution of actions in a given state. It determines the agent’s behavior.</li>
+          <li> <b>Reward</b>: a signal that is given to an agent based on its behavior or actions in an environment. The reward serves as a way to reinforce or encourage certain behaviors and discourage others. It determines a goal in an RL problem.</li>
+          <li> <b>Value function</b>: the total amount of reward that an agent will get in the future, starting from a specific state. It shows how good a state is in the long run.</li>
+          <li> <b>Model of the environment</b>: a model that makes predictions of the environment’s behavior, thereby enabling inference about how the environment will behave.</li>
         </ul>
 
         <p>
