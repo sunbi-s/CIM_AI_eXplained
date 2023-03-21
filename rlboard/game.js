@@ -28,6 +28,10 @@ export class Game{
         // draw environment
         this.environment.render();
     }
+
+    resetPlayer() {
+        this.environment.resetPlayer()
+    }
 }
 
 export function renderEffect(cell, timeout=500) {

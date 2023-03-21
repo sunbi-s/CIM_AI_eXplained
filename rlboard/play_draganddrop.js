@@ -173,6 +173,8 @@ btnBack.addEventListener("click", function() {
     if (btnBack.classList.contains("disabled")) {
         return;
     }
+    game.resetPlayer()
+
     btnSave.style.display = "inline-block";
     btnBack.style.display = "none";
     divPlayMyMDP.style.display = "none";
