@@ -149,6 +149,10 @@ export class OptimAgent extends CommonAgent{
     // https://github.com/rlcode/reinforcement-learning/blob/master/1-grid-world/2-value-iteration/value_iteration.py#L4
     constructor(env, optimal_equation) {
         super(env);
+        this.computeValues(optimal_equation)
+    }
+
+    computeValues(optimal_equation) {
         // calculate optimal value table
         for (let i = 0; i < 1000; ++i) {
             this._valueIteration(optimal_equation);

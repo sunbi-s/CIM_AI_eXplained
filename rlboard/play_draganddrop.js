@@ -163,7 +163,7 @@ btnSave.addEventListener("click", function() {
     }
 
     // init agents
-    optimGame.agent.initValueTable();
+    optimGame.agent.computeValues(true);
 });
 btnBack.addEventListener("click", function() {
     btnSave.style.display = "inline-block";
