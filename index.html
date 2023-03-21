@@ -219,7 +219,7 @@
           over time. At each time step, the state may remain the same or transition to a different state, based on the
           probability of transition that depends solely on the current state. This property is known as the Markov
           property, where the future state of the system is determined only by the present state and not by any previous
-          states. An example of a Markov process is shown in Figure3.
+          states. An example[<a href="#ref_4">4</a>] of a Markov process is shown in Figure3.
         </p>
         
         <figure class="static">
@@ -344,7 +344,7 @@
         <p>
           For instance, \(a_0\)(Playing with child) in the \(s_0\)(Lying) immediately transitions to the state \(s_1\)(Awake) and receives positive rewards. 
           However, in the long term, continuous \(a_1\)(Singing a lullaby) to put the child to sleep will yield the highest reward. Interestingly, If playing with 
-          child action is taken while the child is \(s_2\)(Drowsy), depending on the given probability, it may transition to a playing state or a lying state. 
+          child action is taken while the child is \(s_2\)(Drowsy), depending on the given probability, it may transition to an awake state or a lying state. 
           This transition probability helps to model more realistic problems.
         </p>
         
@@ -753,13 +753,13 @@
           In conclusion, this paper has provided an overview of two popular approaches in reinforcement learning: Monte
           Carlo and Temporal Difference. While these methods have their respective advantages and disadvantages, it is
           worth noting that there are many other approaches to reinforcement learning beyond MC and TD. For example,
-          model-based[<a href="#ref_4">4</a>] and policy gradient methods[<a href="#ref_5">5</a>] are also commonly used in this field. These other methods may be
+          model-based[<a href="#ref_5">5</a>] and policy gradient methods[<a href="#ref_6">6</a>] are also commonly used in this field. These other methods may be
           better suited to certain types of problems or have particular advantages in different contexts.
         </p>
 
         <p>
           Moreover, recent advancements in the field of reinforcement learning have demonstrated the potential for
-          combining reinforcement learning with deep learning to achieve even better results [<a href="#ref_6">6</a>]. These hybrid approaches
+          combining reinforcement learning with deep learning to achieve even better results [<a href="#ref_7">7</a>]. These hybrid approaches
           have shown promise in a wide range of applications, from game-playing and robotics to natural language
           processing and recommendation systems. As the field continues to evolve, it is likely that we will see more
           innovations and breakthroughs in the area of reinforcement learning, and it will be exciting to see how these
@@ -796,6 +796,13 @@
           </li>
 
           <li id="ref_4">
+            RL from Basics
+            <span>
+              S. Rho, "Markov Decision Process," in RL from Basics, Seoul, South Korea, Youngjin.com, 2020, pp. 35–53. 
+            </span>
+          </li>
+
+          <li id="ref_5">
             Model-based reinforcement learning: A survey
             <span>
               Moerland, T. M., Broekens, J., Plaat, A., & Jonker, C. M. (2023). Model-based reinforcement learning: A survey. Foundations and Trends in Machine Learning, 16(1), 1-118.
@@ -803,21 +810,20 @@
             </span>
           </li>
 
-          <li id="ref_5">
+          <li id="ref_6">
             A natural policy gradient
             <span>
               Kakade, S. M. (2001). A natural policy gradient. Advances in neural information processing systems, 14.
             </span>
           </li>
 
-          <li id="ref_6">
+          <li id="ref_7">
             Human-level control through deep reinforcement learning
             <span>
               Mnih, Volodymyr, et al. "Human-level control through deep reinforcement learning." nature 518.7540 (2015): 529-533.
               DOI:<a href="https://doi.org/10.1038/nature14236" target="_blank">10.1038/nature14236</a>
             </span>
           </li>
-
 
         </ol>
       </section>
