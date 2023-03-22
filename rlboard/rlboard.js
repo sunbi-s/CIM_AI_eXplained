@@ -82,7 +82,7 @@ export class Environment{
     }
 
     step(action) {
-        let reward = -1;
+        let reward = this.config.defaultReward;
         let done = false;
 
         // compute reward

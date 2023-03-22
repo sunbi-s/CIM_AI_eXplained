@@ -1,5 +1,5 @@
 import { clamp, Position } from "./utill.js";
-
+import configs from "./config.js";
 
 export class RandomAgent{
     constructor(env) {
@@ -193,7 +193,7 @@ export class OptimAgent extends CommonAgent{
                         continue;
                     }
 
-                    let reward = -1;
+                    let reward = configs[0].defaultReward;
 
                     let curr_cell = this.env._getCell(new Position(state[0], state[1]));
                     let place = curr_cell.lastChild;
