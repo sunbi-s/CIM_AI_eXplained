@@ -84,7 +84,11 @@ place_creator.addEventListener("drop", (e) => {
     let places = boardDom.querySelectorAll(".place");
     let doneCount = Array.from(places).reduce((sum, place) => sum + (place.done ? 1 : 0), 0);
     if (doneCount - draggable.done < 1) {
-        alert("There should be at least one terminal place in board.");
+        Swal.fire({
+            icon: 'error',
+            title: 'Not enough terminal place.',
+            text: "There should be at least one terminal place in board.",
+        });
         return;
     }
 
@@ -166,6 +170,11 @@ btnSave.addEventListener("click", function() {
     optimGame.agent.computeValues(true);
 });
 btnBack.addEventListener("click", function() {
+    if (btnBack.classList.contains("disabled")) {
+        return;
+    }
+    game.resetPlayer()
+
     btnSave.style.display = "inline-block";
     btnBack.style.display = "none";
     divPlayMyMDP.style.display = "none";
@@ -175,22 +184,31 @@ btnBack.addEventListener("click", function() {
     }
 });
 btnRun.addEventListener("click", function() {
-    btnRun.disabled = true;
-    btnBack.disabled = true;
+    if (btnRun.classList.contains("disabled")) {
+        return;
+    }
+    btnRun.classList.add("disabled")
+    btnBack.classList.add("disabled")
     if (selectAgent.value === "Optimal") {
         optimGame.run_test(3).then(() => {
             btnRun.disabled = false;
             btnBack.disabled = false;
+            btnRun.classList.remove("disabled");
+            btnBack.classList.remove("disabled");
         });
     } else if (selectAgent.value === "MC")  {
         mcGame.run(3).then(() => {
             btnRun.disabled = false;
             btnBack.disabled = false;
+            btnRun.classList.remove("disabled");
+            btnBack.classList.remove("disabled");
         });
     } else if (selectAgent.value === "TD")  {
         tdGame.run(3).then(() => {
             btnRun.disabled = false;
             btnBack.disabled = false;
+            btnRun.classList.remove("disabled");
+            btnBack.classList.remove("disabled");
         });
     }
 });

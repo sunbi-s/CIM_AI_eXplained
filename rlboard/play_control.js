@@ -18,7 +18,11 @@ frame.querySelector('.btn_action_0').addEventListener("click", function() {
         renderEffect(game.environment._getCell(new Position(state[0], state[1])));
     }
     else {
-        alert("Episode is done.\nYou have to reset before playing.");
+        Swal.fire({
+            icon: 'error',
+            title: 'Episode is done.',
+            text: "You have to reset before playing.",
+        });
     }
 });
 frame.querySelector('.btn_action_1').addEventListener("click", function() {
@@ -27,7 +31,11 @@ frame.querySelector('.btn_action_1').addEventListener("click", function() {
         renderEffect(game.environment._getCell(new Position(state[0], state[1])));
     }
     else {
-        alert("Episode is done.\nYou have to reset before playing.");
+        Swal.fire({
+            icon: 'error',
+            title: 'Episode is done.',
+            text: "You have to reset before playing.",
+        });
     }
 });
 frame.querySelector('.btn_action_2').addEventListener("click", function() {
@@ -36,7 +44,11 @@ frame.querySelector('.btn_action_2').addEventListener("click", function() {
         renderEffect(game.environment._getCell(new Position(state[0], state[1])));
     }
     else {
-        alert("Episode is done.\nYou have to reset before playing.");
+        Swal.fire({
+            icon: 'error',
+            title: 'Episode is done.',
+            text: "You have to reset before playing.",
+        });
     }
 });
 frame.querySelector('.btn_action_3').addEventListener("click", function() {
@@ -45,7 +57,11 @@ frame.querySelector('.btn_action_3').addEventListener("click", function() {
         renderEffect(game.environment._getCell(new Position(state[0], state[1])));
     }
     else {
-        alert("Episode is done.\nYou have to reset before playing.");
+        Swal.fire({
+            icon: 'error',
+            title: 'Episode is done.',
+            text: "You have to reset before playing.",
+        });
     }
 });
 frame.querySelector('.btn_reset').addEventListener("click", function() {
