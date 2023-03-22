@@ -158,21 +158,26 @@ let divPlayMyMDP = frame.querySelector('#play_my_mdp');
 let btnSave = frame.querySelector('.btn_save');
 let btnBack = frame.querySelector('.btn_back');
 let btnRun = frame.querySelector('.btn_run');
+let canvas = frame.querySelector('canvas');
+let nEpisodeText = frame.querySelector('#n_episode');
 
 
-const n_trains = [1, 10, 20, 50, 100];
-let mcHistory = [[], [], [], [], []];
-let tdHistory = [[], [], [], [], []];
+const n_trains = 100;
+let mcHistory = [];
+let tdHistory = [];
 let interrupt = false;
 
 
-btnSave.addEventListener("click", function() {
+btnSave.addEventListener("click", async function() {
+    mcHistory = [];
+    tdHistory = [];
     interrupt = false;
 
     btnSave.style.display = "none";
     btnBack.style.display = "inline-block";
     divPlayMyMDP.style.display = "inline-block";
     place_creator.style.display = "none";
+    canvas.style.display = "inline-block";
     for (let draggable of boardDom.querySelectorAll(".draggable")) {
         unsetDraggable(draggable);
     }
@@ -182,22 +187,26 @@ btnSave.addEventListener("click", function() {
 
     // train agents in background process
     let state, action, reward, done;
-    for (let idx = 0; idx < n_trains.length; idx++) {
-        mcGame.agent.reset();
-        mcGame.run(n_trains[idx], 0).then(() => {
-            state = mcGame.environment.reset();
-            for (let step = 0; step < mcGame.max_step_num; step++) {
-                action = mcGame.agent.getOptimalAction(state);
-                mcHistory[idx].push(action);
-                [state, reward, done] = mcGame.environment.step(action);
+    let context = canvas.getContext('2d');
+    context.width = canvas.width;
+    context.height = canvas.height;
+    mcGame.context = context;
+    animate(mcGame);
+    mcGame.run(n_trains, 1, nEpisodeText).then(() => {
+        state = mcGame.environment.reset();
+        for (let step = 0; step < mcGame.max_step_num; step++) {
+            action = mcGame.agent.getOptimalAction(state);
+            mcHistory.push(action);
+            [state, reward, done] = mcGame.environment.step(action);
 
-                if (done || interrupt) {
-                    break;
-                }
+            if (done || interrupt) {
+                break;
             }
-        });
-    }
-    tdGame.run(1, 0);
+        }
+        console.log("eval done");
+    });
+    // tdGame.run(1, 0);
+    console.log("save done");
 });
 btnBack.addEventListener("click", function() {
     if (btnBack.classList.contains("disabled")) {
@@ -211,6 +220,7 @@ btnBack.addEventListener("click", function() {
     btnBack.style.display = "none";
     divPlayMyMDP.style.display = "none";
     place_creator.style.display = "inline-block";
+    canvas.style.display = "none";
     for (let place of boardDom.querySelectorAll(".place")) {
         setDraggable(place);
     }
@@ -228,7 +238,8 @@ btnRun.addEventListener("click", async function () {
             btnBack.classList.remove("disabled");
         });
     } else if (selectAgent.value === "MC") {
-        for (let [idx, action] of mcHistory[0].entries()) {
+        game.environment.reset();
+        for (let [idx, action] of mcHistory[4].entries()) {
             console.log(idx, action);
             if (idx >= 100 || interrupt) {
                 break;

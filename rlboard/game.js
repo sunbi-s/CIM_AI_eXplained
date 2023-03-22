@@ -105,10 +105,14 @@ export class MCGame extends Game {
         this.agent = new MCAgent(this.environment);
     }
 
-    async run(max_episode_num, sleep_time=10) {
+    async run(max_episode_num, sleep_time=10, episodeTextDom=null) {
         let step = 0;
 
         for (let episode = 1; episode <= max_episode_num; ++episode) {
+            if (episodeTextDom !== null) {
+                episodeTextDom.innerText = episode + " episode";
+            }
+
             let next_state, action, reward, done;
             let state = this.environment.reset();
             let rewards = [];
@@ -136,7 +140,7 @@ export class MCGame extends Game {
                 // episode done
                 if (done) {
                     break;
-                } 
+                }
 
                 //delay
                 await sleep(sleep_time);
