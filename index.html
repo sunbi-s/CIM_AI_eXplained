@@ -520,7 +520,7 @@
           TD achieves this goal by using the Bootstrap method, which updates an estimate using another estimate. Specifically, TD uses the difference between observed rewards
            and predicted rewards to update the value function estimate at each time step. This allows TD to update the value function estimate incrementally and in real-time,
             without the need to wait for the end of an episode.
-            \[v_\pi\left(s_t\right)=\mathbb{E}_\pi\left[r_{t+1}+\gamma v_\pi\left(s_{t+1}\right)\right]\]
+            \[V\left(s_t\right)=\mathbb{E}\left[r_{t+1}+\gamma V\left(s_{t+1}\right)\right]\]
         </p>
         <p>
           Compared to MC methods, TD has the advantage of being more computationally efficient. However, it may have bias and may not converge to the true value function. 
