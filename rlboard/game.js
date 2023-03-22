@@ -143,8 +143,8 @@ export class MCGame extends Game {
             }
 
             this.agent.update();
-            console.log(this.agent.constructor.name, ": [episode", episode, "] done in", step, "steps",
-                ", total reward:", rewards.reduce((a, b) => a + b, 0));
+            // console.log(this.agent.constructor.name, ": [episode", episode, "] done in", step, "steps",
+            //     ", total reward:", rewards.reduce((a, b) => a + b, 0));
         }
     }
 
@@ -288,8 +288,8 @@ export class TDGame extends MCGame {
                 await sleep(sleep_time);
             }
 
-            console.log(this.agent.constructor.name, ": [episode", episode, "] done in", step, "steps",
-                ", total reward:", rewards.reduce((a, b) => a + b, 0));
+            // console.log(this.agent.constructor.name, ": [episode", episode, "] done in", step, "steps",
+            //     ", total reward:", rewards.reduce((a, b) => a + b, 0));
         }
     }
 }

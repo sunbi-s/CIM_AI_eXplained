@@ -1,17 +1,19 @@
-import { Position } from "./utill.js";
+import {Position, sleep} from "./utill.js";
 import { Game, MCGame, TDGame, OptimGame, animate } from "./game.js";
 
 const frame = document.querySelector('#play_draganddrop')
 const boardDom = frame.querySelector('.board');
+const hiddenBoardDom1 = frame.querySelector('#hiddenBoard1');
+const hiddenBoardDom2 = frame.querySelector('#hiddenBoard2');
 boardDom.style.cursor = 'pointer';
 
 let game = new Game(boardDom, 0);
-let mcGame = new MCGame(null, null, 0);
-mcGame.environment.div = boardDom;
-mcGame.environment.player = game.environment.player;
-let tdGame = new TDGame(null, null, 0);
-tdGame.environment.div = boardDom;
-tdGame.environment.player = game.environment.player;
+let mcGame = new MCGame(hiddenBoardDom1, null, 0);
+// mcGame.environment.div = boardDom;
+// mcGame.environment.player = game.environment.player;
+let tdGame = new TDGame(hiddenBoardDom2, null, 0);
+// tdGame.environment.div = boardDom;
+// tdGame.environment.player = game.environment.player;
 
 let div = document.createElement("div");
 let optimGame = new OptimGame(div, null, 0);
@@ -157,7 +159,16 @@ let btnSave = frame.querySelector('.btn_save');
 let btnBack = frame.querySelector('.btn_back');
 let btnRun = frame.querySelector('.btn_run');
 
+
+const n_trains = [1, 10, 20, 50, 100];
+let mcHistory = [[], [], [], [], []];
+let tdHistory = [[], [], [], [], []];
+let interrupt = false;
+
+
 btnSave.addEventListener("click", function() {
+    interrupt = false;
+
     btnSave.style.display = "none";
     btnBack.style.display = "inline-block";
     divPlayMyMDP.style.display = "inline-block";
@@ -168,11 +179,32 @@ btnSave.addEventListener("click", function() {
 
     // init agents
     optimGame.agent.computeValues(true);
+
+    // train agents in background process
+    let state, action, reward, done;
+    for (let idx = 0; idx < n_trains.length; idx++) {
+        mcGame.agent.reset();
+        mcGame.run(n_trains[idx], 0).then(() => {
+            state = mcGame.environment.reset();
+            for (let step = 0; step < mcGame.max_step_num; step++) {
+                action = mcGame.agent.getOptimalAction(state);
+                mcHistory[idx].push(action);
+                [state, reward, done] = mcGame.environment.step(action);
+
+                if (done || interrupt) {
+                    break;
+                }
+            }
+        });
+    }
+    tdGame.run(1, 0);
 });
 btnBack.addEventListener("click", function() {
     if (btnBack.classList.contains("disabled")) {
         return;
     }
+
+    interrupt = true;
     game.resetPlayer()
 
     btnSave.style.display = "inline-block";
@@ -183,32 +215,41 @@ btnBack.addEventListener("click", function() {
         setDraggable(place);
     }
 });
-btnRun.addEventListener("click", function() {
+btnRun.addEventListener("click", async function () {
     if (btnRun.classList.contains("disabled")) {
         return;
     }
-    btnRun.classList.add("disabled")
-    btnBack.classList.add("disabled")
+
+    btnRun.classList.add("disabled");
     if (selectAgent.value === "Optimal") {
-        optimGame.run_test(3).then(() => {
-            btnRun.disabled = false;
-            btnBack.disabled = false;
+        btnBack.classList.add("disabled");
+        optimGame.run_test(1).then(() => {
             btnRun.classList.remove("disabled");
             btnBack.classList.remove("disabled");
         });
-    } else if (selectAgent.value === "MC")  {
-        mcGame.run(3).then(() => {
-            btnRun.disabled = false;
-            btnBack.disabled = false;
-            btnRun.classList.remove("disabled");
-            btnBack.classList.remove("disabled");
-        });
-    } else if (selectAgent.value === "TD")  {
-        tdGame.run(3).then(() => {
-            btnRun.disabled = false;
-            btnBack.disabled = false;
-            btnRun.classList.remove("disabled");
-            btnBack.classList.remove("disabled");
-        });
+    } else if (selectAgent.value === "MC") {
+        for (let [idx, action] of mcHistory[0].entries()) {
+            console.log(idx, action);
+            if (idx >= 100 || interrupt) {
+                break;
+            }
+
+            let [, cell] = game.environment._movePlayer(action);
+
+            // check state
+            let place = cell.lastChild;
+            if (place.classList.contains("place") && place.done) {
+                console.log("terminal place");
+                break;
+            }
+
+            await sleep(200);
+        }
+
+        btnRun.classList.remove("disabled");
+    } else if (selectAgent.value === "TD") {
+        // TODO: implementation here!
+        alert("Not implementation error!");
+        btnRun.classList.remove("disabled");
     }
 });
