@@ -64,16 +64,20 @@ setDraggable(player);
 
 const places = boardDom.querySelectorAll('.place');
 places.forEach((place) => {
+    if (place.done) {
+        return;
+    }
+
     setDraggable(place);
 });
 
 
-// Add place_creator event
-const place_creator = frame.querySelector(".place_creator");
-place_creator.addEventListener("dragover", (e) => {
+// Add trash_can event
+const trash_can = frame.querySelector(".trash_can");
+trash_can.addEventListener("dragover", (e) => {
     e.preventDefault();
 });
-place_creator.addEventListener("drop", (e) => {
+trash_can.addEventListener("drop", (e) => {
     e.preventDefault();
     const draggable = boardDom.querySelector(".dragging");
     if (draggable == null) {
@@ -101,8 +105,14 @@ place_creator.addEventListener("drop", (e) => {
 
 
 // Add dummy places into place_creator
+const place_creator = frame.querySelector(".place_creator");
 places.forEach((place) => {
     if (place.done) {
+        return;
+    }
+
+    let to_create = [0, 1, 3];
+    if (!to_create.includes(parseInt(place.getAttribute("placeindex")))) {
         return;
     }
 
@@ -162,6 +172,7 @@ btnSave.addEventListener("click", function() {
     btnBack.style.display = "inline-block";
     divPlayMyMDP.style.display = "inline-block";
     place_creator.style.display = "none";
+    trash_can.style.display = "none";
     for (let draggable of boardDom.querySelectorAll(".draggable")) {
         unsetDraggable(draggable);
     }
@@ -178,7 +189,8 @@ btnBack.addEventListener("click", function() {
     btnSave.style.display = "inline-block";
     btnBack.style.display = "none";
     divPlayMyMDP.style.display = "none";
-    place_creator.style.display = "inline-block";
+    place_creator.style.display = "block";
+    trash_can.style.display = "block";
     for (let place of boardDom.querySelectorAll(".place")) {
         setDraggable(place);
     }

@@ -97,12 +97,22 @@ select {
 }
 
 .place_creator {
-    position: relative;
-    background-image: url("./../img/rlboard/place_creator.png");
+    background-image: url("../img/rlboard/place_creator.png");
     background-size: contain;
-    display: inline-block;
+    display: block;
     width: 180px;
-    height: 280px;
+    height: 175px;
+    margin-left: 40px;
+    padding: 20px 0;
+    cursor: pointer;
+}
+
+.trash_can {
+    background-image: url("../img/rlboard/trash_can.png");
+    background-size: contain;
+    display: block;
+    width: 180px;
+    height: 88px;
     margin-left: 40px;
     padding: 20px 0;
     cursor: pointer;
