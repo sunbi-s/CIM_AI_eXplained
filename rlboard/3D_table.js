@@ -40,35 +40,39 @@ function getData(game) {
 }
 
 
-let layout = {
-    title: 'Value Table',
-    scene: {
-        camera: {
-            eye: {x: 1.87, y: 0.88, z: 1.64}
+function getLayout(game) {
+    let data = game.agent.value_table.map(v => [...v]);
+    let min = Math.min(...data.flat());
+    let max = Math.max(...data.flat());
+    return {
+        title: 'Value Table',
+        scene: {
+            camera: {
+                eye: {x: 1.87, y: 0.88, z: 1.64}
+            },
+            zaxis: {
+                title: "Value",
+                range: [min - 1, max + 1],
+            }
         },
-        zaxis: {
-            title: "Value",
-            // range: [0, 2],
-            range: [-20, 10],
-        }
-    },
-    autosize: false,
-    width: 800,
-    height:400,
-    font: {
-        size: 15,
-    },
-    margin: {
-      l: 100,
-      r: 0,
-      b: 0,
-      t: 0,
-    },
-};
+        autosize: false,
+        width: 800,
+        height: 400,
+        font: {
+            size: 15,
+        },
+        margin: {
+            l: 100,
+            r: 0,
+            b: 0,
+            t: 0,
+        },
+    };
+}
 
-Plotly.newPlot(mcframe, getData(mcgame), layout);
-Plotly.newPlot(tdframe, getData(tdgame), layout);
+Plotly.newPlot(mcframe, getData(mcgame), getLayout(mcgame));
+Plotly.newPlot(tdframe, getData(tdgame), getLayout(tdgame));
 setInterval(() => {
-    Plotly.react(mcframe, getData(mcgame), layout);
-    Plotly.react(tdframe, getData(tdgame), layout);
+    Plotly.react(mcframe, getData(mcgame), getLayout(mcgame));
+    Plotly.react(tdframe, getData(tdgame), getLayout(tdgame));
 }, 5000);

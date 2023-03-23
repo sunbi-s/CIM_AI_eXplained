@@ -16,6 +16,7 @@ let selectNum = frame.querySelector('.select_num');
 let btnTrain = frame.querySelector('.btn_train');
 let btnTest = frame.querySelector('.btn_test');
 let btnReset = frame.querySelector('.btn_reset');
+let nEpisodeText = frame.querySelector('.n_episode');
 
 btnTrain.addEventListener("click", function() {
     if (btnTrain.classList.contains("disabled")) {
@@ -25,7 +26,7 @@ btnTrain.addEventListener("click", function() {
     btnTrain.classList.add("disabled");
     btnTest.classList.add("disabled");
     btnReset.classList.add("disabled");
-    game.run(selectNum.value).then(() => {
+    game.run(selectNum.value, 10, nEpisodeText).then(() => {
         btnTrain.classList.remove("disabled");
         btnTest.classList.remove("disabled");
         btnReset.classList.remove("disabled");

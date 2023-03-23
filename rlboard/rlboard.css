@@ -3,30 +3,37 @@
 }
 
 .btn_train > img {
+    -webkit-user-drag: none;
     height: 23px;
 }
 
 .btn_test > img {
+    -webkit-user-drag: none;
     height: 23px;
 }
 
 .btn_reset > img {
+    -webkit-user-drag: none;
     height: 23px;
 }
 
 .btn_save > img {
+    -webkit-user-drag: none;
     height: 23px;
 }
 
 .btn_back > img {
+    -webkit-user-drag: none;
     height: 23px;
 }
 
 .btn_run > img {
+    -webkit-user-drag: none;
     height: 23px;
 }
 
 .btn_clear > img {
+    -webkit-user-drag: none;
     height: 23px;
 }
 
@@ -97,12 +104,22 @@ select {
 }
 
 .place_creator {
-    position: relative;
-    background-image: url("./../img/rlboard/place_creator.png");
+    background-image: url("../img/rlboard/place_creator.png");
     background-size: contain;
-    display: inline-block;
+    display: block;
     width: 180px;
-    height: 280px;
+    height: 175px;
+    margin-left: 40px;
+    padding: 20px 0;
+    cursor: pointer;
+}
+
+.trash_can {
+    background-image: url("../img/rlboard/trash_can.png");
+    background-size: contain;
+    display: block;
+    width: 180px;
+    height: 88px;
     margin-left: 40px;
     padding: 20px 0;
     cursor: pointer;
@@ -120,4 +137,13 @@ select {
     margin-left: -30px;
     position: absolute;
     z-index: 2;
+}
+
+.n_episode {
+    width: 50px;
+    font-size: 14px;
+    text-align: right;
+    margin-top: 2px;
+    margin-left: -55px;
+    position: absolute;
 }

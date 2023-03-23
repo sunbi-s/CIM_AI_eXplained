@@ -1,5 +1,5 @@
 import { clamp, Position } from "./utill.js";
-
+import configs from "./config.js";
 
 export class RandomAgent{
     constructor(env) {
@@ -105,7 +105,7 @@ export class MCAgent extends CommonAgent{
                 G_t = reward + this.discount_factor * G_t;
                 V_t = this.value_table[state[0]][state[1]]; //default value
                 this.value_table[state[0]][state[1]] = V_t + this.learning_rate * (G_t - V_t);
-                console.log(state[0],state[1], G_t - V_t)
+                // console.log(state[0],state[1], G_t - V_t)
             }
         }
         // samples clear
@@ -193,7 +193,7 @@ export class OptimAgent extends CommonAgent{
                         continue;
                     }
 
-                    let reward = -1;
+                    let reward = configs[0].defaultReward;
 
                     let curr_cell = this.env._getCell(new Position(state[0], state[1]));
                     let place = curr_cell.lastChild;
