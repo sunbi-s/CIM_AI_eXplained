@@ -209,7 +209,7 @@
         <p>
           Reinforcement learning is a widely-used methodology in machine learning that focuses on solving sequential
           decision-making problems. In these types of problems, the decisions made at the current step have an impact on
-          future outcomes. One of the most popular ways to formalize this process is through the Markov decision process
+          future outcomes. One of the most popular ways to formalize this process is through the Markov Decision Process
           (MDP), which provides a useful framework for representing and solving sequential decision-making problems.
         </p>
 
@@ -217,17 +217,17 @@
           MDPs are defined by a set of states, actions, transition probabilities, and rewards that govern how the system 
           moves from one state to another based on the decisions made by the agent. It is crucial to understand MDP because the 
           goal of reinforcement learning is to find an optimal policy that maximizes rewards, or evaluate the value of a set of actions 
-          given MDP's rules and constraints. MDP extends the concept of a Markov process, which is a stochastic process that only 
+          given MDP's rules and constraints. MDP extends the concept of a markov process, which is a stochastic process that only 
           consists of states and transition probabilities.
         </p>
 
         <h3>Markov Process</h3>
         <p>
-          A Markov process is a stochastic process that describes a system in which the state of the system changes
+          A Markov Process is a stochastic process that describes a system in which the state of the system changes
           over time. At each time step, the state may remain the same or transition to a different state, based on the
-          probability of transition that depends solely on the current state. This property is known as the Markov
+          probability of transition that depends solely on the current state. This property is known as the markov
           property, where the future state of the system is determined only by the present state and not by any previous
-          states. An example[<a href="#ref_4">4</a>] of a Markov process is shown in Figure3.
+          states. An example[<a href="#ref_4">4</a>] of a markov process is shown in Figure3.
         </p>
         
         <figure class="static">
@@ -240,7 +240,7 @@
           Each state lasts for a unit of time, such as one minute, and transitions to the next state based on certain probabilities. Assuming the markov 
           process always starts with the child \(s_0\)(Lying), the child remains in this state for one minute. After that, there is a 40% probability 
           of transitioning to \(s_1\)(Awake) or a 60% probability of transitioning to \(s_3\)(Light Sleep). The process continues until the child reaches \(s_4\)(Deep Sleep)
-          , which ends the Markov Process. 
+          , which ends the markov process. 
         </p>
         <p>
           Here are the components that make up a Markov Process:
@@ -277,7 +277,7 @@
       <div class="framed">
         <div class="inside">
           <div class="eyebrow">
-            Click the transition button to see state transitions in the Markov process for a child's sleep pattern, along with their corresponding probabilities.
+            Click the transition button to see state transitions in the markov process for a child's sleep pattern, along with their corresponding probabilities.
           </div>
 
           <div id="play_mdp_transition" class="play_div">
@@ -294,9 +294,9 @@
       <h3> Markov Decision Process </h3>
         
       <p>
-          The Markov Decision Process (MDP) extends the Markov Process by incorporating decision-making capabilities, which sets it apart from the latter.
-          While the Markov Process models a system where the future state is determined only by the current state, the MDP introduces the concept of actions 
-          taken by an agent that can influence the next state of the system. This enables the MDP to better model real-world scenarios.
+        The Markov Decision Process(MDP) extends the Markov Process by incorporating decision-making capabilities, which sets it apart from the latter.
+        While the markov process models a system where the future state is determined only by the current state, the MDP introduces the concept of actions 
+        taken by an agent that can influence the next state of the system. This enables the MDP to better model real-world scenarios.
       </p>
 
       <p>
@@ -314,102 +314,103 @@
       <p>
         Here are the components that make up a Markov Decision Process:
       </p>
-        
-        <ul id="mdp_components">
-          <li> State Space (\(S\)): All possible states that the system can take, represented as \(\{s_0, s_1, s_2, s_3, s_4\} \in S\). </li>
-          <li> Action Space(\(A\)): All possible actions that can be taken given a state \(s\), including singing a lullaby and playing with the child, represented as \(\{a_0, a_1\} \in A\). </li>
-          <li> Transition Probability(\(P_{ss'}^a\)): The probability of transitioning from state \(s\) to another state \(s'\) after taking action \(a\) at step \(t\), represented as \(P_{ss'}^a = P(S_{t+1} = s' \mid S_{t} = s, A_{t}=a)\).
-          </li>
-          <li> Reward function(\(R\)): The reward function in this MDP can evaluate the desirability of different actions by providing scalar value called Reward(\(R_t)\) given step \(t\).</li>
-          <li> Discount Factor(\(\gamma\)): It is a value between 0 and 1 that determines the importance of immediate rewards versus long-term rewards. </li>
-        </ul>
+      
+      <ul id="mdp_components">
+        <li> State Space (\(S\)): All possible states that the system can take, represented as \(\{s_0, s_1, s_2, s_3, s_4\} \in S\). </li>
+        <li> Action Space(\(A\)): All possible actions that can be taken given a state \(s\), including singing a lullaby and playing with the child, represented as \(\{a_0, a_1\} \in A\). </li>
+        <li> Transition Probability(\(P_{ss'}^a\)): The probability of transitioning from state \(s\) to another state \(s'\) after taking action \(a\) at step \(t\), represented as \(P_{ss'}^a = P(S_{t+1} = s' \mid S_{t} = s, A_{t}=a)\).
+        </li>
+        <li> Reward function(\(R\)): The reward function in this MDP can evaluate the desirability of different actions by providing scalar value called Reward(\(R_t)\) given step \(t\).</li>
+        <li> Discount Factor(\(\gamma\)): It is a value between 0 and 1 that determines the importance of immediate rewards versus long-term rewards. </li>
+      </ul>
 
-        <div class="framed">
-          <div class="inside">
-            <div class="eyebrow">
-              Click the action buttons to see state transitions in the Markov decision process for improving a child's sleep quality based on different actions.
-            </div>
-
-            <div id="play_mdp_action" class="play_div">
-              <canvas width="800px" height="400px"></canvas>
-              <br>
-
-              <a class="btn_action_0" style="display: inline-block; margin: auto"><img src="img/buttons/action0.png" width=80 alt="action0"/></a>
-              <a class="btn_action_1" style="display: inline-block; margin: auto"><img src="img/buttons/action1.png" width=80 alt="action1"/></a>
-              <a class="btn_reset" style="display: block; margin: auto"><img src="img/buttons/reset2.png" alt="reset"/></a>
-              <script type="module" src="rlboard/play_mdp_action.js"></script>
-            </div>
-
-            <div class="caption"><b>Figure 6:</b><br>Example of a markov decision process for improving a child's sleep quality. </div>
+      <div class="framed">
+        <div class="inside">
+          <div class="eyebrow">
+            Click the action buttons to see state transitions in the markov decision process for improving a child's sleep quality based on different actions.
           </div>
-        </div>
-        
-        <p>
-          Markov Decision Processes (MDPs) differ from Markov Processes in that they include a goal through reward. In the context of helping a child sleep, 
-          a reward function can be set to encourage good sleeping patterns. Alternatively, if the objective is to play with the child, MDPs may reward being awake. 
-          The goal of MDPs is to determine which action to select in each state to maximize the sum of rewards.
-        </p>
-        <p>
-          For instance, \(a_0\)(Playing with child) in the \(s_0\)(Lying) immediately transitions to the state \(s_1\)(Awake) and receives positive rewards. 
-          However, in the long term, continuous \(a_1\)(Singing a lullaby) to put the child to sleep will yield the highest reward. Interestingly, If playing with 
-          child action is taken while the child is \(s_2\)(Drowsy), depending on the given probability, it may transition to an awake state or a lying state. 
-          This transition probability helps to model more realistic problems.
-        </p>
-        
-        <p>
-          To maximize the sum of rewards(\(R_t\)) by time(\(t\)) in an MDP, it is necessary to evaluate the value of each state and determine which action to take in each state(\(s\)).
-           The value of a state is determined by the expected sum of discounted future rewards that can be obtained by taking a particular action in that state. The discounting 
-           factor(\(\gamma)\) is used to ensure that immediate rewards are valued more highly than delayed rewards. This expected sum of future rewards is called the return(\(G_t\)).
-        </p>
-        
-        <p>
-          However, since the return value changes every time due to probabilistic factors such as transitions, the expected value of the return must be used. A function that outputs 
-          the expected return value for each state is called the value function\(v_\pi\). The value function is a critical concept in reinforcement learning as it enables an agent to evaluate
-          the value of different states and determine the optimal policy to follow to maximize rewards.
-          \[V(s) = \mathbb{E}\left[G_t \mid S_t=s\right]=\mathbb{E}\left[\sum_{k=0}^{\infty} \gamma^k R_{t+k+1} \mid S_t=s\right], \text { for all } s \in \mathcal{S}\]
-        </p>
 
-        <p>
-          In a model-free environment, the transition probability and reward function are not known. Therefore, they must be estimated from experience. There are two primary methods 
-          for estimating the value function in a model-free environment: the Monte Carlo (MC) method and the Temporal Difference (TD) method.
-        </p>
-    
-        <h3> SharkGame Environment </h3>
+          <div id="play_mdp_action" class="play_div">
+            <canvas width="800px" height="400px"></canvas>
+            <br>
 
-        <p>
-          The SharkGame can be viewed as a Markov Decision Process where the states represent the position of the shark character and the actions are moving up, down, left, or right. 
-          The probability of transitioning to a new state is deterministic, meaning that the action will always result in a specific next state. If the agent is 
-          at the top left corner and chooses to move right, it will always transition to the state on the right with no chance of moving to the state above, below, or left.
-          The rewards function provide negative feedback for each step taken by the agent and encountering obstacles such as bombs and nets. This approach encourages the agent 
-          to find the shortest path to the goal while avoiding obstacles. The consequently learned policy is to select actions that lead to the transition to the state with the maximum value. 
-        </p>
-
-        <figure class="static">
-          <img src="img/mdp/shark_mdp.png" alt="Interpretation of SharkGame as a markov decision process." style="margin: auto auto; max-width: 65%; display: block"/>
-          <figcaption><b>Figure 7:</b> Interpretation of SharkGame as a markov decision process.</figcaption>
-        </figure>
-        <br>
-
-        <div class="framed">
-          <div class="inside">
-            <div class="eyebrow">
-              Click the test button to see how the random agent plays the game. The agent randomly selects to move up, down, left, or right with a 25% chance for each direction. 
-              This random agent will be used to evaluate the value of each square on the game board.
-            </div>
-
-            <div id="play_random" class="play_div">
-              <div class="board"></div>
-              <br>
-
-              <a class="btn_test" style="display: inline-block; margin: auto"><img src="img/buttons/test.png" width="60" alt="reset"/></a>
-              <script type="module" src="rlboard/play_random.js"></script>
-            </div>
-
-            <div class="caption"><b>Figure 8:</b><br> Introducing the random agent on the SharkGame.</div>
+            <a class="btn_action_0" style="display: inline-block; margin: auto"><img src="img/buttons/action0.png" width=80 alt="action0"/></a>
+            <a class="btn_action_1" style="display: inline-block; margin: auto"><img src="img/buttons/action1.png" width=80 alt="action1"/></a>
+            <a class="btn_reset" style="display: block; margin: auto"><img src="img/buttons/reset2.png" alt="reset"/></a>
+            <script type="module" src="rlboard/play_mdp_action.js"></script>
           </div>
+
+          <div class="caption"><b>Figure 6:</b><br>Example of a markov decision process for improving a child's sleep quality. </div>
         </div>
+      </div>
+      
+      <p>
+        여기 수정 : MDP의 목적이 아니라, MDP가 주어졌을 때의 목적임.
+        The MDP differs from markov processes in that they include a goal through reward. In the context of helping a child sleep, 
+        a reward function can be set to encourage good sleeping patterns. Alternatively, if the objective is to play with the child, the MDP may rewards being awake. 
+        The goal when MDPs is given is to determine which action to select in each state to maximize the sum of rewards.
+      </p>
+      <p>
+        For instance, \(a_0\)(Playing with child) in the \(s_0\)(Lying) immediately transitions to the state \(s_1\)(Awake) and receives positive rewards. 
+        However, in the long term, continuous \(a_1\)(Singing a lullaby) to put the child to sleep will yield the highest reward. Interestingly, If playing with 
+        child action is taken while the child is \(s_2\)(Drowsy), depending on the given probability, it may transition to an awake state or a lying state. 
+        This transition probability helps to model more realistic problems.
+      </p>
+      
+      <p>
+        To maximize the sum of rewards(\(R_t\)) by time(\(t\)) in an MDP, it is necessary to evaluate the value of each state and determine which action to take in each state(\(s\)).
+          The value of a state is determined by the expected sum of discounted future rewards that can be obtained by taking a particular action in that state. The discounting 
+          factor(\(\gamma)\) is used to ensure that immediate rewards are valued more highly than delayed rewards. This expected sum of future rewards is called the return(\(G_t\)).
+      </p>
+      
+      <p>
+        However, since the return value changes every time due to probabilistic factors such as transitions, the expected value of the return must be used. A function that outputs 
+        the expected return value for each state is called the value function\(v_\pi\). The value function is a critical concept in reinforcement learning as it enables an agent to evaluate
+        the value of different states and determine the optimal policy to follow to maximize rewards.
+        \[V(s) = \mathbb{E}\left[G_t \mid S_t=s\right]=\mathbb{E}\left[\sum_{k=0}^{\infty} \gamma^k R_{t+k+1} \mid S_t=s\right], \text { for all } s \in \mathcal{S}\]
+      </p>
+
+      <p>
+        In a model-free environment, the transition probability and reward function are not known. Therefore, they must be estimated from experience. There are two primary methods 
+        for estimating the value function in a model-free environment: the Monte Carlo (MC) method and the Temporal Difference (TD) method.
+      </p>
   
-        </section>
+      <h3> SharkGame Environment </h3>
+
+      <p>
+        The SharkGame can be viewed as a Markov Decision Process where the states represent the position of the shark character and the actions are moving up, down, left, or right. 
+        The probability of transitioning to a new state is deterministic, meaning that the action will always result in a specific next state. If the agent is 
+        at the top left corner and chooses to move right, it will always transition to the state on the right with no chance of moving to the state above, below, or left.
+        The rewards function provide negative feedback for each step taken by the agent and encountering obstacles such as bombs and nets. This approach encourages the agent 
+        to find the shortest path to the goal while avoiding obstacles. The consequently learned policy is to select actions that lead to the transition to the state with the maximum value. 
+      </p>
+
+      <figure class="static">
+        <img src="img/mdp/shark_mdp.png" alt="Interpretation of SharkGame as a markov decision process." style="margin: auto auto; max-width: 65%; display: block"/>
+        <figcaption><b>Figure 7:</b> Interpretation of SharkGame as a markov decision process.</figcaption>
+      </figure>
+      <br>
+
+      <div class="framed">
+        <div class="inside">
+          <div class="eyebrow">
+            Click the test button to see how the random agent plays the game. The agent randomly selects to move up, down, left, or right with a 25% chance for each direction. 
+            This random agent will be used to evaluate the value of each square on the game board.
+          </div>
+
+          <div id="play_random" class="play_div">
+            <div class="board"></div>
+            <br>
+
+            <a class="btn_test" style="display: inline-block; margin: auto"><img src="img/buttons/test.png" width="60" alt="reset"/></a>
+            <script type="module" src="rlboard/play_random.js"></script>
+          </div>
+
+          <div class="caption"><b>Figure 8:</b><br> Introducing the random agent on the SharkGame.</div>
+        </div>
+      </div>
+
+      </section>
 
       <section id="monte_carlo">
         <h2>III. Monte Carlo approach</h2>
