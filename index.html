@@ -434,16 +434,16 @@
         </p>
 
         <p class="inline-math">
-          Then for each visited state in the episode, the increment counter $$N(s)$$ (which refers the number of visits to
-          state $$s$$) increased by 1
-          and the sample return $$G_t$$ is added to total return $$S(s)$$, and finally dividing $$S(s)$$ by $$N(s)$$,
-          the state value $$V(s)$$ is obtained.
+          Then for each visited state in the episode, the increment counter $$N(s_t)$$ (which refers the number of visits to
+          state $$s_t$$) increased by 1
+          and the sample return $$G_t$$ is added to total return $$S(s_t)$$, and finally dividing $$S(s_t)$$ by $$N(s_t)$$,
+          the state value $$V(s_t)$$ is obtained.
         </p>
 
         <p>
-          \[N(s) = N(s) + 1\]
-          \[S(s) = S(s) + G_t\]
-          \[V(s) = S(s) / N(s)\]
+          \[N(s_t) = N(s_t) + 1\]
+          \[S(s_t) = S(s_t) + G_t\]
+          \[V(s_t) = S(s_t) / N(s_t)\]
         </p>
 
         <div class="framed">
