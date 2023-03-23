@@ -66,16 +66,20 @@ setDraggable(player);
 
 const places = boardDom.querySelectorAll('.place');
 places.forEach((place) => {
+    if (place.done) {
+        return;
+    }
+
     setDraggable(place);
 });
 
 
-// Add place_creator event
-const place_creator = frame.querySelector(".place_creator");
-place_creator.addEventListener("dragover", (e) => {
+// Add trash_can event
+const trash_can = frame.querySelector(".trash_can");
+trash_can.addEventListener("dragover", (e) => {
     e.preventDefault();
 });
-place_creator.addEventListener("drop", (e) => {
+trash_can.addEventListener("drop", (e) => {
     e.preventDefault();
     const draggable = boardDom.querySelector(".dragging");
     if (draggable == null) {
@@ -103,8 +107,14 @@ place_creator.addEventListener("drop", (e) => {
 
 
 // Add dummy places into place_creator
+const place_creator = frame.querySelector(".place_creator");
 places.forEach((place) => {
     if (place.done) {
+        return;
+    }
+
+    let to_create = [0, 1, 3];
+    if (!to_create.includes(parseInt(place.getAttribute("placeindex")))) {
         return;
     }
 
@@ -172,11 +182,14 @@ btnSave.addEventListener("click", async function() {
     mcHistory = [];
     tdHistory = [];
     interrupt = false;
+    mcGame.interrupt = false;
 
     btnSave.style.display = "none";
     btnBack.style.display = "inline-block";
+    btnRun.classList.add("disabled");
     divPlayMyMDP.style.display = "inline-block";
     place_creator.style.display = "none";
+    trash_can.style.display = "none";
     canvas.style.display = "inline-block";
     for (let draggable of boardDom.querySelectorAll(".draggable")) {
         unsetDraggable(draggable);
@@ -192,6 +205,7 @@ btnSave.addEventListener("click", async function() {
     context.height = canvas.height;
     mcGame.context = context;
     animate(mcGame);
+    mcGame.agent.reset();
     mcGame.run(n_trains, 1, nEpisodeText).then(() => {
         state = mcGame.environment.reset();
         for (let step = 0; step < mcGame.max_step_num; step++) {
@@ -204,6 +218,7 @@ btnSave.addEventListener("click", async function() {
             }
         }
         console.log("eval done");
+        btnRun.classList.remove("disabled");
     });
     // tdGame.run(1, 0);
     console.log("save done");
@@ -214,13 +229,15 @@ btnBack.addEventListener("click", function() {
     }
 
     interrupt = true;
-    game.resetPlayer()
+    mcGame.interrupt = true;
+    game.resetPlayer();
 
     btnSave.style.display = "inline-block";
     btnBack.style.display = "none";
     divPlayMyMDP.style.display = "none";
-    place_creator.style.display = "inline-block";
     canvas.style.display = "none";
+    place_creator.style.display = "block";
+    trash_can.style.display = "block";
     for (let place of boardDom.querySelectorAll(".place")) {
         setDraggable(place);
     }
@@ -239,7 +256,7 @@ btnRun.addEventListener("click", async function () {
         });
     } else if (selectAgent.value === "MC") {
         game.environment.reset();
-        for (let [idx, action] of mcHistory[4].entries()) {
+        for (let [idx, action] of mcHistory.entries()) {
             console.log(idx, action);
             if (idx >= 100 || interrupt) {
                 break;
