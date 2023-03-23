@@ -22,6 +22,7 @@ let selectNum = frame.querySelector('.select_num');
 let btnTrain = frame.querySelector('.btn_train');
 let btnTest = frame.querySelector('.btn_test');
 let btnReset = frame.querySelector('.btn_reset');
+let nEpisodeText = frame.querySelector('.n_episode');
 
 btnTrain.addEventListener("click", function() {
     if (btnTrain.classList.contains("disabled")) {
@@ -33,7 +34,8 @@ btnTrain.addEventListener("click", function() {
     btnTrain.classList.add("disabled");
     btnTest.classList.add("disabled");
     btnReset.classList.add("disabled");
-    game1.run(selectNum.value, 50).then(() => {
+    // TODO: sync nEpisodeText between two games
+    game1.run(selectNum.value, 50, nEpisodeText).then(() => {
         done1 = true;
         if (done1 && done2) {
             btnTrain.classList.remove("disabled");
@@ -41,7 +43,7 @@ btnTrain.addEventListener("click", function() {
             btnReset.classList.remove("disabled");
         }
     });
-    game2.run(selectNum.value, 50).then(() => {
+    game2.run(selectNum.value, 50, nEpisodeText).then(() => {
         done2 = true;
         if (done1 && done2) {
             btnTrain.classList.remove("disabled");

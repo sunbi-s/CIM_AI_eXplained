@@ -138,3 +138,12 @@ select {
     position: absolute;
     z-index: 2;
 }
+
+.n_episode {
+    width: 50px;
+    font-size: 14px;
+    text-align: right;
+    margin-top: 2px;
+    margin-left: -55px;
+    position: absolute;
+}
