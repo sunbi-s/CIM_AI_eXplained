@@ -1,17 +1,19 @@
-import { Position } from "./utill.js";
+import {Position, sleep} from "./utill.js";
 import { Game, MCGame, TDGame, OptimGame, animate } from "./game.js";
 
 const frame = document.querySelector('#play_draganddrop')
 const boardDom = frame.querySelector('.board');
+const hiddenBoardDom1 = frame.querySelector('#hiddenBoard1');
+const hiddenBoardDom2 = frame.querySelector('#hiddenBoard2');
 boardDom.style.cursor = 'pointer';
 
 let game = new Game(boardDom, 0);
-let mcGame = new MCGame(null, null, 0);
-mcGame.environment.div = boardDom;
-mcGame.environment.player = game.environment.player;
-let tdGame = new TDGame(null, null, 0);
-tdGame.environment.div = boardDom;
-tdGame.environment.player = game.environment.player;
+let mcGame = new MCGame(hiddenBoardDom1, null, 0);
+// mcGame.environment.div = boardDom;
+// mcGame.environment.player = game.environment.player;
+let tdGame = new TDGame(hiddenBoardDom2, null, 0);
+// tdGame.environment.div = boardDom;
+// tdGame.environment.player = game.environment.player;
 
 let div = document.createElement("div");
 let optimGame = new OptimGame(div, null, 0);
@@ -166,61 +168,116 @@ let divPlayMyMDP = frame.querySelector('#play_my_mdp');
 let btnSave = frame.querySelector('.btn_save');
 let btnBack = frame.querySelector('.btn_back');
 let btnRun = frame.querySelector('.btn_run');
+let canvas = frame.querySelector('canvas');
+let nEpisodeText = frame.querySelector('#n_episode');
 
-btnSave.addEventListener("click", function() {
+
+const n_trains = 100;
+let mcHistory = [];
+let tdHistory = [];
+let interrupt = false;
+
+
+btnSave.addEventListener("click", async function() {
+    mcHistory = [];
+    tdHistory = [];
+    interrupt = false;
+    mcGame.interrupt = false;
+
     btnSave.style.display = "none";
     btnBack.style.display = "inline-block";
+    btnRun.classList.add("disabled");
     divPlayMyMDP.style.display = "inline-block";
     place_creator.style.display = "none";
     trash_can.style.display = "none";
+    canvas.style.display = "inline-block";
     for (let draggable of boardDom.querySelectorAll(".draggable")) {
         unsetDraggable(draggable);
     }
 
     // init agents
     optimGame.agent.computeValues(true);
+
+    // train agents in background process
+    let state, action, reward, done;
+    let context = canvas.getContext('2d');
+    context.width = canvas.width;
+    context.height = canvas.height;
+    mcGame.context = context;
+    animate(mcGame);
+    mcGame.agent.reset();
+    mcGame.run(n_trains, 1, nEpisodeText).then(() => {
+        state = mcGame.environment.reset();
+        for (let step = 0; step < mcGame.max_step_num; step++) {
+            action = mcGame.agent.getOptimalAction(state);
+            mcHistory.push(action);
+            [state, reward, done] = mcGame.environment.step(action);
+
+            if (done || interrupt) {
+                break;
+            }
+        }
+        console.log("eval done");
+        btnRun.classList.remove("disabled");
+    });
+    // tdGame.run(1, 0);
+    console.log("save done");
 });
 btnBack.addEventListener("click", function() {
     if (btnBack.classList.contains("disabled")) {
         return;
     }
-    game.resetPlayer()
+
+    interrupt = true;
+    mcGame.interrupt = true;
+    game.resetPlayer();
 
     btnSave.style.display = "inline-block";
     btnBack.style.display = "none";
     divPlayMyMDP.style.display = "none";
+    canvas.style.display = "none";
     place_creator.style.display = "block";
     trash_can.style.display = "block";
     for (let place of boardDom.querySelectorAll(".place")) {
         setDraggable(place);
     }
 });
-btnRun.addEventListener("click", function() {
+btnRun.addEventListener("click", async function () {
     if (btnRun.classList.contains("disabled")) {
         return;
     }
-    btnRun.classList.add("disabled")
-    btnBack.classList.add("disabled")
+
+    btnRun.classList.add("disabled");
     if (selectAgent.value === "Optimal") {
-        optimGame.run_test(3).then(() => {
-            btnRun.disabled = false;
-            btnBack.disabled = false;
+        btnBack.classList.add("disabled");
+        optimGame.run_test(1).then(() => {
             btnRun.classList.remove("disabled");
             btnBack.classList.remove("disabled");
         });
-    } else if (selectAgent.value === "MC")  {
-        mcGame.run(3).then(() => {
-            btnRun.disabled = false;
-            btnBack.disabled = false;
-            btnRun.classList.remove("disabled");
-            btnBack.classList.remove("disabled");
-        });
-    } else if (selectAgent.value === "TD")  {
-        tdGame.run(3).then(() => {
-            btnRun.disabled = false;
-            btnBack.disabled = false;
-            btnRun.classList.remove("disabled");
-            btnBack.classList.remove("disabled");
-        });
+    } else if (selectAgent.value === "MC") {
+        game.environment.reset();
+        for (let [idx, action] of mcHistory.entries()) {
+            console.log(idx, action);
+            if (idx >= 100 || interrupt) {
+                break;
+            }
+
+            let [, cell] = game.environment._movePlayer(action);
+
+            // check state
+            let place = cell.lastChild;
+            if (place.classList.contains("place") && place.done) {
+                console.log("terminal place");
+                break;
+            }
+
+            await sleep(200);
+        }
+
+        btnRun.classList.remove("disabled");
+    } else if (selectAgent.value === "TD") {
+        // TODO: implementation here!
+        alert("Not implementation error!");
+        btnRun.classList.remove("disabled");
     }
 });

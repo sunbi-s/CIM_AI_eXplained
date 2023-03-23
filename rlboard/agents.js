@@ -105,7 +105,7 @@ export class MCAgent extends CommonAgent{
                 G_t = reward + this.discount_factor * G_t;
                 V_t = this.value_table[state[0]][state[1]]; //default value
                 this.value_table[state[0]][state[1]] = V_t + this.learning_rate * (G_t - V_t);
-                console.log(state[0],state[1], G_t - V_t)
+                // console.log(state[0],state[1], G_t - V_t)
             }
         }
         // samples clear

@@ -17,23 +17,6 @@ export function animate(game) {
     game.render();
 }
 
-
-export class Game{
-    constructor(div, seed) {
-        this.environment = new Environment(div, configs[seed]);
-        this.max_step_num = 1000;
-    }
-
-    render() {
-        // draw environment
-        this.environment.render();
-    }
-
-    resetPlayer() {
-        this.environment.resetPlayer()
-    }
-}
-
 export function renderEffect(cell, timeout=500) {
     if (cell.childNodes.length < 2) {
         return;
@@ -54,6 +37,25 @@ export function renderEffect(cell, timeout=500) {
         }
         cell.appendChild(effect);
         setTimeout(() => effect.remove(), timeout);
+    }
+}
+
+
+export class Game{
+    constructor(div, seed) {
+        this.environment = new Environment(div, configs[seed]);
+        this.max_step_num = 1000;
+
+        this.interrupt = false;
+    }
+
+    render() {
+        // draw environment
+        this.environment.render();
+    }
+
+    resetPlayer() {
+        this.environment.resetPlayer()
     }
 }
 
@@ -121,6 +123,11 @@ export class MCGame extends Game {
             await sleep(sleep_time);
 
             for (step = 1; step < this.max_step_num; ++step) {
+                // interrupt
+                if (this.interrupt) {
+                    return;
+                }
+
                 // get action
                 // action = this.agent.getAction(state);
                 action = this.agent.getRndAction(state);
@@ -140,15 +147,15 @@ export class MCGame extends Game {
                 // episode done
                 if (done) {
                     break;
-                } 
+                }
 
                 //delay
                 await sleep(sleep_time);
             }
 
             this.agent.update();
-            console.log(this.agent.constructor.name, ": [episode", episode, "] done in", step, "steps",
-                ", total reward:", rewards.reduce((a, b) => a + b, 0));
+            // console.log(this.agent.constructor.name, ": [episode", episode, "] done in", step, "steps",
+            //     ", total reward:", rewards.reduce((a, b) => a + b, 0));
         }
     }
 
@@ -161,6 +168,11 @@ export class MCGame extends Game {
             await sleep(sleep_time);
 
             for (let step = 1; step < 30; ++step) {
+                // interrupt
+                if (this.interrupt) {
+                    return;
+                }
+
                 // get action
                 action = this.agent.getOptimalAction(state);
 
@@ -273,6 +285,11 @@ export class TDGame extends MCGame {
             await sleep(sleep_time);
 
             for (step = 1; step < this.max_step_num; ++step) {
+                // interrupt
+                if (this.interrupt) {
+                    return;
+                }
+
                 // get action
                 // action = this.agent.getAction(state);
                 action = this.agent.getRndAction(state);
@@ -296,8 +313,8 @@ export class TDGame extends MCGame {
                 await sleep(sleep_time);
             }
 
-            console.log(this.agent.constructor.name, ": [episode", episode, "] done in", step, "steps",
-                ", total reward:", rewards.reduce((a, b) => a + b, 0));
+            // console.log(this.agent.constructor.name, ": [episode", episode, "] done in", step, "steps",
+            //     ", total reward:", rewards.reduce((a, b) => a + b, 0));
         }
     }
 }
