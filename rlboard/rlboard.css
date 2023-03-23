@@ -3,30 +3,37 @@
 }
 
 .btn_train > img {
+    -webkit-user-drag: none;
     height: 23px;
 }
 
 .btn_test > img {
+    -webkit-user-drag: none;
     height: 23px;
 }
 
 .btn_reset > img {
+    -webkit-user-drag: none;
     height: 23px;
 }
 
 .btn_save > img {
+    -webkit-user-drag: none;
     height: 23px;
 }
 
 .btn_back > img {
+    -webkit-user-drag: none;
     height: 23px;
 }
 
 .btn_run > img {
+    -webkit-user-drag: none;
     height: 23px;
 }
 
 .btn_clear > img {
+    -webkit-user-drag: none;
     height: 23px;
 }
 
