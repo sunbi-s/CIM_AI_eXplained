@@ -169,7 +169,7 @@ let btnSave = frame.querySelector('.btn_save');
 let btnBack = frame.querySelector('.btn_back');
 let btnRun = frame.querySelector('.btn_run');
 let canvas = frame.querySelector('canvas');
-let nEpisodeText = frame.querySelector('#n_episode');
+let nEpisodeText = frame.querySelector('.n_episode');
 
 
 const n_trains = 100;
