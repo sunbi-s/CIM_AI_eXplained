@@ -416,7 +416,7 @@
         <h2>III. Monte Carlo approach</h2>
 
         <p>
-          Monte Carlo estimate the values by simply averaging sample returns.
+          Monte Carlo estimates the values by simply averaging sample returns.
           The Monte Carlo method is based on simulating a number of episodes of an agent interacting with the environment.
           In each episode, the agent takes actions and receives rewards, and the sequence of states, actions, and rewards is recorded.
           The final outcome of each episode is used to update the value of each state.
@@ -426,7 +426,7 @@
         </p>
 
         <p class="inline-math">
-          After each episode, sample return $$G_t$$ is computed by each step.
+          After each episode, sample return $$G_t$$ is computed at each step.
         </p>
 
         <p>
@@ -434,16 +434,16 @@
         </p>
 
         <p class="inline-math">
-          Then for each visited state in the episode, the increment counter $$N(s)$$ (which refers the number of visits to
-          state $$s$$) increased by 1
-          and the sample return $$G_t$$ is added to total return $$S(s)$$, and finally dividing $$S(s)$$ by $$N(s)$$,
-          the state value $$V(s)$$ is obtained.
+          Then for each visited state in the episode, the increment counter $$N(s_t)$$ (which refers the number of visits to
+          state $$s_t$$) increased by 1
+          and the sample return $$G_t$$ is added to total return $$S(s_t)$$, and finally dividing $$S(s_t)$$ by $$N(s_t)$$,
+          the state value $$V(s_t)$$ is obtained.
         </p>
 
         <p>
-          \[N(s) = N(s) + 1\]
-          \[S(s) = S(s) + G_t\]
-          \[V(s) = S(s) / N(s)\]
+          \[N(s_t) = N(s_t) + 1\]
+          \[S(s_t) = S(s_t) + G_t\]
+          \[V(s_t) = S(s_t) / N(s_t)\]
         </p>
 
         <div class="framed">
@@ -620,7 +620,7 @@
           considering all possible future states and actions by using a model of the environment. Based on these values,
           the optimal agent selects the best action, resulting in the highest possible reward. While the optimal agent
           considers all possibilities, MC and TD agents only consider a subset of possible future states and actions.
-          Despite this difference, all three agents can achieve the same optimal values and reward in the long run.
+          Despite this difference, all three agents can achieve the same optimal values and rewards in the long run.
         </p>
 
         <div class="framed">
@@ -695,15 +695,13 @@
 
         <p>
           In practice, the choice between MC and TD depends on the specific problem and the available resources.
-          If the episodes are short and the rewards are delayed, TD may be more suitable as it can update values
-          after each time step. If the episodes are long and the rewards are immediate, MC may be a better choice
-          as it can update values at the end of each episode. By understanding the differences between MC and TD,
+          While TD is more effective and generally used, in some cases MC is more appropriate like the situation in which
+          biased estimation is inefficient. By understanding the differences between MC and TD,
           researchers and practitioners can choose the most appropriate approach for their particular application.
         </p>
 
         <p>
-          Depend on the MDP, optimal behavior is different. In figure below, create your own MDP and check how
-          optimal, MC, and TD agents behaves.
+          Depending on the MDP, optimal behavior is different. In the figure below, create your own MDP and check how optimal, MC and TD agents behave.
         </p>
         <div class="framed">
           <div class="inside">
