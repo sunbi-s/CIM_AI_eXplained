@@ -1,13 +1,12 @@
 import { BiasGame } from "./game.js";
 
-
 const frame = document.querySelector('#play_biased');
 const boardDom1 = frame.querySelectorAll('.board')[0];
 const boardDom2 = frame.querySelectorAll('.board')[1];
 const boardDom3 = frame.querySelectorAll('.board')[2];
 
 
-export let game = new BiasGame(boardDom1, boardDom2, boardDom3, 0);
+let game = new BiasGame(boardDom1, boardDom2, boardDom3, 0);
 
 
 // Add btn event
@@ -21,10 +20,8 @@ btnTrain.addEventListener("click", function() {
     }
 
     btnTrain.classList.add("disabled");
-    btnReset.classList.add("disabled");
     game.run(selectNum.value, 0).then(() => {
         btnTrain.classList.remove("disabled");
-        btnReset.classList.remove("disabled");
     });
 });
 btnReset.addEventListener("click", function() {
@@ -32,5 +29,6 @@ btnReset.addEventListener("click", function() {
         return;
     }
 
+    game.Interrupt();
     game.reset();
 });

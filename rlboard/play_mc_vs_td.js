@@ -1,4 +1,4 @@
-import {MCGame, animate, TDGame} from "./game.js";
+import { CompareGame, animate } from "./game.js";
 
 const frame = document.querySelector('#play_mc_vs_td');
 const boardDom1 = frame.querySelectorAll('.board')[0];
@@ -13,13 +13,12 @@ context2.width = canvas2.width;
 context2.height = canvas2.height;
 
 
-export let game1 = new MCGame(boardDom1, context1, 0);
-export let game2 = new TDGame(boardDom2, context2, 0);
-animate(game1);
-animate(game2);
+let game = new CompareGame(boardDom1, boardDom2, 0, context1, context2);
+animate(game);
 
-let selectNum = frame.querySelector('.select_num');
+
 let btnTrain = frame.querySelector('.btn_train');
+let btnStop = frame.querySelector('.btn_stop');
 let btnTest = frame.querySelector('.btn_test');
 let btnReset = frame.querySelector('.btn_reset');
 let nEpisodeText = frame.querySelector('.n_episode');
@@ -29,54 +28,40 @@ btnTrain.addEventListener("click", function() {
         return;
     }
 
-    let done1 = false;
-    let done2 = false;
-    btnTrain.classList.add("disabled");
     btnTest.classList.add("disabled");
-    btnReset.classList.add("disabled");
-    // TODO: sync nEpisodeText between two games
-    game1.run(selectNum.value, 50, nEpisodeText).then(() => {
-        done1 = true;
-        if (done1 && done2) {
-            btnTrain.classList.remove("disabled");
-            btnTest.classList.remove("disabled");
-            btnReset.classList.remove("disabled");
-        }
+    btnTrain.style.display = "none";
+    btnStop.style.display = "inline-block";
+    game.run(1e3, 50, nEpisodeText).then(() => {
+        btnTest.classList.remove("disabled");
+        btnTrain.style.display = "inline-block";
+        btnStop.style.display = "none";
     });
-    game2.run(selectNum.value, 50, nEpisodeText).then(() => {
-        done2 = true;
-        if (done1 && done2) {
-            btnTrain.classList.remove("disabled");
-            btnTest.classList.remove("disabled");
-            btnReset.classList.remove("disabled");
-        }
-    });
+});
+btnStop.addEventListener("click", function() {
+    if (btnStop.classList.contains("disabled")) {
+        return;
+    }
+
+    btnTest.classList.remove("disabled");
+    btnTrain.style.display = "inline-block";
+    btnStop.style.display = "none";
+
+    game.Interrupt();
+    game.mcGame.environment.reset();
+    game.tdGame.environment.reset();
+
+    nEpisodeText.innerText = "";
 });
 btnTest.addEventListener("click", function() {
     if (btnTest.classList.contains("disabled")) {
         return;
     }
 
-    let done1 = false;
-    let done2 = false;
     btnTrain.classList.add("disabled");
     btnTest.classList.add("disabled");
-    btnReset.classList.add("disabled");
-    game1.run_test(1).then(() => {
-        done1 = true;
-        if (done1 && done2) {
-            btnTrain.classList.remove("disabled");
-            btnTest.classList.remove("disabled");
-            btnReset.classList.remove("disabled");
-        }
-    });
-    game2.run_test(1).then(() => {
-        done2 = true;
-        if (done1 && done2) {
-            btnTrain.classList.remove("disabled");
-            btnTest.classList.remove("disabled");
-            btnReset.classList.remove("disabled");
-        }
+    game.run_test(1).then(() => {
+        btnTrain.classList.remove("disabled");
+        btnTest.classList.remove("disabled");
     });
 });
 btnReset.addEventListener("click", function() {
@@ -84,8 +69,8 @@ btnReset.addEventListener("click", function() {
         return;
     }
 
-    game1.environment.reset();
-    game1.agent.reset()
-    game2.environment.reset();
-    game2.agent.reset()
+    game.Interrupt();
+    game.reset();
+
+    nEpisodeText.innerText = "";
 });

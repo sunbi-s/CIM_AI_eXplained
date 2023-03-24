@@ -73,20 +73,6 @@ export class Environment{
         return [targetPos, targetCell];
     }
 
-    resetPlayer() {
-        let targetPos = this._get_player_position();
-
-        // move player position
-        targetPos.y = 0;
-        targetPos.x = 0;
-
-        // append player into target cell
-        let targetCell = this._getCell(targetPos);
-        targetCell.insertBefore(this.player, targetCell.firstChild);
-
-        return [targetPos, targetCell];
-    }
-
     reset() {
         let position = new Position(this.config.agentStartPosition[0], this.config.agentStartPosition[1]);
         let player = this.div.querySelector(".player");

@@ -53,10 +53,6 @@ export class Game{
         // draw environment
         this.environment.render();
     }
-
-    resetPlayer() {
-        this.environment.resetPlayer()
-    }
 }
 
 
@@ -125,6 +121,7 @@ export class MCGame extends Game {
             for (step = 1; step < this.max_step_num; ++step) {
                 // interrupt
                 if (this.interrupt) {
+                    this.interrupt = false;
                     return;
                 }
 
@@ -170,6 +167,7 @@ export class MCGame extends Game {
             for (let step = 1; step < 30; ++step) {
                 // interrupt
                 if (this.interrupt) {
+                    this.interrupt = false;
                     return;
                 }
 
@@ -220,17 +218,21 @@ export class MCGame extends Game {
                 let maxValue = Math.max(...this.agent.value_table.flat().slice(0,6*6-2)) + epsilon;
                 let minValue = Math.min(...this.agent.value_table.flat()) + epsilon;
                 // draw tile color
+                let cell = this.environment._getCell(new Position(y, x));
+                let place = cell.lastChild;
                 if (value === 0) {
                     this.context.fillStyle = rgb(255, 255, 255);
                 }
-                else {
+                if (place && place.classList.contains("place") && place.done) {
+                    this.context.fillStyle = rgb(255, 249, 89);
+                } else {
                     let max_r = 24;
                     let min_r = 236;
                     let max_g = 198;
                     let min_g = 250;
                     let max_b = 40;
                     let min_b = 237;
-                    let normalize =(value- minValue)/(maxValue - minValue)
+                    let normalize = (value- minValue)/(maxValue - minValue);
                     let r = (normalize)*(max_r-min_r)
                     let g = (normalize)*(max_g-min_g)
                     let b = (normalize)*(max_b-min_b)
@@ -287,6 +289,7 @@ export class TDGame extends MCGame {
             for (step = 1; step < this.max_step_num; ++step) {
                 // interrupt
                 if (this.interrupt) {
+                    this.interrupt = false;
                     return;
                 }
 
@@ -335,11 +338,65 @@ export class OptimGameAVG extends MCGame {
     }
 }
 
+export class CompareGame {
+    constructor(mcDiv, tdDiv, seed, mcContext=null, tdContext=null) {
+        this.mcGame = new MCGame(mcDiv, mcContext, seed);
+        this.tdGame = new TDGame(tdDiv, tdContext, seed);
 
-export class BiasGame {
+        this.interrupt = false;
+    }
+
+    Interrupt() {
+        this.interrupt = true;
+        this.mcGame.interrupt = true;
+        this.tdGame.interrupt = true;
+    }
+
+    async run(max_episode_num, sleep_time=10, episodeTextDom) {
+        this.mcGame.interrupt = false;
+        this.tdGame.interrupt = false;
+
+        for (let episode = 1; episode <= max_episode_num; ++episode)
+        {
+            if (episodeTextDom) {
+                episodeTextDom.innerText = episode;
+            }
+
+            let done1 = false, done2 = false;
+            this.mcGame.run(1, sleep_time).then(() => done1 = true);
+            this.tdGame.run(1, sleep_time).then(() => done2 = true);
+
+            // sync each game
+            while (!(done1 && done2)) { await sleep(); }
+
+            if (this.interrupt) {
+                this.interrupt = false;
+                return;
+            }
+        }
+    }
+
+    async run_test(max_episode_num, sleep_time=300) {
+        await this.mcGame.run_test(max_episode_num, sleep_time);
+        await this.tdGame.run_test(max_episode_num, sleep_time);
+    }
+
+    reset() {
+        this.mcGame.environment.reset();
+        this.mcGame.agent.reset();
+        this.tdGame.environment.reset();
+        this.tdGame.agent.reset();
+    }
+
+    render() {
+        this.mcGame.render();
+        this.tdGame.render();
+    }
+}
+
+export class BiasGame extends CompareGame {
     constructor(mcDiv, tdDiv, optimDiv, seed) {
-        this.mcGame = new MCGame(mcDiv, null, seed);
-        this.tdGame = new TDGame(tdDiv, null, seed);
+        super(mcDiv, tdDiv, seed);
         this.optimGame = new OptimGameAVG(optimDiv, null, seed);
 
         this.mcRmse = [];
@@ -369,16 +426,8 @@ export class BiasGame {
         }
     }
 
-    async run_test(max_episode_num, sleep_time=300) {
-        await this.mcGame.run_test(max_episode_num, sleep_time);
-        await this.tdGame.run_test(max_episode_num, sleep_time);
-    }
-
     reset() {
-        this.mcGame.environment.reset();
-        this.mcGame.agent.reset();
-        this.tdGame.environment.reset();
-        this.tdGame.agent.reset();
+        super.reset();
 
         this.mcRmse = [];
         this.tdRmse = [];
@@ -415,10 +464,5 @@ export class BiasGame {
             { x: [...Array(this.mcRmse.length).keys()], y: this.mcRmse, type:'line', name: 'MC' },
             { x: [...Array(this.mcRmse.length).keys()], y: this.tdRmse, type:'line', name: 'TD' },
         ]);
-    }
-
-    render() {
-        this.mcGame.render();
-        this.tdGame.render();
     }
 }
