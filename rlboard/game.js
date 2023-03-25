@@ -35,7 +35,7 @@ export function renderEffect(cell, timeout=500) {
         } else {
             effect.src = "img/rlboard/effect/Explosion.png";
         }
-        cell.appendChild(effect);
+        cell.insertBefore(effect, cell.lastChild);
         setTimeout(() => effect.remove(), timeout);
     }
 }
@@ -54,7 +54,6 @@ export class Game{
         this.environment.render();
     }
 }
-
 
 export class RDGame extends Game {
     constructor(div, seed) {
