@@ -106,10 +106,6 @@ export class MCGame extends Game {
         let step = 0;
 
         for (let episode = 1; episode <= max_episode_num; ++episode) {
-            if (episodeTextDom !== null) {
-                episodeTextDom.innerText = episode;
-            }
-
             let next_state, action, reward, done;
             let state = this.environment.reset();
             let rewards = [];
@@ -142,6 +138,9 @@ export class MCGame extends Game {
 
                 // episode done
                 if (done) {
+                    if (episodeTextDom !== null) {
+                        episodeTextDom.innerText = parseInt(episodeTextDom.innerText) + 1;
+                    }
                     break;
                 }
 
@@ -274,10 +273,6 @@ export class TDGame extends MCGame {
         let step = 0;
 
         for (let episode = 1; episode <= max_episode_num; ++episode) {
-            if (episodeTextDom !== null) {
-                episodeTextDom.innerText = episode;
-            }
-
             let next_state, action ,reward, done;
             let state = this.environment.reset();
             let rewards = [];
@@ -308,6 +303,9 @@ export class TDGame extends MCGame {
                 state = [next_state[0], next_state[1]];
                 // episode done
                 if (done) {
+                    if (episodeTextDom !== null) {
+                        episodeTextDom.innerText = parseInt(episodeTextDom.innerText) + 1;
+                    }
                     break;
                 }
 
@@ -357,16 +355,16 @@ export class CompareGame {
 
         for (let episode = 1; episode <= max_episode_num; ++episode)
         {
-            if (episodeTextDom) {
-                episodeTextDom.innerText = episode;
-            }
-
             let done1 = false, done2 = false;
             this.mcGame.run(1, sleep_time).then(() => done1 = true);
             this.tdGame.run(1, sleep_time).then(() => done2 = true);
 
             // sync each game
             while (!(done1 && done2)) { await sleep(); }
+
+            if (episodeTextDom !== null && !this.interrupt) {
+                episodeTextDom.innerText = parseInt(episodeTextDom.innerText) + 1;
+            }
 
             if (this.interrupt) {
                 this.interrupt = false;
@@ -422,6 +420,11 @@ export class BiasGame extends CompareGame {
 
             // plot
             this._plot();
+
+            if (this.interrupt) {
+                this.interrupt = false;
+                return;
+            }
         }
     }
 

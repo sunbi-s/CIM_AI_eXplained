@@ -21,7 +21,7 @@ let btnTrain = frame.querySelector('.btn_train');
 let btnStop = frame.querySelector('.btn_stop');
 let btnTest = frame.querySelector('.btn_test');
 let btnReset = frame.querySelector('.btn_reset');
-let nEpisodeText = frame.querySelector('.n_episode');
+let nEpisodeText = frame.querySelector('.n_episode_text');
 
 btnTrain.addEventListener("click", function() {
     if (btnTrain.classList.contains("disabled")) {
@@ -49,8 +49,6 @@ btnStop.addEventListener("click", function() {
     game.Interrupt();
     game.mcGame.environment.reset();
     game.tdGame.environment.reset();
-
-    nEpisodeText.innerText = "";
 });
 btnTest.addEventListener("click", function() {
     if (btnTest.classList.contains("disabled")) {
@@ -72,5 +70,5 @@ btnReset.addEventListener("click", function() {
     game.Interrupt();
     game.reset();
 
-    nEpisodeText.innerText = "";
+    nEpisodeText.innerText = "0";
 });

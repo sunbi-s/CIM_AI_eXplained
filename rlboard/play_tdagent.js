@@ -17,7 +17,7 @@ let btnTrain = frame.querySelector('.btn_train');
 let btnStop = frame.querySelector('.btn_stop');
 let btnTest = frame.querySelector('.btn_test');
 let btnReset = frame.querySelector('.btn_reset');
-let nEpisodeText = frame.querySelector('.n_episode');
+let nEpisodeText = frame.querySelector('.n_episode_text');
 
 btnTrain.addEventListener("click", function() {
     if (btnTrain.classList.contains("disabled")) {
@@ -27,6 +27,8 @@ btnTrain.addEventListener("click", function() {
     btnTest.classList.add("disabled");
     btnTrain.style.display = "none";
     btnStop.style.display = "inline-block";
+
+    game.interrupt = false;
     game.run(1e3, 10, nEpisodeText).then(() => {
         btnTest.classList.remove("disabled");
         btnTrain.style.display = "inline-block";
@@ -44,8 +46,6 @@ btnStop.addEventListener("click", function() {
 
     game.interrupt = true;
     game.environment.reset();
-
-    nEpisodeText.innerText = "";
 });
 btnTest.addEventListener("click", function() {
     if (btnTest.classList.contains("disabled")) {
@@ -68,5 +68,5 @@ btnReset.addEventListener("click", function() {
     game.environment.reset();
     game.agent.reset();
 
-    nEpisodeText.innerText = "";
+    nEpisodeText.innerText = "0";
 });

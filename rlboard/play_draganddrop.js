@@ -179,7 +179,7 @@ let btnBack = frame.querySelector('.btn_back');
 let btnTrain = frame.querySelector('.btn_train');
 let btnStop = frame.querySelector('.btn_stop');
 let btnTest = frame.querySelector('.btn_test');
-let nEpisodeText = frame.querySelector('.n_episode');
+let nEpisodeText = frame.querySelector('.n_episode_text');
 
 
 btnSave.addEventListener("click", async function() {
@@ -283,8 +283,6 @@ btnStop.addEventListener("click", function() {
     mcGame.interrupt = true;
     tdGame.interrupt = true;
     dummyGame.environment.reset();
-
-    nEpisodeText.innerText = "";
 });
 btnTest.addEventListener("click", function() {
     if (btnTest.classList.contains("disabled")) {
@@ -324,6 +322,7 @@ btnTest.addEventListener("click", function() {
 
 
 // Add dropdown event
+let nEpisodes = [0, 0];
 selectAgent.addEventListener("change", function () {
     dummyGame.environment.reset();
     if (selectAgent.value === "Optimal") {
@@ -331,15 +330,28 @@ selectAgent.addEventListener("change", function () {
         optimGame.context = context;
         mcGame.context = null;
         tdGame.context = null;
+        frame.querySelectorAll(".n_episode").forEach((elem) => {
+            elem.style.display = "none";
+        });
     } else if (selectAgent.value === "MC") {
         btnTrain.style.display = "inline-block";
         optimGame.context = null;
         mcGame.context = context;
         tdGame.context = null;
+        frame.querySelectorAll(".n_episode").forEach((elem) => {
+            elem.style.display = "inline-block";
+        });
+        nEpisodes[1] = nEpisodeText.innerText;
+        nEpisodeText.innerText = nEpisodes[0];
     } else if (selectAgent.value === "TD") {
         btnTrain.style.display = "inline-block";
         optimGame.context = null;
         mcGame.context = null;
         tdGame.context = context;
+        frame.querySelectorAll(".n_episode").forEach((elem) => {
+            elem.style.display = "inline-block";
+        });
+        nEpisodes[0] = nEpisodeText.innerText;
+        nEpisodeText.innerText = nEpisodes[1];
     }
 });

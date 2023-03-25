@@ -10,8 +10,8 @@ let game = new BiasGame(boardDom1, boardDom2, boardDom3, 0);
 
 
 // Add btn event
-let selectNum = frame.querySelector('.select_num');
 let btnTrain = frame.querySelector('.btn_train');
+let btnStop = frame.querySelector('.btn_stop');
 let btnReset = frame.querySelector('.btn_reset');
 
 btnTrain.addEventListener("click", function() {
@@ -19,10 +19,24 @@ btnTrain.addEventListener("click", function() {
         return;
     }
 
-    btnTrain.classList.add("disabled");
-    game.run(selectNum.value, 0).then(() => {
-        btnTrain.classList.remove("disabled");
+    btnTrain.style.display = "none";
+    btnStop.style.display = "inline-block";
+    game.run(1e3, 0).then(() => {
+        btnTrain.style.display = "inline-block";
+        btnStop.style.display = "none";
     });
+});
+btnStop.addEventListener("click", function() {
+    if (btnStop.classList.contains("disabled")) {
+        return;
+    }
+
+    btnTrain.style.display = "inline-block";
+    btnStop.style.display = "none";
+
+    game.Interrupt();
+    game.mcGame.environment.reset();
+    game.tdGame.environment.reset();
 });
 btnReset.addEventListener("click", function() {
     if (btnReset.classList.contains("disabled")) {
