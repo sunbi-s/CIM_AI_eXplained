@@ -71,6 +71,12 @@ export class RDGame extends Game {
             await sleep(sleep_time);
 
             for (let step = 1; step < this.max_step_num; ++step) {
+                // interrupt
+                if (this.interrupt) {
+                    this.interrupt = false;
+                    return;
+                }
+
                 // get action
                 action = this.agent.getAction(state);
 
@@ -394,8 +400,14 @@ export class CompareGame {
     }
 
     async run_test(max_episode_num, sleep_time=300) {
-        await this.mcGame.run_test(max_episode_num, sleep_time);
-        await this.tdGame.run_test(max_episode_num, sleep_time);
+        let done1 = false, done2 = false;
+        this.mcGame.run_test(max_episode_num, sleep_time).then(() => done1 = true);
+        this.tdGame.run_test(max_episode_num, sleep_time).then(() => done2 = true);
+
+        // sync each game
+        while (!(done1 && done2)) { await sleep(); }
+
+        this.interrupt = false;
     }
 
     reset() {

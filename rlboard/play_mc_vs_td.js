@@ -31,6 +31,7 @@ btnTrain.addEventListener("click", function() {
     btnTest.classList.add("disabled");
     btnTrain.style.display = "none";
     btnStop.style.display = "inline-block";
+
     game.run(1e3, 50, nEpisodeText).then(() => {
         btnTest.classList.remove("disabled");
         btnTrain.style.display = "inline-block";
@@ -42,8 +43,10 @@ btnStop.addEventListener("click", function() {
         return;
     }
 
+    btnTrain.classList.remove("disabled");
     btnTest.classList.remove("disabled");
     btnTrain.style.display = "inline-block";
+    btnTest.style.display = "inline-block";
     btnStop.style.display = "none";
 
     game.Interrupt();
@@ -56,10 +59,13 @@ btnTest.addEventListener("click", function() {
     }
 
     btnTrain.classList.add("disabled");
-    btnTest.classList.add("disabled");
+    btnTest.style.display = "none";
+    btnStop.style.display = "inline-block";
+
     game.run_test(1).then(() => {
         btnTrain.classList.remove("disabled");
-        btnTest.classList.remove("disabled");
+        btnTest.style.display = "inline-block";
+        btnStop.style.display = "none";
     });
 });
 btnReset.addEventListener("click", function() {
