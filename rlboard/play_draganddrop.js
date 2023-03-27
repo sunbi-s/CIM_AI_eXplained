@@ -275,8 +275,12 @@ btnStop.addEventListener("click", function() {
         return;
     }
 
+    btnTrain.classList.remove("disabled");
     btnTest.classList.remove("disabled");
-    btnTrain.style.display = "inline-block";
+    if (selectAgent.value !== "Optimal") {
+        btnTrain.style.display = "inline-block";
+    }
+    btnTest.style.display = "inline-block";
     btnStop.style.display = "none";
 
     optimGame.interrupt = true;
@@ -290,7 +294,8 @@ btnTest.addEventListener("click", function() {
     }
 
     btnTrain.classList.add("disabled");
-    btnTest.classList.add("disabled");
+    btnTest.style.display = "none";
+    btnStop.style.display = "inline-block";
     selectAgent.disabled = true;
 
     optimGame.interrupt = false;
@@ -299,22 +304,24 @@ btnTest.addEventListener("click", function() {
 
     if (selectAgent.value === "Optimal") {
         optimGame.run_test(1).then(() => {
-            btnTrain.classList.remove("disabled");
-            btnTest.classList.remove("disabled");
+            btnTest.style.display = "inline-block";
+            btnStop.style.display = "none";
             selectAgent.disabled = false;
         });
     } else if (selectAgent.value === "MC") {
         mcGame.run_test(1).then(() => {
             btnTrain.classList.remove("disabled");
-            btnTest.classList.remove("disabled");
             btnBack.classList.remove("disabled");
+            btnTest.style.display = "inline-block";
+            btnStop.style.display = "none";
             selectAgent.disabled = false;
         });
     } else if (selectAgent.value === "TD") {
         tdGame.run_test(1).then(() => {
             btnTrain.classList.remove("disabled");
-            btnTest.classList.remove("disabled");
             btnBack.classList.remove("disabled");
+            btnTest.style.display = "inline-block";
+            btnStop.style.display = "none";
             selectAgent.disabled = false;
         });
     }

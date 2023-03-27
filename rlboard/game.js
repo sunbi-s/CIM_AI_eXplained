@@ -1,7 +1,7 @@
 import configs from "./config.js";
 import { Environment } from "./rlboard.js";
 import { RandomAgent, MCAgent, TDAgent, OptimAgent } from "./agents.js";
-import {Position, rgb, sleep} from "./utill.js";
+import {Position, rgba, sleep} from "./utill.js";
 
 
 const math = window['math'];
@@ -74,6 +74,12 @@ export class RDGame extends Game {
 
 
             for (let step = 1; step < this.max_step_num; ++step) {
+                // interrupt
+                if (this.interrupt) {
+                    this.interrupt = false;
+                    return;
+                }
+
                 // get action
                 action = this.agent.getAction(state);
 
@@ -188,7 +194,7 @@ export class MCGame extends Game {
 
                 // render effect
                 renderEffect(this.environment._getCell(new Position(next_state[0], next_state[1])));
-                
+
                 // state no change
                 if (state[0] === next_state[0] && state[1] === next_state[1]) {
                     // console.log("stateSame")
@@ -215,10 +221,18 @@ export class MCGame extends Game {
             return;
         }
 
+        // draw background image
+        let img = new Image();
+        img.src = "img/rlboard/background.png";
+        this.context.drawImage(img, 0, 0, 300, 300);
+        // return;
+        let alpha = 0.4;
+        // let alpha = 1.0;
+
         // draw value table
         this.context.beginPath();
-        this.context.fillStyle = 'black'
-        this.context.fillRect(0, 0, this.context.width, this.context.height);
+        // this.context.fillStyle = 'black'
+        // this.context.fillRect(0, 0, this.context.width, this.context.height);
 
         for (let y = 0; y < this.environment.boardShape[0]; ++y) {
             for (let x = 0; x < this.environment.boardShape[1]; ++x) {
@@ -228,27 +242,39 @@ export class MCGame extends Game {
                 // expcept 0  and all Values is negative 2 positive
                 let maxValue = Math.max(...this.agent.value_table.flat().slice(0,6*6-2)) + epsilon;
                 let minValue = Math.min(...this.agent.value_table.flat()) + epsilon;
+
+                let textColor;
+
                 // draw tile color
                 let cell = this.environment._getCell(new Position(y, x));
                 let place = cell.lastChild;
-                if (value === 0) {
-                    this.context.fillStyle = rgb(255, 255, 255);
-                }
                 if (place && place.classList.contains("place") && place.done) {
-                    this.context.fillStyle = rgb(255, 249, 89);
+                    // this.context.fillStyle = rgba(255, 249, 89, alpha);
+                    this.context.fillStyle = rgba(255, 255, 255, 0.7);
+                    textColor = rgba(0, 0, 0, 1.0);
+                } else if (value === 0) {
+                    this.context.fillStyle = rgba(255, 255, 255, alpha);
+                    textColor = rgba(0, 0, 0, 1.0);
                 } else {
-                    let max_r = 24;
-                    let min_r = 236;
-                    let max_g = 198;
-                    let min_g = 250;
-                    let max_b = 40;
-                    let min_b = 237;
+                    // let max_r = 24, min_r = 236;
+                    // let max_g = 198, min_g = 250;
+                    // let max_b = 40, min_b = 237;
+                    let min_r = 24, max_r = 236;
+                    let min_g = 40, max_g = 237;
+                    let min_b = 198, max_b = 245;
                     let normalize = (value- minValue)/(maxValue - minValue);
                     let r = (normalize)*(max_r-min_r)
                     let g = (normalize)*(max_g-min_g)
                     let b = (normalize)*(max_b-min_b)
-                    this.context.fillStyle = rgb(min_r + r, min_g + g, min_b + b);
-                    // this.context.fillRect = ()
+                    this.context.fillStyle = rgba(min_r + r, min_g + g, min_b + b, alpha);
+                    // this.context.fillRect = ();
+
+                    if (normalize < 0.12) {
+                        let color = (1 - normalize) * 255;
+                        textColor = rgba(color, color, color, 1.0);
+                    } else {
+                        textColor = rgba(0, 0, 0, 1.0);
+                    }
                 }
                 // else {
                 //     let alpha = Math.abs(value / maxValue) * (1 - 0.6) + 0.6;
@@ -266,8 +292,8 @@ export class MCGame extends Game {
                 );
 
                 // draw text
-                this.context.fillStyle = 'black';
-                this.context.font = "12px serif";
+                this.context.fillStyle = textColor; // 'black';
+                this.context.font = "12.5px serif";
                 this.context.textAlign = "center";
                 this.context.fillText(value.toFixed(2), (x + 1 / 2) * nodeScale * this.context.width, (y + 2 / 3) * nodeScale * this.context.width);
             }
@@ -387,8 +413,14 @@ export class CompareGame {
     }
 
     async run_test(max_episode_num, sleep_time=300) {
-        await this.mcGame.run_test(max_episode_num, sleep_time);
-        await this.tdGame.run_test(max_episode_num, sleep_time);
+        let done1 = false, done2 = false;
+        this.mcGame.run_test(max_episode_num, sleep_time).then(() => done1 = true);
+        this.tdGame.run_test(max_episode_num, sleep_time).then(() => done2 = true);
+
+        // sync each game
+        while (!(done1 && done2)) { await sleep(); }
+
+        this.interrupt = false;
     }
 
     reset() {
