@@ -416,7 +416,7 @@
         <h2>III. Monte Carlo approach</h2>
 
         <p>
-          Monte Carlo estimate the values by simply averaging sample returns.
+          Monte Carlo estimates the values by simply averaging sample returns.
           The Monte Carlo method is based on simulating a number of episodes of an agent interacting with the environment.
           In each episode, the agent takes actions and receives rewards, and the sequence of states, actions, and rewards is recorded.
           The final outcome of each episode is used to update the value of each state.
@@ -426,7 +426,7 @@
         </p>
 
         <p class="inline-math">
-          After each episode, sample return $$G_t$$ is computed by each step.
+          After each episode, sample return $$G_t$$ is computed at each step.
         </p>
 
         <p>
@@ -434,16 +434,16 @@
         </p>
 
         <p class="inline-math">
-          Then for each visited state in the episode, the increment counter $$N(s)$$ (which refers the number of visits to
-          state $$s$$) increased by 1
-          and the sample return $$G_t$$ is added to total return $$S(s)$$, and finally dividing $$S(s)$$ by $$N(s)$$,
-          the state value $$V(s)$$ is obtained.
+          Then for each visited state in the episode, the increment counter $$N(s_t)$$ (which refers the number of visits to
+          state $$s_t$$) increased by 1
+          and the sample return $$G_t$$ is added to total return $$S(s_t)$$, and finally dividing $$S(s_t)$$ by $$N(s_t)$$,
+          the state value $$V(s_t)$$ is obtained.
         </p>
 
         <p>
-          \[N(s) = N(s) + 1\]
-          \[S(s) = S(s) + G_t\]
-          \[V(s) = S(s) / N(s)\]
+          \[N(s_t) = N(s_t) + 1\]
+          \[S(s_t) = S(s_t) + G_t\]
+          \[V(s_t) = S(s_t) / N(s_t)\]
         </p>
 
         <div class="framed">
@@ -459,17 +459,13 @@
               <canvas class="canvas_2" width="300px" height="300px"></canvas>
               <br>
 
-              <p class="n_episode" style="display: inline-block"></p>
-              <select class="select_num" name="lang">
-                  <option value=1 selected>1</option>
-                  <option value=5>5</option>
-                  <option value=10>10</option>
-                  <option value=100>100</option>
-              </select>
-
               <a class="btn_train" style="display: inline-block; margin: auto"><img src="img/buttons/train.png" alt="train"/></a>
+              <a class="btn_stop" style="display: none; margin: auto"><img src="img/buttons/stop.png" alt="stop"/></a>
               <a class="btn_test" style="display: inline-block; margin: auto"><img src="img/buttons/test.png" alt="test"/></a>
               <a class="btn_reset" style="display: inline-block; margin: auto"><img src="img/buttons/reset2.png" alt="reset"/></a>
+
+              <img class="n_episode" src="img/buttons/episode.png" alt="episode"/>
+              <p class="n_episode n_episode_text" style="display: inline-block">0</p>
             </div>
 
             <div class="caption"><b>Figure 9:</b><br>
@@ -540,17 +536,13 @@
               <canvas class="canvas_2" width="300px" height="300px"></canvas>
               <br>
 
-              <p class="n_episode" style="display: inline-block"></p>
-              <select class="select_num" name="lang">
-                  <option value=1>1</option>
-                  <option value=5>5</option>
-                  <option value=10 selected>10</option>
-                  <option value=100>100</option>
-              </select>
-
               <a class="btn_train" style="display: inline-block; margin: auto"><img src="img/buttons/train.png" alt="train"/></a>
+              <a class="btn_stop" style="display: none; margin: auto"><img src="img/buttons/stop.png" alt="stop"/></a>
               <a class="btn_test" style="display: inline-block; margin: auto"><img src="img/buttons/test.png" alt="test"/></a>
               <a class="btn_reset" style="display: inline-block; margin: auto"><img src="img/buttons/reset2.png" alt="reset"/></a>
+
+              <img class="n_episode" src="img/buttons/episode.png" alt="episode"/>
+              <p class="n_episode n_episode_text" style="display: inline-block">0</p>
             </div>
 
             <div class="caption"><b>Figure 11:</b><br> Temporal Difference learning process. The left figure shows the agent and environment, 
@@ -607,16 +599,13 @@
               <canvas class="canvas_2" width="300px" height="300px"></canvas>
               <br>
 
-              <p class="n_episode" style="display: inline-block"></p>
-              <select class="select_num" name="lang">
-                <option value=1>1</option>
-                <option value=10 selected>10</option>
-                <option value=50>50</option>
-                <option value=100>100</option>
-              </select>
               <a class="btn_train" style="display: inline-block; margin: auto"><img src="img/buttons/train.png" alt="train"/></a>
+              <a class="btn_stop" style="display: none; margin: auto"><img src="img/buttons/stop.png" alt="stop"/></a>
               <a class="btn_test" style="display: inline-block; margin: auto"><img src="img/buttons/test.png" alt="test"/></a>
               <a class="btn_reset" style="display: inline-block; margin: auto"><img src="img/buttons/reset2.png" alt="reset"/></a>
+
+              <img class="n_episode" src="img/buttons/episode.png" alt="episode"/>
+              <p class="n_episode n_episode_text" style="display: inline-block">0</p>
             </div>
 
             <div class="caption"><b>Figure 13:</b><br>
@@ -635,7 +624,7 @@
           considering all possible future states and actions by using a model of the environment. Based on these values,
           the optimal agent selects the best action, resulting in the highest possible reward. While the optimal agent
           considers all possibilities, MC and TD agents only consider a subset of possible future states and actions.
-          Despite this difference, all three agents can achieve the same optimal values and reward in the long run.
+          Despite this difference, all three agents can achieve the same optimal values and rewards in the long run.
         </p>
 
         <div class="framed">
@@ -687,15 +676,8 @@
 
               <div id="chart"></div>
 
-              <label>
-                <select class="select_num" name="lang">
-                  <option value=100 selected>100</option>
-                  <option value=500>500</option>
-                  <option value=1000>1000</option>
-                  <option value=5000>5000</option>
-                </select>
-              </label>
               <a class="btn_train" style="display: inline-block; margin: auto"><img src="img/buttons/train.png" alt="train"/></a>
+              <a class="btn_stop" style="display: none; margin: auto"><img src="img/buttons/stop.png" alt="stop"/></a>
               <a class="btn_reset" style="display: inline-block; margin: auto"><img src="img/buttons/reset2.png" alt="reset"/></a>
             </div>
 
@@ -710,15 +692,13 @@
 
         <p>
           In practice, the choice between MC and TD depends on the specific problem and the available resources.
-          If the episodes are short and the rewards are delayed, TD may be more suitable as it can update values
-          after each time step. If the episodes are long and the rewards are immediate, MC may be a better choice
-          as it can update values at the end of each episode. By understanding the differences between MC and TD,
+          While TD is more effective and generally used, in some cases MC is more appropriate like the situation in which
+          biased estimation is inefficient. By understanding the differences between MC and TD,
           researchers and practitioners can choose the most appropriate approach for their particular application.
         </p>
 
         <p>
-          Depend on the MDP, optimal behavior is different. In figure below, create your own MDP and check how
-          optimal, MC, and TD agents behaves.
+          Depending on the MDP, optimal behavior is different. In the figure below, create your own MDP and check how optimal, MC and TD agents behave.
         </p>
         <div class="framed">
           <div class="inside">
@@ -728,9 +708,9 @@
               Click "Run" button to see agent's behavior.
             </div>
 
-            <div id="play_draganddrop" class="play_div" style="margin-bottom: -50px">
+            <div id="play_draganddrop" class="play_div">
               <div class="board"></div>
-              <div style="display: inline-block; position: relative; margin-bottom: -190px; top: -200px">
+              <div style="display: inline-block; position: relative; margin-bottom: -95px; top: -105px">
                 <div class="place_creator"></div>
                 <div class="trash_can" style="margin-top: 10px"></div>
               </div>
@@ -739,7 +719,7 @@
               <canvas style="display: none" width="300px" height="300px"></canvas>
               <br>
 
-              <a class="btn_save" style="display: inline-block; margin: auto"><img src="img/buttons/save.png" alt="save"/></a>
+              <a class="btn_save" style="display: inline-block; margin: auto; position: relative; top: -6px"><img src="img/buttons/save.png" alt="save"/></a>
 
               <div id="play_my_mdp" style="display: none">
                 <a class="btn_back" style="display: inline-block; margin: auto"><img src="img/buttons/back.png" alt="back"/></a>
@@ -750,8 +730,12 @@
                     <option value=TD>TD</option>
                   </select>
                 </label>
-                <a class="btn_run" style="display: inline-block; margin: auto"><img src="img/buttons/run.png" alt="run"/></a>
-                <p class="n_episode" style="display: inline-block; text-align: left; margin-left: 5px;"></p>
+                <a class="btn_train" style="display: inline-block; margin: auto"><img src="img/buttons/train.png" alt="train"/></a>
+                <a class="btn_stop" style="display: none; margin: auto"><img src="img/buttons/stop.png" alt="stop"/></a>
+                <a class="btn_test" style="display: inline-block; margin: auto"><img src="img/buttons/test.png" alt="test"/></a>
+
+                <img class="n_episode" src="img/buttons/episode.png" alt="episode" style="margin-left: 85px"/>
+                <p class="n_episode n_episode_text" style="display: inline-block; margin-left: 160px">0</p>
               </div>
 
             </div>

@@ -1,6 +1,5 @@
 export default [
     {
-        "backgroundImagePath": "img/rlboard/background.png",
         "nodes": [
             // [position, reward, final, path]
             //  [y, x]

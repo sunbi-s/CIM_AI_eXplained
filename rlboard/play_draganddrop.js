@@ -1,26 +1,35 @@
-import {Position, sleep} from "./utill.js";
+import { Position } from "./utill.js";
 import { Game, MCGame, TDGame, OptimGame, animate } from "./game.js";
 
 const frame = document.querySelector('#play_draganddrop')
 const boardDom = frame.querySelector('.board');
 const hiddenBoardDom1 = frame.querySelector('#hiddenBoard1');
 const hiddenBoardDom2 = frame.querySelector('#hiddenBoard2');
+const canvas = frame.querySelector('canvas');
+const context = canvas.getContext('2d');
+
+context.width = canvas.width;
+context.height = canvas.height;
 boardDom.style.cursor = 'pointer';
 
-let game = new Game(boardDom, 0);
+
+let dummyGame = new Game(boardDom, 0);
+animate(dummyGame);
+
 let mcGame = new MCGame(hiddenBoardDom1, null, 0);
-// mcGame.environment.div = boardDom;
-// mcGame.environment.player = game.environment.player;
+mcGame.environment.div = boardDom;
+mcGame.environment.player = dummyGame.environment.player;
 let tdGame = new TDGame(hiddenBoardDom2, null, 0);
-// tdGame.environment.div = boardDom;
-// tdGame.environment.player = game.environment.player;
+tdGame.environment.div = boardDom;
+tdGame.environment.player = dummyGame.environment.player;
 
 let div = document.createElement("div");
 let optimGame = new OptimGame(div, null, 0);
 optimGame.environment.div = boardDom;
-optimGame.environment.player = game.environment.player;
-
-animate(game);
+optimGame.environment.player = dummyGame.environment.player;
+animate(mcGame);
+animate(tdGame);
+animate(optimGame);
 
 
 function getCellPosition(div, _cell) {
@@ -146,11 +155,11 @@ cells.forEach((cell) => {
         } else if (cell.childElementCount === 0) {
             if (draggable.parentNode.classList.contains("cell")) {
                 let cellPosition = getCellPosition(boardDom, cell);
-                game.environment.moveNode(draggable, cellPosition);
+                dummyGame.environment.moveNode(draggable, cellPosition);
             } else if (draggable.parentNode.classList.contains("place_creator")) {
                 // Create new node
                 let cellPosition = getCellPosition(boardDom, cell);
-                let copied_draggable = game.environment.createPlace(cellPosition, draggable.getAttribute("placeIndex"));
+                let copied_draggable = dummyGame.environment.createPlace(cellPosition, draggable.getAttribute("placeIndex"));
 
                 // Add drag event
                 setDraggable(copied_draggable);
@@ -167,30 +176,21 @@ let selectAgent = frame.querySelector('#select_agent');
 let divPlayMyMDP = frame.querySelector('#play_my_mdp');
 let btnSave = frame.querySelector('.btn_save');
 let btnBack = frame.querySelector('.btn_back');
-let btnRun = frame.querySelector('.btn_run');
-let canvas = frame.querySelector('canvas');
-let nEpisodeText = frame.querySelector('.n_episode');
-
-
-const n_trains = 100;
-let mcHistory = [];
-let tdHistory = [];
-let interrupt = false;
+let btnTrain = frame.querySelector('.btn_train');
+let btnStop = frame.querySelector('.btn_stop');
+let btnTest = frame.querySelector('.btn_test');
+let nEpisodeText = frame.querySelector('.n_episode_text');
 
 
 btnSave.addEventListener("click", async function() {
-    mcHistory = [];
-    tdHistory = [];
-    interrupt = false;
-    mcGame.interrupt = false;
-
     btnSave.style.display = "none";
     btnBack.style.display = "inline-block";
-    btnRun.classList.add("disabled");
     divPlayMyMDP.style.display = "inline-block";
     place_creator.style.display = "none";
     trash_can.style.display = "none";
     canvas.style.display = "inline-block";
+
+    // make all places draggable false
     for (let draggable of boardDom.querySelectorAll(".draggable")) {
         unsetDraggable(draggable);
     }
@@ -198,39 +198,19 @@ btnSave.addEventListener("click", async function() {
     // init agents
     optimGame.agent.computeValues(true);
 
-    // train agents in background process
-    let state, action, reward, done;
-    let context = canvas.getContext('2d');
-    context.width = canvas.width;
-    context.height = canvas.height;
+    // render v-table
     mcGame.context = context;
-    animate(mcGame);
-    mcGame.agent.reset();
-    mcGame.run(n_trains, 1, nEpisodeText).then(() => {
-        state = mcGame.environment.reset();
-        for (let step = 0; step < mcGame.max_step_num; step++) {
-            action = mcGame.agent.getOptimalAction(state);
-            mcHistory.push(action);
-            [state, reward, done] = mcGame.environment.step(action);
-
-            if (done || interrupt) {
-                break;
-            }
-        }
-        console.log("eval done");
-        btnRun.classList.remove("disabled");
-    });
-    // tdGame.run(1, 0);
-    console.log("save done");
+    selectAgent.value = "MC";
+    selectAgent.dispatchEvent(new Event("change"));
 });
 btnBack.addEventListener("click", function() {
     if (btnBack.classList.contains("disabled")) {
         return;
     }
 
-    interrupt = true;
-    mcGame.interrupt = true;
-    game.resetPlayer();
+    btnTest.classList.remove("disabled");
+    btnTrain.style.display = "inline-block";
+    btnStop.style.display = "none";
 
     btnSave.style.display = "inline-block";
     btnBack.style.display = "none";
@@ -238,46 +218,140 @@ btnBack.addEventListener("click", function() {
     canvas.style.display = "none";
     place_creator.style.display = "block";
     trash_can.style.display = "block";
+
+    optimGame.interrupt = true;
+    mcGame.interrupt = true;
+    tdGame.interrupt = true;
+
+    // reset agents
+    mcGame.agent.reset();
+    tdGame.agent.reset();
+    dummyGame.environment.reset();
+
     for (let place of boardDom.querySelectorAll(".place")) {
         setDraggable(place);
     }
 });
-btnRun.addEventListener("click", async function () {
-    if (btnRun.classList.contains("disabled")) {
+btnTrain.addEventListener("click", async function () {
+    if (btnTrain.classList.contains("disabled")) {
         return;
     }
 
-    btnRun.classList.add("disabled");
+    btnTest.classList.add("disabled");
+    btnTrain.style.display = "none";
+    btnStop.style.display = "inline-block";
+    selectAgent.disabled = true;
+
+    optimGame.interrupt = false;
+    mcGame.interrupt = false;
+    tdGame.interrupt = false;
+
     if (selectAgent.value === "Optimal") {
         btnBack.classList.add("disabled");
         optimGame.run_test(1).then(() => {
-            btnRun.classList.remove("disabled");
-            btnBack.classList.remove("disabled");
+            btnTest.classList.remove("disabled");
+            btnTrain.style.display = "inline-block";
+            btnStop.style.display = "none";
+            selectAgent.disabled = false;
         });
     } else if (selectAgent.value === "MC") {
-        game.environment.reset();
-        for (let [idx, action] of mcHistory.entries()) {
-            console.log(idx, action);
-            if (idx >= 100 || interrupt) {
-                break;
-            }
-
-            let [, cell] = game.environment._movePlayer(action);
-
-            // check state
-            let place = cell.lastChild;
-            if (place.classList.contains("place") && place.done) {
-                console.log("terminal place");
-                break;
-            }
-
-            await sleep(200);
-        }
-
-        btnRun.classList.remove("disabled");
+        mcGame.run(1e3, 10, nEpisodeText).then(() => {
+            btnTest.classList.remove("disabled");
+            btnTrain.style.display = "inline-block";
+            btnStop.style.display = "none";
+            selectAgent.disabled = false;
+        });
     } else if (selectAgent.value === "TD") {
-        // TODO: implementation here!
-        alert("Not implementation error!");
-        btnRun.classList.remove("disabled");
+        tdGame.run(1e3, 10, nEpisodeText).then(() => {
+            btnTest.classList.remove("disabled");
+            btnTrain.style.display = "inline-block";
+            btnStop.style.display = "none";
+            selectAgent.disabled = false;
+        });
+    }
+});
+btnStop.addEventListener("click", function() {
+    if (btnStop.classList.contains("disabled")) {
+        return;
+    }
+
+    btnTest.classList.remove("disabled");
+    btnTrain.style.display = "inline-block";
+    btnStop.style.display = "none";
+
+    optimGame.interrupt = true;
+    mcGame.interrupt = true;
+    tdGame.interrupt = true;
+    dummyGame.environment.reset();
+});
+btnTest.addEventListener("click", function() {
+    if (btnTest.classList.contains("disabled")) {
+        return;
+    }
+
+    btnTrain.classList.add("disabled");
+    btnTest.classList.add("disabled");
+    selectAgent.disabled = true;
+
+    optimGame.interrupt = false;
+    mcGame.interrupt = false;
+    tdGame.interrupt = false;
+
+    if (selectAgent.value === "Optimal") {
+        optimGame.run_test(1).then(() => {
+            btnTrain.classList.remove("disabled");
+            btnTest.classList.remove("disabled");
+            selectAgent.disabled = false;
+        });
+    } else if (selectAgent.value === "MC") {
+        mcGame.run_test(1).then(() => {
+            btnTrain.classList.remove("disabled");
+            btnTest.classList.remove("disabled");
+            btnBack.classList.remove("disabled");
+            selectAgent.disabled = false;
+        });
+    } else if (selectAgent.value === "TD") {
+        tdGame.run_test(1).then(() => {
+            btnTrain.classList.remove("disabled");
+            btnTest.classList.remove("disabled");
+            btnBack.classList.remove("disabled");
+            selectAgent.disabled = false;
+        });
+    }
+});
+
+
+// Add dropdown event
+let nEpisodes = [0, 0];
+selectAgent.addEventListener("change", function () {
+    dummyGame.environment.reset();
+    if (selectAgent.value === "Optimal") {
+        btnTrain.style.display = "none";
+        optimGame.context = context;
+        mcGame.context = null;
+        tdGame.context = null;
+        frame.querySelectorAll(".n_episode").forEach((elem) => {
+            elem.style.display = "none";
+        });
+    } else if (selectAgent.value === "MC") {
+        btnTrain.style.display = "inline-block";
+        optimGame.context = null;
+        mcGame.context = context;
+        tdGame.context = null;
+        frame.querySelectorAll(".n_episode").forEach((elem) => {
+            elem.style.display = "inline-block";
+        });
+        nEpisodes[1] = nEpisodeText.innerText;
+        nEpisodeText.innerText = nEpisodes[0];
+    } else if (selectAgent.value === "TD") {
+        btnTrain.style.display = "inline-block";
+        optimGame.context = null;
+        mcGame.context = null;
+        tdGame.context = context;
+        frame.querySelectorAll(".n_episode").forEach((elem) => {
+            elem.style.display = "inline-block";
+        });
+        nEpisodes[0] = nEpisodeText.innerText;
+        nEpisodeText.innerText = nEpisodes[1];
     }
 });
