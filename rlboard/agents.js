@@ -34,6 +34,17 @@ export class CommonAgent {
         }
     }
 
+    _initVisitTable() {
+        this.N = [];
+        for (let y = 0; y < this.height; ++y) {
+            let row = [];
+            for (let x = 0; x < this.width; ++x) {
+                row.push(0);
+            }
+            this.N.push(row);
+        }
+    }
+
     _apply_action(state, action){
         let next_state = [0, 0];
         let valid = true
@@ -93,19 +104,29 @@ export class MCAgent extends CommonAgent{
 
     // Update the Q-value of all states visited by the agent in all episodes
     update() {
+        this._initVisitTable();
         let state, reward, done, V_t;
         let visit_state = [];
         let G_t = 0;
 
         for (let i = this.samples.length-1; i >= 0; --i) {
             [state, reward, done] = this.samples[i];
-            if (!visit_state.includes(state.toString())) {
-                visit_state.push(state.toString());
-
-                G_t = reward + this.discount_factor * G_t;
+            G_t = reward + this.discount_factor * G_t;
+            
+            let flag = true
+            for (let j = 0; j < i; ++j) {
+                let pre_state, pre_reward, pre_done
+                [pre_state, pre_reward, pre_done] = this.samples[j];
+                if (pre_state[0] == state[0] && pre_state[1] == state[1]){
+                    flag = false
+                }
+            }
+                
+            if (flag) {
+                this.N[state[0]][state[1]] =  this.N[state[0]][state[1]]  + 1
                 V_t = this.value_table[state[0]][state[1]]; //default value
-                this.value_table[state[0]][state[1]] = V_t + this.learning_rate * (G_t - V_t);
-                // console.log(state[0],state[1], G_t - V_t)
+                this.value_table[state[0]][state[1]] = V_t + this.learning_rate * (G_t - V_t)/ this.N[state[0]][state[1]];
+                // console.log(state[0],state[1], G_t , V_t, this.value_table[state[0]][state[1]],this.N[state[0]][state[1]])
             }
         }
         // samples clear
