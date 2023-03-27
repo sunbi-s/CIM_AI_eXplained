@@ -7,7 +7,7 @@
   <meta name="description"
     content="An interactive article on using genetic algorithms to solve the 8-Queens problem. Learn how the choice of representation and operators affects your genetic algorithm.">
   <meta charset="utf8">
-  <title>Reinforcement Learning: An Introduction to Monte Carlo and Temporal Difference Methods
+  <title>Monte Carlo and Temporal Difference Methods in Reinforcement Learning
   </title>
 
   <!-- Stylesheet for IEEE Xplore immersive article -->
@@ -48,11 +48,11 @@
       <div class="container">
         <!-- Page title -->
         <h1>
-          Reinforcement Learning: An Introduction to Monte Carlo and Temporal Difference Methods
+          Monte Carlo and Temporal Difference Methods in Reinforcement Learning
         </h1>
         <!-- Subheading -->
         <p class="subhead">
-          An interactive article on introducing Monte Carlo and Temporal difference approach on a gird world.
+          An interactive article on introducing Monte Carlo and Temporal difference approach on a grid world.
           Learn Monte Carlo and Temporal difference approach and their difference.
         </p>
         <!-- Header info general wrapper -->
@@ -126,7 +126,7 @@
           Learning through interaction with an environment is a common intelligent behavior easily observed in humans or animals.
           Generally, they recognize the surrounding environment or state and take action based on their understanding.
           As a result of actions, feedback is given, and they learn from it.
-          Reinforcement learning (RL) is a computational approach based on this learning mechanism.
+          Reinforcement Learning (RL) is a computational approach based on this learning mechanism.
           Recently RL showed impressive results in various domains, such as Go[<a href="#ref_1">1</a>],
           StarCraft[<a href="#ref_2">2</a>], protein-folding problem[<a href="#ref_3">3</a>], etc.
         </p>
@@ -148,7 +148,7 @@
         </ul>
 
         <p>
-          Reinforcement learning is a type of artificial intelligence that allows an agent to learn how to make decisions in an environment by trial and error.
+          RL is a type of machine learning that allows an agent to learn how to make decisions in an environment by trial and error.
           In each step, the agent's policy decides on an action based on the current state.
           The environment then responds with a next state and a reward.
           If the agent reaches the terminal state, the episode ends.
@@ -159,15 +159,15 @@
         </p>
 
         <p>
-          There are two types of reinforcement learning algorithms: model-free and model-based.
+          There are two types of RL algorithms: model-free and model-based.
           Model-free algorithms estimate the value function from many trials and update the policy based on the values.
           Model-based algorithms, on the other hand, compute the values of states by considering all possible future
           states and actions using the model of the environment.
         </p>
 
         <p>
-          In this article, we will focus on two fundamental model-free algorithms: Monte Carlo and Temporal Difference.
-          These algorithms are powerful tools for solving a variety of reinforcement learning problems. We will train
+          In this article, we will focus on two fundamental model-free algorithms: Monte Carlo (MC) and Temporal Difference (TD).
+          These algorithms are powerful tools for solving a variety of RL problems. We will train
           and evaluate the agents on grid-based environment. The agent starts from upper left start grid, and the
           goal is to reach lower right destination grid.
         </p>
@@ -207,7 +207,7 @@
         <h2>II. Markov Decision Process</h2>
 
         <p>
-          Reinforcement learning is a widely-used methodology in machine learning that focuses on solving sequential
+          RL is a widely-used methodology in machine learning that focuses on solving sequential
           decision-making problems. In these types of problems, the decisions made at the current step have an impact on
           future outcomes. One of the most popular ways to formalize this process is through the Markov Decision Process
           (MDP), which provides a useful framework for representing and solving sequential decision-making problems.
@@ -216,7 +216,7 @@
         <p>
           MDPs are defined by a set of states, actions, transition probabilities, and rewards that govern how the system 
           moves from one state to another based on the decisions made by the agent. It is crucial to understand MDP because the 
-          goal of reinforcement learning is to find an optimal policy that maximizes rewards, or evaluate the value of a set of actions 
+          goal of RL is to find an optimal policy that maximizes rewards, or evaluate the value of a set of actions 
           given MDP's rules and constraints. MDP extends the concept of a Markov process, which is a stochastic process that only 
           consists of states and transition probabilities.
         </p>
@@ -227,7 +227,7 @@
           over time. At each time step, the state may remain the same or transition to a different state, based on the
           probability of transition that depends solely on the current state. This property is known as the Markov
           Property, where the future state of the system is determined only by the current state and not by any previous
-          states. An example[<a href="#ref_4">4</a>] of a Markov process is shown in Figure3.
+          states. An example[<a href="#ref_4">4</a>] of a Markov process is shown in Figure 3.
         </p>
         
         <figure class="static">
@@ -294,7 +294,7 @@
       <h3> Markov Decision Process </h3>
         
       <p>
-        The Markov Decision Process(MDP) extends the Markov Process by incorporating decision-making capabilities, which sets it apart from the latter.
+        The Markov Decision Process (MDP) extends the Markov Process by incorporating decision-making capabilities, which sets it apart from the latter.
         While the Markov process models a system where the future state is determined only by the current state, the MDP introduces the concept of actions 
         taken by an agent that can influence the next state of the system. This enables the MDP to better model real-world scenarios.
       </p>
@@ -308,11 +308,11 @@
 
       <figure class="static">
         <img src="img/mdp/action.png" alt="Markov Decision Process for Improving a child’s sleep quality" style="margin: auto auto; max-width: 70%; display: block"/>
-        <figcaption><b>Figure 5:</b> Example of a Markov decision process for improving a child's sleep quality.</figcaption>
+        <figcaption><b>Figure 5:</b> Example of an MDP for improving a child's sleep quality.</figcaption>
       </figure>
 
       <p>
-        Here are the components that make up a Markov Decision Process:
+        Here are the components that make up an MDP:
       </p>
       
       <ul id="mdp_components">
@@ -327,7 +327,7 @@
       <div class="framed">
         <div class="inside">
           <div class="eyebrow">
-            Click the action buttons to see state transitions in the Markov decision process for improving a child's sleep quality based on different actions.
+            Click the action buttons to see state transitions in the MDP for improving a child's sleep quality based on different actions.
           </div>
 
           <div id="play_mdp_action" class="play_div">
@@ -340,7 +340,7 @@
               <script type="module" src="rlboard/play_mdp_action.js"></script>
             </div>
 
-          <div class="caption"><b>Figure 6:</b><br>Example of a Markov decision process for improving a child's sleep quality. </div>
+          <div class="caption"><b>Figure 6:</b><br>Example of an MDP for improving a child's sleep quality. </div>
         </div>
       </div>
       
@@ -364,20 +364,20 @@
       
       <p>
         However, since the return value changes every time due to probabilistic factors such as transitions, the expected value of the return must be used. A function that outputs 
-        the expected return value for each state is called the value function (\(V_\pi\)). The value function is a critical concept in reinforcement learning as it enables an agent to evaluate
+        the expected return value for each state is called the value function (\(V_\pi\)). The value function is a critical concept in RL as it enables an agent to evaluate
         the value of different states and determine the optimal policy to follow to maximize rewards.
         \[V(s) = \mathbb{E}\left[G_t \mid S_t=s\right]=\mathbb{E}\left[\sum_{k=0}^{\infty} \gamma^k R_{t+k+1} \mid S_t=s\right], \text { for all } s \in \mathcal{S}\]
       </p>
 
       <p>
         In a model-free environment, the transition probability and reward function are not known. Therefore, they must be estimated from experience. There are two primary methods 
-        for estimating the value function in a model-free environment: the Monte Carlo (MC) method and the Temporal Difference (TD) method.
+        for estimating the value function in a model-free environment: the MC method and the TD method.
       </p>
   
       <h3> SharkGame Environment </h3>
 
       <p>
-        The SharkGame can be viewed as a Markov Decision Process where the states represent the position of the shark character and the actions are moving up, down, left, or right. 
+        The SharkGame can be viewed as an MDP where the states represent the position of the shark character and the actions are moving up, down, left, or right. 
         The probability of transitioning to a new state is deterministic, meaning that the action will always result in a specific next state. If the agent is 
         at the top left corner and chooses to move right, it will always transition to the state on the right with no chance of moving to the state above, below, or left.
         The rewards function provide negative feedback for each step taken by the agent and obstacles encountered such as bombs and nets. This approach encourages the agent 
@@ -386,7 +386,7 @@
 
       <figure class="static">
         <img src="img/mdp/shark_mdp.png" alt="Interpretation of SharkGame as a Markov Decision Process." style="margin: auto auto; max-width: 65%; display: block"/>
-        <figcaption><b>Figure 7:</b> Interpretation of SharkGame as a Markov Decision Process.</figcaption>
+        <figcaption><b>Figure 7:</b> Interpretation of SharkGame as an MDP.</figcaption>
       </figure>
       <br>
 
@@ -416,11 +416,11 @@
         <h2>III. Monte Carlo approach</h2>
 
         <p>
-          Monte Carlo estimates the values by simply averaging sample returns.
-          The Monte Carlo method is based on simulating a number of episodes of an agent interacting with the environment.
+          MC estimates the values by simply averaging sample returns.
+          The MC method is based on simulating a number of episodes of an agent interacting with the environment.
           In each episode, the agent takes actions and receives rewards, and the sequence of states, actions, and rewards is recorded.
           The final outcome of each episode is used to update the value of each state.
-          The Monte Carlo approach estimates the value of a state as the average of the returns received in all the episodes in which that state was visited.
+          The MC approach estimates the value of a state as the average of the returns received in all the episodes in which that state was visited.
           The return is the sum of rewards received after visiting that state until the end of the episode.
           The estimated value of a state becomes more accurate as the number of episodes increases.
         </p>
@@ -469,7 +469,7 @@
             </div>
 
             <div class="caption"><b>Figure 9:</b><br>
-              Monte Carlo learning process. The left figure shows the agent and environment, while the right figure displays the state value table..
+              MC learning process. The left figure shows the agent and environment, while the right figure displays the state value table..
             </div>
 
             <script type="module" src="rlboard/play_mcagent.js"></script>
@@ -494,12 +494,12 @@
         </div>
 
         <p>
-          There are a few disadvantages of the Monte Carlo approach.
-          One disadvantage is that Monte Carlo requires complete episodes of interaction with the environment before updating the values of states.
+          There are a few disadvantages of the MC approach.
+          One disadvantage is that MC requires complete episodes of interaction with the environment before updating the values of states.
           This can be time-consuming and computationally expensive, especially in problems where episodes are long or infinite.
-          In addition, Monte Carlo can suffer from high variance in the estimates of values, particularly when episodes are short or few.
+          In addition, MC can suffer from high variance in the estimates of values, particularly when episodes are short or few.
           This variance can make it difficult for the agent to learn the true values of states, and can lead to slower convergence.
-          Following Temporal Difference approach addresses this issues, making it more stable and efficient in learning the values.
+          Following TD approach addresses this issues, making it more stable and efficient in learning the values.
         </p>
 
 
@@ -509,7 +509,7 @@
         <h2>IV. Temporal Difference learning</h2>
 
         <p>
-          Temporal Difference (TD) is another method for estimating the value function in reinforcement learning. Unlike Monte Carlo (MC) methods, which require waiting until 
+          TD is another method for estimating the value function in RL. Unlike MC methods, which require waiting until 
           the end of an episode to update the value function, TD updates the value function at every transition. MC methods require the complete return of an episode to update 
           the value function. However, the return cannot be known until the end of the episode. This waiting time can be avoided by using TD, which updates the value function 
           before the end of an episode.
@@ -523,7 +523,7 @@
         <p>
           Compared to MC methods, TD has the advantage of being more computationally efficient because of the frequent update. However, it has bias and may not converge to 
           the true value function. This is because TD uses an estimated function $V(s)$ for the update instead of a true value function. Despite its limitations, TD has 
-          demonstrated practical effectiveness in various real-world applications and has been successfully applied to a wide range of reinforcement learning problems.
+          demonstrated practical effectiveness in various real-world applications and has been successfully applied to a wide range of RL problems.
         </p>
 
         <div class="framed">
@@ -546,7 +546,7 @@
               <p class="n_episode n_episode_text" style="display: inline-block">0</p>
             </div>
 
-            <div class="caption"><b>Figure 11:</b><br> Temporal Difference learning process. The left figure shows the agent and environment, 
+            <div class="caption"><b>Figure 11:</b><br> TD learning process. The left figure shows the agent and environment, 
               while the right figure displays the state value table. </div>
 
             <script type="module" src="rlboard/play_tdagent.js"></script>
@@ -576,8 +576,8 @@
         <h2>V. Difference between MC and TD</h2>
 
         <p>
-          Both MC and TD approaches are used in reinforcement learning to estimate the value function, but they differ
-          in how they update this function. Monte Carlo estimates values by averaging the sample returns obtained from
+          Both MC and TD approaches are used in RL to estimate the value function, but they differ
+          in how they update this function. MC estimates values by averaging the sample returns obtained from
           multiple episodes, while TD uses the Bellman equation to compute target values from estimated values. This
           means that MC can update values only at the end of each episode, while TD can update values after each time
           step. Therefore, MC can be more computationally expensive and time-consuming, whereas TD is more efficient
@@ -620,18 +620,17 @@
         <br>
 
         <p>
-          Whereas MC and TD estimate values in different ways, but both of them converge to the optimal values in the
-          end. You can see the optimal agent's behavior in the figure below. The optimal values are obtained through
+          Whereas MC and TD estimate values in different ways, but both of them converge asymptotically to the true values. 
+          You can see the optimal agent's behavior in the figure below. The true values are obtained through
           considering all possible future states and actions by using a model of the environment. Based on these values,
           the optimal agent selects the best action, resulting in the highest possible reward. While the optimal agent
           considers all possibilities, MC and TD agents only consider a subset of possible future states and actions.
-          Despite this difference, all three agents can achieve the same optimal values and rewards in the long run.
         </p>
 
         <div class="framed">
           <div class="inside">
             <div class="eyebrow">
-              Click "Test" button to observe the behavior of the optimal agent.
+              Click 'Test' to observe the agent's behavior based on true values from the random agent.
             </div>
 
             <div id="play_optim" class="play_div">
@@ -644,8 +643,8 @@
             </div>
 
             <div class="caption"><b>Figure 14:</b><br>
-              Optimal value of the environment. The left figure shows the agent and the environment
-              and the right figure shows optimal value table.
+              True values of the states. The left figure shows the agent and the environment
+              and the right figure shows the true value table.
             </div>
 
             <script type="module" src="rlboard/play_optim.js"></script>
@@ -693,14 +692,15 @@
         </div>
 
         <p>
-          In practice, the choice between MC and TD depends on the specific problem and the available resources.
-          While TD is more effective and generally used, in some cases MC is more appropriate like the situation in which
-          biased estimation is inefficient. By understanding the differences between MC and TD,
+          In practice, the choice between MC and TD depends on the specific problem and the available resources. 
+          By understanding the differences between MC and TD,
           researchers and practitioners can choose the most appropriate approach for their particular application.
         </p>
 
         <p>
-          Depending on the MDP, optimal behavior is different. In the figure below, create your own MDP and check how optimal, MC and TD agents behave.
+          Optimal behavior can vary depending on the MDP. In the figure below, you can create your own MDP and check how optimal, MC, and TD agents behave. 
+          The value table for the optimal agent is calculated based on its behavior.
+          
         </p>
         <div class="framed">
           <div class="inside">
@@ -755,19 +755,19 @@
 
 
         <p>
-          In conclusion, this paper has provided an overview of two popular approaches in reinforcement learning: Monte
-          Carlo and Temporal Difference. While these methods have their respective advantages and disadvantages, it is
-          worth noting that there are many other approaches to reinforcement learning beyond MC and TD. For example,
+          In conclusion, this paper has provided an overview of two popular approaches in RL: MC and TD. 
+          While these methods have their respective advantages and disadvantages, it is
+          worth noting that there are many other approaches to RL beyond MC and TD. For example,
           model-based[<a href="#ref_5">5</a>] and policy gradient methods[<a href="#ref_6">6</a>] are also commonly used in this field. These other methods may be
           better suited to certain types of problems or have particular advantages in different contexts.
         </p>
 
         <p>
-          Moreover, recent advancements in the field of reinforcement learning have demonstrated the potential for
-          combining reinforcement learning with deep learning to achieve even better results [<a href="#ref_7">7</a>]. These hybrid approaches
+          Moreover, recent advancements in the field of RL have demonstrated the potential for
+          combining RL with deep learning to achieve even better results [<a href="#ref_7">7</a>]. These hybrid approaches
           have shown promise in a wide range of applications, from game-playing and robotics to natural language
           processing and recommendation systems. As the field continues to evolve, it is likely that we will see more
-          innovations and breakthroughs in the area of reinforcement learning, and it will be exciting to see how these
+          innovations and breakthroughs in the area of RL, and it will be exciting to see how these
           new approaches and techniques can be applied to address real-world challenges.
         </p>
 
