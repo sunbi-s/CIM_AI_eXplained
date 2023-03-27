@@ -217,7 +217,7 @@
           MDPs are defined by a set of states, actions, transition probabilities, and rewards that govern how the system 
           moves from one state to another based on the decisions made by the agent. It is crucial to understand MDP because the 
           goal of reinforcement learning is to find an optimal policy that maximizes rewards, or evaluate the value of a set of actions 
-          given MDP's rules and constraints. MDP extends the concept of a markov process, which is a stochastic process that only 
+          given MDP's rules and constraints. MDP extends the concept of a Markov process, which is a stochastic process that only 
           consists of states and transition probabilities.
         </p>
 
@@ -225,22 +225,22 @@
         <p>
           A Markov Process is a stochastic process that describes a system in which the state of the system changes
           over time. At each time step, the state may remain the same or transition to a different state, based on the
-          probability of transition that depends solely on the current state. This property is known as the markov
-          property, where the future state of the system is determined only by the present state and not by any previous
-          states. An example[<a href="#ref_4">4</a>] of a markov process is shown in Figure3.
+          probability of transition that depends solely on the current state. This property is known as the Markov
+          Property, where the future state of the system is determined only by the current state and not by any previous
+          states. An example[<a href="#ref_4">4</a>] of a Markov process is shown in Figure3.
         </p>
         
         <figure class="static">
           <img src="img/mdp/transition.png" alt="Markov process for child's sleep pattern" style="margin: auto auto; max-width: 70%; display: block"/>
-          <figcaption><b>Figure 3:</b> Example of a markov process for modeling a child's sleep pattern.</figcaption>
+          <figcaption><b>Figure 3:</b> Example of a Markov process for modeling a child's sleep pattern.</figcaption>
         </figure>
         
         <p>
           There are five possible states that a child can be in, including \(s_0\)(Lying), \(s_1\)(Awake), \(s_2\)(Drowsy), \(s_3\)(Light Sleep), and \(s_4\)(Deep Sleep). 
-          Each state lasts for a unit of time, such as one minute, and transitions to the next state based on certain probabilities. Assuming the markov 
+          Each state lasts for a unit of time, such as one minute, and transitions to the next state based on certain probabilities. Assuming the Markov 
           process always starts with the child \(s_0\)(Lying), the child remains in this state for one minute. After that, there is a 40% probability 
           of transitioning to \(s_1\)(Awake) or a 60% probability of transitioning to \(s_3\)(Light Sleep). The process continues until the child reaches \(s_4\)(Deep Sleep)
-          , which ends the markov process. 
+          , which ends the Markov Process. 
         </p>
         <p>
           Here are the components that make up a Markov Process:
@@ -277,7 +277,7 @@
       <div class="framed">
         <div class="inside">
           <div class="eyebrow">
-            Click the transition button to see state transitions in the markov process for a child's sleep pattern, along with their corresponding probabilities.
+            Click the transition button to see state transitions in the Markov process for a child's sleep pattern, along with their corresponding probabilities.
           </div>
 
           <div id="play_mdp_transition" class="play_div">
@@ -287,7 +287,7 @@
             <script type="module" src="rlboard/play_mdp_transition.js"></script>
           </div>
 
-          <div class="caption"><b>Figure 4:</b><br> Example of a markov process for modeling a child's sleep pattern.</div>
+          <div class="caption"><b>Figure 4:</b><br> Example of a Markov process for modeling a child's sleep pattern.</div>
         </div>
       </div>
 
@@ -295,7 +295,7 @@
         
       <p>
         The Markov Decision Process(MDP) extends the Markov Process by incorporating decision-making capabilities, which sets it apart from the latter.
-        While the markov process models a system where the future state is determined only by the current state, the MDP introduces the concept of actions 
+        While the Markov process models a system where the future state is determined only by the current state, the MDP introduces the concept of actions 
         taken by an agent that can influence the next state of the system. This enables the MDP to better model real-world scenarios.
       </p>
 
@@ -308,7 +308,7 @@
 
       <figure class="static">
         <img src="img/mdp/action.png" alt="Markov Decision Process for Improving a child’s sleep quality" style="margin: auto auto; max-width: 70%; display: block"/>
-        <figcaption><b>Figure 5:</b> Example of a markov decision process for improving a child's sleep quality.</figcaption>
+        <figcaption><b>Figure 5:</b> Example of a Markov decision process for improving a child's sleep quality.</figcaption>
       </figure>
 
       <p>
@@ -327,7 +327,7 @@
       <div class="framed">
         <div class="inside">
           <div class="eyebrow">
-            Click the action buttons to see state transitions in the markov decision process for improving a child's sleep quality based on different actions.
+            Click the action buttons to see state transitions in the Markov decision process for improving a child's sleep quality based on different actions.
           </div>
 
           <div id="play_mdp_action" class="play_div">
@@ -340,15 +340,14 @@
               <script type="module" src="rlboard/play_mdp_action.js"></script>
             </div>
 
-          <div class="caption"><b>Figure 6:</b><br>Example of a markov decision process for improving a child's sleep quality. </div>
+          <div class="caption"><b>Figure 6:</b><br>Example of a Markov decision process for improving a child's sleep quality. </div>
         </div>
       </div>
       
       <p>
-        여기 수정 : MDP의 목적이 아니라, MDP가 주어졌을 때의 목적임.
-        The MDP differs from markov processes in that they include a goal through reward. In the context of helping a child sleep, 
+        The MDP differs from Markov processes in that they include a goal through reward. In the context of helping a child sleep, 
         a reward function can be set to encourage good sleeping patterns. Alternatively, if the objective is to play with the child, the MDP may rewards being awake. 
-        The goal when MDPs is given is to determine which action to select in each state to maximize the sum of rewards.
+        When given an MDP, the objective is to determine the optimal action to take in each state that will maximize the total sum of rewards.
       </p>
       <p>
         For instance, \(a_0\)(Playing with child) in the \(s_0\)(Lying) immediately transitions to the state \(s_1\)(Awake) and receives positive rewards. 
@@ -365,7 +364,7 @@
       
       <p>
         However, since the return value changes every time due to probabilistic factors such as transitions, the expected value of the return must be used. A function that outputs 
-        the expected return value for each state is called the value function(\(V_\pi\)). The value function is a critical concept in reinforcement learning as it enables an agent to evaluate
+        the expected return value for each state is called the value function (\(V_\pi\)). The value function is a critical concept in reinforcement learning as it enables an agent to evaluate
         the value of different states and determine the optimal policy to follow to maximize rewards.
         \[V(s) = \mathbb{E}\left[G_t \mid S_t=s\right]=\mathbb{E}\left[\sum_{k=0}^{\infty} \gamma^k R_{t+k+1} \mid S_t=s\right], \text { for all } s \in \mathcal{S}\]
       </p>
@@ -386,8 +385,8 @@
       </p>
 
       <figure class="static">
-        <img src="img/mdp/shark_mdp.png" alt="Interpretation of SharkGame as a markov decision process." style="margin: auto auto; max-width: 65%; display: block"/>
-        <figcaption><b>Figure 7:</b> Interpretation of SharkGame as a markov decision process.</figcaption>
+        <img src="img/mdp/shark_mdp.png" alt="Interpretation of SharkGame as a Markov Decision Process." style="margin: auto auto; max-width: 65%; display: block"/>
+        <figcaption><b>Figure 7:</b> Interpretation of SharkGame as a Markov Decision Process.</figcaption>
       </figure>
       <br>
 
@@ -515,14 +514,15 @@
           before the end of an episode.
         </p>
         <p>  
-          TD achieves this goal by using the Bootstrap method, which updates an estimate using another estimate. Specifically, TD uses the difference between observed rewards
-           and predicted rewards to update the value function estimate at each time step. This allows TD to update the value function estimate incrementally and in real-time,
+          TD achieves this goal by using the Bootstrap method, which updates an estimate using another estimate. Specifically, TD updates the current value function($V(s_t)$)
+           with a more accurate estimate($R_{t+1} + \gamma V(s_{t+1})$) that takes into account the sampled reward received by the agent. This allows TD to update the value function estimate incrementally and in real-time,
             without the need to wait for the end of an episode.
             \[V\left(s_t\right)=\mathbb{E}\left[R_{t+1}+\gamma V\left(s_{t+1}\right)\right]\]
         </p>
         <p>
-          Compared to MC methods, TD has the advantage of being more computationally efficient. However, it may have bias and may not converge to the true value function. 
-          Despite this limitation, TD has been successfully applied in a wide range of reinforcement learning problems.
+          Compared to MC methods, TD has the advantage of being more computationally efficient because of the frequent update. However, it has bias and may not converge to 
+          the true value function. This is because TD uses an estimated function $V(s)$ for the update instead of a true value function. Despite its limitations, TD has 
+          demonstrated practical effectiveness in various real-world applications and has been successfully applied to a wide range of reinforcement learning problems.
         </p>
 
         <div class="framed">
@@ -801,7 +801,7 @@
           <li id="ref_4">
             RL from Basics
             <span>
-              S. Rho, "Markov Decision Process," in RL from Basics, Seoul, South Korea, Youngjin.com, 2020, pp. 35–53. 
+              S. Rho, "Markov Decision Process," in 바닥부터 배우는 강화학습 [RL from Basics], Seoul, South Korea, Youngjin.com, 2020, pp. 35–53. 
             </span>
           </li>
 
