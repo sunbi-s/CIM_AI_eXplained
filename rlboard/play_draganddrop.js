@@ -75,10 +75,6 @@ setDraggable(player);
 
 const places = boardDom.querySelectorAll('.place');
 places.forEach((place) => {
-    if (place.done) {
-        return;
-    }
-
     setDraggable(place);
 });
 
@@ -118,10 +114,6 @@ trash_can.addEventListener("drop", (e) => {
 // Add dummy places into place_creator
 const place_creator = frame.querySelector(".place_creator");
 places.forEach((place) => {
-    if (place.done) {
-        return;
-    }
-
     let to_create = [0, 1, 3];
     if (!to_create.includes(parseInt(place.getAttribute("placeindex")))) {
         return;
