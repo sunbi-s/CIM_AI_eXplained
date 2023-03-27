@@ -145,13 +145,14 @@ select {
 }
 
 .n_episode {
-    height: 20px;
-    margin-top: 2px;
-    margin-left: 120px;
+    width: 100px;
+    height: 23px;
+    margin-left: 118px;
     position: absolute;
 }
 
 .n_episode_text {
     font-size: 14px;
-    margin-left: 195px;
+    margin-top: 2px;
+    margin-left: 146px;
 }
