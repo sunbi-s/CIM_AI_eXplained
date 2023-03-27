@@ -68,7 +68,10 @@ export class RDGame extends Game {
             let state = this.environment.reset();
 
             // delay
-            await sleep(sleep_time);
+            if (sleep_time > 0){
+                await sleep(sleep_time);
+            }
+
 
             for (let step = 1; step < this.max_step_num; ++step) {
                 // interrupt
@@ -94,7 +97,9 @@ export class RDGame extends Game {
                 }
 
                 //delay
-                await sleep(sleep_time);
+                if (sleep_time > 0){
+                    await sleep(sleep_time);
+                }
             }
         }
     }
@@ -117,7 +122,9 @@ export class MCGame extends Game {
             let rewards = [];
 
             // delay
-            await sleep(sleep_time);
+            if (sleep_time > 0){
+                await sleep(sleep_time);
+            }
 
             for (step = 1; step < this.max_step_num; ++step) {
                 // interrupt
@@ -151,7 +158,9 @@ export class MCGame extends Game {
                 }
 
                 //delay
-                await sleep(sleep_time);
+                if (sleep_time > 0){
+                    await sleep(sleep_time);
+                }
             }
 
             this.agent.update();
@@ -166,7 +175,9 @@ export class MCGame extends Game {
             let state = this.environment.reset();
 
             // delay
-            await sleep(sleep_time);
+            if (sleep_time > 0){
+                await sleep(sleep_time);
+            }
 
             for (let step = 1; step < 30; ++step) {
                 // interrupt
@@ -196,7 +207,9 @@ export class MCGame extends Game {
                 }
 
                 //delay
-                await sleep(sleep_time);
+                if (sleep_time > 0){
+                    await sleep(sleep_time);
+                }
             }
         }
     }

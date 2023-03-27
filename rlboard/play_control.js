@@ -12,17 +12,19 @@ let state = game.environment.reset();
 let reward = 0;
 let done = false;
 
+let message_content = {
+    icon: 'error',
+    title: 'Episode is finished.',
+    text: "Please reset before starting again.",
+};
+
 frame.querySelector('.btn_action_0').addEventListener("click", function() {
     if (!done) {
         [state, reward, done] = game.environment.step(0);
         renderEffect(game.environment._getCell(new Position(state[0], state[1])));
     }
     else {
-        Swal.fire({
-            icon: 'error',
-            title: 'Episode is done.',
-            text: "You have to reset before playing.",
-        });
+        Swal.fire(message_content);
     }
 });
 frame.querySelector('.btn_action_1').addEventListener("click", function() {
@@ -31,11 +33,7 @@ frame.querySelector('.btn_action_1').addEventListener("click", function() {
         renderEffect(game.environment._getCell(new Position(state[0], state[1])));
     }
     else {
-        Swal.fire({
-            icon: 'error',
-            title: 'Episode is done.',
-            text: "You have to reset before playing.",
-        });
+        Swal.fire(message_content);
     }
 });
 frame.querySelector('.btn_action_2').addEventListener("click", function() {
@@ -44,11 +42,7 @@ frame.querySelector('.btn_action_2').addEventListener("click", function() {
         renderEffect(game.environment._getCell(new Position(state[0], state[1])));
     }
     else {
-        Swal.fire({
-            icon: 'error',
-            title: 'Episode is done.',
-            text: "You have to reset before playing.",
-        });
+        Swal.fire(message_content);
     }
 });
 frame.querySelector('.btn_action_3').addEventListener("click", function() {
@@ -57,11 +51,7 @@ frame.querySelector('.btn_action_3').addEventListener("click", function() {
         renderEffect(game.environment._getCell(new Position(state[0], state[1])));
     }
     else {
-        Swal.fire({
-            icon: 'error',
-            title: 'Episode is done.',
-            text: "You have to reset before playing.",
-        });
+        Swal.fire(message_content);
     }
 });
 frame.querySelector('.btn_reset').addEventListener("click", function() {
