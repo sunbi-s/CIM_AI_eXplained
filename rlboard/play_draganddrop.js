@@ -99,11 +99,11 @@ trash_can.addEventListener("drop", (e) => {
     let places = boardDom.querySelectorAll(".place");
     let doneCount = Array.from(places).reduce((sum, place) => sum + (place.done ? 1 : 0), 0);
     if (doneCount - draggable.done < 1) {
-        Swal.fire({
-            icon: 'error',
-            title: 'Not enough terminal place.',
-            text: "There should be at least one terminal place in board.",
-        });
+        // Swal.fire({
+        //     icon: 'error',
+        //     title: 'Not enough terminal place.',
+        //     text: "There should be at least one terminal place in board.",
+        // });
         return;
     }
 
