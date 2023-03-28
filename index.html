@@ -353,10 +353,10 @@
         When given an MDP, the objective is to determine the optimal action to take in each state that will maximize the total sum of rewards.
       </p>
       <p>
-        For instance, \(a_0\)(Playing with child) in the \(s_0\)(Lying) immediately transitions to the state \(s_1\)(Awake) and receives positive rewards. 
-        However, in the long term, continuous \(a_1\)(Singing a lullaby) to put the child to sleep will yield the highest reward. Interestingly, If playing with 
-        child action is taken while the child is \(s_2\)(Drowsy), depending on the given probability, it may transition to an awake state or a lying state. 
-        This transition probability helps to model more realistic problems.
+        For instance, \(a_1\)(Playing with child) in the \(s_0\)(Lying) immediately transitions to the state \(s_1\)(Awake) and receives positive rewards (since the child wants to play).
+        However, in the long term, continuous \(a_0\)(Singing a lullaby) to put the child to sleep will yield the highest total sum of rewards. Interestingly, If \(a_0\)(Playing with child)
+        action is taken while the child is \(s_2\)(Drowsy), depending on the given probability, it may transition to an awake state or a lying state.
+        This transition probability helps to model problems in a realistic way.
       </p>
       
       <p>
@@ -782,14 +782,14 @@
           <li id="ref_0">
             Reinforcement learning: An introduction
             <span>
-              Sutton, R. S., & Barto, A. G. (2018). Reinforcement learning: An introduction. MIT press.
+              Sutton, R. S., & Barto, A. G. 2018. MIT press.
             </span>
           </li>
 
           <li id="ref_1">
             Mastering the game of go without human knowledge
             <span>
-              Silver, David, et al. "Mastering the game of go without human knowledge." Nature 550.7676 (2017): 354-359.
+              Silver, David, et al. 2017. Nature 550.7676: 354-359.
               DOI:<a href="https://doi.org/10.1038/nature24270" target="_blank">10.1038/nature24270</a>
             </span>
           </li>
@@ -797,7 +797,7 @@
           <li id="ref_2">
             Grandmaster level in StarCraft II using multi-agent reinforcement learning
             <span>
-              Vinyals, Oriol, et al. "Grandmaster level in StarCraft II using multi-agent reinforcement learning." Nature 575.7782 (2019): 350-354.
+              Vinyals, Oriol, et al. 2019. Nature 575.7782: 350-354.
               DOI:<a href="https://doi.org/10.1038/s41586-019-1724-z" target="_blank">10.1038/s41586-019-1724-z</a>
             </span>
           </li>
@@ -805,7 +805,7 @@
           <li id="ref_3">
             Highly accurate protein structure prediction with AlphaFold
             <span>
-              Jumper, John, et al. "Highly accurate protein structure prediction with AlphaFold." Nature 596.7873 (2021): 583-589.
+              Jumper, John, et al. 2021. Nature 596.7873: 583-589.
               DOI:<a href="https://doi.org/10.1038/s41586-021-03819-2" target="_blank">10.1038/s41586-021-03819-2</a>
             </span>
           </li>
@@ -820,7 +820,7 @@
           <li id="ref_5">
             Model-based reinforcement learning: A survey
             <span>
-              Moerland, T. M., Broekens, J., Plaat, A., & Jonker, C. M. (2023). Model-based reinforcement learning: A survey. Foundations and Trends in Machine Learning, 16(1), 1-118.
+              Moerland, T. M., Broekens, J., Plaat, A., & Jonker, C. M. 2023. Foundations and Trends in Machine Learning, 16(1), 1-118.
               DOI:<a href="http://dx.doi.org/10.1561/2200000086" target="_blank">10.1561/2200000086</a>
             </span>
           </li>
@@ -828,14 +828,14 @@
           <li id="ref_6">
             A natural policy gradient
             <span>
-              Kakade, S. M. (2001). A natural policy gradient. Advances in neural information processing systems, 14.
+              Kakade, S. M. 2001. Advances in neural information processing systems, 14.
             </span>
           </li>
 
           <li id="ref_7">
             Human-level control through deep reinforcement learning
             <span>
-              Mnih, Volodymyr, et al. "Human-level control through deep reinforcement learning." nature 518.7540 (2015): 529-533.
+              Mnih, Volodymyr, et al. 2015.Nature 518.7540: 529-533.
               DOI:<a href="https://doi.org/10.1038/nature14236" target="_blank">10.1038/nature14236</a>
             </span>
           </li>
