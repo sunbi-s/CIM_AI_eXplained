@@ -63,13 +63,15 @@
             <div class="header-authors">
               <h2>Authors</h2>
               <ul>
-                <li>Anonymous | Gwangju Institute of Science and Technology, South Korea</li>
+                <li>Isaac Han | Gwangju Institute of Science and Technology, South Korea</li>
+                <li>Seungwon Oh | Gwangju Institute of Science and Technology, South Korea</li>
+                <li>Insik Chung | Gwangju Institute of Science and Technology, South Korea</li>
+                <li>Kyung-Joong Kim | Gwangju Institute of Science and Technology, South Korea</li>
               </ul>
             </div>
             <!-- Published info section -->
             <div class="header-published">
-              <h2>Published</h2>
-              <p>Dec. 1, 2022</p>
+              <h2>Under Review</h2>
             </div>
           </div>
           <!-- Header legend section -->
@@ -127,8 +129,8 @@
           Generally, they recognize the surrounding environment or state and take action based on their understanding.
           As a result of actions, feedback is given, and they learn from it.
           Reinforcement Learning (RL) is a computational approach based on this learning mechanism.
-          Recently RL showed impressive results in various domains, such as Go[<a href="#ref_1">1</a>],
-          StarCraft[<a href="#ref_2">2</a>], protein-folding problem[<a href="#ref_3">3</a>], etc.
+          Recently RL showed impressive results in various domains, such as Go [<a href="#ref_1">1</a>],
+          StarCraft [<a href="#ref_2">2</a>], protein-folding problem [<a href="#ref_3">3</a>], etc.
         </p>
 
         <figure class="static">
@@ -216,7 +218,7 @@
         <p>
           MDPs are defined by a set of states, actions, transition probabilities, and rewards that govern how the system 
           moves from one state to another based on the decisions made by the agent. It is crucial to understand MDP because the 
-          goal of RL is to find an optimal policy that maximizes rewards, or evaluate the value of a set of actions 
+          goal of RL is to find an optimal policy that maximizes the total rewards, or evaluate the value of a set of actions
           given MDP's rules and constraints. MDP extends the concept of a Markov process, which is a stochastic process that only 
           consists of states and transition probabilities.
         </p>
@@ -227,7 +229,7 @@
           over time. At each time step, the state may remain the same or transition to a different state, based on the
           probability of transition that depends solely on the current state. This property is known as the Markov
           Property, where the future state of the system is determined only by the current state and not by any previous
-          states. An example[<a href="#ref_4">4</a>] of a Markov process is shown in Figure 3.
+          states. An example [<a href="#ref_4">4</a>] of a Markov process is shown in Figure 3.
         </p>
         
         <figure class="static">
@@ -239,7 +241,7 @@
           There are five possible states that a child can be in, including \(s_0\)(Lying), \(s_1\)(Awake), \(s_2\)(Drowsy), \(s_3\)(Light Sleep), and \(s_4\)(Deep Sleep). 
           Each state lasts for a unit of time, such as one minute, and transitions to the next state based on certain probabilities. Assuming the Markov 
           process always starts with the child \(s_0\)(Lying), the child remains in this state for one minute. After that, there is a 40% probability 
-          of transitioning to \(s_1\)(Awake) or a 60% probability of transitioning to \(s_3\)(Light Sleep). The process continues until the child reaches \(s_4\)(Deep Sleep)
+          of transitioning to \(s_1\)(Awake) or a 60% probability of transitioning to \(s_2\)(Drowsy). The process continues until the child reaches \(s_4\)(Deep Sleep)
           , which ends the Markov Process. 
         </p>
         <p>
@@ -262,8 +264,8 @@
                   & 0.4 & 0.6 &     &     \\
               0.1 & 0.9 &     &     &     \\
                   &     &     & 0.7 & 0.3 \\
-                  &     &     & 1.0 &     \\
-                  &     &     & 1.0 &     \\
+                  &     &     &     & 1.0 \\
+                  &     &     &     &     \\
               \end{array}
               \right]
               \end{array}
@@ -300,8 +302,8 @@
       </p>
 
       <p>
-        In an MDP, at each time step, the agent chooses an action based on its current state and the reward associated with the action. The chosen action then 
-        determines the probability of transitioning to the next state. The agent's goal is to learn a policy, which is a mapping of states to actions that maximizes 
+        In an MDP, at each time step, the agent chooses an action based on its current state and the reward associated with the action. Then
+        depend on the transition probability, the next state is determined. The agent's goal is to learn a policy, which is a mapping of states to actions that maximizes
         the expected cumulative reward over time. By making decisions based on this policy, the agent can navigate the system and achieve its objectives efficiently. 
         Figure 5 provides an example of an MDP.
       </p>
@@ -759,7 +761,7 @@
           In conclusion, this paper has provided an overview of two popular approaches in RL: MC and TD. 
           While these methods have their respective advantages and disadvantages, it is
           worth noting that there are many other approaches to RL beyond MC and TD. For example,
-          model-based[<a href="#ref_5">5</a>] and policy gradient methods[<a href="#ref_6">6</a>] are also commonly used in this field. These other methods may be
+          model-based [<a href="#ref_5">5</a>] and policy gradient methods [<a href="#ref_6">6</a>] are also commonly used in this field. These other methods may be
           better suited to certain types of problems or have particular advantages in different contexts.
         </p>
 
@@ -777,10 +779,17 @@
       <section class="references">
         <h2>References</h2>
         <ol>
+          <li id="ref_0">
+            Reinforcement learning: An introduction
+            <span>
+              Sutton, R. S., & Barto, A. G. (2018). Reinforcement learning: An introduction. MIT press.
+            </span>
+          </li>
+
           <li id="ref_1">
             Mastering the game of go without human knowledge
             <span>
-              Silver, David, et al. "Mastering the game of go without human knowledge." nature 550.7676 (2017): 354-359.
+              Silver, David, et al. "Mastering the game of go without human knowledge." Nature 550.7676 (2017): 354-359.
               DOI:<a href="https://doi.org/10.1038/nature24270" target="_blank">10.1038/nature24270</a>
             </span>
           </li>
