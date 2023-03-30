@@ -4,7 +4,7 @@ export default [
         "nodes": [
             // [position, reward, final, path]
             //  [y, x]
-            //[[4, 2], -0.5, false, "img/rlboard/place/Net.png"],
+            [[4, 2], -0.5, false, "img/rlboard/place/Net.png"],
             [[4, 1], -2, false, "img/rlboard/place/Dynamite.png"],
             [[5, 0], -0.5, false, "img/rlboard/place/Net.png"],
             [[3, 4], -5, false, "img/rlboard/place/Bomb.png"],
