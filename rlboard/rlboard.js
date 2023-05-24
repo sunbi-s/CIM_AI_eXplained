@@ -62,9 +62,20 @@ export class Environment{
     _movePlayer(action) {
         let targetPos = this._get_player_position();
 
-        // move player position
-        targetPos.y = clamp(targetPos.y + this.actions[action][0], 0, this.boardShape[0] - 1);
-        targetPos.x = clamp(targetPos.x + this.actions[action][1], 0, this.boardShape[1] - 1);
+        // update player position
+        targetPos.y = targetPos.y + this.actions[action][0]
+        targetPos.x = targetPos.x + this.actions[action][1]
+
+        // check action validity
+        if (targetPos.y < 0 || targetPos.y > this.boardShape[0] - 1){
+            console.log("Error: invalid y action")
+            targetPos.y = clamp(targetPos.y, 0, this.boardShape[0] - 1);
+        }
+
+        if (targetPos.x < 0 || targetPos.x > this.boardShape[1] - 1){
+            console.log("Error: invalid x action")
+            targetPos.x = clamp(targetPos.x, 0, this.boardShape[1] - 1);
+        }
 
         // append player into target cell
         let targetCell = this._getCell(targetPos);

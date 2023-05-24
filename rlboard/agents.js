@@ -60,6 +60,23 @@ export class CommonAgent {
         return [next_state, valid];
     }
 
+    _getValidAction(state) {
+        let next_state;
+        let valid;
+        let result;
+        let valid_actions = [];
+
+        for (let [idx, action] of this.actions.entries()) {
+            result = this._apply_action(state, action)
+            next_state = result[0]
+            valid = result[1]
+
+            if (!valid){continue;}
+            valid_actions.push([idx, action])
+        }
+        return valid_actions;
+    }
+
     getOptimalAction(state) {
         let max_value = -99999;
         let max_action;
@@ -84,7 +101,18 @@ export class CommonAgent {
     }
 
     getRndAction(state) {
-        return Math.floor(Math.random( )*this.n_action);
+        let valid_actions;
+        let index;
+        let randi;
+        let idx;
+        let action;
+        let temp;
+
+        valid_actions = this._getValidAction(state)
+        randi = Math.floor(Math.random() * valid_actions.length);
+        temp = valid_actions[randi];
+        idx = temp[0];
+        return idx;
     }
 }
 
@@ -158,6 +186,7 @@ export class MCAgent extends CommonAgent{
 export class TDAgent extends MCAgent {
     // learn value of all states visited by the agent in all episodes
     learn(state, reward, next_state) {
+        this.learning_rate = 0.8
         let V = this.value_table[state[0]][state[1]];
         let nextV = this.value_table[next_state[0]][next_state[1]];
         let targetV = reward + this.discount_factor * nextV;
