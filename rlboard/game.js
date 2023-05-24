@@ -170,6 +170,8 @@ export class MCGame extends Game {
     }
 
     async run_test(max_episode_num, sleep_time=300) {
+        let step = 0;
+
         for (let episode = 1; episode <= max_episode_num; ++episode) {
             let next_state, action, reward, done;
             let state = this.environment.reset();
@@ -180,6 +182,7 @@ export class MCGame extends Game {
             }
 
             for (let step = 1; step < 30; ++step) {
+                console.log(this.interrupt)
                 // interrupt
                 if (this.interrupt) {
                     this.interrupt = false;
@@ -432,6 +435,8 @@ export class CompareGame {
                 // interrupt
                 if (this.interrupt) {
                     this.interrupt = false;
+                    this.mcGame.interrupt = false;
+                    this.tdGame.interrupt = false;
                     return;
                 }
 
