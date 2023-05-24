@@ -41,6 +41,11 @@ class MDP_Action extends MDP {
         img.src = "img/mdp/action.png"
         this.context.drawImage(img, 50, 10, this.context.width * 0.9, this.context.height);
 
+        // draw cumulated reward text
+        this.context.font = "bold 16px Arial";
+        this.context.fillStyle = "black";
+        this.context.fillText("Σ Reward = " + this.reward, 370, 220);
+
         // draw current position
         let circleImg = new Image();
         let radius;
