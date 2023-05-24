@@ -388,7 +388,7 @@ export class CompareGame {
         this.tdGame.interrupt = true;
     }
 
-    async run(max_episode_num, sleep_time=10, episodeTextDom) {
+    async run_old(max_episode_num, sleep_time=10, episodeTextDom) {
         this.mcGame.interrupt = false;
         this.tdGame.interrupt = false;
 
@@ -409,6 +409,77 @@ export class CompareGame {
                 this.interrupt = false;
                 return;
             }
+        }
+    }
+
+    async run(max_episode_num, sleep_time=10, episodeTextDom=null) {
+        let step = 0;
+
+        for (let episode = 1; episode <= max_episode_num; ++episode) {
+            let mc_next_state, mc_action, mc_reward, mc_done;
+            let td_next_state, td_action, td_reward, td_done;
+            let mc_state = this.mcGame.environment.reset();
+            let td_state = this.tdGame.environment.reset();
+            let mc_rewards = [];
+            let td_rewards = [];
+            let action;
+
+            // delay
+            await sleep(sleep_time);
+
+
+            for (step = 1; step < this.mcGame.max_step_num; ++step) {
+                // interrupt
+                if (this.interrupt) {
+                    this.interrupt = false;
+                    return;
+                }
+
+                // get action
+                action = this.mcGame.agent.getRndAction(mc_state);
+
+                // step
+                [mc_next_state, mc_reward, mc_done] = this.mcGame.environment.step(action);
+                mc_rewards.push(mc_reward);
+
+                [td_next_state, td_reward, td_done] = this.tdGame.environment.step(action);
+                td_rewards.push(td_reward);
+
+                if (mc_next_state[0]!=td_next_state[0] || mc_next_state[0]!=td_next_state[0]){
+                    console.log("Error: state mismatch!")
+                }
+                if (mc_reward!=td_reward){
+                    console.log("Error: reward mismatch!")
+                }
+                if (mc_done!=td_done){
+                    console.log("Error: done mismatch!")
+                }
+
+                // render effect
+                renderEffect(this.mcGame.environment._getCell(new Position(mc_next_state[0], mc_next_state[1])), 100);
+                renderEffect(this.mcGame.environment._getCell(new Position(td_next_state[0], td_next_state[1])), 100);
+
+                // update algorithms
+                this.tdGame.agent.learn(td_state, td_reward, td_next_state);
+                this.mcGame.agent.saveSample(mc_state, mc_reward, mc_done);
+
+                // state
+                mc_state = [mc_next_state[0], mc_next_state[1]];
+                td_state = [td_next_state[0], td_next_state[1]];
+
+                // episode done
+                if (mc_done) {
+                    if (episodeTextDom !== null) {
+                        episodeTextDom.innerText = parseInt(episodeTextDom.innerText) + 1;
+                    }
+                    break;
+                }
+
+                // delay
+                await sleep(sleep_time);
+            }
+
+            this.mcGame.agent.update();
         }
     }
 
