@@ -1,7 +1,7 @@
 import configs from "./config.js";
 import { Environment } from "./rlboard.js";
 import { RandomAgent, MCAgent, TDAgent, OptimAgent } from "./agents.js";
-import {Position, rgba, sleep} from "./utill.js";
+import { Position, rgba, sleep } from "./utill.js";
 
 
 const math = window['math'];
@@ -42,8 +42,8 @@ export function renderEffect(cell, timeout=500) {
 
 
 export class Game{
-    constructor(div, seed) {
-        this.environment = new Environment(div, configs[seed]);
+    constructor(div) {
+        this.environment = new Environment(div, configs[0]);
         this.max_step_num = 1000;
 
         this.interrupt = false;
@@ -56,8 +56,8 @@ export class Game{
 }
 
 export class RDGame extends Game {
-    constructor(div, seed) {
-        super(div, seed);
+    constructor(div) {
+        super(div);
 
         this.agent = new RandomAgent(this.environment);
     }
@@ -106,10 +106,12 @@ export class RDGame extends Game {
 }
 
 export class MCGame extends Game {
-    constructor(div, context, seed) {
-        super(div, seed);
-        this.context = context;
+    constructor(div) {
+        super(div);
+        this._makeAgent();
+    }
 
+    _makeAgent() {
         this.agent = new MCAgent(this.environment);
     }
 
@@ -182,7 +184,6 @@ export class MCGame extends Game {
             }
 
             for (let step = 1; step < 30; ++step) {
-                console.log(this.interrupt)
                 // interrupt
                 if (this.interrupt) {
                     this.interrupt = false;
@@ -200,7 +201,6 @@ export class MCGame extends Game {
 
                 // state no change
                 if (state[0] === next_state[0] && state[1] === next_state[1]) {
-                    // console.log("stateSame")
                     break;
                 }
                 state = [next_state[0], next_state[1]];
@@ -220,7 +220,7 @@ export class MCGame extends Game {
     render() {
         super.render();
 
-        if (this.context == null) {
+        if (this.agent.value_table.div == null) {
             return;
         }
 
@@ -233,11 +233,6 @@ export class MCGame extends Game {
         let nodeScale = 1 / this.environment.boardShape[0];
         let tileScale = nodeScale * 0.99;
 
-        // draw background image
-        let img = new Image();
-        img.src = "img/rlboard/background.png";
-        this.context.drawImage(img, 0, 0, 300, 300);
-
         // draw value table
         for (let y = 0; y < this.environment.boardShape[0]; ++y) {
             for (let x = 0; x < this.environment.boardShape[1]; ++x) {
@@ -245,12 +240,13 @@ export class MCGame extends Game {
 
                 // calculate color
                 let cell = this.environment._getCell(new Position(y, x));
+                let vCell = this.agent.value_table.getCell(new Position(y, x));
                 let place = cell.lastChild;
                 if (place && place.classList.contains("place") && place.done) {
-                    this.context.fillStyle = rgba(255, 255, 255, 0.7);
+                    vCell.style.backgroundColor = rgba(255, 255, 255, 0.7);
                     textColor = rgba(0, 0, 0, 1.0);
                 } else if (value === 0) {
-                    this.context.fillStyle = rgba(255, 255, 255, alpha);
+                    vCell.style.backgroundColor = rgba(255, 255, 255, alpha);
                     textColor = rgba(0, 0, 0, 1.0);
                 } else {
                     let min_r = 24, max_r = 236;
@@ -260,7 +256,7 @@ export class MCGame extends Game {
                     let r = (normalize)*(max_r-min_r)
                     let g = (normalize)*(max_g-min_g)
                     let b = (normalize)*(max_b-min_b)
-                    this.context.fillStyle = rgba(min_r + r, min_g + g, min_b + b, alpha);
+                    vCell.style.backgroundColor = rgba(min_r + r, min_g + g, min_b + b, alpha);
 
                     if (normalize < 0.12) {
                         let color = (1 - normalize) * 240;
@@ -270,28 +266,15 @@ export class MCGame extends Game {
                     }
                 }
 
-                // draw tile
-                this.context.fillRect(
-                    x * tileScale * this.context.width + 3,
-                    y * tileScale * this.context.height + 3,
-                    tileScale * this.context.width - 2,
-                    tileScale * this.context.height - 2
-                );
-
-                // draw text
-                this.context.font = "12.5px serif";
-                this.context.fillStyle = textColor;
-                this.context.textAlign = "center";
-                this.context.fillText(value.toFixed(2), (x + 1 / 2) * nodeScale * this.context.width, (y + 2 / 3) * nodeScale * this.context.width);
+                // set text
+                vCell.innerText = value.toFixed(2);
             }
         }
     }
 }
 
 export class TDGame extends MCGame {
-    constructor(div, context, seed) {
-        super(div, context, seed);
-
+    _makeAgent() {
         this.agent = new TDAgent(this.environment);
     }
 
@@ -346,25 +329,21 @@ export class TDGame extends MCGame {
 }
 
 export class OptimGame extends MCGame {
-    constructor(div, context, seed) {
-        super(div, context, seed);
-
+    _makeAgent() {
         this.agent = new OptimAgent(this.environment, true);
     }
 }
 
 export class OptimGameAVG extends MCGame {
-    constructor(div, context, seed) {
-        super(div, context, seed);
-
+    _makeAgent() {
         this.agent = new OptimAgent(this.environment, false);
     }
 }
 
 export class CompareGame {
-    constructor(mcDiv, tdDiv, seed, mcContext=null, tdContext=null) {
-        this.mcGame = new MCGame(mcDiv, mcContext, seed);
-        this.tdGame = new TDGame(tdDiv, tdContext, seed);
+    constructor(mcDiv, tdDiv) {
+        this.mcGame = new MCGame(mcDiv);
+        this.tdGame = new TDGame(tdDiv);
 
         this.interrupt = false;
     }
@@ -497,9 +476,9 @@ export class CompareGame {
 }
 
 export class BiasGame extends CompareGame {
-    constructor(mcDiv, tdDiv, optimDiv, seed) {
-        super(mcDiv, tdDiv, seed);
-        this.optimGame = new OptimGameAVG(optimDiv, null, seed);
+    constructor(mcDiv, tdDiv, optimDiv) {
+        super(mcDiv, tdDiv);
+        this.optimGame = new OptimGameAVG(optimDiv);
 
         this.mcRmse = [];
         this.tdRmse = [];
@@ -547,10 +526,10 @@ export class BiasGame extends CompareGame {
         const mc_value_table = this.mcGame.agent.value_table;
         const td_value_table = this.tdGame.agent.value_table;
         const optim_value_table = this.optimGame.agent.value_table;
-        const temp_value_table = math.zeros(optim_value_table.length, optim_value_table[0].length)._data;
+        const temp_value_table = math.zeros(optim_value_table.data.length, optim_value_table[0].length)._data;
 
         // mc
-        for (let y = 0; y < optim_value_table.length; ++y) {
+        for (let y = 0; y < optim_value_table.data.length; ++y) {
             for (let x = 0; x < optim_value_table[0].length; ++x) {
                 temp_value_table[y][x] = optim_value_table[y][x] - mc_value_table[y][x];
             }
@@ -558,7 +537,7 @@ export class BiasGame extends CompareGame {
         this.mcRmse.push(math.sqrt(math.mean(math.square(temp_value_table))));
 
         // td
-        for (let y = 0; y < optim_value_table.length; ++y) {
+        for (let y = 0; y < optim_value_table.data.length; ++y) {
             for (let x = 0; x < optim_value_table[0].length; ++x) {
                 temp_value_table[y][x] = optim_value_table[y][x] - td_value_table[y][x];
             }

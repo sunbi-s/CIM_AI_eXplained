@@ -74,6 +74,12 @@ select {
     width: 50px;
 }
 
+.value {
+    vertical-align: middle;
+    line-height: 50px;
+    background-blend-mode: hard-light;
+}
+
 .player {
     height: inherit;
     width: inherit;

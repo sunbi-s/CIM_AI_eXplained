@@ -5,28 +5,32 @@ const frame = document.querySelector('#play_draganddrop')
 const boardDom = frame.querySelector('.board');
 const hiddenBoardDom1 = frame.querySelector('#hiddenBoard1');
 const hiddenBoardDom2 = frame.querySelector('#hiddenBoard2');
-const canvas = frame.querySelector('canvas');
-const context = canvas.getContext('2d');
+const hiddenBoardDom3 = frame.querySelector('#hiddenBoard3');
 
-context.width = canvas.width;
-context.height = canvas.height;
 boardDom.style.cursor = 'pointer';
 
 
-let dummyGame = new Game(boardDom, 0);
+let dummyGame = new Game(boardDom);
 animate(dummyGame);
 
-let mcGame = new MCGame(hiddenBoardDom1, null, 0);
+let mcGame = new MCGame(hiddenBoardDom1);
 mcGame.environment.div = boardDom;
 mcGame.environment.player = dummyGame.environment.player;
-let tdGame = new TDGame(hiddenBoardDom2, null, 0);
+let mcVtable = mcGame.agent.value_table.div;
+mcVtable.style.display = "none";
+
+let tdGame = new TDGame(hiddenBoardDom2);
 tdGame.environment.div = boardDom;
 tdGame.environment.player = dummyGame.environment.player;
+let tdVtable = tdGame.agent.value_table.div;
+tdVtable.style.display = "none";
 
-let div = document.createElement("div");
-let optimGame = new OptimGame(div, null, 0);
+let optimGame = new OptimGame(hiddenBoardDom3);
 optimGame.environment.div = boardDom;
 optimGame.environment.player = dummyGame.environment.player;
+let optimVtable = optimGame.agent.value_table.div;
+optimVtable.style.display = "none";
+
 animate(mcGame);
 animate(tdGame);
 animate(optimGame);
@@ -181,7 +185,14 @@ btnSave.addEventListener("click", async function() {
     divPlayMyMDP.style.display = "inline-block";
     place_creator.style.display = "none";
     trash_can.style.display = "none";
-    canvas.style.display = "inline-block";
+
+    if (selectAgent.value === "Optimal") {
+        optimVtable.style.display = "inline-block";
+    } else if (selectAgent.value === "MC") {
+        mcVtable.style.display = "inline-block";
+    } else if (selectAgent.value === "TD") {
+        tdVtable.style.display = "inline-block";
+    }
 
     // make all places draggable false
     for (let draggable of boardDom.querySelectorAll(".draggable")) {
@@ -192,7 +203,6 @@ btnSave.addEventListener("click", async function() {
     optimGame.agent.computeValues(true);
 
     // render v-table
-    mcGame.context = context;
     selectAgent.value = "MC";
     selectAgent.dispatchEvent(new Event("change"));
     nEpisodes = [0, 0];
@@ -209,7 +219,6 @@ btnBack.addEventListener("click", function() {
     btnSave.style.display = "inline-block";
     btnBack.style.display = "none";
     divPlayMyMDP.style.display = "none";
-    canvas.style.display = "none";
     place_creator.style.display = "block";
     trash_can.style.display = "block";
 
@@ -328,17 +337,17 @@ selectAgent.addEventListener("change", function (ev) {
     dummyGame.environment.reset();
     if (selectAgent.value === "Optimal") {
         btnTrain.style.display = "none";
-        optimGame.context = context;
-        mcGame.context = null;
-        tdGame.context = null;
+        optimVtable.style.display = "inline-block";
+        mcVtable.style.display = "none";
+        tdVtable.style.display = "none";
         frame.querySelectorAll(".n_episode").forEach((elem) => {
             elem.style.display = "none";
         });
     } else if (selectAgent.value === "MC") {
         btnTrain.style.display = "inline-block";
-        optimGame.context = null;
-        mcGame.context = context;
-        tdGame.context = null;
+        optimVtable.style.display = "none";
+        mcVtable.style.display = "inline-block";
+        tdVtable.style.display = "none";
         frame.querySelectorAll(".n_episode").forEach((elem) => {
             elem.style.display = "inline-block";
         });
@@ -346,9 +355,9 @@ selectAgent.addEventListener("change", function (ev) {
         nEpisodeText.innerText = nEpisodes[idx = 0];
     } else if (selectAgent.value === "TD") {
         btnTrain.style.display = "inline-block";
-        optimGame.context = null;
-        mcGame.context = null;
-        tdGame.context = context;
+        optimVtable.style.display = "none";
+        mcVtable.style.display = "none";
+        tdVtable.style.display = "inline-block";
         frame.querySelectorAll(".n_episode").forEach((elem) => {
             elem.style.display = "inline-block";
         });

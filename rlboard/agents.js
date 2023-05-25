@@ -1,4 +1,5 @@
 import { clamp, Position } from "./utill.js";
+import { VTable } from "./vtable.js";
 import configs from "./config.js";
 
 export class RandomAgent{
@@ -24,14 +25,13 @@ export class CommonAgent {
     }
 
     _initValueTable() {
-        this.value_table = [];
-        for (let y = 0; y < this.height; ++y) {
-            let row = [];
-            for (let x = 0; x < this.width; ++x) {
-                row.push(0);
-            }
-            this.value_table.push(row);
-        }
+        let div = document.createElement('div');
+        div.classList.add("board");
+        div.style.marginLeft = "4px";
+        let parent = this.env.div.parentNode;
+        let next = this.env.div.nextSibling;
+        parent.insertBefore(div, next);
+        this.value_table = new VTable(div);
     }
 
     _initVisitTable() {
@@ -151,7 +151,7 @@ export class MCAgent extends CommonAgent{
             }
                 
             if (flag) {
-                this.N[state[0]][state[1]] =  this.N[state[0]][state[1]]  + 1
+                this.N[state[0]][state[1]] = this.N[state[0]][state[1]] + 1;
                 V_t = this.value_table[state[0]][state[1]]; //default value
                 this.value_table[state[0]][state[1]] = V_t + this.learning_rate * (G_t - V_t)/ this.N[state[0]][state[1]];
                 // console.log(state[0],state[1], G_t , V_t, this.value_table[state[0]][state[1]],this.N[state[0]][state[1]])
@@ -219,6 +219,7 @@ export class OptimAgent extends CommonAgent{
             next_value_table.push(row);
         }
 
+        // Calculate next value table
         for (let y = 0; y < this.height; ++y) {
             for (let x = 0; x < this.width; ++x) {
                 let state = [y, x];
@@ -271,7 +272,12 @@ export class OptimAgent extends CommonAgent{
                 }
             }
         }
-        this.value_table = next_value_table;
-    }
 
+        // Update the value table
+        for (let y = 0; y < this.height; ++y) {
+            for (let x = 0; x < this.width; ++x) {
+                this.value_table[y][x] = next_value_table[y][x];
+            }
+        }
+    }
 }

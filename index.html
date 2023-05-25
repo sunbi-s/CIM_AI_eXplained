@@ -217,16 +217,16 @@
           This is known as the Markov Property, which states that the future state of the system is dependent only on the present state and not on any previous states.
           An example [<a href="#ref_4">5</a>] of a Markov process is shown in Figure 3.
         </p>
-        
+
         <figure class="static">
           <img src="img/mdp/transition.png" alt="Markov process for child's sleep pattern" style="margin: auto auto; max-width: 70%; display: block"/>
           <figcaption><b>Figure 3:</b> Example of a Markov process for modeling a child's sleep pattern until deep sleep.</figcaption>
         </figure>
-        
+
         <p>
-          There are five possible states that a child can be in, including \(s_0\)(Lying), \(s_1\)(Awake), \(s_2\)(Drowsy), \(s_3\)(Light Sleep), and \(s_4\)(Deep Sleep). 
+          There are five possible states that a child can be in, including \(s_0\)(Lying), \(s_1\)(Awake), \(s_2\)(Drowsy), \(s_3\)(Light Sleep), and \(s_4\)(Deep Sleep).
           Each state lasts a unit of time, such as one minute, and transitions to the next state based on certain probabilities. Assuming that the Markov
-          process always starts with the child \(s_0\)(Lying), the child remains in this state for one minute. After that, there is a 40% probability 
+          process always starts with the child \(s_0\)(Lying), the child remains in this state for one minute. After that, there is a 40% probability
           of transitioning to \(s_1\)(Awake) or a 60% probability of transitioning to \(s_2\)(Drowsy). The process continues until the child reaches \(s_4\)(Deep Sleep)
           , which ends the Markov process.
         </p>
@@ -241,11 +241,11 @@
           </li>
         <p>
               \[
-              \begin{array}{c c} 
-              & 
+              \begin{array}{c c}
+              &
               \begin{array}{c c c c c} s_0 & s_1 & s_2 & s_3 & s_4 \\
               \end{array} \\
-              P_{ss'} = 
+              P_{ss'} =
               \begin{array}{c c c}s_0 \\ s_1 \\ s_2 \\ s_3 \\ s_4 \end{array} &
               \left[
               \begin{array}{c c c}
@@ -282,10 +282,10 @@
       </div>
 
       <h3> Markov Decision Process </h3>
-        
+
       <p>
         The Markov Decision Process (MDP) extends the Markov process by incorporating decision-making capabilities, which sets it apart from the latter.
-        While the Markov process models a system where the future state is determined only by the current state, the MDP introduces the concept of actions 
+        While the Markov process models a system where the future state is determined only by the current state, the MDP introduces the concept of actions
         taken by an agent that can influence the next state of the system. This enables the MDP to better model real-world scenarios.
       </p>
 
@@ -305,7 +305,7 @@
       <p>
         Here are the components that make up an MDP:
       </p>
-      
+
       <ul id="mdp_components">
         <li> State Space (\(S\)): The state space represents all possible states that the system can take.
             in this example, the states include \(s_0\)(Lying), \(s_1\)(Awake), \(s_2\)(Drowsy), \(s_3\)(Light Sleep), and \(s_4\)(Deep Sleep),
@@ -335,7 +335,7 @@
           <div class="caption"><b>Figure 6:</b><br>Example of an MDP for improving a child's sleep quality. </div>
         </div>
       </div>
-      
+
       <p>
         The MDP differs from Markov processes, including a goal through reward.
         In the context of helping a child sleep, a reward function can be set to encourage good sleeping patterns.
@@ -349,13 +349,13 @@
         action is taken while the child is \(s_2\)(Drowsy), depending on the given probability, it may transition to an awake state or a lying state.
         This transition probability helps to model problems in a realistic way.
       </p>
-      
+
       <p>
         To maximize the sum of rewards(\(R_t\)) by time(\(t\)) in an MDP, it is necessary to evaluate the value of each state and determine the action to take in each state(\(s\)).
-        The value of a state is determined by the expected sum of discounted future rewards that can be obtained by taking a particular action in that state. The discounting 
+        The value of a state is determined by the expected sum of discounted future rewards that can be obtained by taking a particular action in that state. The discounting
         factor(\(\gamma)\) is used to ensure that immediate rewards are valued more highly than delayed rewards. This expected sum of future rewards is called the return(\(G_t\)).
       </p>
-      
+
       <p>
         However, the expected return value must be used since the return value changes every time due to probabilistic factors such as transitions. A function that outputs
         the expected return value for each state is called the value function (\(V_\pi\)). The value function is a critical concept in RL as it enables an agent to evaluate
@@ -367,15 +367,15 @@
         The transition probability and reward function are unknown in a model-free environment, and therefore, they must be estimated from experience.
         Two primary methods for estimating the value function in a model-free environment are the MC method and the TD method.
       </p>
-  
+
       <h3> SharkGame Environment </h3>
 
       <p>
-        The SharkGame can be viewed as an MDP where the states represent the position of the shark character and the actions are moving up, down, left, or right. 
+        The SharkGame can be viewed as an MDP where the states represent the position of the shark character and the actions are moving up, down, left, or right.
         The probability of transitioning to a new state is deterministic, meaning the action will always result in a specific next state. If the agent is
         at the top left corner and chooses to move right, it will always transition to the state on the right with no chance of moving to the state above, below, or left.
         The reward function provides negative feedback for each step and obstacles encountered, such as bombs and nets. This approach encourages the agent
-        to find the shortest path to the goal while avoiding obstacles. The consequently learned policy is to select actions that lead to the transition to the state with the maximum value. 
+        to find the shortest path to the goal while avoiding obstacles. The consequently learned policy is to select actions that lead to the transition to the state with the maximum value.
       </p>
 
       <figure class="static">
@@ -387,7 +387,7 @@
       <div class="framed">
         <div class="inside">
           <div class="eyebrow">
-            Click the test button to see how the random agent plays the game. The agent randomly selects to move up, down, left, or right with a 25% chance for each direction. 
+            Click the test button to see how the random agent plays the game. The agent randomly selects to move up, down, left, or right with a 25% chance for each direction.
             This random agent will be used to evaluate the value of each square on the game board.
           </div>
 
@@ -450,7 +450,6 @@
 
             <div id="play_mc" class="play_div">
               <div class="board"></div>
-              <canvas class="canvas_2" width="300px" height="300px"></canvas>
               <br>
 
               <a class="btn_train" style="display: inline-block; margin: auto"><img src="img/buttons/train.png" alt="train"/></a>
@@ -530,7 +529,6 @@
 
             <div id="play_td" class="play_div">
               <div class="board"></div>
-              <canvas class="canvas_2" width="300px" height="300px"></canvas>
               <br>
 
               <a class="btn_train" style="display: inline-block; margin: auto"><img src="img/buttons/train.png" alt="train"/></a>
@@ -593,11 +591,9 @@
             </div>
 
             <div id="play_mc_vs_td" class="play_div">
-              <div class="board"></div>
+              <div class="board" style="margin-left: 4px"></div>
               <div class="board"></div>
               <br>
-              <canvas class="canvas_1" width="300px" height="300px"></canvas>
-              <canvas class="canvas_2" width="300px" height="300px"></canvas>
               <br>
 
               <a class="btn_train" style="display: inline-block; margin: auto"><img src="img/buttons/train.png" alt="train"/></a>
@@ -635,7 +631,6 @@
 
             <div id="play_optim" class="play_div">
               <div class="board"></div>
-              <canvas class="canvas_1" width="300px" height="300px"></canvas>
               <br>
 
               <a class="btn_test" style="display: inline-block; margin: auto"><img src="img/buttons/test.png" alt="test"/></a>
@@ -692,13 +687,13 @@
         </div>
 
         <p>
-          In practice, the choice between MC and TD depends on the specific problem and the available resources. 
+          In practice, the choice between MC and TD depends on the specific problem and the available resources.
           By understanding the differences between MC and TD,
           researchers and practitioners can choose the most appropriate approach for their particular application.
         </p>
 
         <p>
-          Optimal behavior can vary depending on the MDP. In the figure below, you can create your own MDP and check how optimal, MC, and TD agents behave. 
+          Optimal behavior can vary depending on the MDP. In the figure below, you can create your own MDP and check how optimal, MC, and TD agents behave.
           The value table for the optimal agent is calculated based on optimal policy.
         </p>
 
@@ -719,7 +714,7 @@
               </div>
               <div class="board" id="hiddenBoard1" style="display: none"></div>
               <div class="board" id="hiddenBoard2" style="display: none"></div>
-              <canvas style="display: none" width="300px" height="300px"></canvas>
+              <div class="board" id="hiddenBoard3" style="display: none"></div>
               <br>
 
               <a class="btn_save" style="display: inline-block; margin: auto; position: relative; top: -6px"><img src="img/buttons/save.png" alt="save"/></a>
@@ -751,26 +746,26 @@
 
       </section>
 
-      <section id="conclusion">
-        <h2>V. Conclusion</h2>
+<!--      <section id="conclusion">-->
+<!--        <h2>V. Conclusion</h2>-->
 
-        <p>
-          In conclusion, this paper has presented an overview of two common approaches in RL: MC and TD.
-          While these methods have their respective advantages and disadvantages.
-          However, it is important to note that RL encompasses many other approaches beyond these two,
-          such as model-based [<a href="#ref_5">6</a>] and policy gradient methods [<a href="#ref_6">7</a>] are also commonly used in this field.
-          These other methods may better suit certain problems or have particular advantages in different contexts.
-        </p>
+<!--        <p>-->
+<!--          In conclusion, this paper has presented an overview of two common approaches in RL: MC and TD.-->
+<!--          While these methods have their respective advantages and disadvantages.-->
+<!--          However, it is important to note that RL encompasses many other approaches beyond these two,-->
+<!--          such as model-based [<a href="#ref_5">6</a>] and policy gradient methods [<a href="#ref_6">7</a>] are also commonly used in this field.-->
+<!--          These other methods may better suit certain problems or have particular advantages in different contexts.-->
+<!--        </p>-->
 
-        <p>
-          Moreover, recent advancements in the field of RL have demonstrated the potential for
-          combining RL with deep learning to achieve even better results [<a href="#ref_7">8</a>]. These hybrid approaches
-          have shown promise in various applications, from game-playing and robotics to natural language processing and recommendation systems.
-          As the field continues to evolve, we will likely see more innovations and breakthroughs in the area of RL,
-          and it will be exciting to see how these new approaches and techniques can be applied to address real-world challenges.
-        </p>
+<!--        <p>-->
+<!--          Moreover, recent advancements in the field of RL have demonstrated the potential for-->
+<!--          combining RL with deep learning to achieve even better results [<a href="#ref_7">8</a>]. These hybrid approaches-->
+<!--          have shown promise in various applications, from game-playing and robotics to natural language processing and recommendation systems.-->
+<!--          As the field continues to evolve, we will likely see more innovations and breakthroughs in the area of RL,-->
+<!--          and it will be exciting to see how these new approaches and techniques can be applied to address real-world challenges.-->
+<!--        </p>-->
 
-      </section>
+<!--      </section>-->
 
       <section class="references">
         <h2>References</h2>
@@ -809,7 +804,7 @@
           <li id="ref_4">
             RL from Basics
             <span>
-              S. Rho, "Markov Decision Process," in 바닥부터 배우는 강화학습 [RL from Basics], Seoul, South Korea, Youngjin.com, 2020, pp. 35–53. 
+              S. Rho, "Markov Decision Process," in 바닥부터 배우는 강화학습 [RL from Basics], Seoul, South Korea, Youngjin.com, 2020, pp. 35–53.
             </span>
           </li>
 

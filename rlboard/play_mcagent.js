@@ -2,14 +2,9 @@ import { MCGame, animate } from "./game.js";
 
 const frame = document.querySelector('#play_mc');
 const boardDom = frame.querySelector('.board');
-const canvas_2 = frame.querySelector('.canvas_2');
-const context = canvas_2.getContext('2d');
-
-context.width = canvas_2.width;
-context.height = canvas_2.height;
 
 
-export let game = new MCGame(boardDom, context, 0);
+export let game = new MCGame(boardDom);
 animate(game);
 
 

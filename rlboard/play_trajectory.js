@@ -5,7 +5,7 @@ const frame = document.querySelector('#play_6')
 const boardDom = frame.querySelector('.board');
 boardDom.style.cursor = 'pointer';
 
-let game = new Game(boardDom, 0);
+let game = new Game(boardDom);
 animate(game);
 
 let state = game.environment.reset();
