@@ -15,7 +15,7 @@ animate(game);
 
 
 let btnTrain = frame.querySelector('.btn_train');
-let btnTrain1Step = frame.querySelector('.btn_train_1_step');
+let btnStep = frame.querySelector('.btn_step');
 let btnStop = frame.querySelector('.btn_stop');
 let btnTest = frame.querySelector('.btn_test');
 let btnReset = frame.querySelector('.btn_reset');
@@ -28,7 +28,7 @@ btnTrain.addEventListener("click", function() {
 
     btnTest.classList.add("disabled");
     btnTrain.style.display = "none";
-    btnTrain1Step.classList.add("disabled");
+    btnStep.classList.add("disabled");
     btnStop.style.display = "inline-block";
 
     game.interrupt = false;
@@ -38,8 +38,8 @@ btnTrain.addEventListener("click", function() {
         btnStop.style.display = "none";
     });
 });
-btnTrain1Step.addEventListener("click", function() {
-    if (btnTrain1Step.classList.contains("disabled")) {
+btnStep.addEventListener("click", function() {
+    if (btnStep.classList.contains("disabled")) {
         return;
     }
 
@@ -67,10 +67,10 @@ btnStop.addEventListener("click", function() {
     }
 
     btnTrain.classList.remove("disabled");
-    btnTrain1Step.classList.remove("disabled");
+    btnStep.classList.remove("disabled");
     btnTest.classList.remove("disabled");
     btnTrain.style.display = "inline-block";
-    btnTrain1Step.style.display = "inline-block";
+    btnStep.style.display = "inline-block";
     btnTest.style.display = "inline-block";
     btnStop.style.display = "none";
 
@@ -83,14 +83,14 @@ btnTest.addEventListener("click", function() {
     }
 
     btnTrain.classList.add("disabled");
-    btnTrain1Step.classList.add("disabled");
+    btnStep.classList.add("disabled");
     btnTest.style.display = "none";
     btnStop.style.display = "inline-block";
 
     game.interrupt = false;
     game.run_test(1).then(() => {
         btnTrain.classList.remove("disabled");
-        btnTrain1Step.classList.remove("disabled");
+        btnStep.classList.remove("disabled");
         btnTest.style.display = "inline-block";
         btnStop.style.display = "none";
     });
