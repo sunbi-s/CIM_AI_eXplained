@@ -75,7 +75,9 @@ select {
 }
 
 .value {
-    padding-top: 16px;
+    vertical-align: middle;
+    line-height: 50px;
+    background-blend-mode: hard-light;
 }
 
 .player {

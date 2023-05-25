@@ -27,6 +27,7 @@ export class CommonAgent {
     _initValueTable() {
         let div = document.createElement('div');
         div.classList.add("board");
+        div.style.marginLeft = "4px";
         let parent = this.env.div.parentNode;
         let next = this.env.div.nextSibling;
         parent.insertBefore(div, next);
