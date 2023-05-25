@@ -505,7 +505,7 @@
           before the end of an episode.
         </p>
         <p>  
-          TD achieves this goal using the Bootstrap method, which updates an estimate using another estimate.
+          TD achieves this goal using the Bootstrap method, which uses its own value estimates to update the value function.
           Specifically, TD updates the current value function($V(s_t)$) with a more accurate estimate($R_{t+1} + \gamma V(s_{t+1})$) takes into account the sampled reward received by the agent.
           This allows TD to update the value function estimate incrementally and in real-time,
             without the need to wait for the end of an episode.
