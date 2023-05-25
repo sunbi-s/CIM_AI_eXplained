@@ -220,7 +220,7 @@
         
         <figure class="static">
           <img src="img/mdp/transition.png" alt="Markov process for child's sleep pattern" style="margin: auto auto; max-width: 70%; display: block"/>
-          <figcaption><b>Figure 3:</b> Example of a Markov process for modeling a child's sleep pattern.</figcaption>
+          <figcaption><b>Figure 3:</b> Example of a Markov process for modeling a child's sleep pattern until deep sleep.</figcaption>
         </figure>
         
         <p>
@@ -234,7 +234,9 @@
           Here are the components that make up a Markov process:
         </p>
         <ul id="mp_components">
-          <li> State Space (\(S\)): All possible states that the system can take, such as Deep Sleep, Light Sleep, Drowsy and Awake, represented as \(\{s_0, s_1, s_2, s_3, s_4\} \in S\). </li>
+          <li> State Space (\(S\)): The state space represents all possible states that the system can take.
+               in this example, the states include \(s_0\)(Lying), \(s_1\)(Awake), \(s_2\)(Drowsy), \(s_3\)(Light Sleep), and \(s_4\)(Deep Sleep),
+               which can be represented as \(\{s_0, s_1, s_2, s_3, s_4\} \in S\). </li>
           <li> Transition Probability(\(P_{ss'}\)): The probability of transitioning from state \(s\) to another state \(s'\) at step \(t\), represented as \(P_{ss'} = P(S_{t+1} = s' \mid S_{t} = s)\).
           </li>
         <p>
@@ -265,7 +267,7 @@
       <div class="framed">
         <div class="inside">
           <div class="eyebrow">
-            Click the transition button to see state transitions in the Markov process for a child's sleep pattern, along with their corresponding probabilities.
+            Click the transition button to see state transitions in the Markov process for a child's sleep pattern until deep sleep, along with their corresponding probabilities.
           </div>
 
           <div id="play_mdp_transition" class="play_div">
@@ -275,7 +277,7 @@
             <script type="module" src="rlboard/play_mdp_transition.js"></script>
           </div>
 
-          <div class="caption"><b>Figure 4:</b><br> An example of a Markov process for modeling a child's sleep.</div>
+          <div class="caption"><b>Figure 4:</b><br> An example of a Markov process for modeling a child's sleep until deep sleep.</div>
         </div>
       </div>
 
@@ -305,7 +307,9 @@
       </p>
       
       <ul id="mdp_components">
-        <li> State Space (\(S\)): All possible states the system can take, represented as \(\{s_0, s_1, s_2, s_3, s_4\} \in S\). </li>
+        <li> State Space (\(S\)): The state space represents all possible states that the system can take.
+            in this example, the states include \(s_0\)(Lying), \(s_1\)(Awake), \(s_2\)(Drowsy), \(s_3\)(Light Sleep), and \(s_4\)(Deep Sleep),
+            which can be represented as \(\{s_0, s_1, s_2, s_3, s_4\} \in S\). </li>
         <li> Action Space(\(A\)): All possible actions that can be taken given a state \(s\), including singing a lullaby and playing with the child, represented as \(\{a_0, a_1\} \in A\). </li>
         <li> Transition Probability(\(P_{ss'}^a\)): The probability of transitioning from state \(s\) to another state \(s'\) after taking action \(a\) at step \(t\), represented as \(P_{ss'}^a = P(S_{t+1} = s' \mid S_{t} = s, A_{t}=a)\).</li>
         <li> Reward function(\(R\)): The reward function in this MDP can evaluate the desirability of different actions by providing a scalar value called Reward(\(R_t)\) given step \(t\).</li>
