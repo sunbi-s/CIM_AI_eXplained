@@ -224,44 +224,35 @@ export class MCGame extends Game {
             return;
         }
 
+        let epsilon = 0.0000000001;
+        let alpha = 0.4;
+        let textColor;
+        let value;
+        let maxValue = Math.max(...this.agent.value_table.flat().slice(0,6*6-2)) + epsilon;
+        let minValue = Math.min(...this.agent.value_table.flat()) + epsilon;
+        let nodeScale = 1 / this.environment.boardShape[0];
+        let tileScale = nodeScale * 0.99;
+
         // draw background image
         let img = new Image();
         img.src = "img/rlboard/background.png";
         this.context.drawImage(img, 0, 0, 300, 300);
-        // return;
-        let alpha = 0.4;
-        // let alpha = 1.0;
 
         // draw value table
-        this.context.beginPath();
-        // this.context.fillStyle = 'black'
-        // this.context.fillRect(0, 0, this.context.width, this.context.height);
-
         for (let y = 0; y < this.environment.boardShape[0]; ++y) {
             for (let x = 0; x < this.environment.boardShape[1]; ++x) {
-                let value = this.agent.value_table[y][x];
+                value = this.agent.value_table[y][x];
 
-                let epsilon = 0.0000000001;
-                // expcept 0  and all Values is negative 2 positive
-                let maxValue = Math.max(...this.agent.value_table.flat().slice(0,6*6-2)) + epsilon;
-                let minValue = Math.min(...this.agent.value_table.flat()) + epsilon;
-
-                let textColor;
-
-                // draw tile color
+                // calculate color
                 let cell = this.environment._getCell(new Position(y, x));
                 let place = cell.lastChild;
                 if (place && place.classList.contains("place") && place.done) {
-                    // this.context.fillStyle = rgba(255, 249, 89, alpha);
                     this.context.fillStyle = rgba(255, 255, 255, 0.7);
                     textColor = rgba(0, 0, 0, 1.0);
                 } else if (value === 0) {
                     this.context.fillStyle = rgba(255, 255, 255, alpha);
                     textColor = rgba(0, 0, 0, 1.0);
                 } else {
-                    // let max_r = 24, min_r = 236;
-                    // let max_g = 198, min_g = 250;
-                    // let max_b = 40, min_b = 237;
                     let min_r = 24, max_r = 236;
                     let min_g = 40, max_g = 237;
                     let min_b = 198, max_b = 245;
@@ -270,23 +261,16 @@ export class MCGame extends Game {
                     let g = (normalize)*(max_g-min_g)
                     let b = (normalize)*(max_b-min_b)
                     this.context.fillStyle = rgba(min_r + r, min_g + g, min_b + b, alpha);
-                    // this.context.fillRect = ();
 
                     if (normalize < 0.12) {
-                        let color = (1 - normalize) * 255;
+                        let color = (1 - normalize) * 240;
                         textColor = rgba(color, color, color, 1.0);
                     } else {
                         textColor = rgba(0, 0, 0, 1.0);
                     }
                 }
-                // else {
-                //     let alpha = Math.abs(value / maxValue) * (1 - 0.6) + 0.6;
-                //     this.context.fillStyle = rgba(200, 255, 200, alpha);
-                // }
 
-                // draw grid line
-                let nodeScale = 1 / this.environment.boardShape[0];
-                let tileScale = nodeScale * 0.99;
+                // draw tile
                 this.context.fillRect(
                     x * tileScale * this.context.width + 3,
                     y * tileScale * this.context.height + 3,
@@ -295,8 +279,8 @@ export class MCGame extends Game {
                 );
 
                 // draw text
-                this.context.fillStyle = textColor; // 'black';
                 this.context.font = "12.5px serif";
+                this.context.fillStyle = textColor;
                 this.context.textAlign = "center";
                 this.context.fillText(value.toFixed(2), (x + 1 / 2) * nodeScale * this.context.width, (y + 2 / 3) * nodeScale * this.context.width);
             }
