@@ -74,6 +74,10 @@ select {
     width: 50px;
 }
 
+.value {
+    padding-top: 16px;
+}
+
 .player {
     height: inherit;
     width: inherit;

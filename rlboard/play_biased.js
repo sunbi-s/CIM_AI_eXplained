@@ -6,7 +6,10 @@ const boardDom2 = frame.querySelectorAll('.board')[1];
 const boardDom3 = frame.querySelectorAll('.board')[2];
 
 
-let game = new BiasGame(boardDom1, boardDom2, boardDom3, 0);
+let game = new BiasGame(boardDom1, boardDom2, boardDom3);
+game.mcGame.agent.value_table.div.style.display = "none";
+game.tdGame.agent.value_table.div.style.display = "none";
+game.optimGame.agent.value_table.div.style.display = "none";
 
 
 // Add btn event

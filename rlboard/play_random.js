@@ -3,7 +3,7 @@ import { RDGame, animate } from "./game.js";
 const frame = document.querySelector('#play_random')
 const boardDom = frame.querySelector('.board');
 
-let game = new RDGame(boardDom, 0);
+let game = new RDGame(boardDom);
 animate(game);
 
 let btnTest = frame.querySelector('.btn_test');

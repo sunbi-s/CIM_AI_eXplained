@@ -4,8 +4,7 @@ import {Position} from "./utill.js";
 const frame = document.querySelector('#play_control')
 const boardDom = frame.querySelector('.board');
 
-let policyName = "control";
-let game = new Game(boardDom, 0, policyName);
+let game = new Game(boardDom);
 animate(game);
 
 let state = game.environment.reset();

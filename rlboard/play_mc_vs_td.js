@@ -3,19 +3,14 @@ import { CompareGame, animate } from "./game.js";
 const frame = document.querySelector('#play_mc_vs_td');
 const boardDom1 = frame.querySelectorAll('.board')[0];
 const boardDom2 = frame.querySelectorAll('.board')[1];
-const canvas1 = frame.querySelector('.canvas_1');
-const canvas2 = frame.querySelector('.canvas_2');
-const context1 = canvas1.getContext('2d');
-const context2 = canvas2.getContext('2d');
-context1.width = canvas1.width;
-context1.height = canvas1.height;
-context2.width = canvas2.width;
-context2.height = canvas2.height;
 
 
-let game = new CompareGame(boardDom1, boardDom2, 0, context1, context2);
+let game = new CompareGame(boardDom1, boardDom2);
 animate(game);
 
+frame.insertBefore(game.mcGame.agent.value_table.div, frame.children[5]);
+frame.insertBefore(game.tdGame.agent.value_table.div, frame.children[5]);
+game.tdGame.agent.value_table.div.style = "margin-left: 4px;"
 
 let btnTrain = frame.querySelector('.btn_train');
 let btnStop = frame.querySelector('.btn_stop');
