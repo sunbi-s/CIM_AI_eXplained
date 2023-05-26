@@ -62,7 +62,7 @@ export class RDGame extends Game {
         this.agent = new RandomAgent(this.environment);
     }
 
-    async run_test(max_episode_num, sleep_time=50) {
+    async run_test(max_episode_num, sleep_time=300) {
         for (let episode = 1; episode <= max_episode_num; ++episode) {
             let next_state, action, reward, done;
             let state = this.environment.reset();
