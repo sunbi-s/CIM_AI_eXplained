@@ -40,6 +40,20 @@ export function renderEffect(cell, timeout=500) {
     }
 }
 
+function renderHighlight(cell, timeout=500) {
+    let effect = document.createElement("img");
+    effect.classList.add("effect");
+    effect.src = "img/rlboard/effect/water.png";
+    cell.parentNode.appendChild(effect);
+
+    // set effect element position to cell
+    effect.style.position = "absolute";
+    effect.style.top = cell.offsetTop + "px";
+    effect.style.left = cell.offsetLeft + cell.offsetWidth / 2 + "px";
+
+    setTimeout(() => effect.remove(), timeout);
+}
+
 
 export class Game{
     constructor(div) {
@@ -231,7 +245,6 @@ export class MCGame extends Game {
         let maxValue = Math.max(...this.agent.value_table.flat().slice(0,6*6-2)) + epsilon;
         let minValue = Math.min(...this.agent.value_table.flat()) + epsilon;
         let nodeScale = 1 / this.environment.boardShape[0];
-        let tileScale = nodeScale * 0.99;
 
         // draw value table
         for (let y = 0; y < this.environment.boardShape[0]; ++y) {
@@ -264,6 +277,11 @@ export class MCGame extends Game {
                     } else {
                         textColor = rgba(0, 0, 0, 1.0);
                     }
+                }
+
+                // render highlight when value changed
+                if (vCell.innerText !== value.toFixed(2)) {
+                    renderHighlight(vCell, 200);
                 }
 
                 // set text
