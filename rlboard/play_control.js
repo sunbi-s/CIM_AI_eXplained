@@ -7,6 +7,32 @@ const boardDom = frame.querySelector('.board');
 let game = new Game(boardDom);
 animate(game);
 
+for (let y = 0; y < game.environment.boardShape[0]; y++) {
+    let row = boardDom.childNodes[y];
+    for (let x = 0; x < game.environment.boardShape[1]; x++) {
+        let col = row.childNodes[x];
+        let text = document.createElement("p");
+        boardDom.appendChild(text);
+
+        // calculate reward
+        let reward = game.environment.config.defaultReward;
+        let curr_place = col.lastChild;
+        if (curr_place && curr_place.classList.contains("place")) {
+            reward += curr_place.reward;
+        }
+
+        // set text element position to cell
+        text.innerText = reward;
+        text.style.opacity = 0.7;
+        text.style.fontSize = "12px";
+        text.style.color = "white";
+        text.style.position = "absolute";
+        text.style.top = col.offsetTop + col.offsetHeight / 2.5 + "px";
+        text.style.left = col.offsetLeft + col.offsetWidth / 2 + "px";
+        text.style.zIndex = 2;
+    }
+}
+
 let state = game.environment.reset();
 let reward = 0;
 let done = false;
