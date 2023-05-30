@@ -743,8 +743,33 @@
 
       </section>
 
+      <section id="n_step_TD">
+        <h2>V. n-step TD</h2>
+
+        <p>
+          In the two previous sections, we introduced Monte Carlo (MC) and Temporal Difference (TD), two principal methods for estimating value function.
+          However, each of these methods has its distinct advantages and disadvantages.
+          TD, for instance, shines in computational efficiency but introduces bias in its estimates.
+          Conversely, MC methods provide unbiased estimates but at the cost of high variance.
+        </p>
+
+        <p>
+          This raises a thought-provoking question: Can we synthesize the strengths of these methods while mitigating their weaknesses?
+          Can we seek a compromise, a "best-of-both-worlds" approach that could effectively balance the bias-variance trade-off?
+          This idea triggers the exploration of a hybrid strategy that could seamlessly integrate the efficiency of TD and the unbiased nature of MC.
+          To understand this, let's delve into how MC and TD perform their computations.
+          MC approximates sample returns by employing the full trajectory of an episode, while TD leverages only a single step of information for value updates.
+        </p>
+
+        <p>
+          Therefore, in crafting a combined methodology, we might conceive a model that draws upon multiple steps for value updates, but not necessarily the entire trajectory.
+          This is where the concept of n-step TD learning comes into play, offering a promising balance between bias and variance, ultimately leading to improved learning efficiency in reinforcement learning scenarios.
+        </p>
+
+      </section>
+
       <section id="conclusion">
-        <h2>V. Conclusion</h2>
+        <h2>VI. Conclusion</h2>
 
         <p>
           In conclusion, this paper has presented an overview of two common approaches in RL: MC and TD.
