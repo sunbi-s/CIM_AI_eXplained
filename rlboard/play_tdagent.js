@@ -9,30 +9,13 @@ export let game = new TDGame(boardDom);
 animate(game);
 
 
-let btnTrain = frame.querySelector('.btn_train');
 let btnStep = frame.querySelector('.btn_step');
+let btnTrain = frame.querySelector('.btn_train');
 let btnStop = frame.querySelector('.btn_stop');
 let btnTest = frame.querySelector('.btn_test');
 let btnReset = frame.querySelector('.btn_reset');
 let nEpisodeText = frame.querySelector('.n_episode_text');
 
-btnTrain.addEventListener("click", function() {
-    if (btnTrain.classList.contains("disabled")) {
-        return;
-    }
-
-    btnTest.classList.add("disabled");
-    btnTrain.style.display = "none";
-    btnStep.classList.add("disabled");
-    btnStop.style.display = "inline-block";
-
-    game.interrupt = false;
-    game.run(1e3, 10, nEpisodeText).then(() => {
-        btnTest.classList.remove("disabled");
-        btnTrain.style.display = "inline-block";
-        btnStop.style.display = "none";
-    });
-});
 btnStep.addEventListener("click", function() {
     if (btnStep.classList.contains("disabled")) {
         return;
@@ -56,16 +39,34 @@ btnStep.addEventListener("click", function() {
         game.environment.reset();
     }
 });
+btnTrain.addEventListener("click", function() {
+    if (btnTrain.classList.contains("disabled")) {
+        return;
+    }
+
+    btnStep.classList.add("disabled");
+    btnTrain.style.display = "none";
+    btnTest.classList.add("disabled");
+    btnStop.style.display = "inline-block";
+
+    game.interrupt = false;
+    game.run(1e3, 10, nEpisodeText).then(() => {
+        btnStep.classList.remove("disabled");
+        btnTrain.style.display = "inline-block";
+        btnTest.classList.remove("disabled");
+        btnStop.style.display = "none";
+    });
+});
 btnStop.addEventListener("click", function() {
     if (btnStop.classList.contains("disabled")) {
         return;
     }
 
-    btnTrain.classList.remove("disabled");
     btnStep.classList.remove("disabled");
+    btnTrain.classList.remove("disabled");
     btnTest.classList.remove("disabled");
-    btnTrain.style.display = "inline-block";
     btnStep.style.display = "inline-block";
+    btnTrain.style.display = "inline-block";
     btnTest.style.display = "inline-block";
     btnStop.style.display = "none";
 
@@ -84,8 +85,8 @@ btnTest.addEventListener("click", function() {
 
     game.interrupt = false;
     game.run_test(1).then(() => {
-        btnTrain.classList.remove("disabled");
         btnStep.classList.remove("disabled");
+        btnTrain.classList.remove("disabled");
         btnTest.style.display = "inline-block";
         btnStop.style.display = "none";
     });
