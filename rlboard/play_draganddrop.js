@@ -222,6 +222,10 @@ btnBack.addEventListener("click", function() {
     place_creator.style.display = "block";
     trash_can.style.display = "block";
 
+    optimVtable.style.display = "none";
+    mcVtable.style.display = "none";
+    tdVtable.style.display = "none";
+
     optimGame.interrupt = true;
     mcGame.interrupt = true;
     tdGame.interrupt = true;
