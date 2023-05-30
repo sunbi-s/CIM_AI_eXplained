@@ -43,13 +43,15 @@ export function renderEffect(cell, timeout=500) {
 function renderHighlight(cell, timeout=500) {
     let effect = document.createElement("img");
     effect.classList.add("effect");
-    effect.src = "img/rlboard/effect/water.png";
+    effect.src = "img/rlboard/effect/blood.png";
+    effect.style.height = "50px";
+    effect.style.width = "50px";
     cell.parentNode.appendChild(effect);
 
     // set effect element position to cell
     effect.style.position = "absolute";
-    effect.style.top = cell.offsetTop + "px";
-    effect.style.left = cell.offsetLeft + cell.offsetWidth / 2 + "px";
+    effect.style.top = cell.offsetTop + 5 + "px";
+    effect.style.left = cell.offsetLeft + cell.offsetWidth / 2 + 5 + "px";
 
     setTimeout(() => effect.remove(), timeout);
 }
