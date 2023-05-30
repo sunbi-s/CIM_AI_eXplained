@@ -153,7 +153,8 @@ export class MCAgent extends CommonAgent{
             if (flag) {
                 this.N[state[0]][state[1]] = this.N[state[0]][state[1]] + 1;
                 V_t = this.value_table[state[0]][state[1]]; //default value
-                this.value_table[state[0]][state[1]] = V_t + this.learning_rate * (G_t - V_t)/ this.N[state[0]][state[1]];
+                this.value_table[state[0]][state[1]] = V_t + this.learning_rate * (G_t - V_t);
+                // this.value_table[state[0]][state[1]] = V_t + this.learning_rate * (G_t - V_t)/ this.N[state[0]][state[1]];
                 // console.log(state[0],state[1], G_t , V_t, this.value_table[state[0]][state[1]],this.N[state[0]][state[1]])
             }
         }
