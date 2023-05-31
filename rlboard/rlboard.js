@@ -1,9 +1,11 @@
 import { clamp, Position } from "./utill.js";
 
 
+const MAX_HEIGHT = 6;
+
 export class Environment{
     constructor(div, config) {
-        this.boardShape = [6, 6];
+        this.boardShape = config.boardShape;
         this.actions = [[-1, 0], [1, 0], [0, -1], [0, 1]];
         this.div = div;
         this.config = config;
@@ -25,7 +27,15 @@ export class Environment{
             for (let x=0; x<this.boardShape[0]; ++x) {
                 let cell = document.createElement('div');
                 cell.classList.add("cell");
-                cell.style.backgroundImage = "url('img/rlboard/background/background_" + (y * this.boardShape[0] + x + 1).toString() + ".jpg')";
+                if (x === this.boardShape[1] - 1 && y === this.boardShape[0] - 1) {
+                    cell.style.backgroundImage = "url('img/rlboard/background/background_" + (MAX_HEIGHT * MAX_HEIGHT).toString() + ".jpg')";
+                } else if (x === this.boardShape[1] - 1) {
+                    cell.style.backgroundImage = "url('img/rlboard/background/background_" + ((y+1) * MAX_HEIGHT).toString() + ".jpg')";
+                } else if (y === this.boardShape[0] - 1) {
+                    cell.style.backgroundImage = "url('img/rlboard/background/background_" + ((MAX_HEIGHT-1) * MAX_HEIGHT + x + 1).toString() + ".jpg')";
+                } else {
+                    cell.style.backgroundImage = "url('img/rlboard/background/background_" + (y * MAX_HEIGHT + x + 1).toString() + ".jpg')";
+                }
                 row.appendChild(cell);
             }
         }
