@@ -411,7 +411,9 @@ export class CompareGame {
             let action;
 
             // delay
-            await sleep(sleep_time);
+            if (sleep_time != 0){
+                await sleep(sleep_time);
+            }
 
 
             for (step = 1; step < this.mcGame.max_step_num; ++step) {
@@ -464,7 +466,9 @@ export class CompareGame {
                 }
 
                 // delay
-                await sleep(sleep_time);
+                if (sleep_time != 0){
+                    await sleep(sleep_time);
+                }
             }
 
             this.mcGame.agent.update();
@@ -512,18 +516,25 @@ export class BiasGame extends CompareGame {
     async run(max_episode_num, sleep_time=10) {
         for (let i = 0; i< max_episode_num; ++i)
         {
-            let done1 = false, done2 = false;
-            this.mcGame.run(1, sleep_time).then(() => {done1 = true});
-            this.tdGame.run(1, sleep_time).then(() => {done2 = true});
-
-            // sync each game
-            while (!(done1 && done2)) { await sleep(); }
-
             // calculate rmse
             this._calcRmse();
 
             // plot
             this._plot();
+
+            // This is previous no synchronized version
+            // let done1 = false, done2 = false;
+            // this.mcGame.run(1, sleep_time).then(() => {done1 = true});
+            // this.tdGame.run(1, sleep_time).then(() => {done2 = true});
+            //
+            // // sync each game
+            // while (!(done1 && done2)) { await sleep(); }
+
+            // run
+            let done = false;
+            super.run(1, 0).then(() => {done = true})
+            while (!done) { await sleep(); }
+
 
             if (this.interrupt) {
                 this.interrupt = false;
@@ -531,6 +542,7 @@ export class BiasGame extends CompareGame {
             }
         }
     }
+
 
     reset() {
         super.reset();
