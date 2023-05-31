@@ -45,6 +45,17 @@ export class CommonAgent {
         }
     }
 
+    _initSumTable() {
+        this.S = [];
+        for (let y = 0; y < this.height; ++y) {
+            let row = [];
+            for (let x = 0; x < this.width; ++x) {
+                row.push(0);
+            }
+            this.S.push(row);
+        }
+    }
+
     _apply_action(state, action){
         let next_state = [0, 0];
         let valid = true
@@ -133,6 +144,7 @@ export class MCAgent extends CommonAgent{
     // Update the Q-value of all states visited by the agent in all episodes
     update() {
         this._initVisitTable();
+        this._initSumTable();
         let state, reward, done, V_t;
         let visit_state = [];
         let G_t = 0;
@@ -152,10 +164,13 @@ export class MCAgent extends CommonAgent{
                 
             if (flag) {
                 this.N[state[0]][state[1]] = this.N[state[0]][state[1]] + 1;
-                V_t = this.value_table[state[0]][state[1]]; //default value
-                this.value_table[state[0]][state[1]] = V_t + this.learning_rate * (G_t - V_t);
+                this.S[state[0]][state[1]] = this.S[state[0]][state[1]] + G_t;
+
+                this.value_table[state[0]][state[1]] = this.S[state[0]][state[1]]/this.N[state[0]][state[1]];
+
+                // V_t = this.value_table[state[0]][state[1]]; //default value
+                // this.value_table[state[0]][state[1]] = V_t + this.learning_rate * (G_t - V_t);
                 // this.value_table[state[0]][state[1]] = V_t + this.learning_rate * (G_t - V_t)/ this.N[state[0]][state[1]];
-                // console.log(state[0],state[1], G_t , V_t, this.value_table[state[0]][state[1]],this.N[state[0]][state[1]])
             }
         }
         // samples clear
