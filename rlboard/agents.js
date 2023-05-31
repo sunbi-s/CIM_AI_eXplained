@@ -31,7 +31,7 @@ export class CommonAgent {
         let parent = this.env.div.parentNode;
         let next = this.env.div.nextSibling;
         parent.insertBefore(div, next);
-        this.value_table = new VTable(div);
+        this.value_table = new VTable(div, this.height, this.width);
     }
 
     _initVisitTable() {

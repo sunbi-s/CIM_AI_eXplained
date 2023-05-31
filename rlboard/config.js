@@ -1,9 +1,10 @@
 export default [
     {
-        "backgroundImagePath": "img/rlboard/background.png",
-        "nodes": [
-            // [position, reward, final, path]
-            //  [y, x]
+        "nodes": [  // [position, reward, final, path]
+            // position: [y, x]
+            // reward: float
+            // final: boolean
+            // path: string
             [[4, 2], -0.5, false, "img/rlboard/place/Net.png"],
             [[4, 1], -2, false, "img/rlboard/place/Dynamite.png"],
             [[5, 0], -0.5, false, "img/rlboard/place/Net.png"],
@@ -13,6 +14,7 @@ export default [
             [[5, 5], 0, true, "img/rlboard/place/Treasure.png"],
         ],
         "defaultReward": -0.1,
+        "boardShape": [6, 6],  // [height, width]
         "agentStartPosition": [0, 0],  // [x, y]
         "agentImagePath": [
             "img/rlboard/player/Shark_00.png",
