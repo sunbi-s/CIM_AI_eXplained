@@ -1,5 +1,6 @@
 const frame = document.querySelector('#play_various_gamma');
-const div = frame.querySelector('.gamma_board');
+const leftDiv = frame.querySelector('.gamma_board_left');
+const rightDiv = frame.querySelector('.gamma_board_right');
 const sliderSize = frame.querySelector('.slider_size');
 const sliderGamma = frame.querySelector('.slider_gamma');
 
@@ -7,12 +8,15 @@ const sizes = [4, 5, 6];
 const gammas = [990, 991, 992, 993, 994, 995, 996, 997, 998, 999, 1000];
 
 function changeImage(i_size, i_gamma) {
-    let imagePath = "img/gamma_board/" + sizes[i_size] + "_" + gammas[i_gamma] + ".png";
-    div.style.backgroundImage = "url('" + imagePath + "')";
-    div.style.backgroundSize = "contain";
-    div.style.margin = "auto";
-    div.style.width = "960px";
-    div.style.height = "520px";
+    let leftImagePath = "img/gamma_board/org_" + sizes[i_size] + ".png";
+    leftDiv.style.backgroundImage = "url('" + leftImagePath + "')";
+    leftDiv.style.backgroundSize = "contain";
+    leftDiv.style.width = "50%";
+
+    let rightImagePath = "img/gamma_board/org_" + sizes[i_size] + "_" + gammas[i_gamma] + "_val.png";
+    rightDiv.style.backgroundImage = "url('" + rightImagePath + "')";
+    rightDiv.style.backgroundSize = "contain";
+    rightDiv.style.width = "49.67%";
 }
 
 
@@ -50,7 +54,7 @@ btnStop.addEventListener("click", function() {
 //    The event listener should call changeImage() function as follows:
 //    changeImage(i_size, i_gamma);
 // 4. Remove this debugging code:
-changeImage(2, 0);
+changeImage(2, 2);
 // 5. Implement button event listeners.
 //    The player should move along the saved trajectories.
 // 6. Modify the text in index.html to describe this content.
