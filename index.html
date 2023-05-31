@@ -758,13 +758,45 @@
           Can we seek a compromise, a "best-of-both-worlds" approach that could effectively balance the bias-variance trade-off?
           This idea triggers the exploration of a hybrid strategy that could seamlessly integrate the efficiency of TD and the unbiased nature of MC.
           To understand this, let's delve into how MC and TD perform their computations.
-          MC approximates sample returns by employing the full trajectory of an episode, while TD leverages only a single step of information for value updates.
+          MC approximates sample returns by employing the full trajectory of an episode:
+        </p>
+
+        <p>
+          \[G_t = R_{t+1} + \gamma R_{t+2} + \gamma^2 R_{t+3} + \dots + \gamma^{T-t-1} R_{T}\]
+        </p>
+
+        <p class="inline-math">
+          Where $$T$$ is a length of an episode.
+        </p>
+
+        <p>
+          On the other hand, TD leverages only a single step of information for value updates:
+        </p>
+
+        <p>
+          \[G_t = R_{t+1} + \gamma V(S_{t+1})\]
         </p>
 
         <p>
           Therefore, in crafting a combined methodology, we might conceive a model that draws upon multiple steps for value updates, but not necessarily the entire trajectory.
-          This is where the concept of n-step TD learning comes into play, offering a promising balance between bias and variance, ultimately leading to improved learning efficiency in reinforcement learning scenarios.
+          For example, we may use the three-step return as a target for TD update.
         </p>
+
+        <p>
+          \[G_{t:t+3} = R_{t+1} + \gamma R_{t+2} + \gamma^2 R_{t+3} + \gamma^3 V(S_{t+3})\]
+        </p>
+
+        <p class="inline-math">
+          In this case $$\gamma^3 V(S_{t+3})$$ used as an proxy of $$\gamma^{3} R_{t+4} + \dots + \gamma^{T-t-1} R_{T}$$ (remaining returns until the end of the episode).
+          This is where the concept of n-step TD learning comes into play, offering a promising balance between bias and variance, ultimately leading to improved learning efficiency in reinforcement learning scenarios.
+          By generalizing this, we can obtain n-step return for arbitrary $$n$$
+        </p>
+
+        <p>
+          \[G_{t:t+n} = R_{t+1} + \gamma R_{t+2} + \dots + \gamma R_{t+n} + \gamma^n V(S_{t+n})\]
+        </p>
+
+
 
       </section>
 
