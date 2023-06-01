@@ -244,30 +244,9 @@ btnStop.addEventListener("click", function() {
 
 
 sliderGrid.addEventListener('input', function() {
-    var size = sliderGrid.value; 
-    game.i_size = size;
-    game.setParams(game.i_size, game.i_gamma);
+    game.setParams(sliderGrid.value, game.i_gamma);
 });
 
 sliderGamma.addEventListener('input', function() {
-    var gamma = sliderGamma.value; 
-    game.i_gamma = gamma;
-    game.setParams(game.i_size, game.i_gamma);
+    game.setParams(game.i_size, sliderGamma.value);
 });
-
-// Documentation:
-// 1. put images in img/gamma_board folder.
-//    The name of the image should be in the format of "{size}_{gamma}.png"
-// 2. Create new two sliders in index.html.
-//    The slider should have the following attributes:
-//    class="slider_size"
-//    class="slider_gamma"
-// 3. Add event listener to the sliders in this file.
-//    The event listener should call changeImage() function as follows:
-//    changeImage(i_size, i_gamma);
-// 4. Remove this debugging code:
-
-// 5. Implement button event listeners.
-//    The player should move along the saved trajectories.
-// 6. Modify the text in index.html to describe this content.
-

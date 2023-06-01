@@ -168,51 +168,46 @@ select {
     margin-left: 146px;
 }
 
-.slider_grid {
+.slider {
     -webkit-appearance: none;
     position: absolute;
-    top: 156px;
-    left: 518px;
-    width: 238px;
     height: 5px;
     border-radius: 5px;
     background: #dfb3f2;
+}
+.slider_grid {
+    top: 156px;
+    left: 518px;
+    width: 238px;
     rotate: -90deg;
 }
-.slider_grid::-webkit-slider-thumb {
-    -webkit-appearance: none; 
-    appearance: none;
-    width: 13px; 
-    height: 13px; 
+.slider_gamma {
+    top: 305px;
+    left: 430px;
+    width: 170px;
+}
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 15px;
+    height: 15px;
     background: #9400d3;
-    cursor: pointer;
-    border-radius: 50%; 
-  }
-.slider_grid::-moz-range-thumb {
-    width: 15px; 
-    height: 15px; 
-    background: #9400d3;
-    cursor: pointer;
-    border-radius: 50%; 
+    border-radius: 50%;
 }
 .slider_grid_ticks {
     background-image: url("../img/gamma_board/GridTicks.png");
     background-size: cover;
     position: absolute;
     top: 0px;
+    left: 610px;
     width: 50px;
     height: 300px;
-    left: 610px;
 }
-
-.slider_gamma {
-    display: block;
-    float: right;
-    margin:auto;
+.slider_gamma_ticks {
+    background-image: url("../img/gamma_board/GammaTicks.png");
+    background-size: cover;
     position: absolute;
-    width: 200px;
-    height: 5px;
-    accent-color: #dfb3f2;
-    border-radius: 5px;
-    position: relative;
+    top: 303px;
+    left: 355px;
+    width: 243px;
+    height: 30px;
 }
