@@ -535,6 +535,7 @@ export class BiasGame extends CompareGame {
             super.run(1, 0).then(() => {done = true})
             while (!done) { await sleep(); }
 
+            console.log(this.mcGame.agent.learning_rate, this.tdGame.agent.learning_rate)
 
             if (this.interrupt) {
                 this.interrupt = false;

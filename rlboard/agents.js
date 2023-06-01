@@ -133,6 +133,7 @@ export class MCAgent extends CommonAgent{
         super(env);
 
         this.learning_rate = 0.1;
+        this.lr_decay = 0.99;
         this.epsilon = 0.9;
         this.init_value = 0;
 
@@ -150,7 +151,7 @@ export class MCAgent extends CommonAgent{
         let state, reward, done, V_t;
         let visit_state = [];
         let G_t = 0;
-        let every_visit = false;
+        let every_visit = true;
 
         for (let i = this.samples.length-1; i >= 0; --i) {
             [state, reward, done] = this.samples[i];
@@ -187,6 +188,8 @@ export class MCAgent extends CommonAgent{
             }
 
         }
+        this.learning_rate *= this.lr_decay
+        console.log(this.learning_rate)
         // samples clear
         this.samples = [];
     }
@@ -216,22 +219,19 @@ export class MCAgent extends CommonAgent{
 }
 
 export class TDAgent extends MCAgent {
+    constructor(env) {
+        super(env);
+        this.learning_rate = 0.7;
+        this.lr_decay = 0.9999;
+    }
+
     // learn value of all states visited by the agent in all episodes
     learn(state, reward, next_state) {
-        this.learning_rate = 0.8;
         let V = this.value_table[state[0]][state[1]];
         let nextV = this.value_table[next_state[0]][next_state[1]];
         let targetV = reward + this.discount_factor * nextV;
         this.value_table[state[0]][state[1]] = V + this.learning_rate * (targetV - V);
-
-    }
-
-    reset() {
-        for (let y = 0; y < this.height; ++y) {
-            for (let x = 0; x < this.width; ++x) {
-                this.value_table[y][x] = this.init_value;
-            }
-        }
+        this.learning_rate *= this.lr_decay;
     }
 }
 
