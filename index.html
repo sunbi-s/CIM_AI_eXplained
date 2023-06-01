@@ -731,7 +731,7 @@
               Click "Reset" button to clear all results.
             </div>
 
-            <div id="play_biased" class="play_div">
+            <div id="play_rmse" class="play_div">
               <div class="board" style="display: none"></div>
               <div class="board" style="display: none"></div>
               <div class="board" style="display: none"></div>
@@ -749,7 +749,7 @@
               X axis is number of episodes and Y axis is RMSE.
             </div>
 
-            <script type="module" src="rlboard/play_biased.js"></script>
+            <script type="module" src="rlboard/play_rmse.js"></script>
           </div>
         </div>
 
@@ -874,7 +874,62 @@
           \[V_{new}(s_t) = V(s_t) + \alpha (G_{t:t+n} - V(s_t))\]
         </p>
 
+        <div class="framed">
+          <div class="inside">
+            <div class="eyebrow">
+              Click "Train" button to train a TD agent. Click "Test" button to observe the behavior of the trained agent. Click "Reset" button to reset the value table.
+            </div>
 
+            <div id="play_nstep_td" class="play_div">
+              <div class="board"></div>
+              <br>
+
+              <a class="btn_step" style="display: inline-block"><img src="img/buttons/step.png" alt="step"/></a>
+              <a class="btn_train" style="display: inline-block"><img src="img/buttons/train.png" alt="train"/></a>
+              <a class="btn_stop" style="display: none"><img src="img/buttons/stop.png" alt="stop"/></a>
+              <a class="btn_test" style="display: inline-block"><img src="img/buttons/test.png" alt="test"/></a>
+              <a class="btn_reset" style="display: inline-block"><img src="img/buttons/reset2.png" alt="reset"/></a>
+
+              <img class="n_episode" style="margin-left: 88px" src="img/buttons/episode.png" alt="episode"/>
+              <p class="n_episode n_episode_text" style="display: inline-block; margin-left: 118px">0</p>
+            </div>
+
+            <div class="caption"><b>Figure 11:</b><br> TD learning process. The left figure shows the agent and environment,
+              while the right figure displays the state value table. </div>
+
+            <script type="module" src="rlboard/play_nstep_tdagent.js"></script>
+          </div>
+        </div>
+
+        <div class="framed">
+          <div class="inside">
+            <div class="eyebrow">
+              Click "Train" button to start MC and TD training.
+              Click "Reset" button to clear all results.
+            </div>
+
+            <div id="play_rmse2" class="play_div">
+              <div class="board" style="display: none"></div>
+              <div class="board" style="display: none"></div>
+              <div class="board" style="display: none"></div>
+              <div class="board" style="display: none"></div>
+              <br>
+
+              <div id="chart2"></div>
+
+              <a class="btn_train" style="display: inline-block; margin: auto"><img src="img/buttons/train.png" alt="train"/></a>
+              <a class="btn_stop" style="display: none; margin: auto"><img src="img/buttons/stop.png" alt="stop"/></a>
+              <a class="btn_reset" style="display: inline-block; margin: auto"><img src="img/buttons/reset2.png" alt="reset"/></a>
+            </div>
+
+            <div class="caption"><b>Figure 15:</b><br>
+              Comparison of RMSE(Root Mean Squared Error) of MC and TD agents.
+              X axis is number of episodes and Y axis is RMSE.
+            </div>
+
+            <script type="module" src="rlboard/play_rmse2.js"></script>
+          </div>
+        </div>
 
       </section>
 

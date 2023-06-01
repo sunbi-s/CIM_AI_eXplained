@@ -499,7 +499,7 @@ export class CompareGame {
     }
 }
 
-export class BiasGame extends CompareGame {
+export class RMSEGame extends CompareGame {
     constructor(mcDiv, tdDiv, optimDiv) {
         super(mcDiv, tdDiv);
         this.optimGame = new OptimGameAVG(optimDiv);
