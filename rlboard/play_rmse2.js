@@ -5,13 +5,11 @@ const boardDom1 = frame.querySelectorAll('.board')[0];
 const boardDom2 = frame.querySelectorAll('.board')[1];
 const boardDom3 = frame.querySelectorAll('.board')[2];
 const boardDom4 = frame.querySelectorAll('.board')[3];
+const boardDom5 = frame.querySelectorAll('.board')[4];
 
 
-let game = new RMSEGame2(boardDom1, boardDom2, boardDom3, boardDom4);
-game.mcGame.agent.value_table.div.style.display = "none";
-game.tdGame.agent.value_table.div.style.display = "none";
-game.nstepTdGame.agent.value_table.div.style.display = "none";
-game.optimGame.agent.value_table.div.style.display = "none";
+let game = new RMSEGame2(boardDom1, boardDom2, boardDom3, boardDom4, boardDom5);
+
 
 
 // Add btn event

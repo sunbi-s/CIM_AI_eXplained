@@ -182,8 +182,6 @@ export class MCGame extends Game {
             }
 
             this.agent.update();
-            // console.log(this.agent.constructor.name, ": [episode", episode, "] done in", step, "steps",
-            //     ", total reward:", rewards.reduce((a, b) => a + b, 0));
         }
     }
 
@@ -341,9 +339,6 @@ export class TDGame extends MCGame {
                 // delay
                 await sleep(sleep_time);
             }
-
-            // console.log(this.agent.constructor.name, ": [episode", episode, "] done in", step, "steps",
-            //     ", total reward:", rewards.reduce((a, b) => a + b, 0));
         }
     }
 }
@@ -504,13 +499,11 @@ export class RMSEGame extends CompareGame {
         super(mcDiv, tdDiv);
         this.optimGame = new OptimGameAVG(optimDiv);
 
-        this.mcRmse = [];
-        this.tdRmse = [];
+        this.mcGame.agent.value_table.div.style.display = "none";
+        this.tdGame.agent.value_table.div.style.display = "none";
+        this.optimGame.agent.value_table.div.style.display = "none";
 
-        Plotly.newPlot('chart', [
-            { x: [], y: [], type:'line', name: 'MC' },
-            { x: [], y: [], type:'line', name: 'TD' },
-        ]);
+        this.reset();
     }
 
     async run(max_episode_num, sleep_time=10) {
@@ -543,7 +536,6 @@ export class RMSEGame extends CompareGame {
             }
         }
     }
-
 
     reset() {
         super.reset();
@@ -586,6 +578,166 @@ export class RMSEGame extends CompareGame {
     }
 }
 
+export class RMSEGame2 extends CompareGame {
+    constructor(mcDiv, tdDiv, td5Div, td10Div, optimDiv) {
+        super(mcDiv, tdDiv);
+        this.td5Game = new NstepTDGame(td5Div); this.td5Game.agent.N = 5;
+        this.td10Game = new NstepTDGame(td10Div); this.td10Game.agent.N = 10;
+        this.optimGame = new OptimGameAVG(optimDiv);
+
+        this.mcGame.agent.value_table.div.style.display = "none";
+        this.tdGame.agent.value_table.div.style.display = "none";
+        this.td5Game.agent.value_table.div.style.display = "none";
+        this.td10Game.agent.value_table.div.style.display = "none";
+        this.optimGame.agent.value_table.div.style.display = "none";
+
+        this.reset();
+    }
+
+    async _run(max_episode_num, sleep_time=10) {
+        let step = 0;
+
+        for (let episode = 1; episode <= max_episode_num; ++episode) {
+            let next_state, action, reward, done;
+            let state = this.mcGame.environment.reset();
+            this.tdGame.environment.reset();
+            this.td5Game.environment.reset();
+            this.td10Game.environment.reset();
+
+            // delay
+            if (sleep_time !== 0){
+                await sleep(sleep_time);
+            }
+
+
+            for (step = 1; step < this.mcGame.max_step_num; ++step) {
+                // interrupt
+                if (this.interrupt) {
+                    this.interrupt = false;
+                    this.mcGame.interrupt = false;
+                    this.tdGame.interrupt = false;
+                    this.td5Game.interrupt = false;
+                    this.td10Game.interrupt = false;
+                    return;
+                }
+
+                // get action
+                action = this.mcGame.agent.getRndAction(state);
+
+                // step
+                [next_state, reward, done] = this.mcGame.environment.step(action);
+
+                // update algorithms
+                this.mcGame.agent.saveSample(state, reward, done);
+                this.tdGame.agent.learn(state, reward, next_state);
+                this.td5Game.agent.learn(state, reward, next_state);
+                this.td10Game.agent.learn(state, reward, next_state);
+
+                // state
+                state = [next_state[0], next_state[1]];
+
+                // episode done
+                if (done) {
+                    break;
+                }
+
+                // delay
+                if (sleep_time !== 0){
+                    await sleep(sleep_time);
+                }
+            }
+
+            this.mcGame.agent.update();
+        }
+    }
+
+    async run(max_episode_num, sleep_time=10) {
+        for (let i = 0; i< max_episode_num; ++i)
+        {
+            // calculate rmse
+            this._calcRmse();
+
+            // plot
+            this._plot();
+
+            // run
+            let done = false;
+            this._run(1, 0).then(() => {done = true})
+            while (!done) { await sleep(); }
+
+            if (this.interrupt) {
+                this.interrupt = false;
+                return;
+            }
+        }
+    }
+
+    reset() {
+        super.reset();
+        this.td5Game.environment.reset();
+        this.td5Game.agent.reset();
+        this.td10Game.environment.reset();
+        this.td10Game.agent.reset();
+
+        this.mcRmse = [];
+        this.tdRmse = [];
+        this.td5Rmse = [];
+        this.td10Rmse = [];
+
+        // plot
+        this._plot();
+    }
+
+    _calcRmse() {
+        const mc_value_table = this.mcGame.agent.value_table;
+        const td_value_table = this.tdGame.agent.value_table;
+        const td5_value_table = this.td5Game.agent.value_table;
+        const td10_value_table = this.td10Game.agent.value_table;
+        const optim_value_table = this.optimGame.agent.value_table;
+        const temp_value_table = math.zeros(optim_value_table.data.length, optim_value_table[0].length)._data;
+
+        // mc
+        for (let y = 0; y < optim_value_table.data.length; ++y) {
+            for (let x = 0; x < optim_value_table[0].length; ++x) {
+                temp_value_table[y][x] = optim_value_table[y][x] - mc_value_table[y][x];
+            }
+        }
+        this.mcRmse.push(math.sqrt(math.mean(math.square(temp_value_table))));
+
+        // td
+        for (let y = 0; y < optim_value_table.data.length; ++y) {
+            for (let x = 0; x < optim_value_table[0].length; ++x) {
+                temp_value_table[y][x] = optim_value_table[y][x] - td_value_table[y][x];
+            }
+        }
+        this.tdRmse.push(math.sqrt(math.mean(math.square(temp_value_table))));
+
+        // td5
+        for (let y = 0; y < optim_value_table.data.length; ++y) {
+            for (let x = 0; x < optim_value_table[0].length; ++x) {
+                temp_value_table[y][x] = optim_value_table[y][x] - td5_value_table[y][x];
+            }
+        }
+        this.td5Rmse.push(math.sqrt(math.mean(math.square(temp_value_table))));
+
+        // td10
+        for (let y = 0; y < optim_value_table.data.length; ++y) {
+            for (let x = 0; x < optim_value_table[0].length; ++x) {
+                temp_value_table[y][x] = optim_value_table[y][x] - td10_value_table[y][x];
+            }
+        }
+        this.td10Rmse.push(math.sqrt(math.mean(math.square(temp_value_table))));
+    }
+
+    _plot() {
+        Plotly.react('chart2', [
+            { x: [...Array(this.mcRmse.length).keys()], y: this.mcRmse, type:'line', name: 'MC' },
+            { x: [...Array(this.tdRmse.length).keys()], y: this.tdRmse, type:'line', name: 'TD' },
+            { x: [...Array(this.td5Rmse.length).keys()], y: this.td5Rmse, type:'line', name: 'TD5' },
+            { x: [...Array(this.td10Rmse.length).keys()], y: this.td10Rmse, type:'line', name: 'TD10' },
+        ]);
+    }
+}
 
 export class NstepTDGame extends TDGame{
     _makeAgent() {
@@ -635,9 +787,6 @@ export class NstepTDGame extends TDGame{
                 // delay
                 await sleep(sleep_time);
             }
-
-            // console.log(this.agent.constructor.name, ": [episode", episode, "] done in", step, "steps",
-            //     ", total reward:", rewards.reduce((a, b) => a + b, 0));
         }
     }
 }

@@ -7,9 +7,6 @@ const boardDom3 = frame.querySelectorAll('.board')[2];
 
 
 let game = new RMSEGame(boardDom1, boardDom2, boardDom3);
-game.mcGame.agent.value_table.div.style.display = "none";
-game.tdGame.agent.value_table.div.style.display = "none";
-game.optimGame.agent.value_table.div.style.display = "none";
 
 
 // Add btn event
