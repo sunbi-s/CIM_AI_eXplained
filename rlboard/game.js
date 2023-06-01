@@ -1,6 +1,6 @@
 import configs from "./config.js";
 import { Environment } from "./rlboard.js";
-import { RandomAgent, MCAgent, TDAgent, OptimAgent } from "./agents.js";
+import { RandomAgent, MCAgent, TDAgent, OptimAgent, NstepTDAgent } from "./agents.js";
 import { Position, rgba, sleep } from "./utill.js";
 
 
@@ -583,5 +583,61 @@ export class RMSEGame extends CompareGame {
             { x: [...Array(this.mcRmse.length).keys()], y: this.mcRmse, type:'line', name: 'MC' },
             { x: [...Array(this.mcRmse.length).keys()], y: this.tdRmse, type:'line', name: 'TD' },
         ]);
+    }
+}
+
+
+export class NstepTDGame extends TDGame{
+    _makeAgent() {
+        this.agent = new NstepTDAgent(this.environment);
+    }
+
+    async run(max_episode_num, sleep_time=10, episodeTextDom=null) {
+        let step = 0;
+
+        for (let episode = 1; episode <= max_episode_num; ++episode) {
+            let next_state, action ,reward, done;
+            let state = this.environment.reset();
+            let rewards = [];
+
+            // delay
+            await sleep(sleep_time);
+
+            for (step = 1; step < this.max_step_num; ++step) {
+                // interrupt
+                if (this.interrupt) {
+                    this.interrupt = false;
+                    return;
+                }
+
+                // get action
+                // action = this.agent.getAction(state);
+                action = this.agent.getRndAction(state);
+
+                // step
+                [next_state, reward, done] = this.environment.step(action);
+                rewards.push(reward);
+
+                // render effect
+                renderEffect(this.environment._getCell(new Position(next_state[0], next_state[1])), 100);
+
+                // update
+                this.agent.learn(state, reward, next_state, done);
+                state = [next_state[0], next_state[1]];
+                // episode done
+                if (done) {
+                    if (episodeTextDom !== null) {
+                        episodeTextDom.innerText = parseInt(episodeTextDom.innerText) + 1;
+                    }
+                    break;
+                }
+
+                // delay
+                await sleep(sleep_time);
+            }
+
+            // console.log(this.agent.constructor.name, ": [episode", episode, "] done in", step, "steps",
+            //     ", total reward:", rewards.reduce((a, b) => a + b, 0));
+        }
     }
 }

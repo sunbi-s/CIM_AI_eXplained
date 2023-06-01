@@ -34,7 +34,7 @@ btnStep.addEventListener("click", function() {
     renderEffect(game.environment._getCell(new Position(next_state[0], next_state[1])), 100);
 
     // update
-    game.agent.learn(state, reward, next_state);
+    game.agent.learn(state, reward, next_state, done);
     // episode done
     if (done && nEpisodeText !== null) {
         nEpisodeText.innerText = parseInt(nEpisodeText.innerText) + 1;

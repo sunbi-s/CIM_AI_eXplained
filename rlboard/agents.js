@@ -321,3 +321,53 @@ export class OptimAgent extends CommonAgent{
         }
     }
 }
+
+export class NstepTDAgent extends TDAgent {
+    constructor(env) {
+        super(env);
+        this.N = 1;
+        this.rewards = [];
+        this.states = [];
+    }
+
+    // learn value of all states visited by the agent in all episodes
+    learn(state, reward, next_state, done) {
+        let start_idx, running_return, gi, idx;
+
+        this.rewards.push(reward);
+        this.states.push(state);
+
+        if (this.rewards.length >= this.N) {
+            start_idx = this.rewards.length - this.N;
+            running_return = 0;
+            gi = 0;
+            for (idx = start_idx; idx < this.rewards.length; ++idx) {
+                running_return += this.discount_factor**gi * this.rewards[idx]
+                gi += 1;
+            }
+
+            let V = this.value_table[this.states[start_idx][0]][this.states[start_idx][1]];
+            let nextV = this.value_table[next_state[0]][next_state[1]];
+            let targetV = running_return + this.discount_factor * nextV;
+            this.value_table[this.states[start_idx][0]][this.states[start_idx][1]] = V + this.learning_rate * (targetV - V);
+            this.learning_rate *= this.lr_decay;
+        }
+
+        if (done) {
+            this.rewards = [];
+            this.states = [];
+        }
+    }
+
+    reset() {
+        this.rewards = [];
+        this.states = [];
+        for (let y = 0; y < this.height; ++y) {
+            for (let x = 0; x < this.width; ++x) {
+                this.value_table[y][x] = this.init_value;
+            }
+        }
+    }
+}
+
+
