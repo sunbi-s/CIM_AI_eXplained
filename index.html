@@ -468,7 +468,7 @@
         </p>
 
         <p class="inline-math">
-          The term $$\frac{1}{N(s_t)}(G_{t,i} - V(s_t))$$ represents the difference between the new return $$G_t$$ and the current estimated value $$V(s_t)$$,
+          The term $$\frac{1}{N(s_t)}(G_{t,i} - V(s_t))$$ represents the difference between the new return $$G_{t,i}$$ and the current estimated value $$V(s_t)$$,
           scaled by the inverse of the number of visits.
           This difference, also known as the error, measures how much the new return deviates from our current estimate.
           We then adjust our estimate in the direction of the error. As a result, if our current estimate is too high, it will be decreased; if it's too low, it will be increased.
@@ -558,6 +558,7 @@
           the value function. However, this return cannot be known until the end of the episode. This waiting time can be avoided by using TD, which updates the value function
           before the end of an episode.
         </p>
+
         <p>  
           TD achieves this goal using the Bootstrap method, which uses its own value estimates to update the value function.
           Specifically, TD updates the current value function($V(s_t)$) with a more accurate estimate($R_{t+1} + \gamma V(s_{t+1})$) takes into account the sampled reward received by the agent.
@@ -565,6 +566,24 @@
             without the need to wait for the end of an episode.
             \[V\left(s_t\right)=\mathbb{E}\left[R_{t+1}+\gamma V\left(s_{t+1}\right)\right]\]
         </p>
+
+        <p class="inline-math">
+          Much like MC methods, TD methods also use a step-size parameter, $$\alpha$$, to guide the learning process.
+        </p>
+
+        <p>
+          The TD update equation is as follows:
+        </p>
+
+        <p>
+          \[V_{new}(s_t) = V(s_t) + \alpha (R_{t+1} + \gamma V(s_{t+1}) - V(s_t))\]
+        </p>
+
+        <p>
+          This equation highlights the essence of TD learning: it adjusts the estimated value of a state based on the observed reward and the estimated value of the next state,
+          both of which are available immediately after a transition.
+        </p>
+
         <p>
           Compared to MC methods, TD is more computationally efficient because of the frequent update. However, it has bias and may not converge to
           the true value function. This is because TD uses an estimated function $V(s)$ for the update instead of a true value function. Despite its limitations, TD has
