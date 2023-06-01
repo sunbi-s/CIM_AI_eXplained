@@ -9,6 +9,8 @@ export let game = new NstepTDGame(boardDom);
 animate(game);
 
 
+// Add btn event
+let selectN = frame.querySelector('#select_n');
 let btnStep = frame.querySelector('.btn_step');
 let btnTrain = frame.querySelector('.btn_train');
 let btnStop = frame.querySelector('.btn_stop');
@@ -101,4 +103,10 @@ btnReset.addEventListener("click", function() {
     game.agent.reset();
 
     nEpisodeText.innerText = "0";
+});
+
+
+// Add dropdown event
+selectN.addEventListener("change", function (ev) {
+    game.agent.N = parseInt(ev.target.value);
 });
