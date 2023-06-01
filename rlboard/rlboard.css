@@ -167,3 +167,52 @@ select {
     margin-top: 2px;
     margin-left: 146px;
 }
+
+.slider_grid {
+    -webkit-appearance: none;
+    position: absolute;
+    top: 156px;
+    left: 518px;
+    width: 238px;
+    height: 5px;
+    border-radius: 5px;
+    background: #dfb3f2;
+    rotate: -90deg;
+}
+.slider_grid::-webkit-slider-thumb {
+    -webkit-appearance: none; 
+    appearance: none;
+    width: 13px; 
+    height: 13px; 
+    background: #9400d3;
+    cursor: pointer;
+    border-radius: 50%; 
+  }
+.slider_grid::-moz-range-thumb {
+    width: 15px; 
+    height: 15px; 
+    background: #9400d3;
+    cursor: pointer;
+    border-radius: 50%; 
+}
+.slider_grid_ticks {
+    background-image: url("../img/gamma_board/GridTicks.png");
+    background-size: cover;
+    position: absolute;
+    top: 0px;
+    width: 50px;
+    height: 300px;
+    left: 610px;
+}
+
+.slider_gamma {
+    display: block;
+    float: right;
+    margin:auto;
+    position: absolute;
+    width: 200px;
+    height: 5px;
+    accent-color: #dfb3f2;
+    border-radius: 5px;
+    position: relative;
+}

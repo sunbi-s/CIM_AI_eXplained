@@ -5,7 +5,7 @@ import { sleep } from "./utill.js";
 const frame = document.querySelector('#play_various_gamma');
 const leftDiv = frame.querySelector('.gamma_board_left');
 const rightDiv = frame.querySelector('.gamma_board_right');
-const sliderSize = frame.querySelector('.slider_size');
+const sliderGrid = frame.querySelector('.slider_grid');
 const sliderGamma = frame.querySelector('.slider_gamma');
 
 const sizes = [4, 5, 6];
@@ -123,7 +123,7 @@ const game = new class Game {
     constructor(parent) {
         this.interrupt = false;
         this._createPlayer(parent);
-        this.setParams(0, 0);
+        this.setParams(2, 10);
     }
 
     _createPlayer(parent) {
@@ -194,7 +194,7 @@ const game = new class Game {
     render() {
         // set player image
         let imageSize = "100px";
-        switch (this.i_size) {
+        switch (Number(this.i_size)) {
             case 0:
                 imageSize = "100px";
                 break;
@@ -213,7 +213,7 @@ const game = new class Game {
         // set background image
         leftDiv.style.backgroundImage = "url('img/gamma_board/org_" + sizes[this.i_size] + ".png')";
         leftDiv.style.backgroundSize = "contain";
-        leftDiv.style.width = "50%";
+        leftDiv.style.width = "49.67%";
 
         rightDiv.style.backgroundImage = "url('img/gamma_board/org_" + sizes[this.i_size] + "_" + gammas[this.i_gamma] + "_val.png')";
         rightDiv.style.backgroundSize = "contain";
@@ -243,6 +243,18 @@ btnStop.addEventListener("click", function() {
 });
 
 
+sliderGrid.addEventListener('input', function() {
+    var size = sliderGrid.value; 
+    game.i_size = size;
+    game.setParams(game.i_size, game.i_gamma);
+});
+
+sliderGamma.addEventListener('input', function() {
+    var gamma = sliderGamma.value; 
+    game.i_gamma = gamma;
+    game.setParams(game.i_size, game.i_gamma);
+});
+
 // Documentation:
 // 1. put images in img/gamma_board folder.
 //    The name of the image should be in the format of "{size}_{gamma}.png"
@@ -254,7 +266,8 @@ btnStop.addEventListener("click", function() {
 //    The event listener should call changeImage() function as follows:
 //    changeImage(i_size, i_gamma);
 // 4. Remove this debugging code:
-game.setParams(2, 7);
+
 // 5. Implement button event listeners.
 //    The player should move along the saved trajectories.
 // 6. Modify the text in index.html to describe this content.
+
