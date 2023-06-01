@@ -1,4 +1,4 @@
-import { clamp, Position } from "./utill.js";
+import { Position } from "./utill.js";
 import { VTable } from "./vtable.js";
 import configs from "./config.js";
 
@@ -133,6 +133,7 @@ export class MCAgent extends CommonAgent{
         super(env);
 
         this.learning_rate = 0.1;
+        this.initial_learning_rate = this.learning_rate;
         this.lr_decay = 0.99;
         this.epsilon = 0.9;
         this.init_value = 0;
@@ -208,6 +209,7 @@ export class MCAgent extends CommonAgent{
     }
 
     reset() {
+        this.learning_rate = this.initial_learning_rate;
         this._initVisitTable()
         this._initSumTable()
         for (let y = 0; y < this.height; ++y) {
@@ -222,6 +224,7 @@ export class TDAgent extends MCAgent {
     constructor(env) {
         super(env);
         this.learning_rate = 0.7;
+        this.initial_learning_rate = this.learning_rate;
         this.lr_decay = 0.9999;
     }
 
@@ -232,6 +235,10 @@ export class TDAgent extends MCAgent {
         let targetV = reward + this.discount_factor * nextV;
         this.value_table[state[0]][state[1]] = V + this.learning_rate * (targetV - V);
         this.learning_rate *= this.lr_decay;
+    }
+
+    reset() {
+        super.reset();
     }
 }
 
@@ -360,6 +367,7 @@ export class NstepTDAgent extends TDAgent {
     }
 
     reset() {
+        this.learning_rate = this.initial_learning_rate;
         this.rewards = [];
         this.states = [];
         for (let y = 0; y < this.height; ++y) {
