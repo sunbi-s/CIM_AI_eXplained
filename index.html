@@ -814,10 +814,10 @@
       </section>
 
       <section id="n_step_TD">
-        <h2>V. n-step TD</h2>
+        <h2>VI. n-step TD</h2>
 
         <p>
-          In the two previous sections, we introduced Monte Carlo (MC) and Temporal Difference (TD), two principal methods for estimating value function.
+          In the previous sections, we introduced Monte Carlo (MC) and Temporal Difference (TD), two principal methods for estimating value function.
           However, each of these methods has its distinct advantages and disadvantages.
           TD, for instance, shines in computational efficiency but introduces bias in its estimates.
           Conversely, MC methods provide unbiased estimates but at the cost of high variance.
@@ -864,6 +864,14 @@
 
         <p>
           \[G_{t:t+n} = R_{t+1} + \gamma R_{t+2} + \dots + \gamma R_{t+n} + \gamma^n V(S_{t+n})\]
+        </p>
+
+        <p>
+          The n-step TD update equation is as follows:
+        </p>
+
+        <p>
+          \[V_{new}(s_t) = V(s_t) + \alpha (G_{t:t+n} - V(s_t))\]
         </p>
 
 
