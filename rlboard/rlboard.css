@@ -175,6 +175,9 @@ select {
     border-radius: 5px;
     background: #dfb3f2;
 }
+.slider:disabled {
+    background: #ddd;
+}
 .slider_grid {
     top: 156px;
     left: 518px;
@@ -192,6 +195,9 @@ select {
     height: 15px;
     background: #9400d3;
     border-radius: 50%;
+}
+.slider:disabled::-webkit-slider-thumb {
+    background: #ddd;
 }
 .slider_grid_ticks {
     background-image: url("../img/gamma_board/GridTicks.png");

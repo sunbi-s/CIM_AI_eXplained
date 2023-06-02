@@ -230,6 +230,9 @@ btnTest.addEventListener("click", function () {
     btnTest.style.display = "none";
     btnStop.style.display = "inline-block";
 
+    sliderGrid.disabled = true;
+    sliderGamma.disabled = true;
+
     game.run().then(() => {
         btnTest.style.display = "inline-block";
         btnStop.style.display = "none";
@@ -238,6 +241,9 @@ btnTest.addEventListener("click", function () {
 btnStop.addEventListener("click", function() {
     btnTest.style.display = "inline-block";
     btnStop.style.display = "none";
+
+    sliderGrid.disabled = false;
+    sliderGamma.disabled = false;
 
     game.interrupt = true;
 });
