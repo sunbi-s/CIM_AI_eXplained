@@ -28,14 +28,18 @@ export function renderEffect(cell, timeout=500) {
 
         if (cell.lastChild.done) {
             effect.src = "img/rlboard/effect/Clear.png";
+            effect.style.zIndex = "4";
+            effect.style.position = "absolute";
             effect.style.height = "200px";
             effect.style.width = "400px";
-            effect.style.marginTop = "-205px";
-            effect.style.marginLeft = "-330px";
+            effect.style.top = cell.parentNode.parentElement.offsetTop + 50 + "px";
+            effect.style.left = cell.parentNode.parentElement.offsetLeft - 20 + "px";
+            cell.parentNode.parentElement.appendChild(effect);
         } else {
             effect.src = "img/rlboard/effect/Explosion.png";
+            cell.insertBefore(effect, cell.lastChild);
         }
-        cell.insertBefore(effect, cell.lastChild);
+
         setTimeout(() => effect.remove(), timeout);
     }
 }
