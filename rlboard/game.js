@@ -581,8 +581,18 @@ export class RMSEGame extends CompareGame {
 export class RMSEGame2 extends CompareGame {
     constructor(mcDiv, tdDiv, td5Div, td10Div, optimDiv) {
         super(mcDiv, tdDiv);
-        this.td5Game = new NstepTDGame(td5Div); this.td5Game.agent.N = 5;
-        this.td10Game = new NstepTDGame(td10Div); this.td10Game.agent.N = 10;
+        this.td5Game = new NstepTDGame(td5Div);
+        this.td5Game.agent.N = 5;
+        this.td5Game.agent.learning_rate = 0.7;
+        this.td5Game.agent.lr_decay = 0.9997;
+        this.td5Game.agent.initial_learning_rate = this.td5Game.agent.learning_rate;
+
+        this.td10Game = new NstepTDGame(td10Div);
+        this.td10Game.agent.N = 10;
+        this.td10Game.agent.learning_rate = 0.7;
+        this.td10Game.agent.lr_decay = 0.9994;
+        this.td10Game.agent.initial_learning_rate = this.td5Game.agent.learning_rate;
+
         this.optimGame = new OptimGameAVG(optimDiv);
 
         this.mcGame.agent.value_table.div.style.display = "none";

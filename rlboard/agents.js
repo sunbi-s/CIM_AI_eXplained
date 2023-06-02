@@ -333,6 +333,7 @@ export class NstepTDAgent extends TDAgent {
     constructor(env) {
         super(env);
         this.N = 1;
+
         this.rewards = [];
         this.states = [];
     }
@@ -364,6 +365,7 @@ export class NstepTDAgent extends TDAgent {
             this.rewards = [];
             this.states = [];
         }
+        this.learning_rate *= this.lr_decay;
     }
 
     reset() {
