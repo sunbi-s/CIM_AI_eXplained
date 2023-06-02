@@ -1,12 +1,9 @@
 import { RMSEGame } from "./game.js";
 
 const frame = document.querySelector('#play_rmse');
-const boardDom1 = frame.querySelectorAll('.board')[0];
-const boardDom2 = frame.querySelectorAll('.board')[1];
-const boardDom3 = frame.querySelectorAll('.board')[2];
 
 
-let game = new RMSEGame(boardDom1, boardDom2, boardDom3);
+let game = new RMSEGame(frame);
 
 
 // Add btn event
@@ -35,8 +32,9 @@ btnStop.addEventListener("click", function() {
     btnStop.style.display = "none";
 
     game.Interrupt();
-    game.mcGame.environment.reset();
-    game.tdGame.environment.reset();
+    for (let key in game.games) {
+        game.games[key].environment.reset();
+    }
 });
 btnReset.addEventListener("click", function() {
     if (btnReset.classList.contains("disabled")) {

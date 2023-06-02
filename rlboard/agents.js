@@ -190,7 +190,7 @@ export class MCAgent extends CommonAgent{
 
         }
         this.learning_rate *= this.lr_decay
-        console.log(this.learning_rate)
+
         // samples clear
         this.samples = [];
     }
