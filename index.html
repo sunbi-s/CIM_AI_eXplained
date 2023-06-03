@@ -588,6 +588,81 @@
           both of which are available immediately after a transition.
         </p>
 
+        <div id="td_update_calculation">
+          <p>V(s_t) = </p>
+          <input value="1" type="number"/>
+          <p>\gamma = </p>
+          <input value="0.9" type="number"/>
+          <br>
+          <p>V(s_{t+1}) = </p>
+          <input value="2" type="number"/>
+          <br>
+          <p>R_{t+1} = </p>
+          <input value="3" type="number"/>
+          <br>
+          <p>\alpha = </p>
+          <input value="4" type="number"/>
+          <br>
+          <p>V_{new}(s_t) = </p>
+          <p>1</p>
+          <p> + </p>
+          <p>4</p>
+          <p> x (</p>
+          <p>3</p>
+          <p> + </p>
+          <p>0.9</p>
+          <p> x </p>
+          <p>2</p>
+          <p> - </p>
+          <p>1</p>
+          <p>)</p>
+          <br>
+          <p>=</p>
+          <p>16.20</p>
+          <script>
+            let ps = document.querySelectorAll("#td_update_calculation p");
+            let inputs = document.querySelectorAll("#td_update_calculation input");
+
+            // add event listener to input tags
+            inputs[0].addEventListener("change", function() {
+              ps[6].innerText = inputs[0].value;
+              ps[16].innerText = inputs[0].value;
+            });
+            inputs[1].addEventListener("change", function() {
+              ps[12].innerText = inputs[1].value;
+            });
+            inputs[2].addEventListener("change", function() {
+              ps[14].innerText = inputs[2].value;
+            });
+            inputs[3].addEventListener("change", function() {
+              ps[10].innerText = inputs[3].value;
+            });
+            inputs[4].addEventListener("change", function() {
+              ps[8].innerText = inputs[4].value;
+            });
+
+            for (let input in inputs)
+            {
+                inputs[input].addEventListener("change", function() {
+                  let v = parseFloat(inputs[0].value);
+                  let gamma = parseFloat(inputs[1].value);
+                  let next_v = parseFloat(inputs[2].value);
+                  let reward = parseFloat(inputs[3].value);
+                  let step_size = parseFloat(inputs[4].value);
+                  let td_error = parseFloat(reward + gamma * next_v - v);
+                  let v_new = v + step_size * td_error;
+                  console.log(v_new);
+                  ps[19].innerText = v_new.toFixed(2);
+                });
+            }
+          </script>
+          <style>
+            #td_update_calculation p {
+              display: inline-block;
+            }
+          </style>
+        </div>
+
         <p>
           Compared to MC methods, TD is more computationally efficient because of the frequent update. However, it has bias and may not converge to
           the true value function. This is because TD uses an estimated function $V(s)$ for the update instead of a true value function. Despite its limitations, TD has
