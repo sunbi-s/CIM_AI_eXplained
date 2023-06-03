@@ -1,8 +1,10 @@
 import { game as mcgame } from './play_mcagent.js'
 import { game as tdgame } from './play_tdagent.js'
+import { game as nsteptdgame } from './play_nstep_tdagent.js'
 
 let mcframe = document.querySelector("#play_mc_3d_table");
 let tdframe = document.querySelector("#play_td_3d_table");
+let nsteptdframe = document.querySelector("#play_nstep_td_3d_table");
 
 
 function getData(game) {
@@ -72,7 +74,9 @@ function getLayout(game) {
 
 Plotly.newPlot(mcframe, getData(mcgame), getLayout(mcgame));
 Plotly.newPlot(tdframe, getData(tdgame), getLayout(tdgame));
+Plotly.newPlot(nsteptdframe, getData(nsteptdgame), getLayout(nsteptdgame));
 setInterval(() => {
     Plotly.react(mcframe, getData(mcgame), getLayout(mcgame));
     Plotly.react(tdframe, getData(tdgame), getLayout(tdgame));
+    Plotly.react(nsteptdframe, getData(nsteptdgame), getLayout(nsteptdgame));
 }, 5000);

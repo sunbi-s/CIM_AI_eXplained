@@ -1,4 +1,4 @@
-import { clamp, Position } from "./utill.js";
+import { Position } from "./utill.js";
 import { VTable } from "./vtable.js";
 import configs from "./config.js";
 
@@ -133,6 +133,7 @@ export class MCAgent extends CommonAgent{
         super(env);
 
         this.learning_rate = 0.1;
+        this.initial_learning_rate = this.learning_rate;
         this.lr_decay = 0.99;
         this.epsilon = 0.9;
         this.init_value = 0;
@@ -189,7 +190,7 @@ export class MCAgent extends CommonAgent{
 
         }
         this.learning_rate *= this.lr_decay
-        console.log(this.learning_rate)
+
         // samples clear
         this.samples = [];
     }
@@ -208,6 +209,7 @@ export class MCAgent extends CommonAgent{
     }
 
     reset() {
+        this.learning_rate = this.initial_learning_rate;
         this._initVisitTable()
         this._initSumTable()
         for (let y = 0; y < this.height; ++y) {
@@ -222,6 +224,7 @@ export class TDAgent extends MCAgent {
     constructor(env) {
         super(env);
         this.learning_rate = 0.7;
+        this.initial_learning_rate = this.learning_rate;
         this.lr_decay = 0.9999;
     }
 
@@ -232,6 +235,11 @@ export class TDAgent extends MCAgent {
         let targetV = reward + this.discount_factor * nextV;
         this.value_table[state[0]][state[1]] = V + this.learning_rate * (targetV - V);
         this.learning_rate *= this.lr_decay;
+    }
+
+    reset() {
+        this.learning_rate = this.initial_learning_rate;
+        super.reset();
     }
 }
 
@@ -321,3 +329,60 @@ export class OptimAgent extends CommonAgent{
         }
     }
 }
+
+export class NstepTDAgent extends TDAgent {
+    constructor(env) {
+        super(env);
+        this.N = 1;
+
+        this.rewards = [];
+        this.states = [];
+    }
+
+    // learn value of all states visited by the agent in all episodes
+    learn(state, reward, next_state, done) {
+        let start_idx, running_return, gi, idx;
+
+        this.rewards.push(reward);
+        this.states.push(state);
+
+        console.log(this.rewards.length, this.N)
+
+        if (this.rewards.length >= this.N) {
+            start_idx = this.rewards.length - this.N;
+            running_return = 0;
+            gi = 0;
+            for (idx = start_idx; idx < this.rewards.length; ++idx) {
+                running_return += this.discount_factor**gi * this.rewards[idx]
+                gi += 1;
+            }
+
+            let V = this.value_table[this.states[start_idx][0]][this.states[start_idx][1]];
+            let nextV = this.value_table[next_state[0]][next_state[1]];
+            let targetV = running_return + this.discount_factor * nextV;
+            this.value_table[this.states[start_idx][0]][this.states[start_idx][1]] = V + this.learning_rate * (targetV - V);
+            this.learning_rate *= this.lr_decay;
+
+            // this.rewards = [];
+            // this.states = [];
+        }
+
+        if (done) {
+            this.rewards = [];
+            this.states = [];
+        }
+    }
+
+    reset() {
+        this.learning_rate = this.initial_learning_rate;
+        this.rewards = [];
+        this.states = [];
+        for (let y = 0; y < this.height; ++y) {
+            for (let x = 0; x < this.width; ++x) {
+                this.value_table[y][x] = this.init_value;
+            }
+        }
+    }
+}
+
+

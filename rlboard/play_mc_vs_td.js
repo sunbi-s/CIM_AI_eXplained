@@ -8,8 +8,8 @@ const boardDom2 = frame.querySelectorAll('.board')[1];
 let game = new CompareGame(boardDom1, boardDom2);
 animate(game);
 
-frame.insertBefore(game.mcGame.agent.value_table.div, frame.children[5]);
-frame.insertBefore(game.tdGame.agent.value_table.div, frame.children[5]);
+frame.insertBefore(game.games["MC"].agent.value_table.div, frame.children[5]);
+frame.insertBefore(game.games["TD"].agent.value_table.div, frame.children[5]);
 
 let btnTrain = frame.querySelector('.btn_train');
 let btnStop = frame.querySelector('.btn_stop');
@@ -44,8 +44,9 @@ btnStop.addEventListener("click", function() {
     btnStop.style.display = "none";
 
     game.Interrupt();
-    game.mcGame.environment.reset();
-    game.tdGame.environment.reset();
+    for (let key in game.games) {
+        game.games[key].environment.reset();
+    }
 });
 btnTest.addEventListener("click", function() {
     if (btnTest.classList.contains("disabled")) {
