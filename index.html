@@ -598,7 +598,7 @@
         <div class="framed">
           <div class="inside">
             <div class="eyebrow">
-              Click "Train" button to train a TD agent. Click "Test" button to observe the behavior of the trained agent. Click "Reset" button to reset the value table.
+              Click "Train" button to train a TD agent. Click "Step" button to train only one step. Click "Test" button to observe the behavior of the trained agent. Click "Reset" button to reset the value table.
             </div>
 
             <div id="play_td" class="play_div">
@@ -876,7 +876,11 @@
         <div class="framed">
           <div class="inside">
             <div class="eyebrow">
-              Click "Train" button to train a TD agent. Click "Test" button to observe the behavior of the trained agent. Click "Reset" button to reset the value table.
+              Click "Train" button to train a N-step TD agent.
+              Click "Step" button to train only one step.
+              Click "Test" button to observe the behavior of the trained agent.
+              Click "Reset" button to reset the value table.
+              Choose N using the drop-down menu.
             </div>
 
             <div id="play_nstep_td" class="play_div">
@@ -919,11 +923,18 @@
             <div id="play_nstep_td_3d_table">
             </div>
 
-            <div class="caption"><b>Figure 12:</b><br> 3D value table of the TD agent.</div>
+            <div class="caption"><b>Figure 12:</b><br> 3D value table of the N-step TD agent.</div>
 
             <script type="module" src="rlboard/3D_table.js"></script>
           </div>
         </div>
+
+        <p>
+          Referring to the figure below, we can examine the Root Mean Square Error (RMSE) of MC, TD, and N-step TD agents.
+          It's evident from the observed data that the performance of the N-step TD is nestled between that of MC and TD.
+          This outcome indicates that N-step TD proficiently bridges the gap between MC and TD, achieving a more effective balance between variance and bias.
+          Thus, it successfully combines the advantages of both methodologies, serving as a compelling compromise that mitigates the disadvantages of each individual method.
+        </p>
 
         <div class="framed">
           <div class="inside">
@@ -941,7 +952,7 @@
             </div>
 
             <div class="caption"><b>Figure 15:</b><br>
-              Comparison of RMSE(Root Mean Squared Error) of MC and TD agents.
+              Comparison of RMSE(Root Mean Squared Error) of MC, TD, and N-step TD agents.
               X axis is number of episodes and Y axis is RMSE.
             </div>
 
