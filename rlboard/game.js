@@ -622,23 +622,23 @@ export class RMSEGame2 extends RMSEGame {
         frame.appendChild(td5Div);
         frame.appendChild(td10Div);
 
-        this.games["TD3"] = new NstepTDGame(TD3Div);
-        this.games["TD3"].agent.N = 3;
-        this.games["TD3"].agent.learning_rate = 0.7;
-        this.games["TD3"].agent.initial_learning_rate = this.games["TD3"].agent.learning_rate;
-        this.games["TD3"].agent.lr_decay = 0.9996;
+        this.games["3-step TD"] = new NstepTDGame(TD3Div);
+        this.games["3-step TD"].agent.N = 3;
+        this.games["3-step TD"].agent.learning_rate = 0.7;
+        this.games["3-step TD"].agent.initial_learning_rate = this.games["3-step TD"].agent.learning_rate;
+        this.games["3-step TD"].agent.lr_decay = 0.9996;
 
-        this.games["TD5"] = new NstepTDGame(td5Div);
-        this.games["TD5"].agent.N = 5;
-        this.games["TD5"].agent.learning_rate = 0.7;
-        this.games["TD5"].agent.initial_learning_rate = this.games["TD5"].agent.learning_rate;
-        this.games["TD5"].agent.lr_decay = 0.9993;
+        this.games["5-step TD"] = new NstepTDGame(td5Div);
+        this.games["5-step TD"].agent.N = 5;
+        this.games["5-step TD"].agent.learning_rate = 0.7;
+        this.games["5-step TD"].agent.initial_learning_rate = this.games["5-step TD"].agent.learning_rate;
+        this.games["5-step TD"].agent.lr_decay = 0.9993;
 
-        this.games["TD10"] = new NstepTDGame(td10Div);
-        this.games["TD10"].agent.N = 10;
-        this.games["TD10"].agent.learning_rate = 0.7;
-        this.games["TD10"].agent.initial_learning_rate = this.games["TD10"].agent.learning_rate;
-        this.games["TD10"].agent.lr_decay = 0.9987;
+        this.games["10-step TD"] = new NstepTDGame(td10Div);
+        this.games["10-step TD"].agent.N = 10;
+        this.games["10-step TD"].agent.learning_rate = 0.7;
+        this.games["10-step TD"].agent.initial_learning_rate = this.games["10-step TD"].agent.learning_rate;
+        this.games["10-step TD"].agent.lr_decay = 0.9987;
 
         // set value_table invisible
         for (let key in this.games) {
