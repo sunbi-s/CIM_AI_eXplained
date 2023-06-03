@@ -238,6 +238,7 @@ export class TDAgent extends MCAgent {
     }
 
     reset() {
+        this.learning_rate = this.initial_learning_rate;
         super.reset();
     }
 }
@@ -345,6 +346,8 @@ export class NstepTDAgent extends TDAgent {
         this.rewards.push(reward);
         this.states.push(state);
 
+        console.log(this.rewards.length, this.N)
+
         if (this.rewards.length >= this.N) {
             start_idx = this.rewards.length - this.N;
             running_return = 0;
@@ -359,13 +362,15 @@ export class NstepTDAgent extends TDAgent {
             let targetV = running_return + this.discount_factor * nextV;
             this.value_table[this.states[start_idx][0]][this.states[start_idx][1]] = V + this.learning_rate * (targetV - V);
             this.learning_rate *= this.lr_decay;
+
+            // this.rewards = [];
+            // this.states = [];
         }
 
         if (done) {
             this.rewards = [];
             this.states = [];
         }
-        this.learning_rate *= this.lr_decay;
     }
 
     reset() {

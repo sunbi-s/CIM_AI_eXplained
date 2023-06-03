@@ -626,19 +626,19 @@ export class RMSEGame2 extends RMSEGame {
         this.games["TD3"].agent.N = 3;
         this.games["TD3"].agent.learning_rate = 0.7;
         this.games["TD3"].agent.initial_learning_rate = this.games["TD3"].agent.learning_rate;
-        this.games["TD3"].agent.lr_decay = 0.9998;
+        this.games["TD3"].agent.lr_decay = 0.9996;
 
         this.games["TD5"] = new NstepTDGame(td5Div);
         this.games["TD5"].agent.N = 5;
         this.games["TD5"].agent.learning_rate = 0.7;
         this.games["TD5"].agent.initial_learning_rate = this.games["TD5"].agent.learning_rate;
-        this.games["TD5"].agent.lr_decay = 0.9997;
+        this.games["TD5"].agent.lr_decay = 0.9993;
 
         this.games["TD10"] = new NstepTDGame(td10Div);
         this.games["TD10"].agent.N = 10;
         this.games["TD10"].agent.learning_rate = 0.7;
         this.games["TD10"].agent.initial_learning_rate = this.games["TD10"].agent.learning_rate;
-        this.games["TD10"].agent.lr_decay = 0.9994;
+        this.games["TD10"].agent.lr_decay = 0.9987;
 
         // set value_table invisible
         for (let key in this.games) {
