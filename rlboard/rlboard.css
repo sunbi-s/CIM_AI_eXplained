@@ -167,3 +167,25 @@ select {
     margin-top: 2px;
     margin-left: 146px;
 }
+
+#td_update_calculation img {
+    height: 36px;
+    top: 14px;
+    position: relative;
+}
+
+#td_update_calculation p {
+  display: inline-block;
+}
+
+#td_update_calculation input {
+  width: 45px;
+}
+
+#mc_update_calculation p {
+  display: inline-block;
+}
+
+#mc_update_calculation input {
+  width: 45px;
+}
