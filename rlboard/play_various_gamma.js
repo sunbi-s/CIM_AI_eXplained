@@ -236,6 +236,9 @@ btnTest.addEventListener("click", function () {
     game.run().then(() => {
         btnTest.style.display = "inline-block";
         btnStop.style.display = "none";
+
+        sliderGrid.disabled = false;
+        sliderGamma.disabled = false;
     });
 });
 btnStop.addEventListener("click", function() {
