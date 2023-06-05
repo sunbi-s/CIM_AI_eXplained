@@ -381,10 +381,77 @@
         Two primary methods for estimating the value function in a model-free environment are the MC method and the TD method.
       </p>
 
+      <h3> SharkGame Environment </h3>
+
+      <p>
+        The SharkGame can be viewed as an MDP where the states represent the position of the shark character and the actions are moving up, down, left, or right.
+        The probability of transitioning to a new state is deterministic, meaning the action will always result in a specific next state. If the agent is
+        at the top left corner and chooses to move right, it will always transition to the state on the right with no chance of moving to the state above, below, or left.
+        The reward function provides negative feedback for each step and obstacles encountered, such as bombs and nets. This approach encourages the agent
+        to find the shortest path to the goal while avoiding obstacles.
+      </p>
+
+      <figure class="static">
+        <img src="img/mdp/shark_mdp.png" alt="Interpretation of SharkGame as a Markov Decision Process." style="margin: auto auto; max-width: 65%; display: block"/>
+        <figcaption><b>Figure 7:</b> Interpretation of SharkGame as an MDP.</figcaption>
+      </figure>
+
+      <!-- <h3> True Value Table(?) </h3> -->
+      <p>
+        The value function of an environment with a small and discrete state space, such as the Shark game, can be represented using the table method. The table method 
+        is a technique to store and update values for each state or state-action pair in a tabular form. The consequently learned policy is to select actions that lead 
+        to states with the highest value among the available options in the table. Furthermore, In all subsequent examples, we will employ the following random agent to 
+        compute the true value and approximate it.
+      </p>
+      <!-- random agent -->
       <div class="framed">
         <div class="inside">
           <div class="eyebrow">
-            Click 'Test' to observe the agent's behavior based on true values from the random agent.
+            Click the test button to see how the random agent plays the game. The agent randomly selects to move up, down, left, or right with a 25% chance for each direction.
+            This random agent will be used to evaluate the value of each square on the game board.
+          </div>
+          <div id="play_random" class="play_div">
+            <div class="board"></div>
+            <br>
+
+            <a class="btn_test" style="display: inline-block; margin: auto"><img src="img/buttons/test.png" width="60" alt="reset"/></a>
+            <a class="btn_stop" style="display: none; margin: auto"><img src="img/buttons/stop.png" alt="stop"/></a>
+            <script type="module" src="rlboard/play_random.js"></script>
+          </div>
+
+          <div class="caption"><b>Figure 8:</b><br> Introducing the random agent on the SharkGame.</div>
+        </div>
+      </div>
+
+      <p>
+        If we assume complete knowledge of the MDP, we can theoretically calculate the true value, which will be approximated using both MC and TD methods.
+        To compute the value of each state, we use the following equation:
+        $$
+        \begin{aligned}
+        
+        V(s)& =\mathbb{E}\left[R_{t+1}+\gamma R_{t+2}+\gamma^2 R_{t+3}+\cdots\right] \\[5pt]
+        & =\mathbb{E}\left[R_{t+1}+\gamma\left(R_{t+2}+\gamma R_{t+3}+\cdots\right)\right] \\[5pt]
+        & =\mathbb{E}\left[R_{t+1}+\gamma V\left(s_{t+1}\right)\right] \\[1pt]
+        & =\sum_{a \in A} \pi(a \mid s)\left(R_t+\gamma \sum_{s^{\prime} \in S} P_{s s^{\prime}}^a V\left(s^{\prime}\right)\right)
+
+        \end{aligned}
+        $$
+        By repeatedly iterating this equation, we can calculate the value for each state in the table.
+      </p>
+      <p>
+        In the SharkGame environment, where the agent receives negative rewards at each step, it is essential to prioritize the gains achieved 
+        by reaching the destination. To do this, we should set high discount factor(close to 1) which lead agent to emphasizes the significance 
+        of long-term rewards. For example, in a 6x6 grid where reaching the destination requires a substantial number of steps, a discount factor 
+        of 0.999 or higher is necessary to guide the agent towards the destination. However, in a 5x5 grid, a discount factor of 0.995 or higher 
+        is enough. If the gains obtained from reaching the destination fail to spread back to the initial position, the agent remains its initial location. 
+        Practically, In practice, as policies are learned rather than being random, the influence of the discount factor becomes more robust.
+      </p>
+      
+      <!-- gamma -->
+      <div class="framed">
+        <div class="inside">
+          <div class="eyebrow">
+            Drag the slider to select the grid size and discount factor(γ) and click 'Test' to observe the agent's behavior based on true values from the random agent.
           </div>
 
           <div id="play_various_gamma" class="play_div">
@@ -400,51 +467,14 @@
             <a class="btn_stop" style="display: none; margin: auto"><img src="img/buttons/stop.png" alt="stop"/></a>
           </div>
 
-          <div class="caption"><b>Figure 14:</b><br>
-            True values of the states. The left figure shows the agent and the environment
-            and the right figure shows the true value table.
+          <div class="caption"><b>Figure 9:</b><br>
+            True values of the states depending on the grid size and discount factor. The left figure shows the agent and the environment and the right figure shows the true value table.
           </div>
 
           <script type="module" src="rlboard/play_various_gamma.js"></script>
         </div>
       </div>
-
-      <h3> SharkGame Environment </h3>
-
-      <p>
-        The SharkGame can be viewed as an MDP where the states represent the position of the shark character and the actions are moving up, down, left, or right.
-        The probability of transitioning to a new state is deterministic, meaning the action will always result in a specific next state. If the agent is
-        at the top left corner and chooses to move right, it will always transition to the state on the right with no chance of moving to the state above, below, or left.
-        The reward function provides negative feedback for each step and obstacles encountered, such as bombs and nets. This approach encourages the agent
-        to find the shortest path to the goal while avoiding obstacles. The consequently learned policy is to select actions that lead to the transition to the state with the maximum value.
-      </p>
-
-      <figure class="static">
-        <img src="img/mdp/shark_mdp.png" alt="Interpretation of SharkGame as a Markov Decision Process." style="margin: auto auto; max-width: 65%; display: block"/>
-        <figcaption><b>Figure 7:</b> Interpretation of SharkGame as an MDP.</figcaption>
-      </figure>
       <br>
-
-      <div class="framed">
-        <div class="inside">
-          <div class="eyebrow">
-            Click the test button to see how the random agent plays the game. The agent randomly selects to move up, down, left, or right with a 25% chance for each direction.
-            This random agent will be used to evaluate the value of each square on the game board.
-          </div>
-
-          <div id="play_random" class="play_div">
-            <div class="board"></div>
-            <br>
-
-            <a class="btn_test" style="display: inline-block; margin: auto"><img src="img/buttons/test.png" width="60" alt="reset"/></a>
-            <a class="btn_stop" style="display: none; margin: auto"><img src="img/buttons/stop.png" alt="stop"/></a>
-            <script type="module" src="rlboard/play_random.js"></script>
-          </div>
-
-          <div class="caption"><b>Figure 8:</b><br> Introducing the random agent on the SharkGame.</div>
-        </div>
-      </div>
-
       </section>
 
       <section id="monte_carlo">
