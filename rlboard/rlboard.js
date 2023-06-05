@@ -2,9 +2,6 @@ import { clamp, Position } from "./utill.js";
 
 const MAX_HEIGHT = 6;
 
-
-const MAX_HEIGHT = 6;
-
 export class Environment{
     constructor(div, config) {
         this.boardShape = config.boardShape;
