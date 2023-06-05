@@ -446,7 +446,7 @@
 
         <div id="mc_update_calculation" >
           <p >\[R = \]</p>
-          <input id="R-value" value="1" type="text" style="width: 135px" onkeyup="checkEmptyAndCalculate('R-value'); validateInput('R-value', /[^0-9,]/g)" onchange="calculateUpdate()" />
+          <input id="R-value" value="1" type="text" style="margin-right: 30px; width: 135px" onkeyup="checkEmptyAndCalculate('R-value'); validateInput('R-value', /[^0-9,]/g)" onchange="calculateUpdate()" />
           <p >\[\gamma = \]</p>
           <span>0</span>
           <input id="gamma-value" value="90" min="0" max="100" type="range" onkeyup="checkEmptyAndCalculate('gamma-value'); validateInput('gamma-value', /[^0-9.]/g); limitGamma()" onchange="calculateUpdate()"/>
@@ -461,7 +461,7 @@
           <span><br></span>
           <p id="G-result">$$ G_t = $$</p>
           <span><br></span>
-          <p id="V-result">
+          <p id="V-result" style="position: relative; top: -20px">
               \begin{aligned}
               V_{new}(s_t) &=  
               \end{aligned}
@@ -674,7 +674,7 @@
 
         <div id="td_update_calculation">
           <p>$$V(s_t) = $$</p>
-          <input id="td-V-st" value="1" type="number" onkeyup="checkEmptyAndCalculate('td-V-st')" onchange="calculateTDUpdate();" />
+          <input id="td-V-st" value="1" type="number" style="margin-right: 30px;" onkeyup="checkEmptyAndCalculate('td-V-st')" onchange="calculateTDUpdate();" />
           <p>$$\gamma = $$</p>
           <span>0</span>
           <input id="td-gamma-value" value="90" min="0" max="100" type="range" onkeyup="checkEmptyAndCalculate('gamma-value'); validateInput('gamma-value', /[^0-9.]/g); limitGamma()" onchange="calculateTDUpdate()"/>
