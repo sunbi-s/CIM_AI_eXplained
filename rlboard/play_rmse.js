@@ -1,15 +1,9 @@
-import { BiasGame } from "./game.js";
+import { RMSEGame } from "./game.js";
 
-const frame = document.querySelector('#play_biased');
-const boardDom1 = frame.querySelectorAll('.board')[0];
-const boardDom2 = frame.querySelectorAll('.board')[1];
-const boardDom3 = frame.querySelectorAll('.board')[2];
+const frame = document.querySelector('#play_rmse');
 
 
-let game = new BiasGame(boardDom1, boardDom2, boardDom3);
-game.mcGame.agent.value_table.div.style.display = "none";
-game.tdGame.agent.value_table.div.style.display = "none";
-game.optimGame.agent.value_table.div.style.display = "none";
+let game = new RMSEGame(frame);
 
 
 // Add btn event
@@ -38,8 +32,9 @@ btnStop.addEventListener("click", function() {
     btnStop.style.display = "none";
 
     game.Interrupt();
-    game.mcGame.environment.reset();
-    game.tdGame.environment.reset();
+    for (let key in game.games) {
+        game.games[key].environment.reset();
+    }
 });
 btnReset.addEventListener("click", function() {
     if (btnReset.classList.contains("disabled")) {

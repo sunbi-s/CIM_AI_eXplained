@@ -104,6 +104,10 @@
               <span class="separator">&nbsp;&nbsp;|&nbsp;&nbsp;</span>
             </li>
             <li>
+              <a href="#n_step_TD">N STEP TD</a>
+              <span class="separator">&nbsp;&nbsp;|&nbsp;&nbsp;</span>
+            </li>
+            <li>
               <a href="#conclusion">Conclusion</a>
               <span class="separator">&nbsp;&nbsp;|&nbsp;&nbsp;</span>
             </li>
@@ -220,7 +224,8 @@
 
         <figure class="static">
           <img src="img/mdp/transition.png" alt="Markov process for child's sleep pattern" style="margin: auto auto; max-width: 70%; display: block"/>
-          <figcaption><b>Figure 3:</b> Example of a Markov process for modeling a child's sleep pattern until deep sleep.</figcaption>
+          <figcaption><b>Figure 3:</b> Example of a Markov process for modeling a child's sleep pattern.
+            This example is intended to model the sleeping states of a child until deep sleep. </figcaption>
         </figure>
 
         <p>
@@ -235,11 +240,12 @@
         </p>
         <ul id="mp_components">
           <li> State Space (\(S\)): The state space represents all possible states that the system can take.
-               in this example, the states include \(s_0\)(Lying), \(s_1\)(Awake), \(s_2\)(Drowsy), \(s_3\)(Light Sleep), and \(s_4\)(Deep Sleep),
+               In this example, the states include \(s_0\)(Lying), \(s_1\)(Awake), \(s_2\)(Drowsy), \(s_3\)(Light Sleep), and \(s_4\)(Deep Sleep),
                which can be represented as \(\{s_0, s_1, s_2, s_3, s_4\} \in S\). </li>
           <li> Transition Probability(\(P_{ss'}\)): The probability of transitioning from state \(s\) to another state \(s'\) at step \(t\), represented as \(P_{ss'} = P(S_{t+1} = s' \mid S_{t} = s)\).
+               The transition probability table is represented below:
           </li>
-        <p>
+          <p>
               \[
               \begin{array}{c c}
               &
@@ -259,6 +265,12 @@
               \end{array}
               \]
         </p>
+          <p class="inline-math">
+            Where transition probability from $s_4$ to $s_4$ is represented 1 in the table, however, any state transition can not be made after reaching $s_4$ since it is terminal state.
+            Thus, in Figure 3 we do not printed self-edge on $s_4$.
+          </p>
+
+
         <br>
         <br>
         <br>
@@ -277,7 +289,8 @@
             <script type="module" src="rlboard/play_mdp_transition.js"></script>
           </div>
 
-          <div class="caption"><b>Figure 4:</b><br> An example of a Markov process for modeling a child's sleep until deep sleep.</div>
+          <div class="caption"><b>Figure 4:</b><br> An example of a Markov process for modeling a child's sleep pattern.
+            This example is intended to model the sleeping states of a child until deep sleep.</div>
         </div>
       </div>
 
@@ -308,7 +321,7 @@
 
       <ul id="mdp_components">
         <li> State Space (\(S\)): The state space represents all possible states that the system can take.
-            in this example, the states include \(s_0\)(Lying), \(s_1\)(Awake), \(s_2\)(Drowsy), \(s_3\)(Light Sleep), and \(s_4\)(Deep Sleep),
+            In this example, the states include \(s_0\)(Lying), \(s_1\)(Awake), \(s_2\)(Drowsy), \(s_3\)(Light Sleep), and \(s_4\)(Deep Sleep),
             which can be represented as \(\{s_0, s_1, s_2, s_3, s_4\} \in S\). </li>
         <li> Action Space(\(A\)): All possible actions that can be taken given a state \(s\), including singing a lullaby and playing with the child, represented as \(\{a_0, a_1\} \in A\). </li>
         <li> Transition Probability(\(P_{ss'}^a\)): The probability of transitioning from state \(s\) to another state \(s'\) after taking action \(a\) at step \(t\), represented as \(P_{ss'}^a = P(S_{t+1} = s' \mid S_{t} = s, A_{t}=a)\).</li>
@@ -468,6 +481,57 @@
           \[V(s_t) = S(s_t) / N(s_t)\]
         </p>
 
+        <p>
+          However, we can easily derive incremental formulas of the MC update rule.
+          These formulas provide an efficient way to compute the state value without having to maintain and process all the returns every time the state is visited.
+          The idea is to keep a running average, updating it each time a new return is available, rather than summing all the returns and dividing by the total number of visits each time.
+        </p>
+
+        <p class="inline-math">
+          Given the previous estimate $$V(s_t)$$, the new sample return $$G_{t,i}$$, and the number of visits to the state $$N(s_t)$$ before the current episode, we can update the estimate as follows:
+        </p>
+
+
+        <p>
+          $$
+          \begin{aligned}
+
+          V_{new}(s_t) &= S(s_t) / N(s_t) \\
+          &= \frac{1}{N(s_t)} \sum_{i=0}^{N(s_t)} G_{t,i} \\
+          &= \frac{1}{N(s_t)} (G_{t,i} + \sum_{i=0}^{N(s_t)} G_{t, i-1}) \\
+          &= \frac{1}{N(s_t)} (G_{t,i} + (N(s_t) - 1)  \frac{1}{(N(s_t) - 1)}  \sum_{i=0}^{N(s_t)} G_{t, i-1}) \\
+          &= \frac{1}{N(s_t)} (G_{t,i} + (N(s_t) - 1)  V(s_t)) \\
+          &= \frac{1}{N(s_t)} (G_{t,i} + N(s_t)V(s_t) - V(s_t)) \\
+          &= V(s_t) + \frac{1}{N(s_t)}(G_{t, i} - V(s_t)) \\
+
+          \end{aligned}
+          $$
+        </p>
+
+        <p class="inline-math">
+          The term $$\frac{1}{N(s_t)}(G_{t,i} - V(s_t))$$ represents the difference between the new return $$G_{t,i}$$ and the current estimated value $$V(s_t)$$,
+          scaled by the inverse of the number of visits.
+          This difference, also known as the error, measures how much the new return deviates from our current estimate.
+          We then adjust our estimate in the direction of the error. As a result, if our current estimate is too high, it will be decreased; if it's too low, it will be increased.
+          The more we visit a state, the less the estimate is influenced by new returns.
+        </p>
+
+        <p class="inline-math">
+          A practical and useful modification we can make to the MC update formula is to replace the inverse of the visit count with a step-size parameter
+          $$\alpha$$. This change gives us additional control over the learning process.
+        </p>
+
+        <p>
+          \[V_{new}(s_t) = V(s_t) + \alpha (G_{t} - V(s_t))\]
+        </p>
+
+        <p class="inline-math">
+          The step-size parameter $$\alpha$$ is crucial because it determines the extent to which our estimates are updated based on new information.
+          When $$\alpha$$ is close to 0, the updates are small, and the learning is slow.
+          Conversely, when $$\alpha$$ is close to 1, the updates are significant, and the learning is faster, but it may lead to overshooting the true values.
+          Typically, $$\alpha$$ is chosen to be a small positive number for stability and gradual learning.
+        </p>
+
         <div class="framed">
           <div class="inside">
             <div class="eyebrow">
@@ -535,6 +599,7 @@
           the value function. However, this return cannot be known until the end of the episode. This waiting time can be avoided by using TD, which updates the value function
           before the end of an episode.
         </p>
+
         <p>  
           TD achieves this goal using the Bootstrap method, which uses its own value estimates to update the value function.
           Specifically, TD updates the current value function($V(s_t)$) with a more accurate estimate($R_{t+1} + \gamma V(s_{t+1})$) takes into account the sampled reward received by the agent.
@@ -542,6 +607,24 @@
             without the need to wait for the end of an episode.
             \[V\left(s_t\right)=\mathbb{E}\left[R_{t+1}+\gamma V\left(s_{t+1}\right)\right]\]
         </p>
+
+        <p class="inline-math">
+          Much like MC methods, TD methods also use a step-size parameter, $$\alpha$$, to guide the learning process.
+        </p>
+
+        <p>
+          The TD update equation is as follows:
+        </p>
+
+        <p>
+          \[V_{new}(s_t) = V(s_t) + \alpha (R_{t+1} + \gamma V(s_{t+1}) - V(s_t))\]
+        </p>
+
+        <p>
+          This equation highlights the essence of TD learning: it adjusts the estimated value of a state based on the observed reward and the estimated value of the next state,
+          both of which are available immediately after a transition.
+        </p>
+
         <p>
           Compared to MC methods, TD is more computationally efficient because of the frequent update. However, it has bias and may not converge to
           the true value function. This is because TD uses an estimated function $V(s)$ for the update instead of a true value function. Despite its limitations, TD has
@@ -552,7 +635,7 @@
         <div class="framed">
           <div class="inside">
             <div class="eyebrow">
-              Click "Train" button to train a TD agent. Click "Test" button to observe the behavior of the trained agent. Click "Reset" button to reset the value table.
+              Click "Train" button to train a TD agent. Click "Step" button to train only one step. Click "Test" button to observe the behavior of the trained agent. Click "Reset" button to reset the value table.
             </div>
 
             <div id="play_td" class="play_div">
@@ -689,12 +772,7 @@
               Click "Reset" button to clear all results.
             </div>
 
-            <div id="play_biased" class="play_div">
-              <div class="board" style="display: none"></div>
-              <div class="board" style="display: none"></div>
-              <div class="board" style="display: none"></div>
-              <br>
-
+            <div id="play_rmse" class="play_div">
               <div id="chart"></div>
 
               <a class="btn_train" style="display: inline-block; margin: auto"><img src="img/buttons/train.png" alt="train"/></a>
@@ -707,7 +785,7 @@
               X axis is number of episodes and Y axis is RMSE.
             </div>
 
-            <script type="module" src="rlboard/play_biased.js"></script>
+            <script type="module" src="rlboard/play_rmse.js"></script>
           </div>
         </div>
 
@@ -771,8 +849,158 @@
 
       </section>
 
+      <section id="n_step_TD">
+        <h2>VI. n-step TD</h2>
+
+        <p>
+          In the previous sections, we introduced Monte Carlo (MC) and Temporal Difference (TD), two principal methods for estimating value function.
+          However, each of these methods has its distinct advantages and disadvantages.
+          TD, for instance, shines in computational efficiency but introduces bias in its estimates.
+          Conversely, MC methods provide unbiased estimates but at the cost of high variance.
+        </p>
+
+        <p>
+          This raises a thought-provoking question: Can we synthesize the strengths of these methods while mitigating their weaknesses?
+          Can we seek a compromise, a "best-of-both-worlds" approach that could effectively balance the bias-variance trade-off?
+          This idea triggers the exploration of a hybrid strategy that could seamlessly integrate the efficiency of TD and the unbiased nature of MC.
+          To understand this, let's delve into how MC and TD perform their computations.
+          MC approximates sample returns by employing the full trajectory of an episode:
+        </p>
+
+        <p>
+          \[G_t = R_{t+1} + \gamma R_{t+2} + \gamma^2 R_{t+3} + \dots + \gamma^{T-t-1} R_{T}\]
+        </p>
+
+        <p class="inline-math">
+          Where $$T$$ is a length of an episode.
+        </p>
+
+        <p>
+          On the other hand, TD leverages only a single step of information for value updates:
+        </p>
+
+        <p>
+          \[G_t = R_{t+1} + \gamma V(S_{t+1})\]
+        </p>
+
+        <p>
+          Therefore, in crafting a combined methodology, we might conceive a model that draws upon multiple steps for value updates, but not necessarily the entire trajectory.
+          For example, we may use the three-step return as a target for TD update.
+        </p>
+
+        <p>
+          \[G_{t:t+3} = R_{t+1} + \gamma R_{t+2} + \gamma^2 R_{t+3} + \gamma^3 V(S_{t+3})\]
+        </p>
+
+        <p class="inline-math">
+          In this case $$\gamma^3 V(S_{t+3})$$ used as an proxy of $$\gamma^{3} R_{t+4} + \dots + \gamma^{T-t-1} R_{T}$$ (remaining returns until the end of the episode).
+          This is where the concept of n-step TD learning comes into play, offering a promising balance between bias and variance, ultimately leading to improved learning efficiency in reinforcement learning scenarios.
+          By generalizing this, we can obtain n-step return for arbitrary $$n$$
+        </p>
+
+        <p>
+          \[G_{t:t+n} = R_{t+1} + \gamma R_{t+2} + \dots + \gamma R_{t+n} + \gamma^n V(S_{t+n})\]
+        </p>
+
+        <p>
+          The n-step TD update equation is as follows:
+        </p>
+
+        <p>
+          \[V_{new}(s_t) = V(s_t) + \alpha (G_{t:t+n} - V(s_t))\]
+        </p>
+
+        <div class="framed">
+          <div class="inside">
+            <div class="eyebrow">
+              Click "Train" button to train a N-step TD agent.
+              Click "Step" button to train only one step.
+              Click "Test" button to observe the behavior of the trained agent.
+              Click "Reset" button to reset the value table.
+              Choose N using the drop-down menu.
+            </div>
+
+            <div id="play_nstep_td" class="play_div">
+              <div class="board"></div>
+              <br>
+
+              <a class="btn_step" style="display: inline-block"><img src="img/buttons/step.png" alt="step"/></a>
+              <a class="btn_train" style="display: inline-block"><img src="img/buttons/train.png" alt="train"/></a>
+              <a class="btn_stop" style="display: none"><img src="img/buttons/stop.png" alt="stop"/></a>
+              <a class="btn_test" style="display: inline-block"><img src="img/buttons/test.png" alt="test"/></a>
+              <a class="btn_reset" style="display: inline-block"><img src="img/buttons/reset2.png" alt="reset"/></a>
+
+              <img src="img/buttons/N.png" alt="n" style="-webkit-user-drag: none; height: 23px; margin-left: 10px"/>
+              <label>
+                <select id="select_n" name="n_step">
+                  <option value=1 selected>1</option>
+                  <option value=5>5</option>
+                  <option value=10>10</option>
+                  <option value=15>15</option>
+                </select>
+              </label>
+
+              <img class="n_episode" style="margin-left: 54px" src="img/buttons/episode.png" alt="episode"/>
+              <p class="n_episode n_episode_text" style="display: inline-block; margin-left: 84px">0</p>
+            </div>
+
+            <div class="caption"><b>Figure 11:</b><br> TD learning process. The left figure shows the agent and environment,
+              while the right figure displays the state value table. </div>
+
+            <script type="module" src="rlboard/play_nstep_tdagent.js"></script>
+          </div>
+        </div>
+
+        <div class="framed">
+          <div class="inside">
+            <div class="eyebrow">
+              Drag and zoom to change the view of the 3D value table.
+            </div>
+
+            <div id="play_nstep_td_3d_table">
+            </div>
+
+            <div class="caption"><b>Figure 12:</b><br> 3D value table of the N-step TD agent.</div>
+
+            <script type="module" src="rlboard/3D_table.js"></script>
+          </div>
+        </div>
+
+        <p>
+          Referring to the figure below, we can examine the Root Mean Square Error (RMSE) of MC, TD, and N-step TD agents.
+          It's evident from the observed data that the performance of the N-step TD is nestled between that of MC and TD.
+          This outcome indicates that N-step TD proficiently bridges the gap between MC and TD, achieving a more effective balance between variance and bias.
+          Thus, it successfully combines the advantages of both methodologies, serving as a compelling compromise that mitigates the disadvantages of each individual method.
+        </p>
+
+        <div class="framed">
+          <div class="inside">
+            <div class="eyebrow">
+              Click "Train" button to start MC and TD training.
+              Click "Reset" button to clear all results.
+            </div>
+
+            <div id="play_rmse2" class="play_div">
+              <div id="chart2"></div>
+
+              <a class="btn_train" style="display: inline-block; margin: auto"><img src="img/buttons/train.png" alt="train"/></a>
+              <a class="btn_stop" style="display: none; margin: auto"><img src="img/buttons/stop.png" alt="stop"/></a>
+              <a class="btn_reset" style="display: inline-block; margin: auto"><img src="img/buttons/reset2.png" alt="reset"/></a>
+            </div>
+
+            <div class="caption"><b>Figure 15:</b><br>
+              Comparison of RMSE(Root Mean Squared Error) of MC, TD, and N-step TD agents.
+              X axis is number of episodes and Y axis is RMSE.
+            </div>
+
+            <script type="module" src="rlboard/play_rmse2.js"></script>
+          </div>
+        </div>
+
+      </section>
+
       <section id="conclusion">
-        <h2>V. Conclusion</h2>
+        <h2>VII. Conclusion</h2>
 
         <p>
           In conclusion, this paper has presented an overview of two common approaches in RL: MC and TD.
@@ -829,7 +1057,7 @@
           <li id="ref_4">
             RL from Basics
             <span>
-              S. Rho, "Markov Decision Process," in 바닥부터 배우는 강화학습 [RL from Basics], Seoul, South Korea, Youngjin.com, 2020, pp. 35–53.
+              S. Rho, Badak Buteo Baeunenun Ganghwa Hakseup [RL from Basics] (in Korean). Seoul, South Korea: Youngjin.com, pp. 32-36, 2020.
             </span>
           </li>
 

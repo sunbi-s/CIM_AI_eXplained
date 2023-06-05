@@ -1,9 +1,9 @@
-
+const MAX_HEIGHT = 6;
 
 export class VTable {
-    constructor(div) {
+    constructor(div, height, width) {
         this.div = div;
-        this.boardShape = [6, 6];
+        this.boardShape = [height, width];
         this.data = [];
         for (let y = 0; y < this.boardShape[0]; ++y) {
             let row = [];
@@ -22,11 +22,19 @@ export class VTable {
                 row.classList.add("row");
                 row.style.width = 50 * this.boardShape[1] + "px";
                 this.div.appendChild(row);
-                for (let x=0; x<this.boardShape[0]; ++x) {
+                for (let x=0; x<this.boardShape[1]; ++x) {
                     let cell = document.createElement('div');
                     cell.innerText = this.data[y][x].toFixed(2);
                     cell.classList.add("cell", "value");
-                    cell.style.backgroundImage = "url('img/rlboard/background/background_" + (y * this.boardShape[0] + x + 1).toString() + ".jpg')";
+                    if (x === this.boardShape[1] - 1 && y === this.boardShape[0] - 1) {
+                        cell.style.backgroundImage = "url('img/rlboard/background/background_" + (MAX_HEIGHT * MAX_HEIGHT).toString() + ".jpg')";
+                    } else if (x === this.boardShape[1] - 1) {
+                        cell.style.backgroundImage = "url('img/rlboard/background/background_" + ((y+1) * MAX_HEIGHT).toString() + ".jpg')";
+                    } else if (y === this.boardShape[0] - 1) {
+                        cell.style.backgroundImage = "url('img/rlboard/background/background_" + ((MAX_HEIGHT-1) * MAX_HEIGHT + x + 1).toString() + ".jpg')";
+                    } else {
+                        cell.style.backgroundImage = "url('img/rlboard/background/background_" + (y * MAX_HEIGHT + x + 1).toString() + ".jpg')";
+                    }
                     row.appendChild(cell);
                 }
             }

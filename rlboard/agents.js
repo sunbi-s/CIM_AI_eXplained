@@ -1,4 +1,4 @@
-import { clamp, Position } from "./utill.js";
+import { Position } from "./utill.js";
 import { VTable } from "./vtable.js";
 import configs from "./config.js";
 
@@ -31,7 +31,7 @@ export class CommonAgent {
         let parent = this.env.div.parentNode;
         let next = this.env.div.nextSibling;
         parent.insertBefore(div, next);
-        this.value_table = new VTable(div);
+        this.value_table = new VTable(div, this.height, this.width);
     }
 
     _initVisitTable() {
@@ -42,6 +42,17 @@ export class CommonAgent {
                 row.push(0);
             }
             this.N.push(row);
+        }
+    }
+
+    _initSumTable() {
+        this.S = [];
+        for (let y = 0; y < this.height; ++y) {
+            let row = [];
+            for (let x = 0; x < this.width; ++x) {
+                row.push(0);
+            }
+            this.S.push(row);
         }
     }
 
@@ -120,9 +131,15 @@ export class MCAgent extends CommonAgent{
     // https://sumniya.tistory.com/11
     constructor(env) {
         super(env);
+
         this.learning_rate = 0.1;
+        this.initial_learning_rate = this.learning_rate;
+        this.lr_decay = 0.99;
         this.epsilon = 0.9;
+        this.init_value = 0;
+
         this.samples = [];
+        this.reset()
     }
 
     // Add a sample to memory
@@ -132,31 +149,48 @@ export class MCAgent extends CommonAgent{
 
     // Update the Q-value of all states visited by the agent in all episodes
     update() {
-        this._initVisitTable();
         let state, reward, done, V_t;
         let visit_state = [];
         let G_t = 0;
+        let every_visit = true;
 
         for (let i = this.samples.length-1; i >= 0; --i) {
             [state, reward, done] = this.samples[i];
             G_t = reward + this.discount_factor * G_t;
-            
-            let flag = true
-            for (let j = 0; j < i; ++j) {
-                let pre_state, pre_reward, pre_done
-                [pre_state, pre_reward, pre_done] = this.samples[j];
-                if (pre_state[0] == state[0] && pre_state[1] == state[1]){
-                    flag = false
+
+            // every-visit Monte Carlo
+            if (every_visit) {
+                // this.N[state[0]][state[1]] = this.N[state[0]][state[1]] + 1;
+                // this.S[state[0]][state[1]] = this.S[state[0]][state[1]] + G_t;
+                // this.value_table[state[0]][state[1]] = this.S[state[0]][state[1]]/this.N[state[0]][state[1]];
+
+                V_t = this.value_table[state[0]][state[1]];
+                this.value_table[state[0]][state[1]] = V_t + this.learning_rate * (G_t - V_t);
+            }
+            // first-visit Monte Carlo
+            else {
+                let flag = true
+                for (let j = 0; j < i; ++j) {
+                    let pre_state, pre_reward, pre_done
+                    [pre_state, pre_reward, pre_done] = this.samples[j];
+                    if (pre_state[0] == state[0] && pre_state[1] == state[1]){
+                        flag = false
+                    }
+                }
+
+                if (flag) {
+                    // this.N[state[0]][state[1]] = this.N[state[0]][state[1]] + 1;
+                    // this.S[state[0]][state[1]] = this.S[state[0]][state[1]] + G_t;
+                    // this.value_table[state[0]][state[1]] = this.S[state[0]][state[1]]/this.N[state[0]][state[1]];
+
+                    V_t = this.value_table[state[0]][state[1]];
+                    this.value_table[state[0]][state[1]] = V_t + this.learning_rate * (G_t - V_t);
                 }
             }
-                
-            if (flag) {
-                this.N[state[0]][state[1]] = this.N[state[0]][state[1]] + 1;
-                V_t = this.value_table[state[0]][state[1]]; //default value
-                this.value_table[state[0]][state[1]] = V_t + this.learning_rate * (G_t - V_t)/ this.N[state[0]][state[1]];
-                // console.log(state[0],state[1], G_t , V_t, this.value_table[state[0]][state[1]],this.N[state[0]][state[1]])
-            }
+
         }
+        this.learning_rate *= this.lr_decay
+
         // samples clear
         this.samples = [];
     }
@@ -175,23 +209,37 @@ export class MCAgent extends CommonAgent{
     }
 
     reset() {
+        this.learning_rate = this.initial_learning_rate;
+        this._initVisitTable()
+        this._initSumTable()
         for (let y = 0; y < this.height; ++y) {
             for (let x = 0; x < this.width; ++x) {
-                this.value_table[y][x] = 0;
+                this.value_table[y][x] = this.init_value;
             }
         }
     }
 }
 
 export class TDAgent extends MCAgent {
+    constructor(env) {
+        super(env);
+        this.learning_rate = 0.7;
+        this.initial_learning_rate = this.learning_rate;
+        this.lr_decay = 0.9999;
+    }
+
     // learn value of all states visited by the agent in all episodes
     learn(state, reward, next_state) {
-        this.learning_rate = 0.8
         let V = this.value_table[state[0]][state[1]];
         let nextV = this.value_table[next_state[0]][next_state[1]];
         let targetV = reward + this.discount_factor * nextV;
         this.value_table[state[0]][state[1]] = V + this.learning_rate * (targetV - V);
+        this.learning_rate *= this.lr_decay;
+    }
 
+    reset() {
+        this.learning_rate = this.initial_learning_rate;
+        super.reset();
     }
 }
 
@@ -281,3 +329,60 @@ export class OptimAgent extends CommonAgent{
         }
     }
 }
+
+export class NstepTDAgent extends TDAgent {
+    constructor(env) {
+        super(env);
+        this.N = 1;
+
+        this.rewards = [];
+        this.states = [];
+    }
+
+    // learn value of all states visited by the agent in all episodes
+    learn(state, reward, next_state, done) {
+        let start_idx, running_return, gi, idx;
+
+        this.rewards.push(reward);
+        this.states.push(state);
+
+        console.log(this.rewards.length, this.N)
+
+        if (this.rewards.length >= this.N) {
+            start_idx = this.rewards.length - this.N;
+            running_return = 0;
+            gi = 0;
+            for (idx = start_idx; idx < this.rewards.length; ++idx) {
+                running_return += this.discount_factor**gi * this.rewards[idx]
+                gi += 1;
+            }
+
+            let V = this.value_table[this.states[start_idx][0]][this.states[start_idx][1]];
+            let nextV = this.value_table[next_state[0]][next_state[1]];
+            let targetV = running_return + this.discount_factor * nextV;
+            this.value_table[this.states[start_idx][0]][this.states[start_idx][1]] = V + this.learning_rate * (targetV - V);
+            this.learning_rate *= this.lr_decay;
+
+            // this.rewards = [];
+            // this.states = [];
+        }
+
+        if (done) {
+            this.rewards = [];
+            this.states = [];
+        }
+    }
+
+    reset() {
+        this.learning_rate = this.initial_learning_rate;
+        this.rewards = [];
+        this.states = [];
+        for (let y = 0; y < this.height; ++y) {
+            for (let x = 0; x < this.width; ++x) {
+                this.value_table[y][x] = this.init_value;
+            }
+        }
+    }
+}
+
+

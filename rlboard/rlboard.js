@@ -1,5 +1,7 @@
 import { clamp, Position } from "./utill.js";
 
+const MAX_HEIGHT = 6;
+
 
 const MAX_HEIGHT = 6;
 
