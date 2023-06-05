@@ -167,3 +167,53 @@ select {
     margin-top: 2px;
     margin-left: 146px;
 }
+
+.slider {
+    -webkit-appearance: none;
+    position: absolute;
+    height: 5px;
+    border-radius: 5px;
+    background: #dfb3f2;
+}
+.slider:disabled {
+    background: #ddd;
+}
+.slider_grid {
+    top: 156px;
+    left: 518px;
+    width: 238px;
+    rotate: -90deg;
+}
+.slider_gamma {
+    top: 305px;
+    left: 430px;
+    width: 170px;
+}
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 15px;
+    height: 15px;
+    background: #9400d3;
+    border-radius: 50%;
+}
+.slider:disabled::-webkit-slider-thumb {
+    background: #ddd;
+}
+.slider_grid_ticks {
+    background-image: url("../img/gamma_board/GridTicks.png");
+    background-size: cover;
+    position: absolute;
+    top: 0px;
+    left: 610px;
+    width: 50px;
+    height: 300px;
+}
+.slider_gamma_ticks {
+    background-image: url("../img/gamma_board/GammaTicks.png");
+    background-size: contain;
+    position: absolute;
+    top: 305px;
+    left: 363px;
+    width: 236px;
+    height: 50px;
+}
