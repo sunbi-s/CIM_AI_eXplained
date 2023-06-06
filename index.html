@@ -506,10 +506,33 @@
         </p>
 
         <p>
-          \[N(s_t) = N(s_t) + 1\]
+          \[N(s_t) = N(s_t) + 1\] 
           \[S(s_t) = S(s_t) + G_t\]
           \[V(s_t) = S(s_t) / N(s_t)\]
         </p>
+
+        <div id="mc_update_calculation" class="update_calculation">
+          <p >\[R = \]</p>
+          <input id="mc-R" value="1,2,3,4" type="text" style="margin-right: 30px; width: 135px"/>
+          <p >\[\gamma = \]</p>
+          <span style="position: relative; top: 10px; left: 5px; font-size: 14px">0</span>
+          <input id="mc-gamma" value="90" min="0" max="100" type="range" style="position: relative; left: -10px"/>
+          <span style="position: relative; top: 11px; left: -26px; font-size: 14px">1</span>
+          <span><br></span>
+          <p>$$ N(s_t) = $$</p>
+          <input id="mc-N" value="10" type="number" min="0"/>
+          <span><br></span>
+          <p>$$ S(s_t) = $$</p>
+          <input id="mc-S" value="20" type="number" min="0"/>
+        
+          <span><br></span>
+          <p id="mc-G-calc" style="position: relative; left: -5px"></p>
+          <span><br></span>
+          <p id="mc-V-calc" style="position: relative; top: -40px; left: -5px"></p>
+        
+          <script type="module" src="rlboard/calculate_mc_update.js"></script>
+        </div>
+
 
         <p>
           However, we can easily derive incremental formulas of the MC update rule.
@@ -654,6 +677,28 @@
           This equation highlights the essence of TD learning: it adjusts the estimated value of a state based on the observed reward and the estimated value of the next state,
           both of which are available immediately after a transition.
         </p>
+
+        <div id="td_update_calculation" class="update_calculation">
+          <p>$$V(s_t) = $$</p>
+          <input id="td-V" value="1" type="number" style="margin-right: 30px;"/>
+          <p>$$\gamma = $$</p>
+          <span style="position: relative; top: 10px; left: 5px; font-size: 14px">0</span>
+          <input id="td-gamma" value="90" min="0" max="100" type="range" style="position: relative; left: -10px"/>
+          <span style="position: relative; top: 11px; left: -26px; font-size: 14px">1</span>
+          <span><br></span>
+          <p>$$V(s_{t+1}) = $$</p>
+          <input id="td-V-next" value="2" type="number" min="0"/>
+          <span><br></span>
+          <p>$$R_{t+1} = $$</p>
+          <input id="td-R" value="3" type="number" min="0"/>
+          <span><br></span>
+          <p>$$\alpha = $$</p>
+          <input id="td-alpha" value="4" type="number" min="0"/>
+          <span><br></span>
+          <p id="td-V-new-calc" style="position: relative; top: -10px; left: -5px"></p>
+
+          <script type="module" src="rlboard/calculate_td_update.js"></script>
+        </div>
 
         <p>
           Compared to MC methods, TD is more computationally efficient because of the frequent update. However, it has bias and may not converge to

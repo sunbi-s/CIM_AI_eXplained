@@ -1,3 +1,7 @@
+body {
+    min-width: 1050px;
+  }
+
 .disabled > img {
     opacity: 50%;
 }
@@ -168,6 +172,22 @@ select {
     margin-left: 146px;
 }
 
+.update_calculation {
+    width: 50%;
+    margin: auto;
+    text-align: left;
+    padding-left: 150px;
+}
+
+.update_calculation p {
+    margin: 0;
+    padding: 0;
+    display: inline-block;
+}
+
+.update_calculation input {
+    width: 55px;
+
 .slider {
     -webkit-appearance: none;
     position: absolute;
@@ -175,20 +195,24 @@ select {
     border-radius: 5px;
     background: #dfb3f2;
 }
+
 .slider:disabled {
     background: #ddd;
 }
+
 .slider_grid {
     top: 156px;
     left: 518px;
     width: 238px;
     rotate: -90deg;
 }
+
 .slider_gamma {
     top: 305px;
     left: 430px;
     width: 170px;
 }
+
 .slider::-webkit-slider-thumb {
     -webkit-appearance: none;
     width: 15px;
@@ -196,9 +220,11 @@ select {
     background: #9400d3;
     border-radius: 50%;
 }
+
 .slider:disabled::-webkit-slider-thumb {
     background: #ddd;
 }
+
 .slider_grid_ticks {
     background-image: url("../img/gamma_board/GridTicks.png");
     background-size: cover;
@@ -208,6 +234,7 @@ select {
     width: 50px;
     height: 300px;
 }
+
 .slider_gamma_ticks {
     background-image: url("../img/gamma_board/GammaTicks.png");
     background-size: contain;
