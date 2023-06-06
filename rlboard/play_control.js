@@ -7,11 +7,23 @@ const boardDom = frame.querySelector('.board');
 let game = new Game(boardDom);
 animate(game);
 
+
+function adjustTextPosition() {
+    let text_rewards = document.querySelectorAll(".text_reward");
+    for (let i = 0; i < text_rewards.length; ++i) {
+        let col = boardDom.querySelectorAll(".cell")[i];
+        text_rewards[i].style.top = col.offsetTop + col.offsetHeight / 2.5 + "px";
+        text_rewards[i].style.left = col.offsetLeft + col.offsetWidth / 2 + "px";
+    }
+}
+
+
 for (let y = 0; y < game.environment.boardShape[0]; y++) {
     let row = boardDom.childNodes[y];
     for (let x = 0; x < game.environment.boardShape[1]; x++) {
         let col = row.childNodes[x];
         let text = document.createElement("p");
+        text.classList.add("text_reward");
         boardDom.appendChild(text);
 
         // calculate reward
@@ -27,8 +39,6 @@ for (let y = 0; y < game.environment.boardShape[0]; y++) {
         text.style.fontSize = "12px";
         text.style.color = "white";
         text.style.position = "absolute";
-        text.style.top = col.offsetTop + col.offsetHeight / 2.5 + "px";
-        text.style.left = col.offsetLeft + col.offsetWidth / 2 + "px";
         text.style.zIndex = 2;
     }
 }
@@ -83,3 +93,6 @@ frame.querySelector('.btn_reset').addEventListener("click", function() {
     state = game.environment.reset();
     done = false;
 });
+
+window.addEventListener("resize", adjustTextPosition);
+adjustTextPosition();
