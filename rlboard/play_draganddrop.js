@@ -1,11 +1,12 @@
 import { Position } from "./utill.js";
-import { Game, MCGame, TDGame, OptimGame, animate } from "./game.js";
+import { Game, MCGame, TDGame, OptimGame, NstepTDGame, animate } from "./game.js";
 
 const frame = document.querySelector('#play_draganddrop')
 const boardDom = frame.querySelector('.board');
 const hiddenBoardDom1 = frame.querySelector('#hiddenBoard1');
 const hiddenBoardDom2 = frame.querySelector('#hiddenBoard2');
 const hiddenBoardDom3 = frame.querySelector('#hiddenBoard3');
+const hiddenBoardDom4 = frame.querySelector('#hiddenBoard4');
 
 boardDom.style.cursor = 'pointer';
 
@@ -31,8 +32,15 @@ optimGame.environment.player = dummyGame.environment.player;
 let optimVtable = optimGame.agent.value_table.div;
 optimVtable.style.display = "none";
 
+let n_step_tdGame = new NstepTDGame(hiddenBoardDom4);
+n_step_tdGame.environment.div = boardDom;
+n_step_tdGame.environment.player = dummyGame.environment.player;
+let NtdVtable = n_step_tdGame.agent.value_table.div;
+NtdVtable.style.display = "none";
+
 animate(mcGame);
 animate(tdGame);
+animate(n_step_tdGame);
 animate(optimGame);
 
 
@@ -173,6 +181,8 @@ let divPlayMyMDP = frame.querySelector('#play_my_mdp');
 let btnSave = frame.querySelector('.btn_save');
 let btnBack = frame.querySelector('.btn_back');
 let btnTrain = frame.querySelector('.btn_train');
+let select_n_step_drop_down = frame.querySelector('.select_n_step_drop_down');
+let select_n_step = frame.querySelector('#select_n_step');
 let btnStop = frame.querySelector('.btn_stop');
 let btnTest = frame.querySelector('.btn_test');
 let nEpisodeText = frame.querySelector('.n_episode_text');
@@ -192,6 +202,9 @@ btnSave.addEventListener("click", async function() {
         mcVtable.style.display = "inline-block";
     } else if (selectAgent.value === "TD") {
         tdVtable.style.display = "inline-block";
+    }
+    else if (selectAgent.value === "N_STEP_TD") {
+        NtdVtable.style.display = "inline-block";
     }
 
     // make all places draggable false
@@ -225,14 +238,17 @@ btnBack.addEventListener("click", function() {
     optimVtable.style.display = "none";
     mcVtable.style.display = "none";
     tdVtable.style.display = "none";
+    NtdVtable.style.display = "none";
 
     optimGame.interrupt = true;
     mcGame.interrupt = true;
     tdGame.interrupt = true;
+    n_step_tdGame.interrupt = true;
 
     // reset agents
     mcGame.agent.reset();
     tdGame.agent.reset();
+    n_step_tdGame.agent.reset();
     dummyGame.environment.reset();
 
     for (let place of boardDom.querySelectorAll(".place")) {
@@ -252,6 +268,7 @@ btnTrain.addEventListener("click", async function () {
     optimGame.interrupt = false;
     mcGame.interrupt = false;
     tdGame.interrupt = false;
+    n_step_tdGame.interrupt = false;
 
     if (selectAgent.value === "Optimal") {
         btnBack.classList.add("disabled");
@@ -275,6 +292,13 @@ btnTrain.addEventListener("click", async function () {
             btnStop.style.display = "none";
             selectAgent.disabled = false;
         });
+    } else if (selectAgent.value === "N_STEP_TD") {
+        n_step_tdGame.run(1e3, 10, nEpisodeText).then(() => {
+            btnTest.classList.remove("disabled");
+            btnTrain.style.display = "inline-block";
+            btnStop.style.display = "none";
+            selectAgent.disabled = false;
+        });
     }
 });
 btnStop.addEventListener("click", function() {
@@ -293,6 +317,7 @@ btnStop.addEventListener("click", function() {
     optimGame.interrupt = true;
     mcGame.interrupt = true;
     tdGame.interrupt = true;
+    n_step_tdGame.interrupt = true;
     dummyGame.environment.reset();
 });
 btnTest.addEventListener("click", function() {
@@ -308,6 +333,7 @@ btnTest.addEventListener("click", function() {
     optimGame.interrupt = false;
     mcGame.interrupt = false;
     tdGame.interrupt = false;
+    n_step_tdGame.interrupt = false;
 
     if (selectAgent.value === "Optimal") {
         optimGame.run_test(1).then(() => {
@@ -332,6 +358,14 @@ btnTest.addEventListener("click", function() {
             btnStop.style.display = "none";
             selectAgent.disabled = false;
         });
+    } else if (selectAgent.value === "N_STEP_TD") {
+        n_step_tdGame.run_test(1).then(() => {
+            btnTrain.classList.remove("disabled");
+            btnBack.classList.remove("disabled");
+            btnTest.style.display = "inline-block";
+            btnStop.style.display = "none";
+            selectAgent.disabled = false;
+        });
     }
 });
 
@@ -344,6 +378,8 @@ selectAgent.addEventListener("change", function (ev) {
         optimVtable.style.display = "inline-block";
         mcVtable.style.display = "none";
         tdVtable.style.display = "none";
+        NtdVtable.style.display = "none";
+        select_n_step_drop_down.style.display = "none";
         frame.querySelectorAll(".n_episode").forEach((elem) => {
             elem.style.display = "none";
         });
@@ -352,6 +388,8 @@ selectAgent.addEventListener("change", function (ev) {
         optimVtable.style.display = "none";
         mcVtable.style.display = "inline-block";
         tdVtable.style.display = "none";
+        NtdVtable.style.display = "none";
+        select_n_step_drop_down.style.display = "none";
         frame.querySelectorAll(".n_episode").forEach((elem) => {
             elem.style.display = "inline-block";
         });
@@ -362,10 +400,28 @@ selectAgent.addEventListener("change", function (ev) {
         optimVtable.style.display = "none";
         mcVtable.style.display = "none";
         tdVtable.style.display = "inline-block";
+        NtdVtable.style.display = "none";
+        select_n_step_drop_down.style.display = "none";
+        frame.querySelectorAll(".n_episode").forEach((elem) => {
+            elem.style.display = "inline-block";
+        });
+        nEpisodes[idx] = nEpisodeText.innerText;
+        nEpisodeText.innerText = nEpisodes[idx = 1];
+    } else if (selectAgent.value === "N_STEP_TD") {
+        btnTrain.style.display = "inline-block";
+        optimVtable.style.display = "none";
+        mcVtable.style.display = "none";
+        tdVtable.style.display = "none";
+        NtdVtable.style.display = "inline-block";
+        select_n_step_drop_down.style.display = "inline-block";
         frame.querySelectorAll(".n_episode").forEach((elem) => {
             elem.style.display = "inline-block";
         });
         nEpisodes[idx] = nEpisodeText.innerText;
         nEpisodeText.innerText = nEpisodes[idx = 1];
     }
+});
+
+select_n_step.addEventListener("change", function (ev) {
+    n_step_tdGame.agent.N = Number(select_n_step.value)
 });

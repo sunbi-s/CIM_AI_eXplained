@@ -224,7 +224,8 @@
 
         <figure class="static">
           <img src="img/mdp/transition.png" alt="Markov process for child's sleep pattern" style="margin: auto auto; max-width: 70%; display: block"/>
-          <figcaption><b>Figure 3:</b> Example of a Markov process for modeling a child's sleep pattern until deep sleep.</figcaption>
+          <figcaption><b>Figure 3:</b> Example of a Markov process for modeling a child's sleep pattern.
+            This example is intended to model the sleeping states of a child until deep sleep. </figcaption>
         </figure>
 
         <p>
@@ -239,11 +240,12 @@
         </p>
         <ul id="mp_components">
           <li> State Space (\(S\)): The state space represents all possible states that the system can take.
-               in this example, the states include \(s_0\)(Lying), \(s_1\)(Awake), \(s_2\)(Drowsy), \(s_3\)(Light Sleep), and \(s_4\)(Deep Sleep),
+               In this example, the states include \(s_0\)(Lying), \(s_1\)(Awake), \(s_2\)(Drowsy), \(s_3\)(Light Sleep), and \(s_4\)(Deep Sleep),
                which can be represented as \(\{s_0, s_1, s_2, s_3, s_4\} \in S\). </li>
           <li> Transition Probability(\(P_{ss'}\)): The probability of transitioning from state \(s\) to another state \(s'\) at step \(t\), represented as \(P_{ss'} = P(S_{t+1} = s' \mid S_{t} = s)\).
+               The transition probability table is represented below:
           </li>
-        <p>
+          <p>
               \[
               \begin{array}{c c}
               &
@@ -263,6 +265,12 @@
               \end{array}
               \]
         </p>
+          <p class="inline-math">
+            Where transition probability from $s_4$ to $s_4$ is represented 1 in the table, however, any state transition can not be made after reaching $s_4$ since it is terminal state.
+            Thus, in Figure 3 we do not printed self-edge on $s_4$.
+          </p>
+
+
         <br>
         <br>
         <br>
@@ -281,7 +289,8 @@
             <script type="module" src="rlboard/play_mdp_transition.js"></script>
           </div>
 
-          <div class="caption"><b>Figure 4:</b><br> An example of a Markov process for modeling a child's sleep until deep sleep.</div>
+          <div class="caption"><b>Figure 4:</b><br> An example of a Markov process for modeling a child's sleep pattern.
+            This example is intended to model the sleeping states of a child until deep sleep.</div>
         </div>
       </div>
 
@@ -312,7 +321,7 @@
 
       <ul id="mdp_components">
         <li> State Space (\(S\)): The state space represents all possible states that the system can take.
-            in this example, the states include \(s_0\)(Lying), \(s_1\)(Awake), \(s_2\)(Drowsy), \(s_3\)(Light Sleep), and \(s_4\)(Deep Sleep),
+            In this example, the states include \(s_0\)(Lying), \(s_1\)(Awake), \(s_2\)(Drowsy), \(s_3\)(Light Sleep), and \(s_4\)(Deep Sleep),
             which can be represented as \(\{s_0, s_1, s_2, s_3, s_4\} \in S\). </li>
         <li> Action Space(\(A\)): All possible actions that can be taken given a state \(s\), including singing a lullaby and playing with the child, represented as \(\{a_0, a_1\} \in A\). </li>
         <li> Transition Probability(\(P_{ss'}^a\)): The probability of transitioning from state \(s\) to another state \(s'\) after taking action \(a\) at step \(t\), represented as \(P_{ss'}^a = P(S_{t+1} = s' \mid S_{t} = s, A_{t}=a)\).</li>
@@ -379,22 +388,28 @@
         The probability of transitioning to a new state is deterministic, meaning the action will always result in a specific next state. If the agent is
         at the top left corner and chooses to move right, it will always transition to the state on the right with no chance of moving to the state above, below, or left.
         The reward function provides negative feedback for each step and obstacles encountered, such as bombs and nets. This approach encourages the agent
-        to find the shortest path to the goal while avoiding obstacles. The consequently learned policy is to select actions that lead to the transition to the state with the maximum value.
+        to find the shortest path to the goal while avoiding obstacles.
       </p>
 
       <figure class="static">
         <img src="img/mdp/shark_mdp.png" alt="Interpretation of SharkGame as a Markov Decision Process." style="margin: auto auto; max-width: 65%; display: block"/>
         <figcaption><b>Figure 7:</b> Interpretation of SharkGame as an MDP.</figcaption>
       </figure>
-      <br>
 
+      <!-- <h3> True Value Table(?) </h3> -->
+      <p>
+        The value function of an environment with a small and discrete state space, such as the Shark game, can be represented using the table method. The table method 
+        is a technique to store and update values for each state or state-action pair in a tabular form. The consequently learned policy is to select actions that lead 
+        to states with the highest value among the available options in the table. Furthermore, In all subsequent examples, we will employ the following random agent to 
+        compute the true value and approximate it.
+      </p>
+      <!-- random agent -->
       <div class="framed">
         <div class="inside">
           <div class="eyebrow">
             Click the test button to see how the random agent plays the game. The agent randomly selects to move up, down, left, or right with a 25% chance for each direction.
             This random agent will be used to evaluate the value of each square on the game board.
           </div>
-
           <div id="play_random" class="play_div">
             <div class="board"></div>
             <br>
@@ -408,6 +423,58 @@
         </div>
       </div>
 
+      <p>
+        If we assume complete knowledge of the MDP, we can theoretically calculate the true value, which will be approximated using both MC and TD methods.
+        To compute the value of each state, we use the following equation:
+        $$
+        \begin{aligned}
+        
+        V(s)& =\mathbb{E}\left[R_{t+1}+\gamma R_{t+2}+\gamma^2 R_{t+3}+\cdots\right] \\[5pt]
+        & =\mathbb{E}\left[R_{t+1}+\gamma\left(R_{t+2}+\gamma R_{t+3}+\cdots\right)\right] \\[5pt]
+        & =\mathbb{E}\left[R_{t+1}+\gamma V\left(s_{t+1}\right)\right] \\[1pt]
+        & =\sum_{a \in A} \pi(a \mid s)\left(R_t+\gamma \sum_{s^{\prime} \in S} P_{s s^{\prime}}^a V\left(s^{\prime}\right)\right)
+
+        \end{aligned}
+        $$
+        By repeatedly iterating this equation, we can calculate the value for each state in the table.
+      </p>
+      <p>
+        In the SharkGame environment, where the agent receives negative rewards at each step, it is essential to prioritize the gains achieved 
+        by reaching the destination. To do this, we should set high discount factor(close to 1) which lead agent to emphasizes the significance 
+        of long-term rewards. For example, in a 6x6 grid where reaching the destination requires a substantial number of steps, a discount factor 
+        of 0.999 or higher is necessary to guide the agent towards the destination. However, in a 5x5 grid, a discount factor of 0.995 or higher 
+        is enough. If the gains obtained from reaching the destination fail to spread back to the initial position, the agent remains its initial location. 
+        Practically, as policies are learned rather than being random, the influence of the discount factor becomes more robust.
+      </p>
+      
+      <!-- gamma -->
+      <div class="framed">
+        <div class="inside">
+          <div class="eyebrow">
+            Drag the slider to select the grid size and discount factor(γ) and click 'Test' to observe the agent's behavior based on true values from the random agent.
+          </div>
+
+          <div id="play_various_gamma" class="play_div">
+            <div class="gamma_board" style="margin: auto auto 4px; width: 604px; height: 300px; position: relative;">
+              <div class="gamma_board_left" style="background-repeat: no-repeat; height:100%; float:left"></div>
+              <div class="gamma_board_right" style="background-repeat: no-repeat; height:100%; float:right"></div>
+              <div class="slider_grid_ticks" style="background-repeat: no-repeat;"></div>
+              <div class="slider_gamma_ticks" style="background-repeat: no-repeat;"></div>
+              <input class="slider slider_grid" type="range" min="0" max="2" step="1" value="2">
+              <input class="slider slider_gamma" type="range" min="0" max="10" step="1" value="10">
+            </div>
+            <a class="btn_test" style="display: inline-block; margin: auto"><img src="img/buttons/test.png" alt="test"/></a>
+            <a class="btn_stop" style="display: none; margin: auto"><img src="img/buttons/stop.png" alt="stop"/></a>
+          </div>
+
+          <div class="caption"><b>Figure 9:</b><br>
+            True values of the states depending on the grid size and discount factor. The left figure shows the agent and the environment and the right figure shows the true value table.
+          </div>
+
+          <script type="module" src="rlboard/play_various_gamma.js"></script>
+        </div>
+      </div>
+      <br>
       </section>
 
       <section id="monte_carlo">
@@ -539,7 +606,7 @@
               <p class="n_episode n_episode_text" style="display: inline-block">0</p>
             </div>
 
-            <div class="caption"><b>Figure 9:</b><br>
+            <div class="caption"><b>Figure 10:</b><br>
               MC learning process. The left figure shows the agent and environment, while the right figure displays the state value table..
             </div>
 
@@ -559,7 +626,7 @@
             </div>
 
 
-            <div class="caption"><b>Figure 10:</b><br> 3D value table of the MC agent.</div>
+            <div class="caption"><b>Figure 11:</b><br> 3D value table of the MC agent.</div>
               <script type="module" src="rlboard/3D_table.js"></script>
           </div>
         </div>
@@ -660,7 +727,7 @@
               <p class="n_episode n_episode_text" style="display: inline-block; margin-left: 118px">0</p>
             </div>
 
-            <div class="caption"><b>Figure 11:</b><br> TD learning process. The left figure shows the agent and environment, 
+            <div class="caption"><b>Figure 12:</b><br> TD learning process. The left figure shows the agent and environment,
               while the right figure displays the state value table. </div>
 
             <script type="module" src="rlboard/play_tdagent.js"></script>
@@ -678,7 +745,7 @@
             <div id="play_td_3d_table">
             </div>
 
-            <div class="caption"><b>Figure 12:</b><br> 3D value table of the TD agent.</div>
+            <div class="caption"><b>Figure 13:</b><br> 3D value table of the TD agent.</div>
 
             <script type="module" src="rlboard/3D_table.js"></script>
           </div>
@@ -721,7 +788,7 @@
               <p class="n_episode n_episode_text" style="display: inline-block">0</p>
             </div>
 
-            <div class="caption"><b>Figure 13:</b><br>
+            <div class="caption"><b>Figure 14:</b><br>
               Comparison of MC and TD learning. The left figure is MC and the right figure is TD.
             </div>
 
@@ -753,7 +820,7 @@
               <a class="btn_stop" style="display: none; margin: auto"><img src="img/buttons/stop.png" alt="stop"/></a>
             </div>
 
-            <div class="caption"><b>Figure 14:</b><br>
+            <div class="caption"><b>Figure 15:</b><br>
               True values of the states. The left figure shows the agent and the environment
               and the right figure shows the true value table.
             </div>
@@ -788,7 +855,7 @@
               <a class="btn_reset" style="display: inline-block; margin: auto"><img src="img/buttons/reset2.png" alt="reset"/></a>
             </div>
 
-            <div class="caption"><b>Figure 15:</b><br>
+            <div class="caption"><b>Figure 16:</b><br>
               Comparison of RMSE(Root Mean Squared Error) of MC and TD agents.
               X axis is number of episodes and Y axis is RMSE.
             </div>
@@ -802,58 +869,6 @@
           By understanding the differences between MC and TD,
           researchers and practitioners can choose the most appropriate approach for their particular application.
         </p>
-
-        <p>
-          Optimal behavior can vary depending on the MDP. In the figure below, you can create your own MDP and check how optimal, MC, and TD agents behave.
-          The value table for the optimal agent is calculated based on optimal policy.
-        </p>
-
-        <div class="framed">
-          <div class="inside">
-            <div class="eyebrow">
-              Create your own MDP by dragging elements on the right into the game scene.
-              To test various agents on the MDP, click "save" button and select an algorithm using drop-down menu.
-              Click "Train" button to train an agent.
-              Click "Test" button to observe the behavior of the agent.
-            </div>
-
-            <div id="play_draganddrop" class="play_div">
-              <div class="board"></div>
-              <div style="display: inline-block; position: relative; margin-bottom: -95px; top: -105px">
-                <div class="place_creator"></div>
-                <div class="trash_can" style="margin-top: 10px"></div>
-              </div>
-              <div class="board" id="hiddenBoard1" style="display: none"></div>
-              <div class="board" id="hiddenBoard2" style="display: none"></div>
-              <div class="board" id="hiddenBoard3" style="display: none"></div>
-              <br>
-
-              <a class="btn_save" style="display: inline-block; margin: auto; position: relative; top: -6px"><img src="img/buttons/save.png" alt="save"/></a>
-
-              <div id="play_my_mdp" style="display: none">
-                <a class="btn_back" style="display: inline-block; margin: auto"><img src="img/buttons/back.png" alt="back"/></a>
-                <label>
-                  <select id="select_agent" name="lang">
-                    <option value=Optimal>Optimal</option>
-                    <option value=MC selected>MC</option>
-                    <option value=TD>TD</option>
-                  </select>
-                </label>
-                <a class="btn_train" style="display: inline-block; margin: auto"><img src="img/buttons/train.png" alt="train"/></a>
-                <a class="btn_stop" style="display: none; margin: auto"><img src="img/buttons/stop.png" alt="stop"/></a>
-                <a class="btn_test" style="display: inline-block; margin: auto"><img src="img/buttons/test.png" alt="test"/></a>
-
-                <img class="n_episode" src="img/buttons/episode.png" alt="episode" style="margin-left: 83px"/>
-                <p class="n_episode n_episode_text" style="display: inline-block; margin-left: 111px">0</p>
-              </div>
-
-            </div>
-
-            <div class="caption"><b>Figure 16:</b><br> Example of an MDP. </div>
-
-            <script type="module" src="rlboard/play_draganddrop.js"></script>
-          </div>
-        </div>
 
       </section>
 
@@ -952,7 +967,7 @@
               <p class="n_episode n_episode_text" style="display: inline-block; margin-left: 84px">0</p>
             </div>
 
-            <div class="caption"><b>Figure 11:</b><br> TD learning process. The left figure shows the agent and environment,
+            <div class="caption"><b>Figure 17:</b><br> TD learning process. The left figure shows the agent and environment,
               while the right figure displays the state value table. </div>
 
             <script type="module" src="rlboard/play_nstep_tdagent.js"></script>
@@ -968,7 +983,7 @@
             <div id="play_nstep_td_3d_table">
             </div>
 
-            <div class="caption"><b>Figure 12:</b><br> 3D value table of the N-step TD agent.</div>
+            <div class="caption"><b>Figure 18:</b><br> 3D value table of the N-step TD agent.</div>
 
             <script type="module" src="rlboard/3D_table.js"></script>
           </div>
@@ -996,12 +1011,78 @@
               <a class="btn_reset" style="display: inline-block; margin: auto"><img src="img/buttons/reset2.png" alt="reset"/></a>
             </div>
 
-            <div class="caption"><b>Figure 15:</b><br>
+            <div class="caption"><b>Figure 19:</b><br>
               Comparison of RMSE(Root Mean Squared Error) of MC, TD, and N-step TD agents.
               X axis is number of episodes and Y axis is RMSE.
             </div>
 
             <script type="module" src="rlboard/play_rmse2.js"></script>
+          </div>
+        </div>
+
+        <p>
+          Optimal behavior can vary depending on the MDP. In the figure below, you can create your own MDP and check how optimal, MC, TD, and N-step TD agents behave.
+          The value table for the optimal agent is calculated based on optimal policy.
+        </p>
+
+        <div class="framed">
+          <div class="inside">
+            <div class="eyebrow">
+              Create your own MDP by dragging elements on the right into the game scene.
+              To test various agents on the MDP, click "save" button and select an algorithm using drop-down menu.
+              Click "Train" button to train an agent.
+              Click "Test" button to observe the behavior of the agent.
+            </div>
+
+            <div id="play_draganddrop" class="play_div">
+              <div class="board"></div>
+              <div style="display: inline-block; position: relative; margin-bottom: -95px; top: -105px">
+                <div class="place_creator"></div>
+                <div class="trash_can" style="margin-top: 10px"></div>
+              </div>
+              <div class="board" id="hiddenBoard1" style="display: none"></div>
+              <div class="board" id="hiddenBoard2" style="display: none"></div>
+              <div class="board" id="hiddenBoard3" style="display: none"></div>
+              <div class="board" id="hiddenBoard4" style="display: none"></div>
+              <br>
+
+              <a class="btn_save" style="display: inline-block; margin: auto; position: relative; top: -6px"><img src="img/buttons/save.png" alt="save"/></a>
+
+              <div id="play_my_mdp" style="display: none">
+                <a class="btn_back" style="display: inline-block; margin: auto"><img src="img/buttons/back.png" alt="back"/></a>
+                <label>
+                  <select id="select_agent" name="lang">
+                    <option value=Optimal>Optimal</option>
+                    <option value=MC selected>MC</option>
+                    <option value=TD>TD</option>
+                    <option value=N_STEP_TD>N-step TD</option>
+                  </select>
+                </label>
+                <a class="btn_train" style="display: inline-block; margin: auto"><img src="img/buttons/train.png" alt="train"/></a>
+                <a class="btn_stop" style="display: none; margin: auto"><img src="img/buttons/stop.png" alt="stop"/></a>
+                <a class="btn_test" style="display: inline-block; margin: auto"><img src="img/buttons/test.png" alt="test"/></a>
+
+                <a class="select_n_step_drop_down" style="display: none; margin: auto">
+                  <img src="img/buttons/N.png" alt="n" style="-webkit-user-drag: none; height: 23px; margin-left: 10px"/>
+                  <label>
+                    <select id="select_n_step" name="lang">
+                      <option value=1 selected>1</option>
+                      <option value=5>5</option>
+                      <option value=10>10</option>
+                      <option value=15>15</option>
+                    </select>
+                  </label>
+                </a>
+
+                <img class="n_episode" src="img/buttons/episode.png" alt="episode" style="margin-left: 83px"/>
+                <p class="n_episode n_episode_text" style="display: inline-block; margin-left: 111px">0</p>
+              </div>
+
+            </div>
+
+            <div class="caption"><b>Figure 20:</b><br> Example of an MDP. </div>
+
+            <script type="module" src="rlboard/play_draganddrop.js"></script>
           </div>
         </div>
 
@@ -1065,7 +1146,7 @@
           <li id="ref_4">
             RL from Basics
             <span>
-              S. Rho, "Markov Decision Process," in 바닥부터 배우는 강화학습 [RL from Basics], Seoul, South Korea, Youngjin.com, 2020, pp. 35–53.
+              S. Rho, Badak Buteo Baeunenun Ganghwa Hakseup [RL from Basics] (in Korean). Seoul, South Korea: Youngjin.com, pp. 32-36, 2020.
             </span>
           </li>
 

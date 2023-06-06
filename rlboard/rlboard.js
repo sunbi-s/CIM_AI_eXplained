@@ -2,7 +2,6 @@ import { clamp, Position } from "./utill.js";
 
 const MAX_HEIGHT = 6;
 
-
 export class Environment{
     constructor(div, config) {
         this.boardShape = config.boardShape;
@@ -36,7 +35,7 @@ export class Environment{
                 } else {
                     cell.style.backgroundImage = "url('img/rlboard/background/background_" + (y * MAX_HEIGHT + x + 1).toString() + ".jpg')";
                 }
-            row.appendChild(cell);
+                row.appendChild(cell);
             }
         }
 
