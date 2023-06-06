@@ -444,89 +444,28 @@
           \[V(s_t) = S(s_t) / N(s_t)\]
         </p>
 
-        <div id="mc_update_calculation" >
+        <div id="mc_update_calculation" class="update_calculation">
           <p >\[R = \]</p>
-          <input id="R-value" value="1" type="text" style="margin-right: 30px; width: 135px" onkeyup="checkEmptyAndCalculate('R-value'); validateInput('R-value', /[^0-9,]/g)" onchange="calculateUpdate()" />
+          <input id="mc-R" value="1,2,3,4" type="text" style="margin-right: 30px; width: 135px"/>
           <p >\[\gamma = \]</p>
-          <span>0</span>
-          <input id="gamma-value" value="90" min="0" max="100" type="range" onkeyup="checkEmptyAndCalculate('gamma-value'); validateInput('gamma-value', /[^0-9.]/g); limitGamma()" onchange="calculateUpdate()"/>
-          <span>1</span>
+          <span style="position: relative; top: 10px; left: 5px; font-size: 14px">0</span>
+          <input id="mc-gamma" value="90" min="0" max="100" type="range" style="position: relative; left: -10px"/>
+          <span style="position: relative; top: 11px; left: -26px; font-size: 14px">1</span>
           <span><br></span>
           <p>$$ N(s_t) = $$</p>
-          <input id="N-value" value="10" type="number" min="0" onkeyup="checkEmptyAndCalculate('N-value')" onchange="calculateUpdate()"/>
+          <input id="mc-N" value="10" type="number" min="0"/>
           <span><br></span>
           <p>$$ S(s_t) = $$</p>
-          <input id="S-value" value="20" type="number" min="0" onkeyup="checkEmptyAndCalculate('S-value')" onchange="calculateUpdate()"/>
+          <input id="mc-S" value="20" type="number" min="0"/>
         
           <span><br></span>
-          <p id="G-result">$$ G_t = $$</p>
+          <p id="mc-G-calc" style="position: relative; left: -5px"></p>
           <span><br></span>
-          <p id="V-result" style="position: relative; top: -20px">
-              \begin{aligned}
-              V_{new}(s_t) &=  
-              \end{aligned}
-          </p>
+          <p id="mc-V-calc" style="position: relative; top: -40px; left: -5px"></p>
         
+          <script type="module" src="rlboard/calculate_mc_update.js"></script>
         </div>
-        
-        <script type="text/javascript">
-        
-            function checkEmptyAndCalculate(id) {
-                var elem = document.getElementById(id);
-                if(elem.value == ""){
-                    elem.value = 0;
-                }
-                calculateUpdate();
-            }
-        
-            function validateInput(id, invalidCharacters) {
-                var input = document.getElementById(id);
-                input.value = input.value.replace(invalidCharacters, '');
-            }
-        
-            function limitGamma() {
-                var gamma = document.getElementById('gamma-value');
-                if(parseFloat(gamma.value) > 100){
-                    gamma.value = 100;
-                }
-            }
-        
-          function calculateUpdate() {
-              var R_values = document.getElementById('R-value').value.split(",");
-              var gamma = document.getElementById('gamma-value').value / 100;
-              var N = document.getElementById('N-value').value;
-              var S = document.getElementById('S-value').value;
-          
-              var G_t = 0;
-              var gtCalculation = "";
-              for (var i = 0; i < R_values.length; ++i) {
-                  var current_reward = parseFloat(R_values[i]);
-                  if (R_values[i] === "")
-                      continue;
 
-                  G_t += current_reward * Math.pow(gamma, i);
-                  if (i === 0) {
-                      gtCalculation += current_reward;
-                  } else if (i <= 3) {
-                      gtCalculation += " + " + current_reward + " \\times " + gamma.toFixed(2) + "^" + i;
-                  } else if (i === 4) {
-                      gtCalculation += " + ... ";
-                  }
-              }
-          
-              var V_new = (parseFloat(S) + G_t) / (parseFloat(N) + 1);
-          
-              document.getElementById('G-result').innerHTML = "\\begin{aligned} G_t &= " + gtCalculation + " \\\\ &= " + G_t.toFixed(2) + " \\end{aligned}";
-              document.getElementById('V-result').innerHTML = "\\begin{aligned} V_{new}(s_t) &= S(s_t) / N(s_t) \\\\ &= " + V_new.toFixed(2) + " \\end{aligned}";
-      
-              MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
-            }
-
-            calculateUpdate()
-        
-        </script>
-
-        
 
         <p>
           However, we can easily derive incremental formulas of the MC update rule.
@@ -672,72 +611,27 @@
           both of which are available immediately after a transition.
         </p>
 
-        <div id="td_update_calculation">
+        <div id="td_update_calculation" class="update_calculation">
           <p>$$V(s_t) = $$</p>
-          <input id="td-V-st" value="1" type="number" style="margin-right: 30px;" onkeyup="checkEmptyAndCalculate('td-V-st')" onchange="calculateTDUpdate();" />
+          <input id="td-V" value="1" type="number" style="margin-right: 30px;"/>
           <p>$$\gamma = $$</p>
-          <span>0</span>
-          <input id="td-gamma-value" value="90" min="0" max="100" type="range" onkeyup="checkEmptyAndCalculate('gamma-value'); validateInput('gamma-value', /[^0-9.]/g); limitGamma()" onchange="calculateTDUpdate()"/>
-          <span>1</span>
+          <span style="position: relative; top: 10px; left: 5px; font-size: 14px">0</span>
+          <input id="td-gamma" value="90" min="0" max="100" type="range" style="position: relative; left: -10px"/>
+          <span style="position: relative; top: 11px; left: -26px; font-size: 14px">1</span>
           <span><br></span>
           <p>$$V(s_{t+1}) = $$</p>
-          <input id="td-V-stplus1" value="2" type="number" min="0" onkeyup="checkEmptyAndCalculate('td-V-stplus1')" onchange="calculateTDUpdate();" />
-          <br>
+          <input id="td-V-next" value="2" type="number" min="0"/>
+          <span><br></span>
           <p>$$R_{t+1} = $$</p>
-          <input id="td-R-tplus1" value="3" type="number" min="0" onkeyup="checkEmptyAndCalculate('td-R-tplus1')" onchange="calculateTDUpdate();" />
-          <br>
+          <input id="td-R" value="3" type="number" min="0"/>
+          <span><br></span>
           <p>$$\alpha = $$</p>
-          <input id="td-alpha" value="4" type="number" min="0" onkeyup="checkEmptyAndCalculate('td-alpha')" onchange="calculateTDUpdate();" />
-          <br>
-          <p id="td-V-new-st-calc">$$V_{new}(s_t) = $$</p>
+          <input id="td-alpha" value="4" type="number" min="0"/>
+          <span><br></span>
+          <p id="td-V-new-calc" style="position: relative; top: -10px; left: -5px"></p>
+
+          <script type="module" src="rlboard/calculate_td_update.js"></script>
         </div>
-        
-        <script type="text/javascript">
-
-            function updateGammaValue() {
-                var gamma = document.getElementById('td-gamma-value');
-                var gammaDisplay = document.getElementById('gamma-display');
-                gammaDisplay.innerText = (gamma.value / 100).toFixed(1);
-              }
-
-            function checkEmptyAndCalculate(id) {
-                var elem = document.getElementById(id);
-                if(elem.value == ""){
-                    elem.value = 0;
-                }
-                calculateTDUpdate();
-            }
-
-            function validateInput(id, invalidCharacters) {
-                var input = document.getElementById(id);
-                input.value = input.value.replace(invalidCharacters, '');
-            }
-        
-
-            function limitGamma() {
-                var gamma = document.getElementById('td-gamma-value');
-                if(parseFloat(gamma.value) > 100){
-                    gamma.value = 100;
-                }
-            }
-          function calculateTDUpdate() {
-              var V_st = parseFloat(document.getElementById('td-V-st').value);
-              var gamma = parseFloat(document.getElementById('td-gamma-value').value/100);
-              var V_stplus1 = parseFloat(document.getElementById('td-V-stplus1').value);
-              var R_tplus1 = parseFloat(document.getElementById('td-R-tplus1').value);
-              var alpha = parseFloat(document.getElementById('td-alpha').value);
-            
-              var V_new_st = V_st + alpha * (R_tplus1 + gamma * V_stplus1 - V_st);
-              
-              document.getElementById('td-V-new-st-calc').innerHTML = "\\begin{aligned} V_{new}(s_t) &= V(s_t) + \\alpha (R_{t+1} + \\gamma V(s_{t+1}) - V(s_t)) \\\\ &= " + 
-                  V_st + " + " + alpha + " \\times (" + R_tplus1 + " + " + gamma + " \\times " + V_stplus1 + " - " + V_st + ") \\\\ &= " + V_new_st.toFixed(2) + " \\end{aligned}";
-        
-              MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
-            }
-        
-          calculateTDUpdate();
-        
-        </script>
 
         <p>
           Compared to MC methods, TD is more computationally efficient because of the frequent update. However, it has bias and may not converge to

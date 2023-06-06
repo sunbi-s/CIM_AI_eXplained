@@ -172,35 +172,19 @@ select {
     margin-left: 146px;
 }
 
-
-#mc_update_calculation {
+.update_calculation {
     width: 50%; /* or any width as you desire */
     margin: auto; /* center the div */
     text-align: left; /* left-align the contents */
     padding-left: 150px;
 }
-#mc_update_calculation p {
+
+.update_calculation p {
     margin: 0;
     padding: 0;
     display: inline-block;
 }
 
-#mc_update_calculation input {
-    width: 45px;
-  }
-
-#td_update_calculation {
-    width: 50%; /* or any width as you desire */
-    margin: auto; /* center the div */
-    text-align: left; /* left-align the contents */
-    padding-left: 150px;
+.update_calculation input {
+    width: 55px;
 }
-#td_update_calculation p {
-    margin: 0;
-    padding: 0;
-    display: inline-block;
-}
-
-#td_update_calculation input {
-    width: 45px;
-  }

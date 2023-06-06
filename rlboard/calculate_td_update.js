@@ -1,42 +1,56 @@
 const frame = document.querySelector('#td_update_calculation');
 
-let ps = frame.querySelectorAll("p");
-let inputs = frame.querySelectorAll("input");
+const input_V = frame.querySelector("#td-V");
+const input_gamma = frame.querySelector("#td-gamma");
+const input_V_next = frame.querySelector("#td-V-next");
+const input_R = frame.querySelector("#td-R");
+const input_alpha = frame.querySelector("#td-alpha");
+const V_new_calc = frame.querySelector('#td-V-new-calc');
 
-const input_v = inputs[0];
-const input_gamma = inputs[1];
-const input_v_next = inputs[2];
-const input_return = inputs[3];
-const input_alpha = inputs[4];
 
-// add event listener to input tags
-input_v.addEventListener("change", function() {
-    ps[6].innerText = input_v.value;
-    ps[16].innerText = input_v.value;
-});
-input_gamma.addEventListener("change", function() {
-    ps[12].innerText = input_gamma.value;
-});
-input_v_next.addEventListener("change", function() {
-    ps[14].innerText = input_v_next.value;
-});
-input_return.addEventListener("change", function() {
-    ps[10].innerText = input_return.value;
-});
-input_alpha.addEventListener("change", function() {
-    ps[8].innerText = input_alpha.value;
-});
+function checkEmptyAndCalculate(id) {
+    let input = document.getElementById(id);
+    if(input.value === ""){
+        input.value = 0;
+    }
+    calculateTDUpdate();
+}
 
-for (let input of inputs)
-{
-    input.addEventListener("change", function() {
-        let v = parseFloat(input_v.value);
-        let gamma = parseFloat(input_gamma.value);
-        let next_v = parseFloat(input_v_next.value);
-        let reward = parseFloat(input_return.value);
-        let step_size = parseFloat(input_alpha.value);
-        let td_error = parseFloat(reward + gamma * next_v - v);
-        let v_new = v + step_size * td_error;
-        ps[19].innerText = v_new.toFixed(2);
+function validateInput(id, invalidCharacters) {
+    let input = document.getElementById(id);
+    input.value = input.value.replace(invalidCharacters, '');
+}
+
+function calculateTDUpdate() {
+    let V_st = parseFloat(input_V.value);
+    let gamma = parseFloat(input_gamma.value / 100);
+    let V_next = parseFloat(input_V_next.value);
+    let R = parseFloat(input_R.value);
+    let alpha = parseFloat(input_alpha.value);
+    
+    let V_new = V_st + alpha * (R + gamma * V_next - V_st);
+    
+    V_new_calc.innerHTML = "\\begin{aligned} V_{new}(s_t)" +
+        " &= V(s_t) + \\alpha (R_{t+1} + \\gamma V(s_{t+1}) - V(s_t)) \\\\" +
+        " &= " + V_st + " + " + alpha + " \\times (" + R + " + " + gamma.toFixed(2) + " \\times " + V_next + " - " + V_st + ") \\\\" +
+        " &= " + V_new.toFixed(2) + " \\end{aligned}";
+    
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
+}
+
+
+// Add event listeners
+input_gamma.addEventListener("keyup", ()  => {
+    validateInput(input_gamma.id, /[^0-9.]/g);
+});
+for (let input of [input_V, input_gamma, input_V_next, input_R, input_alpha]) {
+    input.addEventListener("keyup", () => {
+        checkEmptyAndCalculate(input.id);
+    });
+    input.addEventListener("change", () => {
+        calculateTDUpdate();
     });
 }
+
+
+calculateTDUpdate();
