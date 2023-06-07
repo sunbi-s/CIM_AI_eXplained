@@ -396,7 +396,6 @@
         <figcaption><b>Figure 7:</b> Interpretation of SharkGame as an MDP.</figcaption>
       </figure>
 
-      <!-- <h3> True Value Table(?) </h3> -->
       <p>
         The value function of an environment with a small and discrete state space, such as the Shark game, can be represented using the table method. The table method 
         is a technique to store and update values for each state or state-action pair in a tabular form. The consequently learned policy is to select actions that lead 
@@ -446,8 +445,7 @@
         is enough. If the gains obtained from reaching the destination fail to spread back to the initial position, the agent remains its initial location. 
         Practically, as policies are learned rather than being random, the influence of the discount factor becomes more robust.
       </p>
-      
-      <!-- gamma -->
+
       <div class="framed">
         <div class="inside">
           <div class="eyebrow">
@@ -511,30 +509,40 @@
           \[V(s_t) = S(s_t) / N(s_t)\]
         </p>
 
-        <p class="inline-math">
-          Set reward sequence $$R$$, $$N(s_t)$$, and $$S(s_t)$$ in the interactive formula below, and observe how the new value is obtained.
-        </p>
+        <div class="framed">
+          <div class="inside">
+            <div class="eyebrow">
+              <p class="inline-math">
+                Set reward sequence $$R$$, $$N(s_t)$$, and $$S(s_t)$$ in the interactive formula below, and observe how the new value is obtained.
+              </p>
+            </div>
 
-        <div id="mc_update_calculation" class="update_calculation">
-          <p >\[R = \]</p>
-          <input id="mc-R" value="1,2,3,4" type="text" style="margin-right: 30px; width: 135px"/>
-          <p >\[\gamma = \]</p>
-          <span style="position: relative; top: 10px; left: 5px; font-size: 14px">0</span>
-          <input id="mc-gamma" value="90" min="0" max="100" type="range" style="position: relative; left: -10px"/>
-          <span style="position: relative; top: 11px; left: -26px; font-size: 14px">1</span>
-          <span><br></span>
-          <p>$$ N(s_t) = $$</p>
-          <input id="mc-N" value="10" type="number" min="0"/>
-          <span><br></span>
-          <p>$$ S(s_t) = $$</p>
-          <input id="mc-S" value="20" type="number" min="0"/>
-        
-          <span><br></span>
-          <p id="mc-G-calc" style="position: relative; left: -5px"></p>
-          <span><br></span>
-          <p id="mc-V-calc" style="position: relative; top: -40px; left: -5px"></p>
-        
-          <script type="module" src="rlboard/calculate_mc_update.js"></script>
+            <div id="mc_update_calculation" class="update_calculation">
+              <p >\[R = \]</p>
+              <input id="mc-R" value="1,2,3,4" type="text" style="margin-right: 30px; width: 135px"/>
+              <p >\[\gamma = \]</p>
+              <span style="position: relative; top: 10px; left: 5px; font-size: 14px">0</span>
+              <input id="mc-gamma" value="90" min="0" max="100" type="range" style="position: relative; left: -10px"/>
+              <span style="position: relative; top: 11px; left: -26px; font-size: 14px">1</span>
+              <span><br></span>
+              <p>$$ N(s_t) = $$</p>
+              <input id="mc-N" value="10" type="number" min="0"/>
+              <span><br></span>
+              <p>$$ S(s_t) = $$</p>
+              <input id="mc-S" value="20" type="number" min="0"/>
+
+              <span><br></span>
+              <p id="mc-G-calc" style="position: relative; left: -5px"></p>
+              <span><br></span>
+              <p id="mc-V-calc" style="position: relative; top: -20px; left: -5px"></p>
+            </div>
+
+            <div class="caption"><b>Figure 9:</b><br>
+              True values of the states depending on the grid size and discount factor. The left figure shows the agent and the environment and the right figure shows the true value table.
+            </div>
+
+            <script type="module" src="rlboard/calculate_mc_update.js"></script>
+          </div>
         </div>
 
 
@@ -682,32 +690,41 @@
           both of which are available immediately after a transition.
         </p>
 
+        <div class="framed">
+          <div class="inside">
+            <div class="eyebrow">
+              <p class="inline-math">
+                In the interactive formula below, you can check how TD calculates the value.
+                Try to change $$V(s_t)$$, $$V(s_{t+1})$$, $$S(R_{t+1})$$, $$\alpha$$, and $$\gamma$$.
+              </p>
+            </div>
 
-        <p class="inline-math">
-          In the interactive formula below, you can check how TD calculates the value.
-          Try to change $$V(s_t)$$, $$V(s_{t+1})$$, $$S(R_{t+1})$$, $$\alpha$$, and $$\gamma$$.
-        </p>
+            <div id="td_update_calculation" class="update_calculation">
+              <p>$$V(s_t) = $$</p>
+              <input id="td-V" value="1" type="number" style="margin-right: 30px;"/>
+              <p>$$\gamma = $$</p>
+              <span style="position: relative; top: 10px; left: 5px; font-size: 14px">0</span>
+              <input id="td-gamma" value="90" min="0" max="100" type="range" style="position: relative; left: -10px"/>
+              <span style="position: relative; top: 11px; left: -26px; font-size: 14px">1</span>
+              <span><br></span>
+              <p>$$V(s_{t+1}) = $$</p>
+              <input id="td-V-next" value="2" type="number" min="0"/>
+              <span><br></span>
+              <p>$$R_{t+1} = $$</p>
+              <input id="td-R" value="3" type="number" min="0"/>
+              <span><br></span>
+              <p>$$\alpha = $$</p>
+              <input id="td-alpha" value="4" type="number" min="0"/>
+              <span><br></span>
+              <p id="td-V-new-calc" style="position: relative; top: -10px; left: -5px"></p>
+            </div>
 
-        <div id="td_update_calculation" class="update_calculation">
-          <p>$$V(s_t) = $$</p>
-          <input id="td-V" value="1" type="number" style="margin-right: 30px;"/>
-          <p>$$\gamma = $$</p>
-          <span style="position: relative; top: 10px; left: 5px; font-size: 14px">0</span>
-          <input id="td-gamma" value="90" min="0" max="100" type="range" style="position: relative; left: -10px"/>
-          <span style="position: relative; top: 11px; left: -26px; font-size: 14px">1</span>
-          <span><br></span>
-          <p>$$V(s_{t+1}) = $$</p>
-          <input id="td-V-next" value="2" type="number" min="0"/>
-          <span><br></span>
-          <p>$$R_{t+1} = $$</p>
-          <input id="td-R" value="3" type="number" min="0"/>
-          <span><br></span>
-          <p>$$\alpha = $$</p>
-          <input id="td-alpha" value="4" type="number" min="0"/>
-          <span><br></span>
-          <p id="td-V-new-calc" style="position: relative; top: -10px; left: -5px"></p>
+            <div class="caption"><b>Figure 9:</b><br>
+                True values of the states depending on the grid size and discount factor. The left figure shows the agent and the environment and the right figure shows the true value table.
+            </div>
 
-          <script type="module" src="rlboard/calculate_td_update.js"></script>
+            <script type="module" src="rlboard/calculate_td_update.js"></script>
+          </div>
         </div>
 
         <p>
