@@ -60,6 +60,9 @@ input_R.addEventListener("keyup", ()  => {
 input_gamma.addEventListener("keyup", ()  => {
     validateInput(input_gamma.id, /[^0-9.]/g);
 });
+input_N.addEventListener("keyup", ()  => {
+    validateInput(input_N.id, /[^0-9]/g);
+});
 for (let input of [input_R, input_gamma, input_N, input_S]) {
     input.addEventListener("keyup", () => {
         checkEmptyAndCalculate(input.id);

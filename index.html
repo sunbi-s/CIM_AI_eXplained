@@ -189,10 +189,13 @@
                 <br><br>
                 <a class="btn_reset" style="display: block; margin: auto"><img src="img/buttons/reset2.png" alt="reset"/></a>
               </div>
-              <script type="module" src="rlboard/play_control.js"></script>
             </div>
 
-            <div class="caption"><b>Figure 2:</b><br> Introducing the SharkGame environment. </div>
+            <div class="caption"><b>Figure 2:</b><br>
+              Introducing the SharkGame environment.
+            </div>
+
+            <script type="module" src="rlboard/play_control.js"></script>
           </div>
         </div>
 
@@ -286,11 +289,14 @@
             <canvas width="800px" height="400px"></canvas>
             <a class="btn_transition" style="display: block; margin: auto"><img src="img/buttons/transition.png" width="120" alt="transition" draggable="false"/></a>
             <a class="btn_reset" style="display: block; margin: auto"><img src="img/buttons/reset2.png" alt="reset"/></a>
-            <script type="module" src="rlboard/play_mdp_transition.js"></script>
           </div>
 
-          <div class="caption"><b>Figure 4:</b><br> An example of a Markov process for modeling a child's sleep pattern.
-            This example is intended to model the sleeping states of a child until deep sleep.</div>
+          <div class="caption"><b>Figure 4:</b><br>
+            An example of a Markov process for modeling a child's sleep pattern.
+            This example is intended to model the sleeping states of a child until deep sleep.
+          </div>
+
+          <script type="module" src="rlboard/play_mdp_transition.js"></script>
         </div>
       </div>
 
@@ -342,10 +348,13 @@
               <a class="btn_action_0" style="display: inline-block; margin: auto"><img src="img/buttons/action0.png" width=80 alt="action0" draggable="false"/></a>
               <a class="btn_action_1" style="display: inline-block; margin: auto"><img src="img/buttons/action1.png" width=80 alt="action1" draggable="false"/></a>
               <a class="btn_reset" style="display: block; margin: auto"><img src="img/buttons/reset2.png" alt="reset"/></a>
-              <script type="module" src="rlboard/play_mdp_action.js"></script>
             </div>
 
-          <div class="caption"><b>Figure 6:</b><br>Example of an MDP for improving a child's sleep quality. </div>
+          <div class="caption"><b>Figure 6:</b><br>
+            Example of an MDP for improving a child's sleep quality.
+          </div>
+
+          <script type="module" src="rlboard/play_mdp_action.js"></script>
         </div>
       </div>
 
@@ -415,10 +424,13 @@
 
             <a class="btn_test" style="display: inline-block; margin: auto"><img src="img/buttons/test.png" width="60" alt="reset"/></a>
             <a class="btn_stop" style="display: none; margin: auto"><img src="img/buttons/stop.png" alt="stop"/></a>
-            <script type="module" src="rlboard/play_random.js"></script>
           </div>
 
-          <div class="caption"><b>Figure 8:</b><br> Introducing the random agent on the SharkGame.</div>
+          <div class="caption"><b>Figure 8:</b><br>
+            Introducing the random agent on the SharkGame.
+          </div>
+
+          <script type="module" src="rlboard/play_random.js"></script>
         </div>
       </div>
 
@@ -466,7 +478,8 @@
           </div>
 
           <div class="caption"><b>Figure 9:</b><br>
-            True values of the states depending on the grid size and discount factor. The left figure shows the agent and the environment and the right figure shows the true value table.
+            True values of the states depending on the grid size and discount factor.
+            The left figure shows the agent and the environment and the right figure shows the true value table.
           </div>
 
           <script type="module" src="rlboard/play_various_gamma.js"></script>
@@ -538,13 +551,13 @@
             </div>
 
             <div class="caption"><b>Figure 9:</b><br>
-              True values of the states depending on the grid size and discount factor. The left figure shows the agent and the environment and the right figure shows the true value table.
+              True values of the states depending on the grid size and discount factor.
+              The left figure shows the agent and the environment and the right figure shows the true value table.
             </div>
 
             <script type="module" src="rlboard/calculate_mc_update.js"></script>
           </div>
         </div>
-
 
         <p>
           However, we can easily derive incremental formulas of the MC update rule.
@@ -555,7 +568,6 @@
         <p class="inline-math">
           Given the previous estimate $$V(s_t)$$, the new sample return $$G_{t,i}$$, and the number of visits to the state $$N(s_t)$$ before the current episode, we can update the estimate as follows:
         </p>
-
 
         <p>
           $$
@@ -619,7 +631,8 @@
             </div>
 
             <div class="caption"><b>Figure 10:</b><br>
-              MC learning process. The left figure shows the agent and environment, while the right figure displays the state value table..
+              MC learning process.
+              The left figure shows the agent and environment, while the right figure displays the state value table..
             </div>
 
             <script type="module" src="rlboard/play_mcagent.js"></script>
@@ -638,8 +651,11 @@
             </div>
 
 
-            <div class="caption"><b>Figure 11:</b><br> 3D value table of the MC agent.</div>
-              <script type="module" src="rlboard/3D_table.js"></script>
+            <div class="caption"><b>Figure 11:</b><br>
+              3D value table of the MC agent.
+            </div>
+
+            <script type="module" src="rlboard/3D_table.js"></script>
           </div>
         </div>
 
@@ -651,7 +667,6 @@
           This variance can make it difficult for the agent to learn the true values of states, and can lead to slower convergence.
           The following TD approach addresses these issues, making learning the values more stable and efficient.
         </p>
-
 
       </section>
 
@@ -720,7 +735,8 @@
             </div>
 
             <div class="caption"><b>Figure 9:</b><br>
-                True values of the states depending on the grid size and discount factor. The left figure shows the agent and the environment and the right figure shows the true value table.
+              True values of the states depending on the grid size and discount factor.
+              The left figure shows the agent and the environment and the right figure shows the true value table.
             </div>
 
             <script type="module" src="rlboard/calculate_td_update.js"></script>
@@ -754,8 +770,10 @@
               <p class="n_episode n_episode_text" style="display: inline-block; margin-left: 118px">0</p>
             </div>
 
-            <div class="caption"><b>Figure 12:</b><br> TD learning process. The left figure shows the agent and environment,
-              while the right figure displays the state value table. </div>
+            <div class="caption"><b>Figure 12:</b><br>
+              TD learning process.
+              The left figure shows the agent and environment, while the right figure displays the state value table.
+            </div>
 
             <script type="module" src="rlboard/play_tdagent.js"></script>
           </div>
@@ -772,7 +790,9 @@
             <div id="play_td_3d_table">
             </div>
 
-            <div class="caption"><b>Figure 13:</b><br> 3D value table of the TD agent.</div>
+            <div class="caption"><b>Figure 13:</b><br>
+              3D value table of the TD agent.
+            </div>
 
             <script type="module" src="rlboard/3D_table.js"></script>
           </div>
@@ -816,7 +836,8 @@
             </div>
 
             <div class="caption"><b>Figure 14:</b><br>
-              Comparison of MC and TD learning. The left figure is MC and the right figure is TD.
+              Comparison of MC and TD learning.
+              The left figure is MC and the right figure is TD.
             </div>
 
             <script type="module" src="rlboard/play_mc_vs_td.js"></script>
@@ -848,8 +869,8 @@
             </div>
 
             <div class="caption"><b>Figure 15:</b><br>
-              True values of the states. The left figure shows the agent and the environment
-              and the right figure shows the true value table.
+              True values of the states.
+              The left figure shows the agent and the environment and the right figure shows the true value table.
             </div>
 
             <script type="module" src="rlboard/play_optim.js"></script>
@@ -994,12 +1015,16 @@
               <p class="n_episode n_episode_text" style="display: inline-block; margin-left: 84px">0</p>
             </div>
 
-            <div class="caption"><b>Figure 17:</b><br> TD learning process. The left figure shows the agent and environment,
-              while the right figure displays the state value table. </div>
+            <div class="caption"><b>Figure 17:</b><br>
+              TD learning process.
+              The left figure shows the agent and environment, while the right figure displays the state value table.
+            </div>
 
             <script type="module" src="rlboard/play_nstep_tdagent.js"></script>
           </div>
         </div>
+
+        <br>
 
         <div class="framed">
           <div class="inside">
@@ -1010,7 +1035,9 @@
             <div id="play_nstep_td_3d_table">
             </div>
 
-            <div class="caption"><b>Figure 18:</b><br> 3D value table of the N-step TD agent.</div>
+            <div class="caption"><b>Figure 18:</b><br>
+              3D value table of the N-step TD agent.
+            </div>
 
             <script type="module" src="rlboard/3D_table.js"></script>
           </div>
@@ -1040,7 +1067,7 @@
 
             <div class="caption"><b>Figure 19:</b><br>
               Comparison of RMSE(Root Mean Squared Error) of MC, TD, and N-step TD agents.
-              X axis is number of episodes and Y axis is RMSE.
+              X-axis is number of episodes and Y axis is RMSE.
             </div>
 
             <script type="module" src="rlboard/play_rmse2.js"></script>
@@ -1107,7 +1134,9 @@
 
             </div>
 
-            <div class="caption"><b>Figure 20:</b><br> Example of an MDP. </div>
+            <div class="caption"><b>Figure 20:</b><br>
+              Example of an MDP.
+            </div>
 
             <script type="module" src="rlboard/play_draganddrop.js"></script>
           </div>
