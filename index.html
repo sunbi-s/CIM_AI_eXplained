@@ -511,6 +511,10 @@
           \[V(s_t) = S(s_t) / N(s_t)\]
         </p>
 
+        <p class="inline-math">
+          Set reward sequence $$R$$, $$N(s_t)$$, and $$S(s_t)$$ in the interactive formula below, and observe how the new value is obtained.
+        </p>
+
         <div id="mc_update_calculation" class="update_calculation">
           <p >\[R = \]</p>
           <input id="mc-R" value="1,2,3,4" type="text" style="margin-right: 30px; width: 135px"/>
@@ -676,6 +680,12 @@
         <p>
           This equation highlights the essence of TD learning: it adjusts the estimated value of a state based on the observed reward and the estimated value of the next state,
           both of which are available immediately after a transition.
+        </p>
+
+
+        <p class="inline-math">
+          In the interactive formula below, you can check how TD calculates the value.
+          Try to change $$V(s_t)$$, $$V(s_{t+1})$$, $$S(R_{t+1})$$, $$\alpha$$, and $$\gamma$$.
         </p>
 
         <div id="td_update_calculation" class="update_calculation">
