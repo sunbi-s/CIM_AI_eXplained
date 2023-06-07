@@ -526,7 +526,7 @@
           <div class="inside">
             <div class="eyebrow">
               <p class="inline-math">
-                Set reward sequence $$R$$, $$N(s_t)$$, and $$S(s_t)$$ in the interactive formula below, and observe how the new value is obtained.
+                Set values of reward sequence, incremental counter, total return, and discount factor in the interactive formula below, and observe how the new value is calculated.
               </p>
             </div>
 
@@ -551,8 +551,7 @@
             </div>
 
             <div class="caption"><b>Figure 9:</b><br>
-              True values of the states depending on the grid size and discount factor.
-              The left figure shows the agent and the environment and the right figure shows the true value table.
+              Computation of new values in MC update process.
             </div>
 
             <script type="module" src="rlboard/calculate_mc_update.js"></script>
@@ -709,8 +708,7 @@
           <div class="inside">
             <div class="eyebrow">
               <p class="inline-math">
-                In the interactive formula below, you can check how TD calculates the value.
-                Try to change $$V(s_t)$$, $$V(s_{t+1})$$, $$S(R_{t+1})$$, $$\alpha$$, and $$\gamma$$.
+                Set current state value, next state value, reward, and step-size parameter in the interactive formula below, and observe how the new value is calculated.
               </p>
             </div>
 
@@ -735,8 +733,7 @@
             </div>
 
             <div class="caption"><b>Figure 9:</b><br>
-              True values of the states depending on the grid size and discount factor.
-              The left figure shows the agent and the environment and the right figure shows the true value table.
+              Computation of new values in TD update process.
             </div>
 
             <script type="module" src="rlboard/calculate_td_update.js"></script>
