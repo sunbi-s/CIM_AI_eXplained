@@ -453,7 +453,7 @@
         In the SharkGame environment, where the agent receives negative rewards at each step, it is essential to prioritize the gains achieved 
         by reaching the destination. To do this, we should set high discount factor(close to 1) which lead agent to emphasizes the significance 
         of long-term rewards. For example, in a 6x6 grid where reaching the destination requires a substantial number of steps, a discount factor 
-        of 0.999 or higher is necessary to guide the agent towards the destination. However, in a 5x5 grid, a discount factor of 0.995 or higher 
+        of 0.997 or higher is necessary to guide the agent towards the destination. However, in a 5x5 grid, a discount factor of 0.991 or higher 
         is enough. If the gains obtained from reaching the destination fail to spread back to the initial position, the agent remains its initial location. 
         Practically, as policies are learned rather than being random, the influence of the discount factor becomes more robust.
       </p>
