@@ -729,7 +729,7 @@
               <input id="td-R" value="3" type="number" min="0"/>
               <span><br></span>
               <p>$$\alpha = $$</p>
-              <input id="td-alpha" value="4" type="number" min="0"/>
+              <input id="td-alpha" value="0.1" type="number" min="0"/>
               <span><br></span>
               <p id="td-V-new-calc" style="position: relative; top: -10px; left: -5px"></p>
             </div>
@@ -969,7 +969,7 @@
         </p>
 
         <p>
-          \[G_{t:t+n} = R_{t+1} + \gamma R_{t+2} + \dots + \gamma R_{t+n} + \gamma^n V(S_{t+n})\]
+          \[G_{t:t+n} = R_{t+1} + \gamma R_{t+2} + \dots + \gamma^{n-1} R_{t+n} + \gamma^n V(S_{t+n})\]
         </p>
 
         <p>
