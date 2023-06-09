@@ -435,7 +435,7 @@
       </div>
 
       <p>
-        If we assume complete knowledge of the MDP, we can theoretically calculate the true value, which will be approximated using both MC and TD methods.
+        If we assume complete knowledge of the MDP, we can theoretically calculate the true value, which is approximated using both the MC and TD methods.
         To compute the value of each state, we use the following equation:
         $$
         \begin{aligned}
@@ -451,10 +451,10 @@
       </p>
       <p>
         In the SharkGame environment, where the agent receives negative rewards at each step, it is essential to prioritize the gains achieved 
-        by reaching the destination. To do this, we should set high discount factor(close to 1) which lead agent to emphasizes the significance 
-        of long-term rewards. For example, in a 6x6 grid where reaching the destination requires a substantial number of steps, a discount factor 
-        of 0.999 or higher is necessary to guide the agent towards the destination. However, in a 5x5 grid, a discount factor of 0.995 or higher 
-        is enough. If the gains obtained from reaching the destination fail to spread back to the initial position, the agent remains its initial location. 
+        by reaching the destination. To do this, we should set a high discount factor(close to 1) that makes the agent emphasize the significance
+        of long-term rewards. For example, in a 6 x 6 grid in which reaching the destination requires many steps, a discount factor
+        of 0.999 or higher is necessary to guide the agent toward the destination. However, in a 5 x 5 grid, a discount factor of 0.995 or higher
+        is sufficient. If the gains obtained from reaching the destination fail to spread back to the initial position, the agent remains its initial location.
         Practically, as policies are learned rather than being random, the influence of the discount factor becomes more robust.
       </p>
 
@@ -560,12 +560,12 @@
 
         <p>
           However, we can easily derive incremental formulas of the MC update rule.
-          These formulas provide an efficient way to compute the state value without having to maintain and process all the returns every time the state is visited.
+          These formulas provide an efficient method for computing the state value without maintaining and process all returns each time the state is visited.
           The idea is to keep a running average, updating it each time a new return is available, rather than summing all the returns and dividing by the total number of visits each time.
         </p>
 
         <p class="inline-math">
-          Given the previous estimate $$V(s_t)$$, the new sample return $$G_{t,i}$$, and the number of visits to the state $$N(s_t)$$ before the current episode, we can update the estimate as follows:
+          Considering the previous estimate $$V(s_t)$$, the new sample return $$G_{t,i}$$, and the number of visits to the state $$N(s_t)$$ before the current episode, we can update the estimate as follows:
         </p>
 
         <p>
@@ -587,8 +587,8 @@
         <p class="inline-math">
           The term $$\frac{1}{N(s_t)}(G_{t,i} - V(s_t))$$ represents the difference between the new return $$G_{t,i}$$ and the current estimated value $$V(s_t)$$,
           scaled by the inverse of the number of visits.
-          This difference, also known as the error, measures how much the new return deviates from our current estimate.
-          We then adjust our estimate in the direction of the error. As a result, if our current estimate is too high, it will be decreased; if it's too low, it will be increased.
+          This difference, also known as the error, quantifies how far the new return deviates from our current estimate.
+          Then in the direction of the error, we adjust our estimate. Consequently, if our current estimate is excessively high, it will be decreased; if it is excessively low, it will be increased.
           The more we visit a state, the less the estimate is influenced by new returns.
         </p>
 
@@ -604,7 +604,7 @@
         <p class="inline-math">
           The step-size parameter $$\alpha$$ is crucial because it determines the extent to which our estimates are updated based on new information.
           When $$\alpha$$ is close to 0, the updates are small, and the learning is slow.
-          Conversely, when $$\alpha$$ is close to 1, the updates are significant, and the learning is faster, but it may lead to overshooting the true values.
+          Conversely, when $$\alpha$$ is close to 1, the updates are considerable, and the learning is fast, but it may lead to overshooting the true values.
           Typically, $$\alpha$$ is chosen to be a small positive number for stability and gradual learning.
         </p>
 
@@ -680,7 +680,7 @@
         </p>
 
         <p>  
-          TD achieves this goal using the Bootstrap method, which uses its own value estimates to update the value function.
+          TD achieves this goal using the bootstrap method, which uses its own value estimates to update the value function.
           Specifically, TD updates the current value function($V(s_t)$) with a more accurate estimate($R_{t+1} + \gamma V(s_{t+1})$) takes into account the sampled reward received by the agent.
           This allows TD to update the value function estimate incrementally and in real-time,
             without the need to wait for the end of an episode.
@@ -688,7 +688,7 @@
         </p>
 
         <p class="inline-math">
-          Much like MC methods, TD methods also use a step-size parameter, $$\alpha$$, to guide the learning process.
+          Similar to MC methods, TD methods also use a step-size parameter, $$\alpha$$, to guide the learning process.
         </p>
 
         <p>
@@ -700,7 +700,7 @@
         </p>
 
         <p>
-          This equation highlights the essence of TD learning: it adjusts the estimated value of a state based on the observed reward and the estimated value of the next state,
+          This equation highlights the essence of TD learning, i.e., it adjusts the estimated value of a state based on the observed reward and the estimated value of the next state,
           both of which are available immediately after a transition.
         </p>
 
@@ -921,18 +921,18 @@
         <h2>VI. n-step TD</h2>
 
         <p>
-          In the previous sections, we introduced Monte Carlo (MC) and Temporal Difference (TD), two principal methods for estimating value function.
-          However, each of these methods has its distinct advantages and disadvantages.
-          TD, for instance, shines in computational efficiency but introduces bias in its estimates.
-          Conversely, MC methods provide unbiased estimates but at the cost of high variance.
+          In the previous sections, we introduced MC and TD, two principal methods for estimating the value function.
+          However, each method has distinct advantages and disadvantages.
+          The TD method, for instance, excels in computational efficiency but introduces bias in its estimates.
+          Conversely, the MC method provides unbiased estimates but at the cost of high variance.
         </p>
 
         <p>
           This raises a thought-provoking question: Can we synthesize the strengths of these methods while mitigating their weaknesses?
-          Can we seek a compromise, a "best-of-both-worlds" approach that could effectively balance the bias-variance trade-off?
-          This idea triggers the exploration of a hybrid strategy that could seamlessly integrate the efficiency of TD and the unbiased nature of MC.
+          Therefore, we can seek a compromise, a "best-of-both-worlds" approach which could effectively balance the bias-variance trade-off?
+          This idea triggers the exploration of a hybrid strategy that could seamlessly integrate the efficiency of the TD method and the unbiased nature of the MC method.
           To understand this, let's delve into how MC and TD perform their computations.
-          MC approximates sample returns by employing the full trajectory of an episode:
+          The MC method approximates sample returns by employing the full trajectory of an episode:
         </p>
 
         <p>
@@ -940,7 +940,7 @@
         </p>
 
         <p class="inline-math">
-          Where $$T$$ is a length of an episode.
+          Here, $$T$$ represents a length of an episode.
         </p>
 
         <p>
@@ -952,7 +952,7 @@
         </p>
 
         <p>
-          Therefore, in crafting a combined methodology, we might conceive a model that draws upon multiple steps for value updates, but not necessarily the entire trajectory.
+          Therefore, in crafting a combined methodology, we could design a model that uses multiple steps for value updates, but not necessarily the entire trajectory.
           For example, we may use the three-step return as a target for TD update.
         </p>
 
@@ -961,9 +961,9 @@
         </p>
 
         <p class="inline-math">
-          In this case $$\gamma^3 V(S_{t+3})$$ used as an proxy of $$\gamma^{3} R_{t+4} + \dots + \gamma^{T-t-1} R_{T}$$ (remaining returns until the end of the episode).
-          This is where the concept of n-step TD learning comes into play, offering a promising balance between bias and variance, ultimately leading to improved learning efficiency in reinforcement learning scenarios.
-          By generalizing this, we can obtain n-step return for arbitrary $$n$$
+          In this case $$\gamma^3 V(S_{t+3})$$ is used as a proxy for $$\gamma^{3} R_{t+4} + \dots + \gamma^{T-t-1} R_{T}$$.
+          This is where the concept of N-step TD learning is used, offering a promising balance between bias and variance, ultimately improving learning efficiency in RL scenarios.
+          By generalizing this, we can obtain an n-step return for arbitrary $$n$$
         </p>
 
         <p>
@@ -971,7 +971,7 @@
         </p>
 
         <p>
-          The n-step TD update equation is as follows:
+          The N-step TD update equation is as follows:
         </p>
 
         <p>
@@ -1041,10 +1041,10 @@
         </div>
 
         <p>
-          Referring to the figure below, we can examine the Root Mean Square Error (RMSE) of MC, TD, and N-step TD agents.
-          It's evident from the observed data that the performance of the N-step TD is nestled between that of MC and TD.
-          This outcome indicates that N-step TD proficiently bridges the gap between MC and TD, achieving a more effective balance between variance and bias.
-          Thus, it successfully combines the advantages of both methodologies, serving as a compelling compromise that mitigates the disadvantages of each individual method.
+          Referring to the figure below, we can examine the RMSE of MC, TD, and N-step TD agents.
+          According to the observed data, the performance of the N-step TD method is nestled between that of the MC and TD methods.
+          This outcome indicates that N-step TD proficiently bridges the gap between the MC and TD methods, achieving a more effective balance between variance and bias.
+          Thus, it successfully combines the advantages of both methodologies, serving as a compelling compromise that mitigates the disadvantages of each method.
         </p>
 
         <div class="framed">
