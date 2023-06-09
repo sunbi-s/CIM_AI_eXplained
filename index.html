@@ -455,7 +455,9 @@
         of long-term rewards. For example, in a 6 x 6 grid in which reaching the destination requires many steps, a discount factor
         of 0.999 or higher is necessary to guide the agent toward the destination. However, in a 5 x 5 grid, a discount factor of 0.995 or higher
         is sufficient. If the gains obtained from reaching the destination fail to spread back to the initial position, the agent remains its initial location.
-        Practically, as policies are learned rather than being random, the influence of the discount factor becomes more robust.
+        The random policy doesn't avoid traps, creating a risk of entrapment.
+        This risk is factored into the above formula, affecting the true values and spreading the traps' negative rewards across nearby spaces.
+        As a result, agents might accidentally encounter less dangerous traps while avoiding more harmful ones.
       </p>
 
       <div class="framed">
