@@ -575,12 +575,12 @@
           \begin{aligned}
 
           V_{new}(s_t) &= S(s_t) / N(s_t) \\
-          &= \frac{1}{N(s_t)} \sum_{i=0}^{N(s_t)} G_{t,i} \\
-          &= \frac{1}{N(s_t)} (G_{t,i} + \sum_{i=0}^{N(s_t)} G_{t, i-1}) \\
-          &= \frac{1}{N(s_t)} (G_{t,i} + (N(s_t) - 1)  \frac{1}{(N(s_t) - 1)}  \sum_{i=0}^{N(s_t)} G_{t, i-1}) \\
-          &= \frac{1}{N(s_t)} (G_{t,i} + (N(s_t) - 1)  V(s_t)) \\
-          &= \frac{1}{N(s_t)} (G_{t,i} + N(s_t)V(s_t) - V(s_t)) \\
-          &= V(s_t) + \frac{1}{N(s_t)}(G_{t, i} - V(s_t)) \\
+          &= \frac{1}{N(s_t)} \sum_{i=0}^{N(s_t)} G_{i} \\
+          &= \frac{1}{N(s_t)} (G_{N(s_t)} + \sum_{i=0}^{N(s_t)-1} G_{i}) \\
+          &= \frac{1}{N(s_t)} (G_{N(s_t) + (N(s_t) - 1)  \frac{1}{(N(s_t) - 1)}  \sum_{i=0}^{N(s_t)-1} G_{i}) \\
+          &= \frac{1}{N(s_t)} (G_{N(s_t) + (N(s_t) - 1)  V(s_t)) \\
+          &= \frac{1}{N(s_t)} (G_{N(s_t) + N(s_t)V(s_t) - V(s_t)) \\
+          &= V(s_t) + \frac{1}{N(s_t)}(G_{N(s_t) - V(s_t)) \\
 
           \end{aligned}
           $$
