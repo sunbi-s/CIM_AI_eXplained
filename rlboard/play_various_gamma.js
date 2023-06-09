@@ -48,7 +48,7 @@ const trajectories = [
     ],
     [
         [
-            [-116, -8, 0], [-61, -8, 0], [1, -8, 0], [1, 52, 0], [1, 112, 0], [61, 112, 0], [61, 172, 0], [61, 232, 0], [121, 232, 1]
+            [-116, -8, 0], [-61, -8, 0]
         ],
         [
             [-116, -8, 0], [-61, -8, 0], [1, -8, 0], [1, 52, 0], [1, 112, 0], [61, 112, 0], [61, 172, 0], [61, 232, 0], [121, 232, 1]
@@ -210,12 +210,11 @@ const game = new class Game {
         this.player.src = this.player.imagePath[this.player.imageIndex % this.player.imagePath.length];
         this.player.imageIndex = (this.player.imageIndex + 1) % this.player.imagePath.length;
 
-        // set background image
-        leftDiv.style.backgroundImage = "url('img/gamma_board/org_" + sizes[this.i_size] + ".png')";
+        leftDiv.style.backgroundImage = "url('img/gamma_board/" + sizes[this.i_size] + "_" + gammas[this.i_gamma] + ".png')";
         leftDiv.style.backgroundSize = "contain";
         leftDiv.style.width = "49.67%";
 
-        rightDiv.style.backgroundImage = "url('img/gamma_board/org_" + sizes[this.i_size] + "_" + gammas[this.i_gamma] + "_val.png')";
+        rightDiv.style.backgroundImage = "url('img/gamma_board/" + sizes[this.i_size] + "_" + gammas[this.i_gamma] + "_val.png')";
         rightDiv.style.backgroundSize = "contain";
         rightDiv.style.width = "49.67%";
     }
