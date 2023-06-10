@@ -807,7 +807,12 @@
           in how they update this function. MC estimates values by averaging the sample returns obtained from
           multiple episodes, while TD uses the Bellman equation to compute target values from the estimated values. This
           means that MC can update values only at the end of each episode, while TD can update values after each time
-          step. Therefore, MC can be more computationally expensive and time-consuming, whereas TD is more efficient
+          step.
+          Due to its incremental update scheme, TD has an inherent capability to swiftly pinpoint meaningful interactions.
+          This enables the ongoing episode to be directly influenced by changes resulting from previous interactions.
+          This mechanism contributes to faster convergence, enhancing the overall efficiency of the TD method in comparison
+          to the MC approach.
+          Therefore, MC can be more computationally expensive and time-consuming, whereas TD is more efficient
           and faster to converge.
         </p>
 
