@@ -939,55 +939,55 @@
 
 
         <p>
-          The table below illustrates
+          The table below summarizes the difference between MC and TD.
         </p>
 
         <div class="formula-wrapper">
           <table class="formula" style="margin: auto auto">
             <tbody><tr>
-              <th style="width: 150px">Representation</th>
-              <th style="width: 150px; text-align: center">Mutation</th>
-              <th style="width: 150px; text-align: center">Crossover</th>
-              <th style="width: 100px; text-align: center">Times Solved</th>
-              <th style="width: 100px; text-align: center">Average Generations
+              <th style="width: 150px">Aspect</th>
+              <th style="width: 250px; text-align: center">MC</th>
+              <th style="width: 250px; text-align: center">TD</th>
               </th>
             </tr>
             <tr>
-              <td>Constrained Matrix</td>
-              <td style="text-align:center">Swap Mutation</td>
-              <td style="text-align:center">1-Point Crossover</td>
-              <td style="text-align:center"><span class="MathJax_Preview" style="display: none;"></span><div class="MathJax_Display" style="text-align: center;"><span class="MathJax" id="MathJax-Element-44-Frame" tabindex="0" style="text-align: center;"><nobr><span class="math" id="MathJax-Span-296" style="width: 0.64em; display: inline-block;"><span style="display: inline-block; position: relative; width: 0.503em; height: 0px; font-size: 122%;"><span style="position: absolute; clip: rect(1.414em, 1000.46em, 2.37em, -999.998em); top: -2.229em; left: 0em;"><span class="mrow" id="MathJax-Span-297"><span class="mn" id="MathJax-Span-298" style="font-family: MathJax_Main;">0</span></span><span style="display: inline-block; width: 0px; height: 2.234em;"></span></span></span><span style="display: inline-block; overflow: hidden; vertical-align: -0.053em; border-left: 0px solid; width: 0px; height: 0.947em;"></span></span></nobr></span></div><script type="math/tex; mode=display" id="MathJax-Element-44">0</script></td>
-              <td style="text-align:center"><span class="MathJax_Preview" style="display: none;"></span><div class="MathJax_Display" style="text-align: center;"><span class="MathJax" id="MathJax-Element-45-Frame" tabindex="0" style="text-align: center;"><nobr><span class="math" id="MathJax-Span-299" style="width: 2.461em; display: inline-block;"><span style="display: inline-block; position: relative; width: 2.006em; height: 0px; font-size: 122%;"><span style="position: absolute; clip: rect(1.414em, 1001.96em, 2.37em, -999.998em); top: -2.229em; left: 0em;"><span class="mrow" id="MathJax-Span-300"><span class="mn" id="MathJax-Span-301" style="font-family: MathJax_Main;">1000</span></span><span style="display: inline-block; width: 0px; height: 2.234em;"></span></span></span><span style="display: inline-block; overflow: hidden; vertical-align: -0.053em; border-left: 0px solid; width: 0px; height: 0.947em;"></span></span></nobr></span></div><script type="math/tex; mode=display" id="MathJax-Element-45">1000</script></td>
+              <td>Update Timing</td>
+              <td style="text-align:center">Episodic</td>
+              <td style="text-align:center">Online</td>
             </tr>
             <tr>
-              <td>Row Vector</td>
-              <td style="text-align:center">Value Mutation</td>
-              <td style="text-align:center">Uniform Crossover (p=0.5)</td>
-              <td style="text-align:center"><span class="MathJax_Preview" style="display: none;"></span><div class="MathJax_Display" style="text-align: center;"><span class="MathJax" id="MathJax-Element-46-Frame" tabindex="0" style="text-align: center;"><nobr><span class="math" id="MathJax-Span-302" style="width: 1.869em; display: inline-block;"><span style="display: inline-block; position: relative; width: 1.505em; height: 0px; font-size: 122%;"><span style="position: absolute; clip: rect(1.414em, 1001.46em, 2.37em, -999.998em); top: -2.229em; left: 0em;"><span class="mrow" id="MathJax-Span-303"><span class="mn" id="MathJax-Span-304" style="font-family: MathJax_Main;">874</span></span><span style="display: inline-block; width: 0px; height: 2.234em;"></span></span></span><span style="display: inline-block; overflow: hidden; vertical-align: -0.053em; border-left: 0px solid; width: 0px; height: 0.947em;"></span></span></nobr></span></div><script type="math/tex; mode=display" id="MathJax-Element-46">874</script></td>
-              <td style="text-align:center"><span class="MathJax_Preview" style="display: none;"></span><div class="MathJax_Display" style="text-align: center;"><span class="MathJax" id="MathJax-Element-47-Frame" tabindex="0" style="text-align: center;"><nobr><span class="math" id="MathJax-Span-305" style="width: 1.869em; display: inline-block;"><span style="display: inline-block; position: relative; width: 1.505em; height: 0px; font-size: 122%;"><span style="position: absolute; clip: rect(1.414em, 1001.46em, 2.37em, -999.998em); top: -2.229em; left: 0em;"><span class="mrow" id="MathJax-Span-306"><span class="mn" id="MathJax-Span-307" style="font-family: MathJax_Main;">293</span></span><span style="display: inline-block; width: 0px; height: 2.234em;"></span></span></span><span style="display: inline-block; overflow: hidden; vertical-align: -0.053em; border-left: 0px solid; width: 0px; height: 0.947em;"></span></span></nobr></span></div><script type="math/tex; mode=display" id="MathJax-Element-47">293</script></td>
+              <td>Learning from Partial Data</td>
+              <td style="text-align:center">No (Requires complete episodes)</td>
+              <td style="text-align:center">Yes (Can learn from incomplete episodes)</td>
             </tr>
             <tr>
-              <td>Column Vector</td>
-              <td style="text-align:center">Value Mutation</td>
-              <td style="text-align:center">Uniform Crossover (p=0.5)</td>
-              <td style="text-align:center"><span class="MathJax_Preview" style="display: none;"></span><div class="MathJax_Display" style="text-align: center;"><span class="MathJax" id="MathJax-Element-48-Frame" tabindex="0" style="text-align: center;"><nobr><span class="math" id="MathJax-Span-308" style="width: 1.869em; display: inline-block;"><span style="display: inline-block; position: relative; width: 1.505em; height: 0px; font-size: 122%;"><span style="position: absolute; clip: rect(1.414em, 1001.46em, 2.37em, -999.998em); top: -2.229em; left: 0em;"><span class="mrow" id="MathJax-Span-309"><span class="mn" id="MathJax-Span-310" style="font-family: MathJax_Main;">890</span></span><span style="display: inline-block; width: 0px; height: 2.234em;"></span></span></span><span style="display: inline-block; overflow: hidden; vertical-align: -0.053em; border-left: 0px solid; width: 0px; height: 0.947em;"></span></span></nobr></span></div><script type="math/tex; mode=display" id="MathJax-Element-48">890</script></td>
-              <td style="text-align:center"><span class="MathJax_Preview" style="display: none;"></span><div class="MathJax_Display" style="text-align: center;"><span class="MathJax" id="MathJax-Element-49-Frame" tabindex="0" style="text-align: center;"><nobr><span class="math" id="MathJax-Span-311" style="width: 1.869em; display: inline-block;"><span style="display: inline-block; position: relative; width: 1.505em; height: 0px; font-size: 122%;"><span style="position: absolute; clip: rect(1.414em, 1001.46em, 2.37em, -999.998em); top: -2.229em; left: 0em;"><span class="mrow" id="MathJax-Span-312"><span class="mn" id="MathJax-Span-313" style="font-family: MathJax_Main;">290</span></span><span style="display: inline-block; width: 0px; height: 2.234em;"></span></span></span><span style="display: inline-block; overflow: hidden; vertical-align: -0.053em; border-left: 0px solid; width: 0px; height: 0.947em;"></span></span></nobr></span></div><script type="math/tex; mode=display" id="MathJax-Element-49">290</script></td>
+              <td>Bootstrapping</td>
+              <td style="text-align:center">No (No bootstrapping)</td>
+              <td style="text-align:center">Yes (Uses bootstrapping)</td>
             </tr>
             <tr>
-              <td>Permutation Vector</td>
-              <td style="text-align:center">Swap Mutation</td>
-              <td style="text-align:center">Cycle Crossover</td>
-              <td style="text-align:center"><span class="MathJax_Preview" style="display: none;"></span><div class="MathJax_Display" style="text-align: center;"><span class="MathJax" id="MathJax-Element-50-Frame" tabindex="0" style="text-align: center;"><nobr><span class="math" id="MathJax-Span-314" style="width: 2.461em; display: inline-block;"><span style="display: inline-block; position: relative; width: 2.006em; height: 0px; font-size: 122%;"><span style="position: absolute; clip: rect(1.414em, 1001.96em, 2.37em, -999.998em); top: -2.229em; left: 0em;"><span class="mrow" id="MathJax-Span-315"><span class="mn" id="MathJax-Span-316" style="font-family: MathJax_Main;">1000</span></span><span style="display: inline-block; width: 0px; height: 2.234em;"></span></span></span><span style="display: inline-block; overflow: hidden; vertical-align: -0.053em; border-left: 0px solid; width: 0px; height: 0.947em;"></span></span></nobr></span></div><script type="math/tex; mode=display" id="MathJax-Element-50">1000</script></td>
-              <td style="text-align:center"><span class="MathJax_Preview" style="display: none;"></span><div class="MathJax_Display" style="text-align: center;"><span class="MathJax" id="MathJax-Element-51-Frame" tabindex="0" style="text-align: center;"><nobr><span class="math" id="MathJax-Span-317" style="width: 1.232em; display: inline-block;"><span style="display: inline-block; position: relative; width: 1.004em; height: 0px; font-size: 122%;"><span style="position: absolute; clip: rect(1.414em, 1000.96em, 2.37em, -999.998em); top: -2.229em; left: 0em;"><span class="mrow" id="MathJax-Span-318"><span class="mn" id="MathJax-Span-319" style="font-family: MathJax_Main;">23</span></span><span style="display: inline-block; width: 0px; height: 2.234em;"></span></span></span><span style="display: inline-block; overflow: hidden; vertical-align: -0.053em; border-left: 0px solid; width: 0px; height: 0.947em;"></span></span></nobr></span></div><script type="math/tex; mode=display" id="MathJax-Element-51">23</script></td>
+              <td>Bias</td>
+              <td style="text-align:center">Unbiased</td>
+              <td style="text-align:center">Biased (due to bootstrapping)</td>
+            </tr>
+            <tr>
+              <td>Variance</td>
+              <td style="text-align:center">High</td>
+              <td style="text-align:center">Lower (due to bootstrapping)</td>
+            </tr>
+            <tr>
+              <td>Convergence</td>
+              <td style="text-align:center">Slower</td>
+              <td style="text-align:center">Faster</td>
+            </tr>
+            <tr>
+              <td>Computation</td>
+              <td style="text-align:center">More computationally expensive</td>
+              <td style="text-align:center">Less computationally expensive</td>
             </tr>
           </tbody></table>
           <div class="caption">
-            <b>Table 4:</b> Comparison of representation mutation and
-            crossover
-            choices based on 1000 runs of each combination.
-            The table shows the best performing combination for each
-            representation as well as the average number of generations
-            that it takes to find a result (capped at 1000 generations).
+            <b>Table 1:</b> Comparison of MC and TD in various aspects.
           </div>
           <br>
         </div>
