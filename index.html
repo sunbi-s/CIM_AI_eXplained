@@ -214,7 +214,7 @@
         <p>
           RL is a widely-used methodology in machine learning that focuses on solving sequential
           decision-making problems where current decisions affect future outcomes.
-          Markov Decision Process (MDP) is one of the most popular ways to formalize this process,
+          Markov Decision Process (MDP) [<a href="#ref_10">11</a>] is one of the most popular ways to formalize this process,
           providing a useful framework for solving sequential decision-making problems.
         </p>
 
@@ -696,12 +696,15 @@
           before the end of an episode.
         </p>
 
-        <p>  
+        <p class="inline-math">
           TD achieves this goal using the bootstrap method, which uses its own value estimates to update the value function.
-          Specifically, TD updates the current value function($V(s_t)$) with a more accurate estimate($R_{t+1} + \gamma V(s_{t+1})$) and takes into account the sampled reward received by the agent.
+          Specifically, TD updates the current value function $$V(s_t)$$ with a more accurate estimate $$R_{t+1} + \gamma V(s_{t+1})$$ and takes into account the sampled reward received by the agent.
           This allows TD to update the value function estimate incrementally and in real-time,
             without the need to wait for the end of an episode.
-            \[V\left(s_t\right)=\mathbb{E}\left[R_{t+1}+\gamma V\left(s_{t+1}\right)\right]\]
+        </p>
+
+        <p>
+          \[V\left(s_t\right)=\mathbb{E}\left[R_{t+1}+\gamma V\left(s_{t+1}\right)\right]\]
         </p>
 
         <p class="inline-math">
@@ -1039,7 +1042,7 @@
 
         <p class="inline-math">
           In this case $$\gamma^3 V(S_{t+3})$$ is used as a proxy for $$\gamma^{3} R_{t+4} + \dots + \gamma^{T-t-1} R_{T}$$.
-          This is where the concept of N-step TD learning is used, offering a promising balance between bias and variance, ultimately improving learning efficiency in RL scenarios.
+          This is where the concept of N-step TD [<a href="#ref_8">9</a>][<a href="#ref_9">10</a>] learning is used, offering a promising balance between bias and variance, ultimately improving learning efficiency in RL scenarios.
           By generalizing this, an n-step return for arbitrary $$n$$ can be obtained.
         </p>
 
@@ -1300,6 +1303,30 @@
             <span>
               Mnih, Volodymyr, et al. 2015.Nature 518.7540: 529-533.
               DOI:<a href="https://doi.org/10.1038/nature14236" target="_blank">10.1038/nature14236</a>
+            </span>
+          </li>
+
+          <li id="ref_8">
+            TD models: Modeling the world at a mixture of time scales
+            <span>
+              Sutton, Richard S. 1995.Machine Learning Proceedings 531-539.
+              DOI:<a href="https://doi.org/10.1016/B978-1-55860-377-6.50072-4" target="_blank">10.1016/B978-1-55860-377-6.50072-4</a>
+            </span>
+          </li>
+
+          <li id="ref_9">
+            Td (λ) networks: temporal-difference networks with eligibility traces
+            <span>
+              Tanner, Brian, and Richard S. Sutton. 2005.Proceedings of the 22nd international conference on Machine learning.
+              DOI:<a href="https://doi.org/10.1145/1102351.1102463" target="_blank">10.1145/1102351.1102463</a>
+            </span>
+          </li>
+
+          <li id="ref_10">
+            Markov decision processes
+            <span>
+              Puterman, Martin L. 1990.Handbooks in operations research and management science 2 : 331-434.
+              DOI:<a href="https://doi.org/10.1016/S0927-0507(05)80172-0" target="_blank">10.1016/S0927-0507(05)80172-0</a>
             </span>
           </li>
 
