@@ -162,7 +162,7 @@
         <p>
           There are two types of RL algorithms: model-free and model-based.
           Model-free algorithms estimate the value function from multiple trials and update the policy based on these values.
-          In contrast, model-based algorithms compute states’ values by considering all possible future states and actions using the environment model.
+          In contrast, model-based algorithms use planning with the model of the environment [<a href="#ref_0">1</a>].
         </p>
 
         <p>
@@ -223,8 +223,16 @@
         <h3>Markov Process</h3>
         <p>
           A stochastic process that models the evolution of a system over time is called a Markov process.
-          At each time step, the state may remain the same or transition to a different state based on the probability of transition that depends solely on the current state.
-          This is known as the Markov Property, which states that the future state of the system is dependent only on the present state and not on any previous states.
+          The transition probability of a first-order Markov process is defined by conditional probabilities that only consider the most recent previous state.
+          This characteristic is governed by what is known as the Markov Property.
+          The Markov Property suggests that the future state of the system relies solely on the current state, completely disregarding any influence from the states that came before it.
+        </p>
+
+        <p>
+          $$P\left[s_{t+1} \mid s_t\right]= P\left[s_{t+1} \mid s_1, s_2, \ldots, s_t\right]$$
+        </p>
+
+        <p>
           An example [<a href="#ref_4">5</a>] of a Markov process is shown in Figure 3.
         </p>
 
