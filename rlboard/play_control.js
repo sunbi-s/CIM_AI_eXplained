@@ -57,6 +57,8 @@ frame.querySelector('.btn_action_0').addEventListener("click", function() {
     if (!done) {
         [state, reward, done] = game.environment.step(0);
         renderEffect(game.environment._getCell(new Position(state[0], state[1])));
+        let next_reward = computeNextReward();
+        addScore(next_reward);
     }
     else {
         Swal.fire(message_content);
@@ -66,6 +68,8 @@ frame.querySelector('.btn_action_1').addEventListener("click", function() {
     if (!done) {
         [state, reward, done] = game.environment.step(1);
         renderEffect(game.environment._getCell(new Position(state[0], state[1])));
+        let next_reward = computeNextReward();
+        addScore(next_reward);
     }
     else {
         Swal.fire(message_content);
@@ -75,6 +79,8 @@ frame.querySelector('.btn_action_2').addEventListener("click", function() {
     if (!done) {
         [state, reward, done] = game.environment.step(2);
         renderEffect(game.environment._getCell(new Position(state[0], state[1])));
+        let next_reward = computeNextReward();
+        addScore(next_reward);
     }
     else {
         Swal.fire(message_content);
@@ -84,6 +90,8 @@ frame.querySelector('.btn_action_3').addEventListener("click", function() {
     if (!done) {
         [state, reward, done] = game.environment.step(3);
         renderEffect(game.environment._getCell(new Position(state[0], state[1])));
+        let next_reward = computeNextReward();
+        addScore(next_reward);
     }
     else {
         Swal.fire(message_content);
@@ -92,7 +100,34 @@ frame.querySelector('.btn_action_3').addEventListener("click", function() {
 frame.querySelector('.btn_reset').addEventListener("click", function() {
     state = game.environment.reset();
     done = false;
+    resetScore();
 });
 
 window.addEventListener("resize", adjustTextPosition);
 adjustTextPosition();
+
+
+let scoreText = frame.querySelector('#score_text');
+let score = 0;
+function addScore(_reward) {
+    score += _reward;
+    scoreText.innerText = score.toFixed(1);
+}
+
+function resetScore() {
+    score = 0;
+    scoreText.innerText = score.toFixed(1);
+}
+
+function computeNextReward() {
+    let next_reward = game.environment.config.defaultReward;
+
+    // compute reward
+    let CurrentPos = game.environment._get_player_position();
+    let currentCell = game.environment._getCell(CurrentPos);
+    let curr_place = currentCell.lastChild;
+    if (curr_place.classList.contains("place")) {
+        next_reward += curr_place.reward;
+    }
+    return next_reward;
+}
