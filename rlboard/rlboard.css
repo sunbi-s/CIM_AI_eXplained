@@ -172,6 +172,22 @@ select {
     margin-left: 146px;
 }
 
+.score {
+    width: 100px;
+    height: 23px;
+    margin-left: -85px;
+    position: absolute;
+}
+
+#score_text {
+    display: inline-block;
+    font-size: 14px;
+    width: 40px;
+    margin-left: -30px;
+    margin-top: 2px;
+    position: absolute;
+}
+
 .update_calculation {
     width: 50%;
     margin: auto;
