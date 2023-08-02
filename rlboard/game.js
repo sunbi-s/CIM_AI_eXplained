@@ -8,13 +8,12 @@ const math = window['math'];
 
 
 export function animate(game) {
-    setTimeout(() => {
-        requestAnimationFrame(function () {
-            animate(game);
-        });
-    }, 50);
+    function renderFrame() {
+        game.render();
+        requestAnimationFrame(renderFrame);
+    }
 
-    game.render();
+    requestAnimationFrame(renderFrame);
 }
 
 export function renderEffect(cell, timeout=500) {
