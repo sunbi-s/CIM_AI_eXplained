@@ -5,7 +5,7 @@
   <!-- Required meta tags for IEEE Xplore immersive article -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description"
-    content="An interactive article on introducing Monte Carlo and Temporal difference approach on a grid world. Learn about the Monte Carlo and Temporal difference approaches and their differences.">
+    content="An interactive article on introducing Monte Carlo and Temporal Difference approach on a grid world. Learn about the Monte Carlo and Temporal Difference approaches and their differences.">
   <meta charset="utf8">
   <title>Monte Carlo and Temporal Difference Methods in Reinforcement Learning
   </title>
@@ -45,8 +45,8 @@
         </h1>
         <!-- Subheading -->
         <p class="subhead">
-          An interactive article on introducing Monte Carlo and Temporal difference approach on a grid world.
-          Learn about the Monte Carlo and Temporal difference approaches and their differences.
+          An interactive article on introducing Monte Carlo and Temporal Difference approach on a grid world.
+          Learn about the Monte Carlo and Temporal Difference approaches and their differences.
         </p>
         <!-- Header info general wrapper -->
         <div class="header-info">
@@ -124,10 +124,10 @@
         <h2>I. Introduction</h2>
         <p>
           Learning by interaction with the environment is a natural form of intelligence that can be observed in both humans and animals.
-          They perceive the state of the environment, take actions based on their understanding, and learn from the feedback they receive.
+          They perceive the state of the environment, take actions based on their perception and understanding, and learn from the feedback they receive.
           Reinforcement Learning (RL) [<a href="#ref_0">1</a>] is a computational approach based on this learning mechanism.
           Recently, RL showed impressive results in various domains, such as Go [<a href="#ref_1">2</a>], StarCraft [<a href="#ref_2">3</a>],
-          protein-folding problems [<a href="#ref_3">4</a>], etc.
+          protein-folding problems [<a href="#ref_3">4</a>].
         </p>
 
         <figure class="static">
@@ -150,7 +150,7 @@
           RL is a machine learning technique that allows an agent to learn decision-making by interacting with an environment through trial and error.
           In each step, the agent’s policy decides on action based on the current state.
           The environment then responds with the next state and a reward.
-          If the agent reaches the terminal state, the episode ends.
+          If the agent reaches the terminal state, the episode terminates.
           To improve its decision-making, the agent’s policy can be updated based on the value function,
           which estimates the value of a state or action.
           However, accurately predicting future rewards without visiting all possible states can be challenging.
@@ -164,8 +164,8 @@
 
         <p>
           This article will focus on two fundamental model-free algorithms: Monte Carlo (MC) and Temporal Difference (TD).
-          These algorithms are effective in solving various RL problems,
-          and we will train and evaluate agents in a grid-based environment where the agent starts from the upper left and aims to reach the lower right grid.
+          These algorithms are effective in solving various RL problems.
+          Agents will be trained and evaluated in a grid-based environment where the agent starts from the upper left and aims to reach the lower right grid.
         </p>
 
         <div class="framed">
@@ -270,7 +270,7 @@
         </p>
           <p class="inline-math">
             Where transition probability from $s_4$ to $s_4$ is represented 1 in the table, however, any state transition can not be made after reaching $s_4$ since it is terminal state.
-            Thus, in Figure 3 we do not printed self-edge on $s_4$.
+            Thus, in Figure 3, the self-edge on $s_4$ is not printed.
           </p>
 
 
@@ -408,8 +408,7 @@
       <p>
         The value function of an environment with a small and discrete state space, such as the Shark game, can be represented using the table method. The table method 
         is a technique to store and update values for each state or state-action pair in a tabular form. The consequently learned policy is to select actions that lead 
-        to states with the highest value among the available options in the table. Furthermore, In all subsequent examples, we will employ the following random agent to 
-        compute the true value and approximate it.
+        to states with the highest value among the available options in the table. Furthermore, in all subsequent examples, the following random agent will be employed to compute the true value and approximate it.
       </p>
       <!-- random agent -->
       <div class="framed">
@@ -435,8 +434,9 @@
       </div>
 
       <p>
-        If we assume complete knowledge of the MDP, we can theoretically calculate the true value, which is approximated using both the MC and TD methods.
-        To compute the value of each state, we use the following equation:
+        Assuming complete knowledge of the MDP, the true value, which is approximated using both the MC and TD methods, can theoretically be calculated.
+        The following equation is used to compute the value of each state:
+
         $$
         \begin{aligned}
         
@@ -447,12 +447,12 @@
 
         \end{aligned}
         $$
-        By repeatedly iterating this equation, we can calculate the value for each state in the table.
+        By repeatedly iterating this equation, the value for each state in the table can be calculated.
       </p>
       <p>
         In the SharkGame environment, where the agent receives negative rewards at each step, it is essential to prioritize the gains achieved 
-        by reaching the destination. To do this, we should set a high discount factor(close to 1) that makes the agent emphasize the significance
-        of long-term rewards. For example, in a 6 x 6 grid in which reaching the destination requires many steps, a discount factor
+        by reaching the destination. To achieve this, a high discount factor (close to 1) should be set, which will cause the agent to emphasize the significance of long-term rewards.
+        For example, in a 6 x 6 grid in which reaching the destination requires many steps, a discount factor
         of 0.999 or higher is necessary to guide the agent toward the destination. However, in a 5 x 5 grid, a discount factor of 0.995 or higher
         is sufficient. If the gains obtained from reaching the destination fail to spread back to the initial position, the agent remains its initial location.
         The random policy doesn't avoid traps, creating a risk of entrapment.
@@ -561,13 +561,13 @@
         </div>
 
         <p>
-          However, we can easily derive incremental formulas of the MC update rule.
+          However, incremental formulas of the MC update rule can easily be derived.
           These formulas provide an efficient method for computing the state value without maintaining and process all returns each time the state is visited.
           The idea is to keep a running average, updating it each time a new return is available, rather than summing all the returns and dividing by the total number of visits each time.
         </p>
 
         <p class="inline-math">
-          Considering the previous estimate $$V(s_t)$$, the new sample return $$G_{N(s_t)}$$, and the number of visits to the state $$N(s_t)$$ before the current episode, we can update the estimate as follows:
+          Considering the previous estimate $$V(s_t)$$, the new sample return $$G_{N(s_t)}$$, and the number of visits to the state $$N(s_t)$$ before the current episode, the estimate can be updated as follows:
         </p>
 
         <p>
@@ -590,13 +590,13 @@
           The term $$\frac{1}{N(s_t)}(G_{N(s_t)} - V(s_t))$$ represents the difference between the new return $$G_{N(s_t)}$$ and the current estimated value $$V(s_t)$$,
           scaled by the inverse of the number of visits.
           This difference, also known as the error, quantifies how far the new return deviates from our current estimate.
-          Then in the direction of the error, we adjust our estimate. Consequently, if our current estimate is excessively high, it will be decreased; if it is excessively low, it will be increased.
-          The more we visit a state, the less the estimate is influenced by new returns.
+          Then, the estimate is adjusted in the direction of the error. Consequently, if the current estimate is excessively high,
+          it will be decreased; if it is excessively low, it will be increased. The more a state is visited, the less the estimate is influenced by new returns.
         </p>
 
         <p class="inline-math">
-          A practical and useful modification we can make to the MC update formula is to replace the inverse of the visit count with a step-size parameter
-          $$\alpha$$. This change gives us additional control over the learning process.
+          A practical and useful modification that can be made to the MC update formula is to replace the inverse of the visit count with a step-size parameter $$\alpha$$.
+          This change offers additional control over the learning process.
         </p>
 
         <p>
@@ -666,7 +666,7 @@
           This can be time-consuming and computationally expensive, especially in problems where episodes are long or infinite.
           In addition, MC can suffer from high variance in the estimates of values, particularly when episodes are short or few.
           This variance can make it difficult for the agent to learn the true values of states, and can lead to slower convergence.
-          The following TD approach addresses these issues, making learning the values more stable and efficient.
+          The following TD approach addresses these issues, making value learning more stable and efficient.
         </p>
 
       </section>
@@ -683,7 +683,7 @@
 
         <p>  
           TD achieves this goal using the bootstrap method, which uses its own value estimates to update the value function.
-          Specifically, TD updates the current value function($V(s_t)$) with a more accurate estimate($R_{t+1} + \gamma V(s_{t+1})$) takes into account the sampled reward received by the agent.
+          Specifically, TD updates the current value function($V(s_t)$) with a more accurate estimate($R_{t+1} + \gamma V(s_{t+1})$) and takes into account the sampled reward received by the agent.
           This allows TD to update the value function estimate incrementally and in real-time,
             without the need to wait for the end of an episode.
             \[V\left(s_t\right)=\mathbb{E}\left[R_{t+1}+\gamma V\left(s_{t+1}\right)\right]\]
@@ -809,7 +809,7 @@
           means that MC can update values only at the end of each episode, while TD can update values after each time
           step.
           Due to its incremental update scheme, TD has an inherent capability to swiftly pinpoint meaningful interactions.
-          This enables the ongoing episode to be directly influenced by changes resulting from previous interactions.
+          This enables the ongoing episode to be directly influenced by changes resulting from the previous interactions.
           This mechanism contributes to faster convergence, enhancing the overall efficiency of the TD method in comparison
           to the MC approach.
           Therefore, MC can be more computationally expensive and time-consuming, whereas TD is more efficient
@@ -882,7 +882,7 @@
         </div>
 
         <p>
-          From a machine learning perspective, we can consider the bias and variance of these two algorithms.
+          From a machine learning perspective, the bias and variance of these two algorithms can be considered.
           MC learning has a low bias but high variance because it estimates the value function by averaging the returns from multiple episodes,
           which can lead to high variance.
           However, since the value function is updated only with the sample returns, the estimation introduces no bias.
@@ -928,14 +928,14 @@
         <h2>VI. n-step TD</h2>
 
         <p>
-          In the previous sections, we introduced MC and TD, two principal methods for estimating the value function.
+          In the previous sections, MC and TD, two principal methods for estimating the value function, were introduced.
           However, each method has distinct advantages and disadvantages.
           The TD method, for instance, excels in computational efficiency but introduces bias in its estimates.
           Conversely, the MC method provides unbiased estimates but at the cost of high variance.
         </p>
 
         <p>
-          This raises a thought-provoking question: Can we synthesize the strengths of these methods while mitigating their weaknesses?
+          This raises a thought-provoking question: Can the strengths of these methods be synthesized while their weaknesses are mitigated?
           Therefore, we can seek a compromise, a "best-of-both-worlds" approach which could effectively balance the bias-variance trade-off?
           This idea triggers the exploration of a hybrid strategy that could seamlessly integrate the efficiency of the TD method and the unbiased nature of the MC method.
           To understand this, let's delve into how MC and TD perform their computations.
@@ -959,8 +959,8 @@
         </p>
 
         <p>
-          Therefore, in crafting a combined methodology, we could design a model that uses multiple steps for value updates, but not necessarily the entire trajectory.
-          For example, we may use the three-step return as a target for TD update.
+          Therefore, when crafting a combined methodology, a model could be designed that uses multiple steps for value updates, but not necessarily the entire trajectory.
+          For example, the three-step return could be used as a target for the TD update.
         </p>
 
         <p>
@@ -970,7 +970,7 @@
         <p class="inline-math">
           In this case $$\gamma^3 V(S_{t+3})$$ is used as a proxy for $$\gamma^{3} R_{t+4} + \dots + \gamma^{T-t-1} R_{T}$$.
           This is where the concept of N-step TD learning is used, offering a promising balance between bias and variance, ultimately improving learning efficiency in RL scenarios.
-          By generalizing this, we can obtain an n-step return for arbitrary $$n$$
+          By generalizing this, an n-step return for arbitrary $$n$$ can be obtained.
         </p>
 
         <p>
@@ -1048,7 +1048,7 @@
         </div>
 
         <p>
-          Referring to the figure below, we can examine the RMSE of MC, TD, and N-step TD agents.
+          Referring to the figure below, the RMSE of MC, TD, and N-step TD agents can be examined.
           According to the observed data, the performance of the N-step TD method is nestled between that of the MC and TD methods.
           This outcome indicates that N-step TD proficiently bridges the gap between the MC and TD methods, achieving a more effective balance between variance and bias.
           Thus, it successfully combines the advantages of both methodologies, serving as a compelling compromise that mitigates the disadvantages of each method.
@@ -1155,16 +1155,16 @@
           In conclusion, this paper has presented an overview of two common approaches in RL: MC and TD.
           While these methods have their respective advantages and disadvantages.
           However, it is important to note that RL encompasses many other approaches beyond these two,
-          such as model-based [<a href="#ref_5">6</a>] and policy gradient methods [<a href="#ref_6">7</a>] are also commonly used in this field.
+          for example, model-based [<a href="#ref_5">6</a>] and policy gradient methods [<a href="#ref_6">7</a>] are also commonly used in this field.
           These other methods may better suit certain problems or have particular advantages in different contexts.
         </p>
 
         <p>
           Moreover, recent advancements in the field of RL have demonstrated the potential for
-          combining RL with deep learning to achieve even better results [<a href="#ref_7">8</a>]. These hybrid approaches
-          have shown promise in various applications, from game-playing and robotics to natural language processing and recommendation systems.
-          As the field continues to evolve, we will likely see more innovations and breakthroughs in the area of RL,
-          and it will be exciting to see how these new approaches and techniques can be applied to address real-world challenges.
+          combining RL with deep learning to achieve even better results [<a href="#ref_7">8</a>].
+          These hybrid approaches have shown promise in various applications, from game-playing and robotics to natural language processing and recommendation systems.
+          As the field continues to evolve, it's likely that more innovations and breakthroughs in the area of RL will emerge.
+          It will be exciting to witness how these new approaches and techniques can be applied to address real-world challenges.
         </p>
 
       </section>
