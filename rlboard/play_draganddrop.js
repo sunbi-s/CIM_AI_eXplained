@@ -1,5 +1,5 @@
 import { Position } from "./utill.js";
-import { Game, MCGame, TDGame, OptimGame, NstepTDGame, animate } from "./game.js";
+import { Game, MCGame, TDGame, OptimGame, NstepTDGame, animate, animate2 } from "./game.js";
 
 const frame = document.querySelector('#play_draganddrop')
 const boardDom = frame.querySelector('.board');
@@ -12,7 +12,7 @@ boardDom.style.cursor = 'pointer';
 
 
 let dummyGame = new Game(boardDom);
-animate(dummyGame);
+animate2(dummyGame);
 
 let mcGame = new MCGame(hiddenBoardDom1);
 mcGame.environment.div = boardDom;

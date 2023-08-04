@@ -16,6 +16,17 @@ export function animate(game) {
     requestAnimationFrame(renderFrame);
 }
 
+export function animate2(game) {
+    setTimeout(() => {
+        requestAnimationFrame(function () {
+            animate(game);
+        });
+    }, 50);
+
+    game.render();
+}
+
+
 export function renderEffect(cell, timeout=500) {
     if (cell.childNodes.length < 2) {
         return;
