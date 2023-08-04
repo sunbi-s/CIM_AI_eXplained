@@ -126,11 +126,11 @@
         <!-- Section title -->
         <h2>I. Introduction</h2>
         <p>
-          Learning by interaction with the environment is a natural form of intelligence that can be observed in both humans and animals.
-          They perceive the state of the environment, take actions based on their perception and understanding, and learn from the feedback they receive.
-          Reinforcement Learning (RL) [<a href="#ref_0">1</a>] is a computational approach based on this learning mechanism.
-          Recently, RL showed impressive results in various domains, such as Go [<a href="#ref_1">2</a>], StarCraft [<a href="#ref_2">3</a>],
-          protein-folding problems [<a href="#ref_3">4</a>].
+          Learning through interaction with the environment is a natural form of intelligence observed in both humans and animals,
+          who perceive the environment’s state, take actions based on their perception and understanding, and learn from the feedback they receive.
+          Reinforcement learning (RL) [<a href="#ref_0">1</a>] is a computational approach based on this learning mechanism.
+          RL recently showed impressive results in various domains, such as Go [<a href="#ref_1">2</a>], StarCraft [<a href="#ref_2">3</a>],
+          and protein-folding problems [<a href="#ref_3">4</a>].
         </p>
 
         <figure class="static">
@@ -139,36 +139,35 @@
         </figure>
 
         <p>
-          RL consists of four main elements:
+          RL comprises four main elements:
         </p>
 
         <ul id="Units">
-          <li> <b>Policy</b>: a probability distribution of actions in a given state. It determines the agent’s behavior.</li>
-          <li> <b>Reward</b>: a signal that is given to an agent based on its behavior or actions in an environment. The reward serves as a way to reinforce or encourage certain behaviors and discourage others. It determines a goal in an RL problem.</li>
-          <li> <b>Value function</b>: the total reward an agent will get in the future, starting from a specific state. It shows how good a state is in the long run.</li>
-          <li> <b>The model of the environment</b>: a model that makes predictions of the environment’s behavior, thereby enabling inference about how the environment will behave.</li>
+          <li> <b>Policy</b>: This is the probability distribution of actions in a given state that determines the agent’s behavior</li>
+          <li> <b>Reward</b>: This is a signal given to an agent based on its behavior or actions in an environment. The reward serves as a way to reinforce or encourage certain behaviors and discourage others and determines a goal in an RL problem.</li>
+          <li> <b>Value function</b>: This is the total reward an agent will get in the future, starting from a speciﬁc state. It shows how good a state is in the long run.</li>
+          <li> <b>Environment model</b>: This model makes predictions of the environment’s behavior, thereby enabling inference about how the environment will behave.</li>
         </ul>
 
         <p>
-          RL is a machine learning technique that allows an agent to learn decision-making by interacting with an environment through trial and error.
-          In each step, the agent’s policy decides on action based on the current state.
+          RL is a machine learning technique that allows an agent to learn decision-making by interacting with the environment through trial and error.
+          In each step, the agent’s policy decides on an action based on the current state.
           The environment then responds with the next state and a reward.
-          If the agent reaches the terminal state, the episode terminates.
-          To improve its decision-making, the agent’s policy can be updated based on the value function,
-          which estimates the value of a state or action.
-          However, accurately predicting future rewards without visiting all possible states can be challenging.
+          The episode terminates if the agent reaches the terminal state.
+          To improve its decision-making, the agent’s policy can be updated based on the value function that estimates the value of a state or an action.
+          However, accurately predicting the future rewards without visiting all the possible states can be challenging.
         </p>
 
         <p>
-          There are two types of RL algorithms: model-free and model-based.
+          RL algorithms are categorized into two types: model-free and model-based types.
           Model-free algorithms estimate the value function from multiple trials and update the policy based on these values.
-          In contrast, model-based algorithms use planning with the model of the environment [<a href="#ref_0">1</a>].
+          In contrast, model-based algorithms use planning with the environment model [<a href="#ref_0">1</a>].
         </p>
 
         <p>
-          This article will focus on two fundamental model-free algorithms: Monte Carlo (MC) and Temporal Difference (TD).
-          These algorithms are effective in solving various RL problems.
-          Agents will be trained and evaluated in a grid-based environment where the agent starts from the upper left and aims to reach the lower right grid.
+          This article focuses on two fundamental model-free algorithms: Monte Carlo (MC) and Temporal Difference (TD).
+          These algorithms can effectively solve various RL problems.
+          Agents are trained and evaluated in a grid-based environment, where the agent starts from the upper left grid and aims to reach the lower right grid.
         </p>
 
         <div class="framed">
@@ -212,24 +211,24 @@
         <h2>II. Markov Decision Process</h2>
 
         <p>
-          RL is a widely-used methodology in machine learning that focuses on solving sequential
-          decision-making problems where current decisions affect future outcomes.
-          Markov Decision Process (MDP) [<a href="#ref_10">11</a>] is one of the most popular ways to formalize this process,
+          RL is a widely used machine learning methodology that focuses on solving sequential decision-making problems,
+          in which the current decisions affect the future outcomes.
+          The Markov decision process (MDP) [<a href="#ref_10">11</a>] is one of the most popular methods of formalizing RL,
           providing a useful framework for solving sequential decision-making problems.
         </p>
 
         <p>
-          MDPs are defined by states, actions, transition probabilities, and reward function.
-          Understanding MDP is crucial as the goal of RL is to find an optimal policy that maximizes total rewards or evaluates the value of a set of actions given MDP’s rules and constraints.
-          MDP extends the concept of a Markov process, which is a stochastic process that only consists of states and transition probabilities.
+          The MDP is defined by states, actions, transition probabilities, and reward function.
+          Understanding the MDP is crucial considering that the goal of RL is to ﬁnd an optimal policy that maximizes the total rewards or evaluates the value of a set of actions given the MDP’s rules and constraints.
+          The MDP extends the concept of a Markov process, a stochastic process that only comprises states and transition probabilities.
         </p>
 
         <h3>Markov Process</h3>
         <p>
-          A stochastic process that models the evolution of a system over time is called a Markov process.
-          The transition probability of a first-order Markov process is defined by conditional probabilities that only consider the most recent previous state.
-          This characteristic is governed by what is known as the Markov Property.
-          The Markov Property suggests that the future state of the system relies solely on the current state, completely disregarding any influence from the states that came before it.
+          A stochastic process that models a system's evolution over time is called a Markov process.
+          The transition probability of a first-order Markov process is defined by the conditional probabilities that consider only the most recent previous state.
+          This characteristic is governed by the Markov Property.
+          The Markov Property suggests that the future state of a system solely relies on the current state, completely disregarding any influence from the previous states.
         </p>
 
         <p>
@@ -237,7 +236,7 @@
         </p>
 
         <p>
-          An example [<a href="#ref_4">5</a>] of a Markov process is shown in Figure 3.
+          Figure 3 depicts an example [<a href="#ref_4">5</a>] of a Markov process.
         </p>
 
         <figure class="static">
@@ -247,22 +246,27 @@
         </figure>
 
         <p>
-          There are five possible states that a child can be in, including \(s_0\)(Lying), \(s_1\)(Awake), \(s_2\)(Drowsy), \(s_3\)(Light Sleep), and \(s_4\)(Deep Sleep).
-          Each state lasts a unit of time, such as one minute, and transitions to the next state based on certain probabilities. Assuming that the Markov
-          process always starts with the child \(s_0\)(Lying), the child remains in this state for one minute. After that, there is a 40% probability
-          of transitioning to \(s_1\)(Awake) or a 60% probability of transitioning to \(s_2\)(Drowsy). The process continues until the child reaches \(s_4\)(Deep Sleep)
-          , which ends the Markov process.
+          A child can be in five possible sleep states: \(s_0\) (lying), \(s_1\) (awake), \(s_2\) (drowsy), \(s_3\) (light sleep), and \(s_4\) (deep sleep).
+          Each state lasts for a unit of time (e.g., 1 min), and then transitions to the next state based on certain probabilities.
+          Assuming that the Markov process always starts with the child \(s_0\) (lying), the child remains in this state for 1 min.
+          Next is the 40% probability of transitioning to s1 \(s_1\) (awake) or the 60% probability of transitioning to \(s_2\) (drowsy).
+          This process continues until the child reaches \(s_4\) (deep sleep), ending the Markov process.
         </p>
         <p>
-          Here are the components that make up a Markov process:
+          A Markov process is composed of the following components:
         </p>
         <ul id="mp_components">
-          <li> State Space (\(S\)): The state space represents all possible states that the system can take.
-               In this example, the states include \(s_0\)(Lying), \(s_1\)(Awake), \(s_2\)(Drowsy), \(s_3\)(Light Sleep), and \(s_4\)(Deep Sleep),
-               which can be represented as \(\{s_0, s_1, s_2, s_3, s_4\} \in S\). </li>
-          <li> Transition Probability(\(P_{ss'}\)): The probability of transitioning from state \(s\) to another state \(s'\) at step \(t\), represented as \(P_{ss'} = P(S_{t+1} = s' \mid S_{t} = s)\).
-               The transition probability table is represented below:
+          <li>
+            State space (\(S\)): This represents all possible states that a system can take.
+            In our example, the states are \(s_0\) (lying), \(s_1\) (awake), \(s_2\) (drowsy), \(s_3\) (light sleep), and \(s_4\) (deep sleep)
+            represented as \(\{s_0, s_1, s_2, s_3, s_4\} \in S\).
           </li>
+
+          <li>
+            Transition probability (\(P_{ss'}\)): This is the probability of transitioning from state \(s\) to another state \(s'\) at step \(t\) represented as \(P_{ss'} = P(S_{t+1} = s' \mid S_{t} = s)\).
+            The transition probability table is provided as follows:
+          </li>
+
           <p>
               \[
               \begin{array}{c c}
@@ -283,9 +287,11 @@
               \end{array}
               \]
         </p>
+
           <p class="inline-math">
-            Where transition probability from $s_4$ to $s_4$ is represented 1 in the table, however, any state transition can not be made after reaching $s_4$ since it is terminal state.
-            Thus, in Figure 3, the self-edge on $s_4$ is not printed.
+            Where the transition probability from $$s_4$$ to $$s_4$$ is denoted by 1 in the table.
+            However, note that no state transition can be made after reaching $$s_4$$ because it is a terminal state.
+            Thus, the self-edge on $$s_4$$ is not presented in Figure 3.
           </p>
 
 
@@ -318,17 +324,17 @@
       <h3> Markov Decision Process </h3>
 
       <p>
-        The Markov Decision Process (MDP) extends the Markov process by incorporating decision-making capabilities, which sets it apart from the latter.
-        While the Markov process models a system where the future state is determined only by the current state, the MDP introduces the concept of actions
-        taken by an agent that can influence the next state of the system. This enables the MDP to better model real-world scenarios.
+        The MDP extends a Markov process by incorporating decision-making capabilities, setting it apart from the latter.
+        While a Markov process models a system in which the future state is determined only by the current state, the MDP introduces the concept of actions
+        taken by an agent, which can influence the next system state. This enables the MDP to model real-world scenarios better.
       </p>
 
       <p>
-        In an MDP, the agent chooses an action based on its current state and the reward associated with the action at each time step.
-        Subsequently, depending on the transition probability, the following state is established.
-        The agent’s goal is to learn a policy that maps states to actions that maximize the expected cumulative reward over time.
-        By making decisions based on this policy, the agent can navigate the system and achieve its objectives efficiently.
-        Figure 5 provides an example of an MDP.
+        In the MDP, the agent chooses an action based on its current state and the reward associated with the action at each time step.
+        The subsequent state is then established depending on the transition probability.
+        The agent aims to learn a policy that maps states to actions maximizing the expected cumulative reward over time.
+        The agent can efficiently navigate the system and achieve its objectives by making decisions based on this policy.
+        Figure 5 provides an example of the MDP.
       </p>
 
       <figure class="static">
@@ -337,17 +343,17 @@
       </figure>
 
       <p>
-        Here are the components that make up an MDP:
+        The MDP comprises the following components:
       </p>
 
       <ul id="mdp_components">
-        <li> State Space (\(S\)): The state space represents all possible states that the system can take.
-            In this example, the states include \(s_0\)(Lying), \(s_1\)(Awake), \(s_2\)(Drowsy), \(s_3\)(Light Sleep), and \(s_4\)(Deep Sleep),
+        <li> State Space (\(S\)): This represents all the possible states that a system can take.
+            In our example, the states are  \(s_0\) (lying), \(s_1\) (awake), \(s_2\) (drowsy), \(s_3\) (light sleep), and \(s_4\) (deep sleep),
             which can be represented as \(\{s_0, s_1, s_2, s_3, s_4\} \in S\). </li>
-        <li> Action Space(\(A\)): All possible actions that can be taken given a state \(s\), including singing a lullaby and playing with the child, represented as \(\{a_0, a_1\} \in A\). </li>
-        <li> Transition Probability(\(P_{ss'}^a\)): The probability of transitioning from state \(s\) to another state \(s'\) after taking action \(a\) at step \(t\), represented as \(P_{ss'}^a = P(S_{t+1} = s' \mid S_{t} = s, A_{t}=a)\).</li>
-        <li> Reward function(\(R\)): The reward function in this MDP can evaluate the desirability of different actions by providing a scalar value called Reward(\(R_t)\) given step \(t\).</li>
-        <li> Discount Factor(\(\gamma\)): It is a value between 0 and 1 that determines the importance of immediate rewards versus long-term rewards. </li>
+        <li> Action Space(\(A\)): This denotes all the possible actions that can be taken given a state \(s\), including singing a lullaby and playing with the child, represented as  \(\{a_0, a_1\} \in A\). </li>
+        <li> Transition Probability(\(P_{ss'}^a\)): This is the probability of transitioning from state \(s\) to another state \(s'\) after taking action \(a\) at step \(t\). This is represented by \(P_{ss'}^a = P(S_{t+1} = s' \mid S_{t} = s, A_{t}=a)\).</li>
+        <li> Reward function(\(R\)): The reward function in this MDP can evaluate the desirability of different actions by providing a scalar value, called Reward (\(R_t)\), at a given step \(t\).</li>
+        <li> Discount Factor(\(\gamma\)): This is a value between 0 and 1 that determines the importance of immediate rewards versus long-term ones.</li>
       </ul>
 
       <div class="framed">
@@ -374,45 +380,45 @@
       </div>
 
       <p>
-        The MDP differs from Markov processes, including a goal through reward.
+        The MDP differs from Markov processes in various aspects, including a goal through a reward.
         In the context of helping a child sleep, a reward function can be set to encourage good sleeping patterns.
-        Alternatively, if the objective is to play with the child, the MDP may reward being awake.
-        When given an MDP, the objective is to determine the optimal action to take in each state to maximize the total rewards.
+        Alternatively, if the objective is to play with the child, the MDP may reward the state of being awake.
+        Being given the MDP means the need to determine the optimal action to take in each state to maximize the total rewards.
       </p>
 
       <p>
-        For instance, \(a_1\) (Playing with child) in the \(s_0\) (Lying) immediately transitions to the state \(s_1\) (Awake) and receives positive rewards (since the child wants to play).
-        However, in the long term, continuous \(a_0\) (Singing a lullaby) to put the child to sleep will yield the highest total sum of rewards. Interestingly, If \(a_0\) (Playing with child)
-        action is taken while the child is \(s_2\) (Drowsy), depending on the given probability, it may transition to an awake state or a lying state.
-        This transition probability helps to model problems in a realistic way.
+        For instance, \(a_1\) (playing with child) in \(s_0\) (lying) immediately transitions to state \(s_1\) (awake) and receives positive rewards because the child wants to play.
+        However, in the long-term, a continuous \(a_0\) (singing a lullaby) action to put the child to sleep will yield the highest total sum of rewards.
+        Interestingly, taking the \(a_0\) (playing with child) action while the child is in \(s_2\) (drowsy) may lead to a transition to the awake or lying state depending on the given probability.
+        This transition probability helps model problems in a realistic manner.
       </p>
 
       <p class="inline-math">
-        To maximize the sum of rewards $$R_t$$ by time $$t$$ in an MDP, it is necessary to evaluate the value of each state and determine the action to take in each state $$s$$.
-        The value of a state is determined by the expected sum of discounted future rewards that can be obtained by taking a particular action in that state. The discounting
-        factor $$\gamma$$ is used to ensure that immediate rewards are valued more highly than delayed rewards. This expected sum of future rewards is called the return $$G_t$$.
+        Maximizing the sum of the rewards $$R_t$$ by time $$t$$ in the MDP requires evaluating the value of each state and determining the action to take in each state $$s$$.
+        The state value is determined by the expected sum of the discounted future rewards that can be obtained by taking a particular action in that state.
+        The discounting factor $$\gamma$$ is used to ensure that immediate rewards are more highly valued than delayed ones. This expected sum of future rewards is called the return $$G_t$$.
       </p>
 
       <p>
-        However, the expected return value must be used since the return value changes every time due to probabilistic factors such as transitions. A function that outputs
-        the expected return value for each state is called the value function (\(V_\pi\)). The value function is a critical concept in RL as it enables an agent to evaluate
-        the value of different states and determine the optimal policy to follow to maximize rewards.
+        However, the expected return value must be used because the return value changes every time due to probabilistic factors, such as transitions.
+        The function that outputs the expected return value for each state is called the value function (\(V_\pi\)).
+        The value function is a critical concept in RL because it enables an agent to evaluate the value of different states and determine the optimal policy to follow when maximizing rewards.
         \[V(s) = \mathbb{E}\left[G_t \mid S_t=s\right]=\mathbb{E}\left[\sum_{k=0}^{\infty} \gamma^k R_{t+k+1} \mid S_t=s\right], \text { for all } s \in \mathcal{S}\]
       </p>
 
       <p>
-        The transition probability and reward function are unknown in a model-free environment, and therefore, they must be estimated from experience.
-        Two primary methods for estimating the value function in a model-free environment are the MC method and the TD method.
+        The transition probability and the reward function are unknown in a model-free environment; therefore, they must be estimated from experience.
+        The two primary methods for the value function estimation in a model-free environment are the MC and TD methods.
       </p>
 
       <h3> SharkGame Environment </h3>
 
       <p>
-        The SharkGame can be viewed as an MDP where the states represent the position of the shark character and the actions are moving up, down, left, or right.
-        The probability of transitioning to a new state is deterministic, meaning the action will always result in a specific next state. If the agent is
-        at the top left corner and chooses to move right, it will always transition to the state on the right with no chance of moving to the state above, below, or left.
-        The reward function provides negative feedback for each step and obstacles encountered, such as bombs and nets. This approach encourages the agent
-        to find the shortest path to the goal while avoiding obstacles.
+        Viewing SharkGame as an MDP, the states represent the shark character’s position, and the actions involved are moving up, down, left, and right.
+        The probability of transitioning to a new state is deterministic. In other words, the action will always result in a speciﬁc next state.
+        If the agent is at the top-left corner and chooses to move right, it will always transition to the state on the right without any chance of moving to the state above, below, or on the left side.
+        The reward function provides a negative feedback for each step and obstacle encountered (e.g., bombs and nets).
+        This approach encourages the agent to find the shortest path to the goal while avoiding the obstacles.
       </p>
 
       <figure class="static">
@@ -421,9 +427,10 @@
       </figure>
 
       <p>
-        The value function of an environment with a small and discrete state space, such as the Shark game, can be represented using the table method. The table method 
-        is a technique to store and update values for each state or state-action pair in a tabular form. The consequently learned policy is to select actions that lead 
-        to states with the highest value among the available options in the table. Furthermore, in all subsequent examples, the following random agent will be employed to compute the true value and approximate it.
+        The value function of an environment with a small and discrete state space (e.g., SharkGame) can be represented by the table method.
+        The table method is a technique for storing and updating the values for each state or state–action pair in a tabular form.
+        The learned policy must select actions leading to states with the highest value among the options available from the table.
+        In all subsequent examples, the following random agent is employed to compute the true value and approximate it.
       </p>
       <!-- random agent -->
       <div class="framed">
@@ -449,8 +456,8 @@
       </div>
 
       <p>
-        Assuming complete knowledge of the MDP, the true value, which is approximated using both the MC and TD methods, can theoretically be calculated.
-        The following equation is used to compute the value of each state:
+        Assuming complete knowledge of the MDP, the true value approximated using both the MC and TD methods can theoretically be calculated.
+        The value of each state is calculated as follows:
 
         $$
         \begin{aligned}
@@ -462,17 +469,18 @@
 
         \end{aligned}
         $$
-        By repeatedly iterating this equation, the value for each state in the table can be calculated.
+        The value for each state in the table is calculated by repeatedly iterating this equation.
       </p>
+
       <p>
-        In the SharkGame environment, where the agent receives negative rewards at each step, it is essential to prioritize the gains achieved 
-        by reaching the destination. To achieve this, a high discount factor (close to 1) should be set, which will cause the agent to emphasize the significance of long-term rewards.
-        For example, in a 6 x 6 grid in which reaching the destination requires many steps, a discount factor
-        of 0.999 or higher is necessary to guide the agent toward the destination. However, in a 5 x 5 grid, a discount factor of 0.995 or higher
-        is sufficient. If the gains obtained from reaching the destination fail to spread back to the initial position, the agent remains its initial location.
-        The random policy doesn't avoid traps, creating a risk of entrapment.
-        This risk is factored into the above formula, affecting the true values and spreading the traps' negative rewards across nearby spaces.
-        As a result, agents might accidentally encounter less dangerous traps while avoiding more harmful ones.
+        In the SharkGame environment, where the agent receives negative rewards at each step, the gains achieved by reaching the destination must be prioritized.
+        Doing this requires setting a high discount factor (close to 1) that will cause the agent to emphasize the significance of long-term rewards.
+        For example, in a 6 x 6 grid, in which reaching the destination requires many steps, a 0.999 or higher discount factor is necessary to guide the agent toward the destination.
+        By contrast, in a 5 x 5 grid, a 0.995 or higher discount factor is sufficient.
+        The agent retains its initial location if the gains obtained from reaching the destination fail to spread back to the initial position.
+        The random policy does not avoid traps, thereby developing an entrapment risk. This risk is factored into the above formula.
+        It affects the true values and spreads the traps’ negative rewards across nearby spaces.
+        Consequently, agents might accidentally encounter less dangerous traps while avoiding more harmful ones.
       </p>
 
       <div class="framed">
@@ -509,17 +517,17 @@
         <h2>III. Monte Carlo approach</h2>
 
         <p>
-          MC estimates the values by simply averaging the sample returns.
-          This technique relies on simulating multiple episodes of an agent's interaction with the environment.
-          In each episode, the agent takes actions and receives rewards, and the sequence of states, actions, and rewards is recorded.
-          The final outcome of each episode is used to update the value of each state.
-          The MC approach estimates the value of a state as the average of the returns received in all the episodes in which that state was visited.
+          The MC method estimates the values by simply averaging the sample returns.
+          This technique relies on simulating the multiple episodes of an agent’s interaction with the environment.
+          In each episode, the agent takes actions and receives rewards. The sequence of states, actions, and rewards is also recorded.
+          The final outcome of each episode is used to update each state value.
+          The MC approach estimates a state value as the average of the returns received in all episodes, in which that state has been visited.
           The return is the sum of the rewards received after visiting that state until the end of the episode.
-          The estimated value of a state becomes more accurate as the number of episodes increases.
+          The estimated state value becomes more accurate as the number of episodes increases.
         </p>
 
         <p class="inline-math">
-          After each episode, the sample return $$G_t$$ is computed at each step.
+          The sample return $$G_t$$ is computed at each step after each episode.
         </p>
 
         <p>
@@ -527,10 +535,9 @@
         </p>
 
         <p class="inline-math">
-          Then for each visited state in the episode, the increment counter $$N(s_t)$$ (which refers to the number of visits to
-          state $$s_t$$) increased by 1
-          and the sample return $$G_t$$ is added to the total return $$S(s_t)$$, and finally dividing $$S(s_t)$$ by $$N(s_t)$$,
-          the state value $$V(s_t)$$ is obtained.
+          For each visited state in the episode, the increment counter $$N(s_t)$$, which refers to the number of visits to state $$s_t$$, is increased by 1.
+          The sample return $$G_t$$ is added to the total return $$S(s_t)$$.
+          Finally, dividing $$S(s_t)$$ by $$N(s_t)$$, the state value $$V(s_t)$$ is obtained as follows:
         </p>
 
         <p>
@@ -576,13 +583,13 @@
         </div>
 
         <p>
-          However, incremental formulas of the MC update rule can easily be derived.
-          These formulas provide an efficient method for computing the state value without maintaining and process all returns each time the state is visited.
-          The idea is to keep a running average, updating it each time a new return is available, rather than summing all the returns and dividing by the total number of visits each time.
+          However, the incremental formulas of the MC update rule can easily be derived.
+          These formulas provide an efficient method of computing the state value without maintenance and process all returns each time a state is visited.
+          The idea here is to keep a running average, update it each time a new return is available instead of summing all the returns, and divide it by the total number of visits each time.
         </p>
 
         <p class="inline-math">
-          Considering the previous estimate $$V(s_t)$$, the new sample return $$G_{N(s_t)}$$, and the number of visits to the state $$N(s_t)$$ before the current episode, the estimate can be updated as follows:
+          The estimate is updated as follows by considering the previous estimate $$V(s_t)$$, the new sample return $$G_{N(s_t)}$$, and the number of visits to a state $$N(s_t)$$ before the current episode:
         </p>
 
         <p>
@@ -602,15 +609,15 @@
         </p>
 
         <p class="inline-math">
-          The term $$\frac{1}{N(s_t)}(G_{N(s_t)} - V(s_t))$$ represents the difference between the new return $$G_{N(s_t)}$$ and the current estimated value $$V(s_t)$$,
-          scaled by the inverse of the number of visits.
-          This difference, also known as the error, quantifies how far the new return deviates from our current estimate.
-          Then, the estimate is adjusted in the direction of the error. Consequently, if the current estimate is excessively high,
-          it will be decreased; if it is excessively low, it will be increased. The more a state is visited, the less the estimate is influenced by new returns.
+          The term $$\frac{1}{N(s_t)}(G_{N(s_t)} - V(s_t))$$ represents the difference between the new return $$G_{N(s_t)}$$
+          and the current estimated value $$V(s_t)$$ scaled by the inverse of the number of visits.
+          This difference, which is also known as error, quantifies how far the new return deviates from our current estimate.
+          The estimate is then adjusted in the error’s direction. Consequently, an excessively high current estimate will be decreased, while an excessively low one will be increased.
+          The more frequent a state is visited, the less the estimate is ifluenced by new returns.
         </p>
 
         <p class="inline-math">
-          A practical and useful modification that can be made to the MC update formula is to replace the inverse of the visit count with a step-size parameter $$\alpha$$.
+          A practical and useful modification that can be made to the MC update formula is to replace the visit count inverse with a step-size parameter $$\alpha$$.
           This change offers additional control over the learning process.
         </p>
 
@@ -620,9 +627,9 @@
 
         <p class="inline-math">
           The step-size parameter $$\alpha$$ is crucial because it determines the extent to which our estimates are updated based on new information.
-          When $$\alpha$$ is close to 0, the updates are small, and the learning is slow.
-          Conversely, when $$\alpha$$ is close to 1, the updates are considerable, and the learning is fast, but it may lead to overshooting the true values.
-          Typically, $$\alpha$$ is chosen to be a small positive number for stability and gradual learning.
+          At an $$\alpha$$ close to 0, updates are small, and learning is slow.
+          Conversely, at an $$\alpha$$ close to 1, updates are considerable, and learning is fast; however, it may lead to the overshooting of the true values.
+          Typically, $$\alpha$$ is chosen as a small positive number for stability and gradual learning.
         </p>
 
         <div class="framed">
@@ -676,12 +683,12 @@
         </div>
 
         <p>
-          There are a few disadvantages of the MC approach.
-          One disadvantage is that MC requires complete episodes of interaction with the environment before updating the values of states.
-          This can be time-consuming and computationally expensive, especially in problems where episodes are long or infinite.
-          In addition, MC can suffer from high variance in the estimates of values, particularly when episodes are short or few.
-          This variance can make it difficult for the agent to learn the true values of states, and can lead to slower convergence.
-          The following TD approach addresses these issues, making value learning more stable and efficient.
+          The MC approach has a few disadvantages.
+          One is that it requires complete episodes of an interaction with the environment before it can update the state values.
+          This can be time-consuming and computationally expensive, especially for problems with long or infinite episodes.
+          The MC method can also suffer from a high variance in the value estimates, particularly when the episodes are short or few.
+          This variance can make it difficult for the agent to learn the true state values and lead to a slower convergence.
+          The TD approach addresses the abovementioned issues, making value learning more stable and efficient.
         </p>
 
       </section>
@@ -690,17 +697,16 @@
         <h2>IV. Temporal Difference learning</h2>
 
         <p>
-          TD is another method for estimating the value function in RL. Unlike MC methods, which require waiting until 
-          the end of an episode to update the value function, TD updates the value function at every transition. MC methods require the complete return of an episode to update 
-          the value function. However, this return cannot be known until the end of the episode. This waiting time can be avoided by using TD, which updates the value function
-          before the end of an episode.
+          The TD approach is another method for estimating the value function in RL.
+          Unlike the MC method that requires waiting until the end of an episode to update the value function, the TD method updates the value function at every transition.
+          The MC method requires the complete return of an episode to update the value function; however, this return is not known until the end of that episode.
+          Using the TD method avoids the waiting time because it updates the value function before the end of an episode.
         </p>
 
         <p class="inline-math">
-          TD achieves this goal using the bootstrap method, which uses its own value estimates to update the value function.
-          Specifically, TD updates the current value function $$V(s_t)$$ with a more accurate estimate $$R_{t+1} + \gamma V(s_{t+1})$$ and takes into account the sampled reward received by the agent.
-          This allows TD to update the value function estimate incrementally and in real-time,
-            without the need to wait for the end of an episode.
+          The TD method achieves its goal using the bootstrap method that uses its own value estimates to update the value function.
+          The TD approach specifically updates the current value function $$V(s_t)$$ with a more accurate estimate $$R_{t+1} + \gamma V(s_{t+1})$$ and considers the sampled reward received by the agent,
+          thereby allowing it to incrementally update the value function estimate in real time without needing to wait for the end of an episode.
         </p>
 
         <p>
@@ -708,11 +714,11 @@
         </p>
 
         <p class="inline-math">
-          Similar to MC methods, TD methods also use a step-size parameter, $$\alpha$$, to guide the learning process.
+          Similar to the MC method, the TD method also uses a step-size parameter ($$\alpha$$) to guide the learning process.
         </p>
 
         <p>
-          The TD update equation is as follows:
+          The TD update equation is presented as
         </p>
 
         <p>
@@ -720,8 +726,8 @@
         </p>
 
         <p>
-          This equation highlights the essence of TD learning, i.e., it adjusts the estimated value of a state based on the observed reward and the estimated value of the next state,
-          both of which are available immediately after a transition.
+          This equation highlights the essence of TD learning, that is, to adjust the estimated state value based on the observed reward and the estimated value of the next state.
+          Both of which are immediately available after a transition.
         </p>
 
         <div class="framed">
@@ -761,10 +767,10 @@
         </div>
 
         <p>
-          Compared to MC methods, TD is more computationally efficient because of the frequent update. However, it has bias and may not converge to
-          the true value function. This is because TD uses an estimated function $V(s)$ for the update instead of a true value function. Despite its limitations, TD has
-          demonstrated practical effectiveness in various real-world applications and has been successfully applied to various RL problems.
-          Where TD generally converges faster than MC, but in the examples in this paper, this isn't always the case because of the random training policy.
+          Compared to the MC method, the TD method is more computationally efficient because of its frequent update.
+          However, it also possesses bias and may not converge to the true value function because it uses an estimated function $$V(s)$$ for the update instead of a true value function.
+          Despite these limitations, the TD method demonstrates practical effectiveness in various real-world applications and is being successfully applied to various RL problems.
+          The TD method generally converges faster than the MC method. However, this was not the case for the examples presented in this paper due to the random training policy.
         </p>
 
         <div class="framed">
@@ -821,17 +827,14 @@
         <h2>V. Difference between MC and TD</h2>
 
         <p>
-          Both MC and TD approaches are used in RL to estimate the value function, but they differ
-          in how they update this function. MC estimates values by averaging the sample returns obtained from
-          multiple episodes, while TD uses the Bellman equation to compute target values from the estimated values. This
-          means that MC can update values only at the end of each episode, while TD can update values after each time
-          step.
-          Due to its incremental update scheme, TD has an inherent capability to swiftly pinpoint meaningful interactions.
-          This enables the ongoing episode to be directly influenced by changes resulting from the previous interactions.
-          This mechanism contributes to faster convergence, enhancing the overall efficiency of the TD method in comparison
-          to the MC approach.
-          Therefore, MC can be more computationally expensive and time-consuming, whereas TD is more efficient
-          and faster to converge.
+          Both the MC and TD approaches are used in RL to estimate the value function, differing only in the way they update this function.
+          The MC method estimates values by averaging the sample returns obtained from multiple episodes,
+          while the TD method uses the Bellman equation to compute the target values from the estimated values.
+          In other words, the MC method can update the values only at the end of each episode, while the TD method can update the values after each time step.
+          The TD approach has an inherent capability to swiftly pinpoint meaningful interactions because of its incremental update scheme.
+          This scheme enables the ongoing episode to be directly influenced by the changes resulting from the previous interactions.
+          This mechanism contributes to a faster convergence that enhances the overall efficiency of the TD method as compared to the MC approach.
+          In summary, the MC method is more computationally expensive and time consuming, while the TD method is more efficient and takes faster to converge.
         </p>
 
         <div class="framed">
@@ -869,11 +872,11 @@
         <br>
 
         <p>
-          Whereas MC and TD estimate values differently, both converge asymptotically to the true values.
-          You can see the optimal agent’s behavior in the figure below.
-          The true values are obtained by considering all possible future states and actions using an environmental model.
-          The optimal agent selects the best action based on these values, resulting in the highest possible reward.
-          While the optimal agent considers all possibilities, MC and TD agents only consider a subset of possible future states and actions.
+          While the MC and TD methods estimate values differently, both asymptotically converge to the true values.
+          The optimal agent’s behavior is depicted in the figure below.
+          The true values were obtained by considering all the possible future states and actions using an environment model.
+          The optimal agent selects the best action based on these values, thereby resulting in the highest possible reward.
+          While the optimal agent considers all the possibilities, the MC and TD agents only consider a subset of possible future states and actions.
         </p>
 
         <div class="framed">
@@ -900,14 +903,12 @@
         </div>
 
         <p>
-          From a machine learning perspective, the bias and variance of these two algorithms can be considered.
-          MC learning has a low bias but high variance because it estimates the value function by averaging the returns from multiple episodes,
-          which can lead to high variance.
-          However, since the value function is updated only with the sample returns, the estimation introduces no bias.
-          On the other hand, TD learning has low variance but high bias because it updates the value function at each
-          time step based on the estimated target values.
-          This leads to lower variance since each update is based on a single time step, but it can introduce bias since
-          the value function is updated with the estimated target values.
+          The bias and the variance of these two algorithms can be considered from a machine learning perspective.
+          MC learning has a low bias, but a high variance because it estimates the value function by averaging the returns from multiple episodes, which can lead to a high variance.
+          However, the value function is updated only with the sample returns; thus, the estimation introduces no bias.
+          By contrast, TD learning has a low variance, but a high bias because it updates the value function at each time step based on the estimated target values,
+          this leads to a lower variance because each update is based on a single time step.
+          It can, however, introduce a bias because the value function is updated with the estimated target values.
         </p>
 
         <div class="framed">
@@ -935,14 +936,13 @@
         </div>
 
         <p>
-          In practice, the choice between MC and TD depends on the specific problem and the available resources.
-          By understanding the differences between MC and TD,
-          researchers and practitioners can choose the most appropriate approach for their particular application.
+          In practice, the choice between the MC and TD methods depends on a specific problem and available resources.
+          Understanding the differences between both approaches enables researchers and practitioners to choose the most appropriate approach for a particular application.
         </p>
 
 
         <p>
-          The table below summarizes the difference between MC and TD.
+          Table I summarizes the differences between the MC and TD methods.
         </p>
 
         <div class="formula-wrapper">
@@ -1001,18 +1001,18 @@
         <h2>VI. n-step TD</h2>
 
         <p>
-          In the previous sections, MC and TD, two principal methods for estimating the value function, were introduced.
-          However, each method has distinct advantages and disadvantages.
-          The TD method, for instance, excels in computational efficiency but introduces bias in its estimates.
-          Conversely, the MC method provides unbiased estimates but at the cost of high variance.
+          The previous sections introduced the MC and TD methods, which are two principal methods for estimating the value function.
+          Each method has distinct advantages and disadvantages.
+          For instance, the TD method excels in computational efficiency, but introduces a bias in its estimates.
+          On the contrary, the MC method provides unbiased estimates, but at the cost of a high variance.
         </p>
 
         <p>
-          This raises a thought-provoking question: Can the strengths of these methods be synthesized while their weaknesses are mitigated?
-          Therefore, we can seek a compromise, a "best-of-both-worlds" approach which could effectively balance the bias-variance trade-off?
-          This idea triggers the exploration of a hybrid strategy that could seamlessly integrate the efficiency of the TD method and the unbiased nature of the MC method.
-          To understand this, let's delve into how MC and TD perform their computations.
-          The MC method approximates sample returns by employing the full trajectory of an episode:
+          This difference between both methods raises the following thought-provoking question: Can the strengths of these methods be synthesized while their weaknesses are mitigated?
+          Can we seek a compromise, that is, a “best-of-both-worlds” approach that could effectively balance the bias–variance trade-off?
+          This idea triggers the exploration of a hybrid strategy that could seamlessly integrate the TD method’s efficiency and the MC method’s unbiased nature.
+          Let us try to understand this by delving deeper into how the MC and TD methods perform their computations.
+          The MC method approximates the sample returns as follows by employing the full trajectory of an episode:
         </p>
 
         <p>
@@ -1020,11 +1020,11 @@
         </p>
 
         <p class="inline-math">
-          Here, $$T$$ represents a length of an episode.
+          where, $$T$$ represents an episode length.
         </p>
 
         <p>
-          On the other hand, TD leverages only a single step of information for value updates:
+          By contrast, the TD method leverages only a single information step for the value updates:
         </p>
 
         <p>
@@ -1032,8 +1032,8 @@
         </p>
 
         <p>
-          Therefore, when crafting a combined methodology, a model could be designed that uses multiple steps for value updates, but not necessarily the entire trajectory.
-          For example, the three-step return could be used as a target for the TD update.
+          Therefore, when crafting a combined methodology, a model that uses multiple steps for value updates, but not necessarily the entire trajectory, could be designed.
+          The three-step return could be used as a target for the TD update.
         </p>
 
         <p>
@@ -1041,9 +1041,9 @@
         </p>
 
         <p class="inline-math">
-          In this case $$\gamma^3 V(S_{t+3})$$ is used as a proxy for $$\gamma^{3} R_{t+4} + \dots + \gamma^{T-t-1} R_{T}$$.
-          This is where the concept of N-step TD [<a href="#ref_8">9</a>][<a href="#ref_9">10</a>] learning is used, offering a promising balance between bias and variance, ultimately improving learning efficiency in RL scenarios.
-          By generalizing this, an n-step return for arbitrary $$n$$ can be obtained.
+          In this case, $$\gamma^3 V(S_{t+3})$$ is used as a proxy for $$\gamma^{3} R_{t+4} + \dots + \gamma^{T-t-1} R_{T}$$.
+          The concept of N-step TD [<a href="#ref_8">9</a>][<a href="#ref_9">10</a>] learning is used here, offering a promising balance between bias and variance and ultimately improving the learning efficiency in RL scenarios.
+          Generalizing this yields the following n-step return for arbitrary n:
         </p>
 
         <p>
@@ -1121,10 +1121,10 @@
         </div>
 
         <p>
-          Referring to the figure below, the RMSE of MC, TD, and N-step TD agents can be examined.
-          According to the observed data, the performance of the N-step TD method is nestled between that of the MC and TD methods.
-          This outcome indicates that N-step TD proficiently bridges the gap between the MC and TD methods, achieving a more effective balance between variance and bias.
-          Thus, it successfully combines the advantages of both methodologies, serving as a compelling compromise that mitigates the disadvantages of each method.
+          The RMSE of the MC, TD, and N-step TD agents can be examined with reference to the figure below.
+          The observed data showed that the performance of the N-step TD method was nestled between that of the MC and TD methods.
+          In other words, the N-step TD method proficiently bridged the gap between the MC and TD methods, achieving a more effective balance between variance and bias.
+          It successfully combined the advantages of both methodologies, serving as a compelling compromise for mitigating the disadvantages of each method.
         </p>
 
         <div class="framed">
@@ -1225,19 +1225,15 @@
         <h2>VII. Conclusion</h2>
 
         <p>
-          In conclusion, this paper has presented an overview of two common approaches in RL: MC and TD.
-          While these methods have their respective advantages and disadvantages.
-          However, it is important to note that RL encompasses many other approaches beyond these two,
-          for example, model-based [<a href="#ref_5">6</a>] and policy gradient methods [<a href="#ref_6">7</a>] are also commonly used in this field.
-          These other methods may better suit certain problems or have particular advantages in different contexts.
+          This paper presented overviews of the two common approaches in RL: the MC and TD methods.
+          While these methods have their respective advantages and disadvantages, note that RL encompasses many other approaches beyond these two.
+          For example, model-based [<a href="#ref_5">6</a>] and policy gradient methods [<a href="#ref_6">7</a>] are also commonly used in RL, which may better suit certain problems or have particular advantages in different contexts.
         </p>
 
         <p>
-          Moreover, recent advancements in the field of RL have demonstrated the potential for
-          combining RL with deep learning to achieve even better results [<a href="#ref_7">8</a>].
-          These hybrid approaches have shown promise in various applications, from game-playing and robotics to natural language processing and recommendation systems.
-          As the field continues to evolve, it's likely that more innovations and breakthroughs in the area of RL will emerge.
-          It will be exciting to witness how these new approaches and techniques can be applied to address real-world challenges.
+          The recent advancements in RL have demonstrated the potential of combining RL with deep learning to achieve even better results [<a href="#ref_7">8</a>].
+          From game playing and robotics to natural language processing and recommendation systems, these hybrid approaches have shown great promise in various applications.
+          More innovations and breakthroughs in RL will likely emerge with its continuous evolution. Witnessing how these new approaches and techniques can be applied to real-world challenges will be exciting.
         </p>
 
       </section>
