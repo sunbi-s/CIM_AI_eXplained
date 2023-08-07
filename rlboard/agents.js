@@ -2,15 +2,6 @@ import { Position } from "./utill.js";
 import { VTable } from "./vtable.js";
 import configs from "./config.js";
 
-export class RandomAgent{
-    constructor(env) {
-        this.n_action = env.actions.length;
-    }
-
-    getAction(state) {
-        return Math.floor(Math.random( )*this.n_action);
-    }
-}
 
 export class CommonAgent {
     constructor(env) {
@@ -126,6 +117,13 @@ export class CommonAgent {
         return idx;
     }
 }
+
+export class RandomAgent extends CommonAgent{
+    getAction(state) {
+        return this.getRndAction(state);
+    }
+}
+
 
 export class MCAgent extends CommonAgent{
     // https://sumniya.tistory.com/11
