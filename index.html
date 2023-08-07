@@ -249,7 +249,7 @@
           A child can be in five possible sleep states: \(s_0\) (lying), \(s_1\) (awake), \(s_2\) (drowsy), \(s_3\) (light sleep), and \(s_4\) (deep sleep).
           Each state lasts for a unit of time (e.g., 1 min), and then transitions to the next state based on certain probabilities.
           Assuming that the Markov process always starts with the child \(s_0\) (lying), the child remains in this state for 1 min.
-          Next is the 40% probability of transitioning to s1 \(s_1\) (awake) or the 60% probability of transitioning to \(s_2\) (drowsy).
+          Next is the 40% probability of transitioning to \(s_1\) (awake) or the 60% probability of transitioning to \(s_2\) (drowsy).
           This process continues until the child reaches \(s_4\) (deep sleep), ending the Markov process.
         </p>
         <p>
@@ -583,7 +583,7 @@
         </div>
 
         <p>
-          However, the incremental formulas of the MC update rule can easily be derived.
+          However, the incremental formulas of the MC update rule can be easily derived.
           These formulas provide an efficient method of computing the state value without maintenance and process all returns each time a state is visited.
           The idea here is to keep a running average, update it each time a new return is available instead of summing all the returns, and divide it by the total number of visits each time.
         </p>
@@ -613,7 +613,7 @@
           and the current estimated value $$V(s_t)$$ scaled by the inverse of the number of visits.
           This difference, which is also known as error, quantifies how far the new return deviates from our current estimate.
           The estimate is then adjusted in the error’s direction. Consequently, an excessively high current estimate will be decreased, while an excessively low one will be increased.
-          The more frequent a state is visited, the less the estimate is ifluenced by new returns.
+          The more frequent a state is visited, the less the estimate is influenced by new returns.
         </p>
 
         <p class="inline-math">
@@ -655,7 +655,7 @@
 
             <div class="caption"><b>Figure 11:</b><br>
               MC learning process.
-              The left figure shows the agent and environment, while the right figure displays the state value table..
+              The left figure shows the agent and environment, while the right figure displays the state value table.
             </div>
 
             <script type="module" src="rlboard/play_mcagent.js"></script>
